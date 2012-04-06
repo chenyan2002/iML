@@ -2,7 +2,10 @@ signature Parser_TOKENS =
 sig
 type ('a,'b) token
 type svalue
+val CHANGEABLE:  'a * 'a -> (svalue,'a) token
+val STABLE:  'a * 'a -> (svalue,'a) token
 val LONGID: (string list*string) *  'a * 'a -> (svalue,'a) token
+val LVVAR: (string) *  'a * 'a -> (svalue,'a) token
 val ETYVAR: (string) *  'a * 'a -> (svalue,'a) token
 val TYVAR: (string) *  'a * 'a -> (svalue,'a) token
 val STAR:  'a * 'a -> (svalue,'a) token

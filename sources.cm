@@ -41,6 +41,8 @@ Group is
     elab/OverloadingClass.sml
     syntax/TYVAR-sig.sml
     syntax/TyVar.sml
+    syntax/LVVAR-sig.sml
+    syntax/LvVar.sml
     syntax/SCON-sig.sml
     syntax/SCon.sml
 

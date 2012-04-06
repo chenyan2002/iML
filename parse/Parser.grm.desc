@@ -1,3 +1,6 @@
+1 rule not reduced
+
+warning: rule <lvvar : LVVAR > will never be reduced
 
 state 0:
 
@@ -35,8 +38,8 @@ state 1:
 	LPAR	shift 31
 	LBRACK	shift 30
 	LBRACE	shift 29
-	SEMICOLON	reduce by rule 324
-	EQUALS	reduce by rule 42
+	SEMICOLON	reduce by rule 325
+	EQUALS	reduce by rule 43
 	HASH	shift 28
 	FUNCTOR	shift 27
 	SIGNATURE	shift 26
@@ -51,10 +54,10 @@ state 1:
 	REAL	shift 17
 	STRING	shift 16
 	CHAR	shift 15
-	ALPHA	reduce by rule 42
-	SYMBOL	reduce by rule 42
-	STAR	reduce by rule 42
-	LONGID	reduce by rule 42
+	ALPHA	reduce by rule 43
+	SYMBOL	reduce by rule 43
+	STAR	reduce by rule 43
+	LONGID	reduce by rule 43
 
 	scon	goto 14
 	OP_opt	goto 13
@@ -75,20 +78,20 @@ state 1:
 
 state 2:
 
-	program : initInfix program' .  (reduce by rule 330)
+	program : initInfix program' .  (reduce by rule 331)
 
 
 
-	.	reduce by rule 330
+	.	reduce by rule 331
 
 
 state 3:
 
-	topdec : topdec1 .  (reduce by rule 323)
+	topdec : topdec1 .  (reduce by rule 324)
 
 
 
-	.	reduce by rule 323
+	.	reduce by rule 324
 
 
 state 4:
@@ -127,7 +130,7 @@ state 5:
 	topdec1	goto 52
 	topdec_opt	goto 51
 
-	.	reduce by rule 329
+	.	reduce by rule 330
 
 
 state 6:
@@ -156,7 +159,7 @@ state 6:
 	topdec1	goto 52
 	topdec_opt	goto 53
 
-	.	reduce by rule 329
+	.	reduce by rule 330
 
 
 state 7:
@@ -185,16 +188,16 @@ state 7:
 	topdec1	goto 52
 	topdec_opt	goto 54
 
-	.	reduce by rule 329
+	.	reduce by rule 330
 
 
 state 8:
 
-	strdec1' : dec1' .  (reduce by rule 216)
+	strdec1' : dec1' .  (reduce by rule 217)
 
 
 
-	.	reduce by rule 216
+	.	reduce by rule 217
 
 
 state 9:
@@ -217,56 +220,56 @@ state 9:
 
 state 10:
 
-	exp : infexp .  (reduce by rule 70)
+	exp : infexp .  (reduce by rule 71)
 
 
 
-	.	reduce by rule 70
+	.	reduce by rule 71
 
 
 state 11:
 
 	appexp : appexp . atexp 
-	infexp : appexp .  (reduce by rule 69)
+	infexp : appexp .  (reduce by rule 70)
 
-	ABSTYPE	reduce by rule 69
-	AND	reduce by rule 69
-	ANDALSO	reduce by rule 69
-	DO	reduce by rule 69
-	DATATYPE	reduce by rule 69
-	ELSE	reduce by rule 69
-	END	reduce by rule 69
-	EXCEPTION	reduce by rule 69
-	FUN	reduce by rule 69
-	HANDLE	reduce by rule 69
-	IN	reduce by rule 69
-	INFIX	reduce by rule 69
-	INFIXR	reduce by rule 69
+	ABSTYPE	reduce by rule 70
+	AND	reduce by rule 70
+	ANDALSO	reduce by rule 70
+	DO	reduce by rule 70
+	DATATYPE	reduce by rule 70
+	ELSE	reduce by rule 70
+	END	reduce by rule 70
+	EXCEPTION	reduce by rule 70
+	FUN	reduce by rule 70
+	HANDLE	reduce by rule 70
+	IN	reduce by rule 70
+	INFIX	reduce by rule 70
+	INFIXR	reduce by rule 70
 	LET	shift 40
-	LOCAL	reduce by rule 69
-	NONFIX	reduce by rule 69
-	OF	reduce by rule 69
+	LOCAL	reduce by rule 70
+	NONFIX	reduce by rule 70
+	OF	reduce by rule 70
 	OP	shift 37
-	OPEN	reduce by rule 69
-	ORELSE	reduce by rule 69
-	THEN	reduce by rule 69
-	TYPE	reduce by rule 69
-	VAL	reduce by rule 69
+	OPEN	reduce by rule 70
+	ORELSE	reduce by rule 70
+	THEN	reduce by rule 70
+	TYPE	reduce by rule 70
+	VAL	reduce by rule 70
 	LPAR	shift 31
-	RPAR	reduce by rule 69
+	RPAR	reduce by rule 70
 	LBRACK	shift 30
-	RBRACK	reduce by rule 69
+	RBRACK	reduce by rule 70
 	LBRACE	shift 29
-	RBRACE	reduce by rule 69
-	COMMA	reduce by rule 69
-	COLON	reduce by rule 69
-	SEMICOLON	reduce by rule 69
-	BAR	reduce by rule 69
-	EQUALS	reduce by rule 42
+	RBRACE	reduce by rule 70
+	COMMA	reduce by rule 70
+	COLON	reduce by rule 70
+	SEMICOLON	reduce by rule 70
+	BAR	reduce by rule 70
+	EQUALS	reduce by rule 43
 	HASH	shift 28
-	FUNCTOR	reduce by rule 69
-	SIGNATURE	reduce by rule 69
-	STRUCTURE	reduce by rule 69
+	FUNCTOR	reduce by rule 70
+	SIGNATURE	reduce by rule 70
+	STRUCTURE	reduce by rule 70
 	ZERO	shift 24
 	DIGIT	shift 23
 	NUMERIC	shift 22
@@ -277,10 +280,10 @@ state 11:
 	REAL	shift 17
 	STRING	shift 16
 	CHAR	shift 15
-	ALPHA	reduce by rule 42
-	SYMBOL	reduce by rule 42
-	STAR	reduce by rule 42
-	LONGID	reduce by rule 42
+	ALPHA	reduce by rule 43
+	SYMBOL	reduce by rule 43
+	STAR	reduce by rule 43
+	LONGID	reduce by rule 43
 
 	scon	goto 14
 	OP_opt	goto 13
@@ -291,11 +294,11 @@ state 11:
 
 state 12:
 
-	appexp : atexp .  (reduce by rule 67)
+	appexp : atexp .  (reduce by rule 68)
 
 
 
-	.	reduce by rule 67
+	.	reduce by rule 68
 
 
 state 13:
@@ -317,11 +320,11 @@ state 13:
 
 state 14:
 
-	atexp : scon .  (reduce by rule 43)
+	atexp : scon .  (reduce by rule 44)
 
 
 
-	.	reduce by rule 43
+	.	reduce by rule 44
 
 
 state 15:
@@ -479,7 +482,7 @@ state 29:
 	exprow	goto 85
 	exprow_opt	goto 84
 
-	.	reduce by rule 66
+	.	reduce by rule 67
 
 
 state 30:
@@ -495,9 +498,9 @@ state 30:
 	WHILE	shift 32
 	LPAR	shift 31
 	LBRACK	shift 30
-	RBRACK	reduce by rule 54
+	RBRACK	reduce by rule 55
 	LBRACE	shift 29
-	EQUALS	reduce by rule 42
+	EQUALS	reduce by rule 43
 	HASH	shift 28
 	ZERO	shift 24
 	DIGIT	shift 23
@@ -509,10 +512,10 @@ state 30:
 	REAL	shift 17
 	STRING	shift 16
 	CHAR	shift 15
-	ALPHA	reduce by rule 42
-	SYMBOL	reduce by rule 42
-	STAR	reduce by rule 42
-	LONGID	reduce by rule 42
+	ALPHA	reduce by rule 43
+	SYMBOL	reduce by rule 43
+	STAR	reduce by rule 43
+	LONGID	reduce by rule 43
 
 	scon	goto 14
 	OP_opt	goto 13
@@ -565,7 +568,7 @@ state 31:
 	infexp	goto 10
 	exp	goto 90
 
-	.	reduce by rule 42
+	.	reduce by rule 43
 
 
 state 32:
@@ -601,7 +604,7 @@ state 32:
 	infexp	goto 10
 	exp	goto 94
 
-	.	reduce by rule 42
+	.	reduce by rule 43
 
 
 state 33:
@@ -637,7 +640,7 @@ state 33:
 	atpat_list2	goto 96
 	tyvarseq1	goto 95
 
-	.	reduce by rule 42
+	.	reduce by rule 43
 
 
 state 34:
@@ -652,7 +655,7 @@ state 34:
 	tyvarseq	goto 111
 	tyvarseq1	goto 110
 
-	.	reduce by rule 198
+	.	reduce by rule 199
 
 
 state 35:
@@ -688,7 +691,7 @@ state 35:
 	infexp	goto 10
 	exp	goto 114
 
-	.	reduce by rule 42
+	.	reduce by rule 43
 
 
 state 36:
@@ -707,11 +710,11 @@ state 36:
 
 state 37:
 
-	OP_opt : OP .  (reduce by rule 41)
+	OP_opt : OP .  (reduce by rule 42)
 
 
 
-	.	reduce by rule 41
+	.	reduce by rule 42
 
 
 state 38:
@@ -760,7 +763,7 @@ state 41:
 	d	goto 126
 	d_opt	goto 125
 
-	.	reduce by rule 111
+	.	reduce by rule 112
 
 
 state 42:
@@ -773,7 +776,7 @@ state 42:
 	d	goto 126
 	d_opt	goto 129
 
-	.	reduce by rule 111
+	.	reduce by rule 112
 
 
 state 43:
@@ -809,7 +812,7 @@ state 43:
 	infexp	goto 10
 	exp	goto 130
 
-	.	reduce by rule 42
+	.	reduce by rule 43
 
 
 state 44:
@@ -845,7 +848,7 @@ state 44:
 	atpat_list1	goto 132
 	tyvarseq1	goto 131
 
-	.	reduce by rule 42
+	.	reduce by rule 43
 
 
 state 45:
@@ -877,7 +880,7 @@ state 45:
 	pat	goto 139
 	atpat_list2	goto 96
 
-	.	reduce by rule 42
+	.	reduce by rule 43
 
 
 state 46:
@@ -889,7 +892,7 @@ state 46:
 	OP_opt	goto 144
 	exbind	goto 143
 
-	.	reduce by rule 42
+	.	reduce by rule 43
 
 
 state 47:
@@ -945,7 +948,7 @@ state 48:
 	infexp	goto 10
 	exp	goto 151
 
-	.	reduce by rule 42
+	.	reduce by rule 43
 
 
 state 49:
@@ -960,14 +963,14 @@ state 49:
 	tyvarseq	goto 152
 	tyvarseq1	goto 110
 
-	.	reduce by rule 198
+	.	reduce by rule 199
 
 
 state 50:
 
 	program' : topdec SEMICOLON . program_opt 
 
-	EOF	reduce by rule 334
+	EOF	reduce by rule 335
 	ABSTYPE	shift 49
 	CASE	shift 48
 	DATATYPE	shift 47
@@ -989,8 +992,8 @@ state 50:
 	LPAR	shift 31
 	LBRACK	shift 30
 	LBRACE	shift 29
-	SEMICOLON	reduce by rule 324
-	EQUALS	reduce by rule 42
+	SEMICOLON	reduce by rule 325
+	EQUALS	reduce by rule 43
 	HASH	shift 28
 	FUNCTOR	shift 27
 	SIGNATURE	shift 26
@@ -1005,10 +1008,10 @@ state 50:
 	REAL	shift 17
 	STRING	shift 16
 	CHAR	shift 15
-	ALPHA	reduce by rule 42
-	SYMBOL	reduce by rule 42
-	STAR	reduce by rule 42
-	LONGID	reduce by rule 42
+	ALPHA	reduce by rule 43
+	SYMBOL	reduce by rule 43
+	STAR	reduce by rule 43
+	LONGID	reduce by rule 43
 
 	scon	goto 14
 	OP_opt	goto 13
@@ -1030,45 +1033,45 @@ state 50:
 
 state 51:
 
-	topdec1 : fundec topdec_opt .  (reduce by rule 327)
-
-
-
-	.	reduce by rule 327
-
-
-state 52:
-
-	topdec_opt : topdec1 .  (reduce by rule 328)
+	topdec1 : fundec topdec_opt .  (reduce by rule 328)
 
 
 
 	.	reduce by rule 328
 
 
+state 52:
+
+	topdec_opt : topdec1 .  (reduce by rule 329)
+
+
+
+	.	reduce by rule 329
+
+
 state 53:
 
-	topdec1 : sigdec topdec_opt .  (reduce by rule 326)
+	topdec1 : sigdec topdec_opt .  (reduce by rule 327)
+
+
+
+	.	reduce by rule 327
+
+
+state 54:
+
+	topdec1 : strdec1' topdec_opt .  (reduce by rule 326)
 
 
 
 	.	reduce by rule 326
 
 
-state 54:
-
-	topdec1 : strdec1' topdec_opt .  (reduce by rule 325)
-
-
-
-	.	reduce by rule 325
-
-
 state 55:
 
 	program' : exp SEMICOLON . program_opt 
 
-	EOF	reduce by rule 334
+	EOF	reduce by rule 335
 	ABSTYPE	shift 49
 	CASE	shift 48
 	DATATYPE	shift 47
@@ -1090,8 +1093,8 @@ state 55:
 	LPAR	shift 31
 	LBRACK	shift 30
 	LBRACE	shift 29
-	SEMICOLON	reduce by rule 324
-	EQUALS	reduce by rule 42
+	SEMICOLON	reduce by rule 325
+	EQUALS	reduce by rule 43
 	HASH	shift 28
 	FUNCTOR	shift 27
 	SIGNATURE	shift 26
@@ -1106,10 +1109,10 @@ state 55:
 	REAL	shift 17
 	STRING	shift 16
 	CHAR	shift 15
-	ALPHA	reduce by rule 42
-	SYMBOL	reduce by rule 42
-	STAR	reduce by rule 42
-	LONGID	reduce by rule 42
+	ALPHA	reduce by rule 43
+	SYMBOL	reduce by rule 43
+	STAR	reduce by rule 43
+	LONGID	reduce by rule 43
 
 	scon	goto 14
 	OP_opt	goto 13
@@ -1145,7 +1148,7 @@ state 56:
 	atty	goto 158
 	tyseq	goto 157
 
-	.	reduce by rule 193
+	.	reduce by rule 194
 
 
 state 57:
@@ -1181,7 +1184,7 @@ state 57:
 	infexp	goto 10
 	exp	goto 166
 
-	.	reduce by rule 42
+	.	reduce by rule 43
 
 
 state 58:
@@ -1213,7 +1216,7 @@ state 58:
 	pat	goto 139
 	atpat_list2	goto 96
 
-	.	reduce by rule 42
+	.	reduce by rule 43
 
 
 state 59:
@@ -1249,52 +1252,52 @@ state 59:
 	infexp	goto 10
 	exp	goto 168
 
-	.	reduce by rule 42
+	.	reduce by rule 43
 
 
 state 60:
 
-	appexp : appexp atexp .  (reduce by rule 68)
+	appexp : appexp atexp .  (reduce by rule 69)
 
 
 
-	.	reduce by rule 68
+	.	reduce by rule 69
 
 
 state 61:
 
-	longvid : longvid' .  (reduce by rule 33)
+	longvid : longvid' .  (reduce by rule 34)
 
 
 
-	.	reduce by rule 33
+	.	reduce by rule 34
 
 
 state 62:
 
-	atexp : OP_opt longvid .  (reduce by rule 44)
+	atexp : OP_opt longvid .  (reduce by rule 45)
 
 
 
-	.	reduce by rule 44
+	.	reduce by rule 45
 
 
 state 63:
 
-	longvid' : vid' .  (reduce by rule 35)
-
-
-
-	.	reduce by rule 35
-
-
-state 64:
-
-	longvid' : LONGID .  (reduce by rule 36)
+	longvid' : vid' .  (reduce by rule 36)
 
 
 
 	.	reduce by rule 36
+
+
+state 64:
+
+	longvid' : LONGID .  (reduce by rule 37)
+
+
+
+	.	reduce by rule 37
 
 
 state 65:
@@ -1326,20 +1329,20 @@ state 67:
 
 state 68:
 
-	longvid : EQUALS .  (reduce by rule 34)
+	longvid : EQUALS .  (reduce by rule 35)
 
 
 
-	.	reduce by rule 34
+	.	reduce by rule 35
 
 
 state 69:
 
-	strdec1' : STRUCTURE strbind .  (reduce by rule 217)
+	strdec1' : STRUCTURE strbind .  (reduce by rule 218)
 
 
 
-	.	reduce by rule 217
+	.	reduce by rule 218
 
 
 state 70:
@@ -1352,25 +1355,25 @@ state 70:
 
 	COLON_sigexp_opt	goto 169
 
-	.	reduce by rule 232
+	.	reduce by rule 233
 
 
 state 71:
 
-	strid : ALPHA .  (reduce by rule 30)
+	strid : ALPHA .  (reduce by rule 31)
 
 
 
-	.	reduce by rule 30
+	.	reduce by rule 31
 
 
 state 72:
 
-	sigdec : SIGNATURE sigbind .  (reduce by rule 237)
+	sigdec : SIGNATURE sigbind .  (reduce by rule 238)
 
 
 
-	.	reduce by rule 237
+	.	reduce by rule 238
 
 
 state 73:
@@ -1385,20 +1388,20 @@ state 73:
 
 state 74:
 
-	sigid : ALPHA .  (reduce by rule 31)
+	sigid : ALPHA .  (reduce by rule 32)
 
 
 
-	.	reduce by rule 31
+	.	reduce by rule 32
 
 
 state 75:
 
-	fundec : FUNCTOR funbind .  (reduce by rule 308)
+	fundec : FUNCTOR funbind .  (reduce by rule 309)
 
 
 
-	.	reduce by rule 308
+	.	reduce by rule 309
 
 
 state 76:
@@ -1416,20 +1419,20 @@ state 76:
 
 state 77:
 
-	funid : ALPHA .  (reduce by rule 32)
+	funid : ALPHA .  (reduce by rule 33)
 
 
 
-	.	reduce by rule 32
+	.	reduce by rule 33
 
 
 state 78:
 
-	atexp : HASH lab .  (reduce by rule 46)
+	atexp : HASH lab .  (reduce by rule 47)
 
 
 
-	.	reduce by rule 46
+	.	reduce by rule 47
 
 
 state 79:
@@ -1489,11 +1492,11 @@ state 84:
 
 state 85:
 
-	exprow_opt : exprow .  (reduce by rule 65)
+	exprow_opt : exprow .  (reduce by rule 66)
 
 
 
-	.	reduce by rule 65
+	.	reduce by rule 66
 
 
 state 86:
@@ -1509,7 +1512,7 @@ state 86:
 state 87:
 
 	exp_COMMA_list1 : exp . COMMA exp_COMMA_list1 
-	exp_COMMA_list1 : exp .  (reduce by rule 56)
+	exp_COMMA_list1 : exp .  (reduce by rule 57)
 	exp : exp . COLON ty 
 	exp : exp . ANDALSO exp 
 	exp : exp . ORELSE exp 
@@ -1522,16 +1525,16 @@ state 87:
 	COLON	shift 56
 
 
-	.	reduce by rule 56
+	.	reduce by rule 57
 
 
 state 88:
 
-	exp_COMMA_list0 : exp_COMMA_list1 .  (reduce by rule 53)
+	exp_COMMA_list0 : exp_COMMA_list1 .  (reduce by rule 54)
 
 
 
-	.	reduce by rule 53
+	.	reduce by rule 54
 
 
 state 89:
@@ -1589,11 +1592,11 @@ state 92:
 
 state 93:
 
-	atexp : LPAR RPAR .  (reduce by rule 47)
+	atexp : LPAR RPAR .  (reduce by rule 48)
 
 
 
-	.	reduce by rule 47
+	.	reduce by rule 48
 
 
 state 94:
@@ -1643,19 +1646,19 @@ state 95:
 	pat	goto 97
 	atpat_list2	goto 96
 
-	.	reduce by rule 42
+	.	reduce by rule 43
 
 
 state 96:
 
-	pat : atpat_list2 .  (reduce by rule 166)
+	pat : atpat_list2 .  (reduce by rule 167)
 	pat : atpat_list2 . COLON_ty_list1 
 
 	COLON	shift 186
 
 	COLON_ty_list1	goto 185
 
-	.	reduce by rule 166
+	.	reduce by rule 167
 
 
 state 97:
@@ -1670,32 +1673,32 @@ state 97:
 
 state 98:
 
-	atpat : atpat' .  (reduce by rule 140)
+	atpat : atpat' .  (reduce by rule 141)
 	pat : atpat' . COLON_ty_list1 
 
 	COLON	shift 186
 
 	COLON_ty_list1	goto 188
 
-	.	reduce by rule 140
+	.	reduce by rule 141
 
 
 state 99:
 
-	pat : atpat .  (reduce by rule 165)
+	pat : atpat .  (reduce by rule 166)
 	atpat_list2 : atpat . atpat_list1 
 
 	OP	shift 37
 	LPAR	shift 142
-	RPAR	reduce by rule 165
+	RPAR	reduce by rule 166
 	LBRACK	shift 107
-	RBRACK	reduce by rule 165
+	RBRACK	reduce by rule 166
 	LBRACE	shift 106
-	RBRACE	reduce by rule 165
-	COMMA	reduce by rule 165
+	RBRACE	reduce by rule 166
+	COMMA	reduce by rule 166
 	UNDERBAR	shift 105
-	EQUALS	reduce by rule 165
-	DARROW	reduce by rule 165
+	EQUALS	reduce by rule 166
+	DARROW	reduce by rule 166
 	ZERO	shift 24
 	DIGIT	shift 23
 	NUMERIC	shift 22
@@ -1706,10 +1709,10 @@ state 99:
 	REAL	shift 17
 	STRING	shift 16
 	CHAR	shift 15
-	ALPHA	reduce by rule 42
-	SYMBOL	reduce by rule 42
-	STAR	reduce by rule 42
-	LONGID	reduce by rule 42
+	ALPHA	reduce by rule 43
+	SYMBOL	reduce by rule 43
+	STAR	reduce by rule 43
+	LONGID	reduce by rule 43
 
 	scon	goto 103
 	OP_opt	goto 138
@@ -1722,11 +1725,11 @@ state 99:
 
 state 100:
 
-	dec1' : VAL valbind .  (reduce by rule 90)
+	dec1' : VAL valbind .  (reduce by rule 91)
 
 
 
-	.	reduce by rule 90
+	.	reduce by rule 91
 
 
 state 101:
@@ -1749,20 +1752,20 @@ state 101:
 
 state 102:
 
-	tyvarseq1 : tyvar .  (reduce by rule 199)
+	tyvarseq1 : tyvar .  (reduce by rule 200)
 
 
 
-	.	reduce by rule 199
+	.	reduce by rule 200
 
 
 state 103:
 
-	atpat' : scon .  (reduce by rule 143)
+	atpat' : scon .  (reduce by rule 144)
 
 
 
-	.	reduce by rule 143
+	.	reduce by rule 144
 
 
 state 104:
@@ -1776,11 +1779,11 @@ state 104:
 
 state 105:
 
-	atpat' : UNDERBAR .  (reduce by rule 142)
+	atpat' : UNDERBAR .  (reduce by rule 143)
 
 
 
-	.	reduce by rule 142
+	.	reduce by rule 143
 
 
 state 106:
@@ -1799,7 +1802,7 @@ state 106:
 	patrow	goto 194
 	patrow_opt	goto 193
 
-	.	reduce by rule 164
+	.	reduce by rule 165
 
 
 state 107:
@@ -1809,7 +1812,7 @@ state 107:
 	OP	shift 37
 	LPAR	shift 142
 	LBRACK	shift 107
-	RBRACK	reduce by rule 150
+	RBRACK	reduce by rule 151
 	LBRACE	shift 106
 	UNDERBAR	shift 105
 	ZERO	shift 24
@@ -1822,10 +1825,10 @@ state 107:
 	REAL	shift 17
 	STRING	shift 16
 	CHAR	shift 15
-	ALPHA	reduce by rule 42
-	SYMBOL	reduce by rule 42
-	STAR	reduce by rule 42
-	LONGID	reduce by rule 42
+	ALPHA	reduce by rule 43
+	SYMBOL	reduce by rule 43
+	STAR	reduce by rule 43
+	LONGID	reduce by rule 43
 
 	scon	goto 103
 	OP_opt	goto 101
@@ -1874,7 +1877,7 @@ state 108:
 	atpat_list2	goto 96
 	tyvar_COMMA_list1	goto 204
 
-	.	reduce by rule 42
+	.	reduce by rule 43
 
 
 state 109:
@@ -1906,16 +1909,16 @@ state 109:
 	pat	goto 97
 	atpat_list2	goto 96
 
-	.	reduce by rule 42
+	.	reduce by rule 43
 
 
 state 110:
 
-	tyvarseq : tyvarseq1 .  (reduce by rule 197)
+	tyvarseq : tyvarseq1 .  (reduce by rule 198)
 
 
 
-	.	reduce by rule 197
+	.	reduce by rule 198
 
 
 state 111:
@@ -1932,11 +1935,11 @@ state 111:
 
 state 112:
 
-	dec1' : TYPE typbind .  (reduce by rule 94)
+	dec1' : TYPE typbind .  (reduce by rule 95)
 
 
 
-	.	reduce by rule 94
+	.	reduce by rule 95
 
 
 state 113:
@@ -1957,7 +1960,7 @@ state 114:
 	exp : exp . ANDALSO exp 
 	exp : exp . ORELSE exp 
 	exp : exp . HANDLE match 
-	exp : RAISE exp .  (reduce by rule 75)
+	exp : RAISE exp .  (reduce by rule 76)
 
 	ANDALSO	shift 59
 	HANDLE	shift 58
@@ -1965,22 +1968,22 @@ state 114:
 	COLON	shift 56
 
 
-	.	reduce by rule 75
+	.	reduce by rule 76
 
 
 state 115:
 
-	dec1' : OPEN longstrid_list1 .  (reduce by rule 100)
+	dec1' : OPEN longstrid_list1 .  (reduce by rule 101)
 
 
 
-	.	reduce by rule 100
+	.	reduce by rule 101
 
 
 state 116:
 
 	longstrid_list1 : longstrid . longstrid_list1 
-	longstrid_list1 : longstrid .  (reduce by rule 109)
+	longstrid_list1 : longstrid .  (reduce by rule 110)
 
 	ALPHA	shift 71
 	LONGID	shift 118
@@ -1989,34 +1992,34 @@ state 116:
 	longstrid	goto 116
 	longstrid_list1	goto 211
 
-	.	reduce by rule 109
+	.	reduce by rule 110
 
 
 state 117:
 
-	longstrid : strid .  (reduce by rule 39)
-
-
-
-	.	reduce by rule 39
-
-
-state 118:
-
-	longstrid : LONGID .  (reduce by rule 40)
+	longstrid : strid .  (reduce by rule 40)
 
 
 
 	.	reduce by rule 40
 
 
+state 118:
+
+	longstrid : LONGID .  (reduce by rule 41)
+
+
+
+	.	reduce by rule 41
+
+
 state 119:
 
-	dec1' : NONFIX vid_list1 .  (reduce by rule 103)
+	dec1' : NONFIX vid_list1 .  (reduce by rule 104)
 
 
 
-	.	reduce by rule 103
+	.	reduce by rule 104
 
 
 state 120:
@@ -2031,7 +2034,7 @@ state 120:
 state 121:
 
 	vid_list1 : vid . vid_list1 
-	vid_list1 : vid .  (reduce by rule 107)
+	vid_list1 : vid .  (reduce by rule 108)
 
 	EQUALS	shift 122
 	ALPHA	shift 67
@@ -2042,7 +2045,7 @@ state 121:
 	vid'	goto 120
 	vid_list1	goto 212
 
-	.	reduce by rule 107
+	.	reduce by rule 108
 
 
 state 122:
@@ -2077,7 +2080,7 @@ state 123:
 	strdec1	goto 214
 	strdec1'	goto 213
 
-	.	reduce by rule 212
+	.	reduce by rule 213
 
 
 state 124:
@@ -2101,7 +2104,7 @@ state 124:
 	dec1	goto 218
 	dec1'	goto 217
 
-	.	reduce by rule 85
+	.	reduce by rule 86
 
 
 state 125:
@@ -2122,11 +2125,11 @@ state 125:
 
 state 126:
 
-	d_opt : d .  (reduce by rule 110)
+	d_opt : d .  (reduce by rule 111)
 
 
 
-	.	reduce by rule 110
+	.	reduce by rule 111
 
 
 state 127:
@@ -2210,7 +2213,7 @@ state 131:
 	atpat'	goto 133
 	atpat_list1	goto 132
 
-	.	reduce by rule 42
+	.	reduce by rule 43
 
 
 state 132:
@@ -2221,35 +2224,35 @@ state 132:
 
 	COLON_ty_opt	goto 226
 
-	.	reduce by rule 160
+	.	reduce by rule 161
 
 
 state 133:
 
-	atpat : atpat' .  (reduce by rule 140)
+	atpat : atpat' .  (reduce by rule 141)
 
 
 
-	.	reduce by rule 140
+	.	reduce by rule 141
 
 
 state 134:
 
 	atpat_list1 : atpat . atpat_list1 
-	atpat_list1 : atpat .  (reduce by rule 173)
+	atpat_list1 : atpat .  (reduce by rule 174)
 
 	OP	shift 37
 	LPAR	shift 142
-	RPAR	reduce by rule 173
+	RPAR	reduce by rule 174
 	LBRACK	shift 107
-	RBRACK	reduce by rule 173
+	RBRACK	reduce by rule 174
 	LBRACE	shift 106
-	RBRACE	reduce by rule 173
-	COMMA	reduce by rule 173
-	COLON	reduce by rule 173
+	RBRACE	reduce by rule 174
+	COMMA	reduce by rule 174
+	COLON	reduce by rule 174
 	UNDERBAR	shift 105
-	EQUALS	reduce by rule 173
-	DARROW	reduce by rule 173
+	EQUALS	reduce by rule 174
+	DARROW	reduce by rule 174
 	ZERO	shift 24
 	DIGIT	shift 23
 	NUMERIC	shift 22
@@ -2260,10 +2263,10 @@ state 134:
 	REAL	shift 17
 	STRING	shift 16
 	CHAR	shift 15
-	ALPHA	reduce by rule 42
-	SYMBOL	reduce by rule 42
-	STAR	reduce by rule 42
-	LONGID	reduce by rule 42
+	ALPHA	reduce by rule 43
+	SYMBOL	reduce by rule 43
+	STAR	reduce by rule 43
+	LONGID	reduce by rule 43
 
 	scon	goto 103
 	OP_opt	goto 138
@@ -2282,7 +2285,7 @@ state 135:
 
 	BAR_fmatch_opt	goto 229
 
-	.	reduce by rule 121
+	.	reduce by rule 122
 
 
 state 136:
@@ -2293,16 +2296,16 @@ state 136:
 
 	AND_fvalbind_opt	goto 231
 
-	.	reduce by rule 118
+	.	reduce by rule 119
 
 
 state 137:
 
-	dec1' : FUN fvalbind .  (reduce by rule 92)
+	dec1' : FUN fvalbind .  (reduce by rule 93)
 
 
 
-	.	reduce by rule 92
+	.	reduce by rule 93
 
 
 state 138:
@@ -2338,16 +2341,16 @@ state 140:
 
 	BAR_match_opt	goto 234
 
-	.	reduce by rule 82
+	.	reduce by rule 83
 
 
 state 141:
 
-	exp : FN match .  (reduce by rule 79)
+	exp : FN match .  (reduce by rule 80)
 
 
 
-	.	reduce by rule 79
+	.	reduce by rule 80
 
 
 state 142:
@@ -2381,16 +2384,16 @@ state 142:
 	pat	goto 205
 	atpat_list2	goto 96
 
-	.	reduce by rule 42
+	.	reduce by rule 43
 
 
 state 143:
 
-	dec1' : EXCEPTION exbind .  (reduce by rule 99)
+	dec1' : EXCEPTION exbind .  (reduce by rule 100)
 
 
 
-	.	reduce by rule 99
+	.	reduce by rule 100
 
 
 state 144:
@@ -2427,7 +2430,7 @@ state 146:
 
 	WITHTYPE_typbind_opt	goto 238
 
-	.	reduce by rule 105
+	.	reduce by rule 106
 
 
 state 147:
@@ -2438,7 +2441,7 @@ state 147:
 
 	WITHTYPE_typbind_opt	goto 240
 
-	.	reduce by rule 105
+	.	reduce by rule 106
 
 
 state 148:
@@ -2508,34 +2511,34 @@ state 153:
 
 	WITHTYPE_typbind_opt	goto 244
 
-	.	reduce by rule 105
+	.	reduce by rule 106
 
 
 state 154:
 
-	program' : topdec SEMICOLON program_opt .  (reduce by rule 331)
-
-
-
-	.	reduce by rule 331
-
-
-state 155:
-
-	program_opt : program' .  (reduce by rule 333)
-
-
-
-	.	reduce by rule 333
-
-
-state 156:
-
-	program' : exp SEMICOLON program_opt .  (reduce by rule 332)
+	program' : topdec SEMICOLON program_opt .  (reduce by rule 332)
 
 
 
 	.	reduce by rule 332
+
+
+state 155:
+
+	program_opt : program' .  (reduce by rule 334)
+
+
+
+	.	reduce by rule 334
+
+
+state 156:
+
+	program' : exp SEMICOLON program_opt .  (reduce by rule 333)
+
+
+
+	.	reduce by rule 333
 
 
 state 157:
@@ -2554,65 +2557,65 @@ state 157:
 
 state 158:
 
-	consty : atty .  (reduce by rule 182)
+	consty : atty .  (reduce by rule 183)
 
 
 
-	.	reduce by rule 182
+	.	reduce by rule 183
 
 
 state 159:
 
 	ty_STAR_list : consty . STAR ty_STAR_list 
-	ty_STAR_list : consty .  (reduce by rule 181)
-	tyseq : consty .  (reduce by rule 192)
+	ty_STAR_list : consty .  (reduce by rule 182)
+	tyseq : consty .  (reduce by rule 193)
 
-	ABSTYPE	reduce by rule 181
-	AND	reduce by rule 181
-	ANDALSO	reduce by rule 181
-	AS	reduce by rule 181
-	DO	reduce by rule 181
-	DATATYPE	reduce by rule 181
-	ELSE	reduce by rule 181
-	END	reduce by rule 181
-	EXCEPTION	reduce by rule 181
-	FUN	reduce by rule 181
-	HANDLE	reduce by rule 181
-	IN	reduce by rule 181
-	INFIX	reduce by rule 181
-	INFIXR	reduce by rule 181
-	LOCAL	reduce by rule 181
-	NONFIX	reduce by rule 181
-	OF	reduce by rule 181
-	OPEN	reduce by rule 181
-	ORELSE	reduce by rule 181
-	THEN	reduce by rule 181
-	TYPE	reduce by rule 181
-	VAL	reduce by rule 181
-	WITH	reduce by rule 181
-	WITHTYPE	reduce by rule 181
-	RPAR	reduce by rule 181
-	RBRACK	reduce by rule 181
-	RBRACE	reduce by rule 181
-	COMMA	reduce by rule 181
-	COLON	reduce by rule 181
-	SEMICOLON	reduce by rule 181
-	BAR	reduce by rule 181
-	EQUALS	reduce by rule 181
-	DARROW	reduce by rule 181
-	ARROW	reduce by rule 181
-	EQTYPE	reduce by rule 181
-	FUNCTOR	reduce by rule 181
-	INCLUDE	reduce by rule 181
-	SHARING	reduce by rule 181
-	SIGNATURE	reduce by rule 181
-	STRUCTURE	reduce by rule 181
-	WHERE	reduce by rule 181
-	SEAL	reduce by rule 181
-	ALPHA	reduce by rule 192
-	SYMBOL	reduce by rule 192
+	ABSTYPE	reduce by rule 182
+	AND	reduce by rule 182
+	ANDALSO	reduce by rule 182
+	AS	reduce by rule 182
+	DO	reduce by rule 182
+	DATATYPE	reduce by rule 182
+	ELSE	reduce by rule 182
+	END	reduce by rule 182
+	EXCEPTION	reduce by rule 182
+	FUN	reduce by rule 182
+	HANDLE	reduce by rule 182
+	IN	reduce by rule 182
+	INFIX	reduce by rule 182
+	INFIXR	reduce by rule 182
+	LOCAL	reduce by rule 182
+	NONFIX	reduce by rule 182
+	OF	reduce by rule 182
+	OPEN	reduce by rule 182
+	ORELSE	reduce by rule 182
+	THEN	reduce by rule 182
+	TYPE	reduce by rule 182
+	VAL	reduce by rule 182
+	WITH	reduce by rule 182
+	WITHTYPE	reduce by rule 182
+	RPAR	reduce by rule 182
+	RBRACK	reduce by rule 182
+	RBRACE	reduce by rule 182
+	COMMA	reduce by rule 182
+	COLON	reduce by rule 182
+	SEMICOLON	reduce by rule 182
+	BAR	reduce by rule 182
+	EQUALS	reduce by rule 182
+	DARROW	reduce by rule 182
+	ARROW	reduce by rule 182
+	EQTYPE	reduce by rule 182
+	FUNCTOR	reduce by rule 182
+	INCLUDE	reduce by rule 182
+	SHARING	reduce by rule 182
+	SIGNATURE	reduce by rule 182
+	STRUCTURE	reduce by rule 182
+	WHERE	reduce by rule 182
+	SEAL	reduce by rule 182
+	ALPHA	reduce by rule 193
+	SYMBOL	reduce by rule 193
 	STAR	shift 248
-	LONGID	reduce by rule 192
+	LONGID	reduce by rule 193
 
 
 	.	error
@@ -2620,40 +2623,40 @@ state 159:
 
 state 160:
 
-	tupty : ty_STAR_list .  (reduce by rule 179)
+	tupty : ty_STAR_list .  (reduce by rule 180)
 
 
 
-	.	reduce by rule 179
+	.	reduce by rule 180
 
 
 state 161:
 
-	ty : tupty .  (reduce by rule 177)
+	ty : tupty .  (reduce by rule 178)
 	ty : tupty . ARROW ty 
 
 	ARROW	shift 249
 
 
-	.	reduce by rule 177
+	.	reduce by rule 178
 
 
 state 162:
 
-	exp : exp COLON ty .  (reduce by rule 71)
+	exp : exp COLON ty .  (reduce by rule 72)
 
 
 
-	.	reduce by rule 71
+	.	reduce by rule 72
 
 
 state 163:
 
-	atty : tyvar .  (reduce by rule 184)
+	atty : tyvar .  (reduce by rule 185)
 
 
 
-	.	reduce by rule 184
+	.	reduce by rule 185
 
 
 state 164:
@@ -2670,7 +2673,7 @@ state 164:
 	tyrow	goto 251
 	tyrow_opt	goto 250
 
-	.	reduce by rule 191
+	.	reduce by rule 192
 
 
 state 165:
@@ -2691,7 +2694,7 @@ state 165:
 	tyseq	goto 157
 	ty_COMMA_list2	goto 253
 
-	.	reduce by rule 193
+	.	reduce by rule 194
 
 
 state 166:
@@ -2699,7 +2702,7 @@ state 166:
 	exp : exp . COLON ty 
 	exp : exp . ANDALSO exp 
 	exp : exp . ORELSE exp 
-	exp : exp ORELSE exp .  (reduce by rule 73)
+	exp : exp ORELSE exp .  (reduce by rule 74)
 	exp : exp . HANDLE match 
 
 	ANDALSO	shift 59
@@ -2707,23 +2710,23 @@ state 166:
 	COLON	shift 56
 
 
-	.	reduce by rule 73
+	.	reduce by rule 74
 
 
 state 167:
 
-	exp : exp HANDLE match .  (reduce by rule 74)
+	exp : exp HANDLE match .  (reduce by rule 75)
 
 
 
-	.	reduce by rule 74
+	.	reduce by rule 75
 
 
 state 168:
 
 	exp : exp . COLON ty 
 	exp : exp . ANDALSO exp 
-	exp : exp ANDALSO exp .  (reduce by rule 72)
+	exp : exp ANDALSO exp .  (reduce by rule 73)
 	exp : exp . ORELSE exp 
 	exp : exp . HANDLE match 
 
@@ -2731,7 +2734,7 @@ state 168:
 	COLON	shift 56
 
 
-	.	reduce by rule 72
+	.	reduce by rule 73
 
 
 state 169:
@@ -2810,16 +2813,16 @@ state 173:
 	spec1	goto 265
 	spec1''	goto 264
 
-	.	reduce by rule 250
+	.	reduce by rule 251
 
 
 state 174:
 
-	atexp : LBRACE exprow_opt RBRACE .  (reduce by rule 45)
+	atexp : LBRACE exprow_opt RBRACE .  (reduce by rule 46)
 
 
 
-	.	reduce by rule 45
+	.	reduce by rule 46
 
 
 state 175:
@@ -2855,7 +2858,7 @@ state 175:
 	infexp	goto 10
 	exp	goto 277
 
-	.	reduce by rule 42
+	.	reduce by rule 43
 
 
 state 176:
@@ -2892,16 +2895,16 @@ state 176:
 	infexp	goto 10
 	exp	goto 87
 
-	.	reduce by rule 42
+	.	reduce by rule 43
 
 
 state 177:
 
-	atexp : LBRACK exp_COMMA_list0 RBRACK .  (reduce by rule 49)
+	atexp : LBRACK exp_COMMA_list0 RBRACK .  (reduce by rule 50)
 
 
 
-	.	reduce by rule 49
+	.	reduce by rule 50
 
 
 state 178:
@@ -2939,7 +2942,7 @@ state 178:
 	infexp	goto 10
 	exp	goto 279
 
-	.	reduce by rule 42
+	.	reduce by rule 43
 
 
 state 179:
@@ -2976,34 +2979,34 @@ state 179:
 	infexp	goto 10
 	exp	goto 87
 
-	.	reduce by rule 42
+	.	reduce by rule 43
 
 
 state 180:
 
-	atexp : LPAR exp RPAR .  (reduce by rule 52)
+	atexp : LPAR exp RPAR .  (reduce by rule 53)
 
 
 
-	.	reduce by rule 52
+	.	reduce by rule 53
 
 
 state 181:
 
-	atexp : LPAR exp_SEMICOLON_list2 RPAR .  (reduce by rule 50)
+	atexp : LPAR exp_SEMICOLON_list2 RPAR .  (reduce by rule 51)
 
 
 
-	.	reduce by rule 50
+	.	reduce by rule 51
 
 
 state 182:
 
-	atexp : LPAR exp_COMMA_list2 RPAR .  (reduce by rule 48)
+	atexp : LPAR exp_COMMA_list2 RPAR .  (reduce by rule 49)
 
 
 
-	.	reduce by rule 48
+	.	reduce by rule 49
 
 
 state 183:
@@ -3039,25 +3042,25 @@ state 183:
 	infexp	goto 10
 	exp	goto 282
 
-	.	reduce by rule 42
+	.	reduce by rule 43
 
 
 state 184:
 
-	dec1' : VAL tyvarseq1 valbind .  (reduce by rule 91)
+	dec1' : VAL tyvarseq1 valbind .  (reduce by rule 92)
 
 
 
-	.	reduce by rule 91
+	.	reduce by rule 92
 
 
 state 185:
 
-	pat : atpat_list2 COLON_ty_list1 .  (reduce by rule 168)
+	pat : atpat_list2 COLON_ty_list1 .  (reduce by rule 169)
 
 
 
-	.	reduce by rule 168
+	.	reduce by rule 169
 
 
 state 186:
@@ -3077,7 +3080,7 @@ state 186:
 	atty	goto 158
 	tyseq	goto 157
 
-	.	reduce by rule 193
+	.	reduce by rule 194
 
 
 state 187:
@@ -3113,69 +3116,69 @@ state 187:
 	infexp	goto 10
 	exp	goto 284
 
-	.	reduce by rule 42
+	.	reduce by rule 43
 
 
 state 188:
 
-	pat : atpat' COLON_ty_list1 .  (reduce by rule 167)
+	pat : atpat' COLON_ty_list1 .  (reduce by rule 168)
 
 
 
-	.	reduce by rule 167
+	.	reduce by rule 168
 
 
 state 189:
 
-	atpat_list2 : atpat atpat_list1 .  (reduce by rule 174)
+	atpat_list2 : atpat atpat_list1 .  (reduce by rule 175)
 
 
 
-	.	reduce by rule 174
+	.	reduce by rule 175
 
 
 state 190:
 
-	atpat : OP_opt longvid' .  (reduce by rule 141)
+	atpat : OP_opt longvid' .  (reduce by rule 142)
 
 
 
-	.	reduce by rule 141
+	.	reduce by rule 142
 
 
 state 191:
 
-	longvid' : vid' .  (reduce by rule 35)
+	longvid' : vid' .  (reduce by rule 36)
 	pat : OP_opt vid' . COLON_ty_list1 
 	pat : OP_opt vid' . COLON_ty_opt AS pat 
 
-	AS	reduce by rule 160
-	OP	reduce by rule 35
-	LPAR	reduce by rule 35
-	RPAR	reduce by rule 35
-	LBRACK	reduce by rule 35
-	RBRACK	reduce by rule 35
-	LBRACE	reduce by rule 35
-	RBRACE	reduce by rule 35
-	COMMA	reduce by rule 35
+	AS	reduce by rule 161
+	OP	reduce by rule 36
+	LPAR	reduce by rule 36
+	RPAR	reduce by rule 36
+	LBRACK	reduce by rule 36
+	RBRACK	reduce by rule 36
+	LBRACE	reduce by rule 36
+	RBRACE	reduce by rule 36
+	COMMA	reduce by rule 36
 	COLON	shift 287
-	UNDERBAR	reduce by rule 35
-	EQUALS	reduce by rule 35
-	DARROW	reduce by rule 35
-	ZERO	reduce by rule 35
-	DIGIT	reduce by rule 35
-	NUMERIC	reduce by rule 35
-	INT	reduce by rule 35
-	HEXINT	reduce by rule 35
-	WORD	reduce by rule 35
-	HEXWORD	reduce by rule 35
-	REAL	reduce by rule 35
-	STRING	reduce by rule 35
-	CHAR	reduce by rule 35
-	ALPHA	reduce by rule 35
-	SYMBOL	reduce by rule 35
-	STAR	reduce by rule 35
-	LONGID	reduce by rule 35
+	UNDERBAR	reduce by rule 36
+	EQUALS	reduce by rule 36
+	DARROW	reduce by rule 36
+	ZERO	reduce by rule 36
+	DIGIT	reduce by rule 36
+	NUMERIC	reduce by rule 36
+	INT	reduce by rule 36
+	HEXINT	reduce by rule 36
+	WORD	reduce by rule 36
+	HEXWORD	reduce by rule 36
+	REAL	reduce by rule 36
+	STRING	reduce by rule 36
+	CHAR	reduce by rule 36
+	ALPHA	reduce by rule 36
+	SYMBOL	reduce by rule 36
+	STAR	reduce by rule 36
+	LONGID	reduce by rule 36
 
 	COLON_ty_opt	goto 286
 	COLON_ty_list1	goto 285
@@ -3185,14 +3188,14 @@ state 191:
 
 state 192:
 
-	longvid' : LONGID .  (reduce by rule 36)
+	longvid' : LONGID .  (reduce by rule 37)
 	pat : OP_opt LONGID . COLON_ty_list1 
 
 	COLON	shift 186
 
 	COLON_ty_list1	goto 288
 
-	.	reduce by rule 36
+	.	reduce by rule 37
 
 
 state 193:
@@ -3207,11 +3210,11 @@ state 193:
 
 state 194:
 
-	patrow_opt : patrow .  (reduce by rule 163)
+	patrow_opt : patrow .  (reduce by rule 164)
 
 
 
-	.	reduce by rule 163
+	.	reduce by rule 164
 
 
 state 195:
@@ -3222,7 +3225,7 @@ state 195:
 
 	COLON_ty_opt	goto 290
 
-	.	reduce by rule 160
+	.	reduce by rule 161
 
 
 state 196:
@@ -3282,31 +3285,31 @@ state 199:
 
 state 200:
 
-	patrow : DOTS .  (reduce by rule 154)
+	patrow : DOTS .  (reduce by rule 155)
 
 
 
-	.	reduce by rule 154
+	.	reduce by rule 155
 
 
 state 201:
 
 	pat_COMMA_list1 : pat . COMMA pat_COMMA_list1 
-	pat_COMMA_list1 : pat .  (reduce by rule 152)
+	pat_COMMA_list1 : pat .  (reduce by rule 153)
 
 	COMMA	shift 292
 
 
-	.	reduce by rule 152
+	.	reduce by rule 153
 
 
 state 202:
 
-	pat_COMMA_list0 : pat_COMMA_list1 .  (reduce by rule 149)
+	pat_COMMA_list0 : pat_COMMA_list1 .  (reduce by rule 150)
 
 
 
-	.	reduce by rule 149
+	.	reduce by rule 150
 
 
 state 203:
@@ -3354,30 +3357,30 @@ state 206:
 state 207:
 
 	tyvar_COMMA_list1 : tyvar . COMMA tyvar_COMMA_list1 
-	tyvar_COMMA_list1 : tyvar .  (reduce by rule 202)
+	tyvar_COMMA_list1 : tyvar .  (reduce by rule 203)
 
 	COMMA	shift 298
 
 
-	.	reduce by rule 202
+	.	reduce by rule 203
 
 
 state 208:
 
-	atpat' : LPAR RPAR .  (reduce by rule 145)
+	atpat' : LPAR RPAR .  (reduce by rule 146)
 
 
 
-	.	reduce by rule 145
+	.	reduce by rule 146
 
 
 state 209:
 
-	valbind : REC valbind .  (reduce by rule 113)
+	valbind : REC valbind .  (reduce by rule 114)
 
 
 
-	.	reduce by rule 113
+	.	reduce by rule 114
 
 
 state 210:
@@ -3392,34 +3395,34 @@ state 210:
 
 state 211:
 
-	longstrid_list1 : longstrid longstrid_list1 .  (reduce by rule 108)
+	longstrid_list1 : longstrid longstrid_list1 .  (reduce by rule 109)
 
 
 
-	.	reduce by rule 108
+	.	reduce by rule 109
 
 
 state 212:
 
-	vid_list1 : vid vid_list1 .  (reduce by rule 106)
+	vid_list1 : vid vid_list1 .  (reduce by rule 107)
 
 
 
-	.	reduce by rule 106
+	.	reduce by rule 107
 
 
 state 213:
 
-	strdec1 : strdec1' .  (reduce by rule 213)
+	strdec1 : strdec1' .  (reduce by rule 214)
 
 
 
-	.	reduce by rule 213
+	.	reduce by rule 214
 
 
 state 214:
 
-	strdec : strdec1 .  (reduce by rule 211)
+	strdec : strdec1 .  (reduce by rule 212)
 	strdec1 : strdec1 . strdec1 
 
 	ABSTYPE	shift 49
@@ -3440,7 +3443,7 @@ state 214:
 	strdec1	goto 300
 	strdec1'	goto 213
 
-	.	reduce by rule 211
+	.	reduce by rule 212
 
 
 state 215:
@@ -3455,25 +3458,25 @@ state 215:
 
 state 216:
 
-	strdec1 : SEMICOLON .  (reduce by rule 215)
+	strdec1 : SEMICOLON .  (reduce by rule 216)
 
 
 
-	.	reduce by rule 215
+	.	reduce by rule 216
 
 
 state 217:
 
-	dec1 : dec1' .  (reduce by rule 86)
+	dec1 : dec1' .  (reduce by rule 87)
 
 
 
-	.	reduce by rule 86
+	.	reduce by rule 87
 
 
 state 218:
 
-	dec : dec1 .  (reduce by rule 84)
+	dec : dec1 .  (reduce by rule 85)
 	dec1 : dec1 . dec1 
 
 	ABSTYPE	shift 49
@@ -3492,7 +3495,7 @@ state 218:
 	dec1	goto 302
 	dec1'	goto 217
 
-	.	reduce by rule 84
+	.	reduce by rule 85
 
 
 state 219:
@@ -3507,11 +3510,11 @@ state 219:
 
 state 220:
 
-	dec1 : SEMICOLON .  (reduce by rule 89)
+	dec1 : SEMICOLON .  (reduce by rule 90)
 
 
 
-	.	reduce by rule 89
+	.	reduce by rule 90
 
 
 state 221:
@@ -3526,20 +3529,20 @@ state 221:
 
 state 222:
 
-	dec1' : INFIXR d_opt vid_list1 .  (reduce by rule 102)
+	dec1' : INFIXR d_opt vid_list1 .  (reduce by rule 103)
 
 
 
-	.	reduce by rule 102
+	.	reduce by rule 103
 
 
 state 223:
 
-	dec1' : INFIX d_opt vid_list1 .  (reduce by rule 101)
+	dec1' : INFIX d_opt vid_list1 .  (reduce by rule 102)
 
 
 
-	.	reduce by rule 101
+	.	reduce by rule 102
 
 
 state 224:
@@ -3575,16 +3578,16 @@ state 224:
 	infexp	goto 10
 	exp	goto 305
 
-	.	reduce by rule 42
+	.	reduce by rule 43
 
 
 state 225:
 
-	dec1' : FUN tyvarseq1 fvalbind .  (reduce by rule 93)
+	dec1' : FUN tyvarseq1 fvalbind .  (reduce by rule 94)
 
 
 
-	.	reduce by rule 93
+	.	reduce by rule 94
 
 
 state 226:
@@ -3613,25 +3616,25 @@ state 227:
 	atty	goto 158
 	tyseq	goto 157
 
-	.	reduce by rule 193
+	.	reduce by rule 194
 
 
 state 228:
 
-	atpat_list1 : atpat atpat_list1 .  (reduce by rule 172)
+	atpat_list1 : atpat atpat_list1 .  (reduce by rule 173)
 
 
 
-	.	reduce by rule 172
+	.	reduce by rule 173
 
 
 state 229:
 
-	fmatch : fmrule BAR_fmatch_opt .  (reduce by rule 119)
+	fmatch : fmrule BAR_fmatch_opt .  (reduce by rule 120)
 
 
 
-	.	reduce by rule 119
+	.	reduce by rule 120
 
 
 state 230:
@@ -3662,16 +3665,16 @@ state 230:
 	atpat'	goto 133
 	atpat_list1	goto 132
 
-	.	reduce by rule 42
+	.	reduce by rule 43
 
 
 state 231:
 
-	fvalbind : fmatch AND_fvalbind_opt .  (reduce by rule 116)
+	fvalbind : fmatch AND_fvalbind_opt .  (reduce by rule 117)
 
 
 
-	.	reduce by rule 116
+	.	reduce by rule 117
 
 
 state 232:
@@ -3703,7 +3706,7 @@ state 232:
 	atpat'	goto 133
 	atpat_list1	goto 132
 
-	.	reduce by rule 42
+	.	reduce by rule 43
 
 
 state 233:
@@ -3739,16 +3742,16 @@ state 233:
 	infexp	goto 10
 	exp	goto 310
 
-	.	reduce by rule 42
+	.	reduce by rule 43
 
 
 state 234:
 
-	match : mrule BAR_match_opt .  (reduce by rule 80)
+	match : mrule BAR_match_opt .  (reduce by rule 81)
 
 
 
-	.	reduce by rule 80
+	.	reduce by rule 81
 
 
 state 235:
@@ -3780,7 +3783,7 @@ state 235:
 	pat	goto 139
 	atpat_list2	goto 96
 
-	.	reduce by rule 42
+	.	reduce by rule 43
 
 
 state 236:
@@ -3793,7 +3796,7 @@ state 236:
 
 	OF_ty_opt	goto 312
 
-	.	reduce by rule 135
+	.	reduce by rule 136
 
 
 state 237:
@@ -3808,11 +3811,11 @@ state 237:
 
 state 238:
 
-	dec1' : DATATYPE datbind1 WITHTYPE_typbind_opt .  (reduce by rule 96)
+	dec1' : DATATYPE datbind1 WITHTYPE_typbind_opt .  (reduce by rule 97)
 
 
 
-	.	reduce by rule 96
+	.	reduce by rule 97
 
 
 state 239:
@@ -3827,16 +3830,16 @@ state 239:
 	tyvarseq	goto 111
 	tyvarseq1	goto 110
 
-	.	reduce by rule 198
+	.	reduce by rule 199
 
 
 state 240:
 
-	dec1' : DATATYPE datbind0 WITHTYPE_typbind_opt .  (reduce by rule 95)
+	dec1' : DATATYPE datbind0 WITHTYPE_typbind_opt .  (reduce by rule 96)
 
 
 
-	.	reduce by rule 95
+	.	reduce by rule 96
 
 
 state 241:
@@ -3850,7 +3853,7 @@ state 241:
 	OP_opt	goto 318
 	conbind	goto 317
 
-	.	reduce by rule 42
+	.	reduce by rule 43
 
 
 state 242:
@@ -3882,7 +3885,7 @@ state 242:
 	pat	goto 139
 	atpat_list2	goto 96
 
-	.	reduce by rule 42
+	.	reduce by rule 43
 
 
 state 243:
@@ -3907,29 +3910,29 @@ state 244:
 
 state 245:
 
-	consty : tyseq longtycon .  (reduce by rule 183)
+	consty : tyseq longtycon .  (reduce by rule 184)
 
 
 
-	.	reduce by rule 183
+	.	reduce by rule 184
 
 
 state 246:
 
-	longtycon : tycon .  (reduce by rule 37)
-
-
-
-	.	reduce by rule 37
-
-
-state 247:
-
-	longtycon : LONGID .  (reduce by rule 38)
+	longtycon : tycon .  (reduce by rule 38)
 
 
 
 	.	reduce by rule 38
+
+
+state 247:
+
+	longtycon : LONGID .  (reduce by rule 39)
+
+
+
+	.	reduce by rule 39
 
 
 state 248:
@@ -3946,7 +3949,7 @@ state 248:
 	atty	goto 158
 	tyseq	goto 157
 
-	.	reduce by rule 193
+	.	reduce by rule 194
 
 
 state 249:
@@ -3965,7 +3968,7 @@ state 249:
 	atty	goto 158
 	tyseq	goto 157
 
-	.	reduce by rule 193
+	.	reduce by rule 194
 
 
 state 250:
@@ -3980,11 +3983,11 @@ state 250:
 
 state 251:
 
-	tyrow_opt : tyrow .  (reduce by rule 190)
+	tyrow_opt : tyrow .  (reduce by rule 191)
 
 
 
-	.	reduce by rule 190
+	.	reduce by rule 191
 
 
 state 252:
@@ -4041,11 +4044,11 @@ state 255:
 
 state 256:
 
-	sigexp : sigexp' .  (reduce by rule 233)
+	sigexp : sigexp' .  (reduce by rule 234)
 
 
 
-	.	reduce by rule 233
+	.	reduce by rule 234
 
 
 state 257:
@@ -4062,11 +4065,11 @@ state 257:
 
 state 258:
 
-	sigexp' : sigid .  (reduce by rule 236)
+	sigexp' : sigid .  (reduce by rule 237)
 
 
 
-	.	reduce by rule 236
+	.	reduce by rule 237
 
 
 state 259:
@@ -4087,51 +4090,51 @@ state 259:
 	spec1	goto 265
 	spec1''	goto 264
 
-	.	reduce by rule 250
+	.	reduce by rule 251
 
 
 state 260:
 
-	COLON_sigexp_opt : COLON sigexp .  (reduce by rule 231)
+	COLON_sigexp_opt : COLON sigexp .  (reduce by rule 232)
 	sigexp : sigexp . WHERE tyreadesc 
 
 	WHERE	shift 338
 
 
-	.	reduce by rule 231
+	.	reduce by rule 232
 
 
 state 261:
 
-	sigbind : sigid EQUALS sigexp__AND_sigbind_opt .  (reduce by rule 238)
+	sigbind : sigid EQUALS sigexp__AND_sigbind_opt .  (reduce by rule 239)
 
 
 
-	.	reduce by rule 238
+	.	reduce by rule 239
 
 
 state 262:
 
-	sigexp : sigexp' .  (reduce by rule 233)
+	sigexp : sigexp' .  (reduce by rule 234)
 	sigexp__AND_sigbind_opt : sigexp' . AND_sigbind_opt 
 
-	ABSTYPE	reduce by rule 240
+	ABSTYPE	reduce by rule 241
 	AND	shift 342
-	DATATYPE	reduce by rule 240
-	EXCEPTION	reduce by rule 240
-	FUN	reduce by rule 240
-	INFIX	reduce by rule 240
-	INFIXR	reduce by rule 240
-	LOCAL	reduce by rule 240
-	NONFIX	reduce by rule 240
-	OPEN	reduce by rule 240
-	TYPE	reduce by rule 240
-	VAL	reduce by rule 240
-	SEMICOLON	reduce by rule 240
-	FUNCTOR	reduce by rule 240
-	SIGNATURE	reduce by rule 240
-	STRUCTURE	reduce by rule 240
-	WHERE	reduce by rule 233
+	DATATYPE	reduce by rule 241
+	EXCEPTION	reduce by rule 241
+	FUN	reduce by rule 241
+	INFIX	reduce by rule 241
+	INFIXR	reduce by rule 241
+	LOCAL	reduce by rule 241
+	NONFIX	reduce by rule 241
+	OPEN	reduce by rule 241
+	TYPE	reduce by rule 241
+	VAL	reduce by rule 241
+	SEMICOLON	reduce by rule 241
+	FUNCTOR	reduce by rule 241
+	SIGNATURE	reduce by rule 241
+	STRUCTURE	reduce by rule 241
+	WHERE	reduce by rule 234
 
 	AND_sigbind_opt	goto 341
 
@@ -4151,16 +4154,16 @@ state 263:
 
 state 264:
 
-	spec1 : spec1'' .  (reduce by rule 251)
+	spec1 : spec1'' .  (reduce by rule 252)
 
 
 
-	.	reduce by rule 251
+	.	reduce by rule 252
 
 
 state 265:
 
-	spec : spec1 .  (reduce by rule 249)
+	spec : spec1 .  (reduce by rule 250)
 	spec1 : spec1 . spec1' 
 	spec1 : spec1 . SHARING TYPE longtycon_EQUALS_list2 
 	spec1 : spec1 . SHARING longstrid_EQUALS_list2 
@@ -4178,7 +4181,7 @@ state 265:
 	spec1'	goto 345
 	spec1''	goto 344
 
-	.	reduce by rule 249
+	.	reduce by rule 250
 
 
 state 266:
@@ -4259,16 +4262,16 @@ state 271:
 	tyvarseq1	goto 110
 	typdesc	goto 358
 
-	.	reduce by rule 198
+	.	reduce by rule 199
 
 
 state 272:
 
-	spec1 : SEMICOLON .  (reduce by rule 253)
+	spec1 : SEMICOLON .  (reduce by rule 254)
 
 
 
-	.	reduce by rule 253
+	.	reduce by rule 254
 
 
 state 273:
@@ -4299,7 +4302,7 @@ state 274:
 	typdesc	goto 363
 	syndesc	goto 362
 
-	.	reduce by rule 198
+	.	reduce by rule 199
 
 
 state 275:
@@ -4352,23 +4355,23 @@ state 277:
 
 	COMMA_exprow_opt	goto 371
 
-	.	reduce by rule 64
+	.	reduce by rule 65
 
 
 state 278:
 
-	exp_COMMA_list1 : exp COMMA exp_COMMA_list1 .  (reduce by rule 55)
+	exp_COMMA_list1 : exp COMMA exp_COMMA_list1 .  (reduce by rule 56)
 
 
 
-	.	reduce by rule 55
+	.	reduce by rule 56
 
 
 state 279:
 
 	exp_SEMICOLON_list2 : exp . SEMICOLON exp_SEMICOLON_list2 
 	exp_SEMICOLON_list2 : exp . SEMICOLON exp 
-	exp_SEMICOLON_list2 : exp SEMICOLON exp .  (reduce by rule 61)
+	exp_SEMICOLON_list2 : exp SEMICOLON exp .  (reduce by rule 62)
 	exp : exp . COLON ty 
 	exp : exp . ANDALSO exp 
 	exp : exp . ORELSE exp 
@@ -4381,25 +4384,25 @@ state 279:
 	SEMICOLON	shift 178
 
 
-	.	reduce by rule 61
+	.	reduce by rule 62
 
 
 state 280:
 
-	exp_SEMICOLON_list2 : exp SEMICOLON exp_SEMICOLON_list2 .  (reduce by rule 60)
+	exp_SEMICOLON_list2 : exp SEMICOLON exp_SEMICOLON_list2 .  (reduce by rule 61)
 
 
 
-	.	reduce by rule 60
+	.	reduce by rule 61
 
 
 state 281:
 
-	exp_COMMA_list2 : exp COMMA exp_COMMA_list1 .  (reduce by rule 57)
+	exp_COMMA_list2 : exp COMMA exp_COMMA_list1 .  (reduce by rule 58)
 
 
 
-	.	reduce by rule 57
+	.	reduce by rule 58
 
 
 state 282:
@@ -4408,7 +4411,7 @@ state 282:
 	exp : exp . ANDALSO exp 
 	exp : exp . ORELSE exp 
 	exp : exp . HANDLE match 
-	exp : WHILE exp DO exp .  (reduce by rule 77)
+	exp : WHILE exp DO exp .  (reduce by rule 78)
 
 	ANDALSO	shift 59
 	HANDLE	shift 58
@@ -4416,19 +4419,19 @@ state 282:
 	COLON	shift 56
 
 
-	.	reduce by rule 77
+	.	reduce by rule 78
 
 
 state 283:
 
 	COLON_ty_list1 : COLON ty . COLON_ty_list1 
-	COLON_ty_list1 : COLON ty .  (reduce by rule 176)
+	COLON_ty_list1 : COLON ty .  (reduce by rule 177)
 
 	COLON	shift 186
 
 	COLON_ty_list1	goto 373
 
-	.	reduce by rule 176
+	.	reduce by rule 177
 
 
 state 284:
@@ -4447,16 +4450,16 @@ state 284:
 
 	AND_valbind_opt	goto 374
 
-	.	reduce by rule 115
+	.	reduce by rule 116
 
 
 state 285:
 
-	pat : OP_opt vid' COLON_ty_list1 .  (reduce by rule 169)
+	pat : OP_opt vid' COLON_ty_list1 .  (reduce by rule 170)
 
 
 
-	.	reduce by rule 169
+	.	reduce by rule 170
 
 
 state 286:
@@ -4487,25 +4490,25 @@ state 287:
 	atty	goto 158
 	tyseq	goto 157
 
-	.	reduce by rule 193
+	.	reduce by rule 194
 
 
 state 288:
 
-	pat : OP_opt LONGID COLON_ty_list1 .  (reduce by rule 170)
+	pat : OP_opt LONGID COLON_ty_list1 .  (reduce by rule 171)
 
 
 
-	.	reduce by rule 170
+	.	reduce by rule 171
 
 
 state 289:
 
-	atpat' : LBRACE patrow_opt RBRACE .  (reduce by rule 144)
+	atpat' : LBRACE patrow_opt RBRACE .  (reduce by rule 145)
 
 
 
-	.	reduce by rule 144
+	.	reduce by rule 145
 
 
 state 290:
@@ -4516,7 +4519,7 @@ state 290:
 
 	AS_pat_opt	goto 378
 
-	.	reduce by rule 162
+	.	reduce by rule 163
 
 
 state 291:
@@ -4546,7 +4549,7 @@ state 291:
 	pat	goto 380
 	atpat_list2	goto 96
 
-	.	reduce by rule 42
+	.	reduce by rule 43
 
 
 state 292:
@@ -4577,25 +4580,25 @@ state 292:
 	pat	goto 201
 	atpat_list2	goto 96
 
-	.	reduce by rule 42
+	.	reduce by rule 43
 
 
 state 293:
 
-	atpat' : LBRACK pat_COMMA_list0 RBRACK .  (reduce by rule 147)
+	atpat' : LBRACK pat_COMMA_list0 RBRACK .  (reduce by rule 148)
 
 
 
-	.	reduce by rule 147
+	.	reduce by rule 148
 
 
 state 294:
 
-	tyvarseq1 : LPAR tyvar_COMMA_list1 RPAR .  (reduce by rule 200)
+	tyvarseq1 : LPAR tyvar_COMMA_list1 RPAR .  (reduce by rule 201)
 
 
 
-	.	reduce by rule 200
+	.	reduce by rule 201
 
 
 state 295:
@@ -4626,25 +4629,25 @@ state 295:
 	pat	goto 201
 	atpat_list2	goto 96
 
-	.	reduce by rule 42
+	.	reduce by rule 43
 
 
 state 296:
 
-	atpat' : LPAR pat RPAR .  (reduce by rule 148)
+	atpat' : LPAR pat RPAR .  (reduce by rule 149)
 
 
 
-	.	reduce by rule 148
+	.	reduce by rule 149
 
 
 state 297:
 
-	atpat' : LPAR pat_COMMA_list2 RPAR .  (reduce by rule 146)
+	atpat' : LPAR pat_COMMA_list2 RPAR .  (reduce by rule 147)
 
 
 
-	.	reduce by rule 146
+	.	reduce by rule 147
 
 
 state 298:
@@ -4675,13 +4678,13 @@ state 299:
 	atty	goto 158
 	tyseq	goto 157
 
-	.	reduce by rule 193
+	.	reduce by rule 194
 
 
 state 300:
 
 	strdec1 : strdec1 . strdec1 
-	strdec1 : strdec1 strdec1 .  (reduce by rule 214)
+	strdec1 : strdec1 strdec1 .  (reduce by rule 215)
 
 	ABSTYPE	shift 49
 	DATATYPE	shift 47
@@ -4700,7 +4703,7 @@ state 300:
 	strdec1	goto 300
 	strdec1'	goto 213
 
-	.	reduce by rule 214
+	.	reduce by rule 215
 
 
 state 301:
@@ -4716,7 +4719,7 @@ state 301:
 state 302:
 
 	dec1 : dec1 . dec1 
-	dec1 : dec1 dec1 .  (reduce by rule 88)
+	dec1 : dec1 dec1 .  (reduce by rule 89)
 
 	ABSTYPE	shift 49
 	DATATYPE	shift 47
@@ -4733,7 +4736,7 @@ state 302:
 	dec1	goto 302
 	dec1'	goto 217
 
-	.	reduce by rule 88
+	.	reduce by rule 89
 
 
 state 303:
@@ -4770,7 +4773,7 @@ state 303:
 	infexp	goto 10
 	exp	goto 386
 
-	.	reduce by rule 42
+	.	reduce by rule 43
 
 
 state 304:
@@ -4794,7 +4797,7 @@ state 304:
 	dec1	goto 218
 	dec1'	goto 217
 
-	.	reduce by rule 85
+	.	reduce by rule 86
 
 
 state 305:
@@ -4848,34 +4851,34 @@ state 306:
 	infexp	goto 10
 	exp	goto 390
 
-	.	reduce by rule 42
+	.	reduce by rule 43
 
 
 state 307:
 
-	COLON_ty_opt : COLON ty .  (reduce by rule 159)
+	COLON_ty_opt : COLON ty .  (reduce by rule 160)
 
 
 
-	.	reduce by rule 159
+	.	reduce by rule 160
 
 
 state 308:
 
-	BAR_fmatch_opt : BAR fmatch .  (reduce by rule 120)
+	BAR_fmatch_opt : BAR fmatch .  (reduce by rule 121)
 
 
 
-	.	reduce by rule 120
+	.	reduce by rule 121
 
 
 state 309:
 
-	AND_fvalbind_opt : AND fvalbind .  (reduce by rule 117)
+	AND_fvalbind_opt : AND fvalbind .  (reduce by rule 118)
 
 
 
-	.	reduce by rule 117
+	.	reduce by rule 118
 
 
 state 310:
@@ -4884,7 +4887,7 @@ state 310:
 	exp : exp . ANDALSO exp 
 	exp : exp . ORELSE exp 
 	exp : exp . HANDLE match 
-	mrule : pat DARROW exp .  (reduce by rule 83)
+	mrule : pat DARROW exp .  (reduce by rule 84)
 
 	ANDALSO	shift 59
 	HANDLE	shift 58
@@ -4892,16 +4895,16 @@ state 310:
 	COLON	shift 56
 
 
-	.	reduce by rule 83
+	.	reduce by rule 84
 
 
 state 311:
 
-	BAR_match_opt : BAR match .  (reduce by rule 81)
+	BAR_match_opt : BAR match .  (reduce by rule 82)
 
 
 
-	.	reduce by rule 81
+	.	reduce by rule 82
 
 
 state 312:
@@ -4912,7 +4915,7 @@ state 312:
 
 	AND_exbind_opt	goto 391
 
-	.	reduce by rule 139
+	.	reduce by rule 140
 
 
 state 313:
@@ -4923,7 +4926,7 @@ state 313:
 
 	OP_opt	goto 393
 
-	.	reduce by rule 42
+	.	reduce by rule 43
 
 
 state 314:
@@ -4942,7 +4945,7 @@ state 314:
 	atty	goto 158
 	tyseq	goto 157
 
-	.	reduce by rule 193
+	.	reduce by rule 194
 
 
 state 315:
@@ -4954,16 +4957,16 @@ state 315:
 	OP_opt	goto 318
 	conbind	goto 395
 
-	.	reduce by rule 42
+	.	reduce by rule 43
 
 
 state 316:
 
-	WITHTYPE_typbind_opt : WITHTYPE typbind .  (reduce by rule 104)
+	WITHTYPE_typbind_opt : WITHTYPE typbind .  (reduce by rule 105)
 
 
 
-	.	reduce by rule 104
+	.	reduce by rule 105
 
 
 state 317:
@@ -4974,7 +4977,7 @@ state 317:
 
 	AND_datbind_opt	goto 396
 
-	.	reduce by rule 130
+	.	reduce by rule 131
 
 
 state 318:
@@ -5006,11 +5009,11 @@ state 319:
 
 state 320:
 
-	exp : CASE exp OF match .  (reduce by rule 78)
+	exp : CASE exp OF match .  (reduce by rule 79)
 
 
 
-	.	reduce by rule 78
+	.	reduce by rule 79
 
 
 state 321:
@@ -5022,7 +5025,7 @@ state 321:
 	OP_opt	goto 318
 	conbind	goto 400
 
-	.	reduce by rule 42
+	.	reduce by rule 43
 
 
 state 322:
@@ -5046,34 +5049,34 @@ state 322:
 	dec1	goto 218
 	dec1'	goto 217
 
-	.	reduce by rule 85
+	.	reduce by rule 86
 
 
 state 323:
 
-	ty_STAR_list : consty STAR ty_STAR_list .  (reduce by rule 180)
+	ty_STAR_list : consty STAR ty_STAR_list .  (reduce by rule 181)
 
 
 
-	.	reduce by rule 180
+	.	reduce by rule 181
 
 
 state 324:
 
-	ty : tupty ARROW ty .  (reduce by rule 178)
+	ty : tupty ARROW ty .  (reduce by rule 179)
 
 
 
-	.	reduce by rule 178
+	.	reduce by rule 179
 
 
 state 325:
 
-	atty : LBRACE tyrow_opt RBRACE .  (reduce by rule 185)
+	atty : LBRACE tyrow_opt RBRACE .  (reduce by rule 186)
 
 
 
-	.	reduce by rule 185
+	.	reduce by rule 186
 
 
 state 326:
@@ -5092,16 +5095,16 @@ state 326:
 	atty	goto 158
 	tyseq	goto 157
 
-	.	reduce by rule 193
+	.	reduce by rule 194
 
 
 state 327:
 
-	tyseq : LPAR ty_COMMA_list2 RPAR .  (reduce by rule 194)
+	tyseq : LPAR ty_COMMA_list2 RPAR .  (reduce by rule 195)
 
 
 
-	.	reduce by rule 194
+	.	reduce by rule 195
 
 
 state 328:
@@ -5122,53 +5125,53 @@ state 328:
 	tyseq	goto 157
 	ty_COMMA_list2	goto 403
 
-	.	reduce by rule 193
+	.	reduce by rule 194
 
 
 state 329:
 
-	atty : LPAR ty RPAR .  (reduce by rule 186)
+	atty : LPAR ty RPAR .  (reduce by rule 187)
 
 
 
-	.	reduce by rule 186
+	.	reduce by rule 187
 
 
 state 330:
 
-	strbind : strid COLON_sigexp_opt EQUALS strexp__AND_strbind_opt .  (reduce by rule 219)
+	strbind : strid COLON_sigexp_opt EQUALS strexp__AND_strbind_opt .  (reduce by rule 220)
 
 
 
-	.	reduce by rule 219
+	.	reduce by rule 220
 
 
 state 331:
 
-	strexp : strexp' .  (reduce by rule 203)
+	strexp : strexp' .  (reduce by rule 204)
 	strexp__AND_strbind_opt : strexp' . AND_strbind_opt 
 
-	ABSTYPE	reduce by rule 222
+	ABSTYPE	reduce by rule 223
 	AND	shift 406
-	DATATYPE	reduce by rule 222
-	END	reduce by rule 222
-	EXCEPTION	reduce by rule 222
-	FUN	reduce by rule 222
-	IN	reduce by rule 222
-	INFIX	reduce by rule 222
-	INFIXR	reduce by rule 222
-	LOCAL	reduce by rule 222
-	NONFIX	reduce by rule 222
-	OPEN	reduce by rule 222
-	TYPE	reduce by rule 222
-	VAL	reduce by rule 222
-	RPAR	reduce by rule 222
-	COLON	reduce by rule 203
-	SEMICOLON	reduce by rule 222
-	FUNCTOR	reduce by rule 222
-	SIGNATURE	reduce by rule 222
-	STRUCTURE	reduce by rule 222
-	SEAL	reduce by rule 203
+	DATATYPE	reduce by rule 223
+	END	reduce by rule 223
+	EXCEPTION	reduce by rule 223
+	FUN	reduce by rule 223
+	IN	reduce by rule 223
+	INFIX	reduce by rule 223
+	INFIXR	reduce by rule 223
+	LOCAL	reduce by rule 223
+	NONFIX	reduce by rule 223
+	OPEN	reduce by rule 223
+	TYPE	reduce by rule 223
+	VAL	reduce by rule 223
+	RPAR	reduce by rule 223
+	COLON	reduce by rule 204
+	SEMICOLON	reduce by rule 223
+	FUNCTOR	reduce by rule 223
+	SIGNATURE	reduce by rule 223
+	STRUCTURE	reduce by rule 223
+	SEAL	reduce by rule 204
 
 	AND_strbind_opt	goto 405
 
@@ -5191,11 +5194,11 @@ state 332:
 
 state 333:
 
-	strexp' : longstrid .  (reduce by rule 207)
+	strexp' : longstrid .  (reduce by rule 208)
 
 
 
-	.	reduce by rule 207
+	.	reduce by rule 208
 
 
 state 334:
@@ -5211,31 +5214,31 @@ state 334:
 
 state 335:
 
-	strid : ALPHA .  (reduce by rule 30)
-	funid : ALPHA .  (reduce by rule 32)
+	strid : ALPHA .  (reduce by rule 31)
+	funid : ALPHA .  (reduce by rule 33)
 
-	ABSTYPE	reduce by rule 30
-	AND	reduce by rule 30
-	DATATYPE	reduce by rule 30
-	END	reduce by rule 30
-	EXCEPTION	reduce by rule 30
-	FUN	reduce by rule 30
-	IN	reduce by rule 30
-	INFIX	reduce by rule 30
-	INFIXR	reduce by rule 30
-	LOCAL	reduce by rule 30
-	NONFIX	reduce by rule 30
-	OPEN	reduce by rule 30
-	TYPE	reduce by rule 30
-	VAL	reduce by rule 30
-	LPAR	reduce by rule 32
-	RPAR	reduce by rule 30
-	COLON	reduce by rule 30
-	SEMICOLON	reduce by rule 30
-	FUNCTOR	reduce by rule 30
-	SIGNATURE	reduce by rule 30
-	STRUCTURE	reduce by rule 30
-	SEAL	reduce by rule 30
+	ABSTYPE	reduce by rule 31
+	AND	reduce by rule 31
+	DATATYPE	reduce by rule 31
+	END	reduce by rule 31
+	EXCEPTION	reduce by rule 31
+	FUN	reduce by rule 31
+	IN	reduce by rule 31
+	INFIX	reduce by rule 31
+	INFIXR	reduce by rule 31
+	LOCAL	reduce by rule 31
+	NONFIX	reduce by rule 31
+	OPEN	reduce by rule 31
+	TYPE	reduce by rule 31
+	VAL	reduce by rule 31
+	LPAR	reduce by rule 33
+	RPAR	reduce by rule 31
+	COLON	reduce by rule 31
+	SEMICOLON	reduce by rule 31
+	FUNCTOR	reduce by rule 31
+	SIGNATURE	reduce by rule 31
+	STRUCTURE	reduce by rule 31
+	SEAL	reduce by rule 31
 
 
 	.	error
@@ -5303,11 +5306,11 @@ state 340:
 
 state 341:
 
-	sigexp__AND_sigbind_opt : sigexp' AND_sigbind_opt .  (reduce by rule 241)
+	sigexp__AND_sigbind_opt : sigexp' AND_sigbind_opt .  (reduce by rule 242)
 
 
 
-	.	reduce by rule 241
+	.	reduce by rule 242
 
 
 state 342:
@@ -5337,16 +5340,16 @@ state 343:
 
 state 344:
 
-	spec1' : spec1'' .  (reduce by rule 258)
+	spec1' : spec1'' .  (reduce by rule 259)
 
 
 
-	.	reduce by rule 258
+	.	reduce by rule 259
 
 
 state 345:
 
-	spec1 : spec1 spec1' .  (reduce by rule 252)
+	spec1 : spec1 spec1' .  (reduce by rule 253)
 	spec1' : spec1' . spec1' 
 
 	DATATYPE	shift 276
@@ -5360,7 +5363,7 @@ state 345:
 	spec1'	goto 419
 	spec1''	goto 344
 
-	.	reduce by rule 252
+	.	reduce by rule 253
 
 
 state 346:
@@ -5381,11 +5384,11 @@ state 346:
 
 state 347:
 
-	spec1' : SEMICOLON .  (reduce by rule 260)
+	spec1' : SEMICOLON .  (reduce by rule 261)
 
 
 
-	.	reduce by rule 260
+	.	reduce by rule 261
 
 
 state 348:
@@ -5398,7 +5401,7 @@ state 348:
 
 	COLON_sigexp_opt	goto 422
 
-	.	reduce by rule 232
+	.	reduce by rule 233
 
 
 state 349:
@@ -5418,11 +5421,11 @@ state 349:
 
 state 350:
 
-	spec1'' : STRUCTURE strdesc .  (reduce by rule 269)
+	spec1'' : STRUCTURE strdesc .  (reduce by rule 270)
 
 
 
-	.	reduce by rule 269
+	.	reduce by rule 270
 
 
 state 351:
@@ -5437,11 +5440,11 @@ state 351:
 
 state 352:
 
-	spec1 : SHARING longstrid_EQUALS_list2 .  (reduce by rule 256)
+	spec1 : SHARING longstrid_EQUALS_list2 .  (reduce by rule 257)
 
 
 
-	.	reduce by rule 256
+	.	reduce by rule 257
 
 
 state 353:
@@ -5471,27 +5474,27 @@ state 354:
 
 state 355:
 
-	spec1'' : INCLUDE sigid_list2 .  (reduce by rule 271)
+	spec1'' : INCLUDE sigid_list2 .  (reduce by rule 272)
 
 
 
-	.	reduce by rule 271
+	.	reduce by rule 272
 
 
 state 356:
 
 	sigexp : sigexp . WHERE tyreadesc 
-	spec1'' : INCLUDE sigexp .  (reduce by rule 270)
+	spec1'' : INCLUDE sigexp .  (reduce by rule 271)
 
 	WHERE	shift 338
 
 
-	.	reduce by rule 270
+	.	reduce by rule 271
 
 
 state 357:
 
-	sigexp' : sigid .  (reduce by rule 236)
+	sigexp' : sigid .  (reduce by rule 237)
 	sigid_list2 : sigid . sigid_list2 
 	sigid_list2 : sigid . sigid 
 
@@ -5500,16 +5503,16 @@ state 357:
 	sigid	goto 430
 	sigid_list2	goto 429
 
-	.	reduce by rule 236
+	.	reduce by rule 237
 
 
 state 358:
 
-	spec1'' : EQTYPE typdesc .  (reduce by rule 263)
+	spec1'' : EQTYPE typdesc .  (reduce by rule 264)
 
 
 
-	.	reduce by rule 263
+	.	reduce by rule 264
 
 
 state 359:
@@ -5526,11 +5529,11 @@ state 359:
 
 state 360:
 
-	spec1'' : VAL valdesc .  (reduce by rule 261)
+	spec1'' : VAL valdesc .  (reduce by rule 262)
 
 
 
-	.	reduce by rule 261
+	.	reduce by rule 262
 
 
 state 361:
@@ -5545,20 +5548,20 @@ state 361:
 
 state 362:
 
-	spec1'' : TYPE syndesc .  (reduce by rule 264)
+	spec1'' : TYPE syndesc .  (reduce by rule 265)
 
 
 
-	.	reduce by rule 264
+	.	reduce by rule 265
 
 
 state 363:
 
-	spec1'' : TYPE typdesc .  (reduce by rule 262)
+	spec1'' : TYPE typdesc .  (reduce by rule 263)
 
 
 
-	.	reduce by rule 262
+	.	reduce by rule 263
 
 
 state 364:
@@ -5576,11 +5579,11 @@ state 364:
 
 state 365:
 
-	spec1'' : EXCEPTION exdesc .  (reduce by rule 268)
+	spec1'' : EXCEPTION exdesc .  (reduce by rule 269)
 
 
 
-	.	reduce by rule 268
+	.	reduce by rule 269
 
 
 state 366:
@@ -5591,25 +5594,25 @@ state 366:
 
 	OF_ty_opt	goto 434
 
-	.	reduce by rule 135
+	.	reduce by rule 136
 
 
 state 367:
 
-	spec1'' : DATATYPE datdesc1 .  (reduce by rule 266)
+	spec1'' : DATATYPE datdesc1 .  (reduce by rule 267)
 
 
 
-	.	reduce by rule 266
+	.	reduce by rule 267
 
 
 state 368:
 
-	spec1'' : DATATYPE datdesc0 .  (reduce by rule 265)
+	spec1'' : DATATYPE datdesc0 .  (reduce by rule 266)
 
 
 
-	.	reduce by rule 265
+	.	reduce by rule 266
 
 
 state 369:
@@ -5637,11 +5640,11 @@ state 370:
 
 state 371:
 
-	exprow : lab EQUALS exp COMMA_exprow_opt .  (reduce by rule 62)
+	exprow : lab EQUALS exp COMMA_exprow_opt .  (reduce by rule 63)
 
 
 
-	.	reduce by rule 62
+	.	reduce by rule 63
 
 
 state 372:
@@ -5662,20 +5665,20 @@ state 372:
 
 state 373:
 
-	COLON_ty_list1 : COLON ty COLON_ty_list1 .  (reduce by rule 175)
+	COLON_ty_list1 : COLON ty COLON_ty_list1 .  (reduce by rule 176)
 
 
 
-	.	reduce by rule 175
+	.	reduce by rule 176
 
 
 state 374:
 
-	valbind : pat EQUALS exp AND_valbind_opt .  (reduce by rule 112)
+	valbind : pat EQUALS exp AND_valbind_opt .  (reduce by rule 113)
 
 
 
-	.	reduce by rule 112
+	.	reduce by rule 113
 
 
 state 375:
@@ -5707,7 +5710,7 @@ state 375:
 	pat	goto 97
 	atpat_list2	goto 96
 
-	.	reduce by rule 42
+	.	reduce by rule 43
 
 
 state 376:
@@ -5737,23 +5740,23 @@ state 376:
 	pat	goto 439
 	atpat_list2	goto 96
 
-	.	reduce by rule 42
+	.	reduce by rule 43
 
 
 state 377:
 
-	COLON_ty_opt : COLON ty .  (reduce by rule 159)
+	COLON_ty_opt : COLON ty .  (reduce by rule 160)
 	COLON_ty_list1 : COLON ty . COLON_ty_list1 
-	COLON_ty_list1 : COLON ty .  (reduce by rule 176)
+	COLON_ty_list1 : COLON ty .  (reduce by rule 177)
 
-	AS	reduce by rule 159
-	RPAR	reduce by rule 176
-	RBRACK	reduce by rule 176
-	RBRACE	reduce by rule 176
-	COMMA	reduce by rule 176
+	AS	reduce by rule 160
+	RPAR	reduce by rule 177
+	RBRACK	reduce by rule 177
+	RBRACE	reduce by rule 177
+	COMMA	reduce by rule 177
 	COLON	shift 186
-	EQUALS	reduce by rule 176
-	DARROW	reduce by rule 176
+	EQUALS	reduce by rule 177
+	DARROW	reduce by rule 177
 
 	COLON_ty_list1	goto 373
 
@@ -5768,7 +5771,7 @@ state 378:
 
 	COMMA_patrow_opt	goto 440
 
-	.	reduce by rule 158
+	.	reduce by rule 159
 
 
 state 379:
@@ -5798,7 +5801,7 @@ state 379:
 	pat	goto 442
 	atpat_list2	goto 96
 
-	.	reduce by rule 42
+	.	reduce by rule 43
 
 
 state 380:
@@ -5809,34 +5812,34 @@ state 380:
 
 	COMMA_patrow_opt	goto 443
 
-	.	reduce by rule 158
+	.	reduce by rule 159
 
 
 state 381:
 
-	pat_COMMA_list1 : pat COMMA pat_COMMA_list1 .  (reduce by rule 151)
+	pat_COMMA_list1 : pat COMMA pat_COMMA_list1 .  (reduce by rule 152)
 
 
 
-	.	reduce by rule 151
+	.	reduce by rule 152
 
 
 state 382:
 
-	pat_COMMA_list2 : pat COMMA pat_COMMA_list1 .  (reduce by rule 153)
+	pat_COMMA_list2 : pat COMMA pat_COMMA_list1 .  (reduce by rule 154)
 
 
 
-	.	reduce by rule 153
+	.	reduce by rule 154
 
 
 state 383:
 
-	tyvar_COMMA_list1 : tyvar COMMA tyvar_COMMA_list1 .  (reduce by rule 201)
+	tyvar_COMMA_list1 : tyvar COMMA tyvar_COMMA_list1 .  (reduce by rule 202)
 
 
 
-	.	reduce by rule 201
+	.	reduce by rule 202
 
 
 state 384:
@@ -5847,7 +5850,7 @@ state 384:
 
 	AND_typbind_opt	goto 444
 
-	.	reduce by rule 125
+	.	reduce by rule 126
 
 
 state 385:
@@ -5873,13 +5876,13 @@ state 385:
 	strdec1	goto 214
 	strdec1'	goto 213
 
-	.	reduce by rule 212
+	.	reduce by rule 213
 
 
 state 386:
 
 	exp_SEMICOLON_list1 : exp . SEMICOLON exp_SEMICOLON_list1 
-	exp_SEMICOLON_list1 : exp .  (reduce by rule 59)
+	exp_SEMICOLON_list1 : exp .  (reduce by rule 60)
 	exp : exp . COLON ty 
 	exp : exp . ANDALSO exp 
 	exp : exp . ORELSE exp 
@@ -5892,7 +5895,7 @@ state 386:
 	SEMICOLON	shift 447
 
 
-	.	reduce by rule 59
+	.	reduce by rule 60
 
 
 state 387:
@@ -5948,7 +5951,7 @@ state 389:
 	infexp	goto 10
 	exp	goto 450
 
-	.	reduce by rule 42
+	.	reduce by rule 43
 
 
 state 390:
@@ -5957,7 +5960,7 @@ state 390:
 	exp : exp . ANDALSO exp 
 	exp : exp . ORELSE exp 
 	exp : exp . HANDLE match 
-	fmrule : atpat_list1 COLON_ty_opt EQUALS exp .  (reduce by rule 122)
+	fmrule : atpat_list1 COLON_ty_opt EQUALS exp .  (reduce by rule 123)
 
 	ANDALSO	shift 59
 	HANDLE	shift 58
@@ -5965,16 +5968,16 @@ state 390:
 	COLON	shift 56
 
 
-	.	reduce by rule 122
+	.	reduce by rule 123
 
 
 state 391:
 
-	exbind : OP_opt vid' OF_ty_opt AND_exbind_opt .  (reduce by rule 136)
+	exbind : OP_opt vid' OF_ty_opt AND_exbind_opt .  (reduce by rule 137)
 
 
 
-	.	reduce by rule 136
+	.	reduce by rule 137
 
 
 state 392:
@@ -5986,7 +5989,7 @@ state 392:
 	OP_opt	goto 144
 	exbind	goto 451
 
-	.	reduce by rule 42
+	.	reduce by rule 43
 
 
 state 393:
@@ -6008,11 +6011,11 @@ state 393:
 
 state 394:
 
-	OF_ty_opt : OF ty .  (reduce by rule 134)
+	OF_ty_opt : OF ty .  (reduce by rule 135)
 
 
 
-	.	reduce by rule 134
+	.	reduce by rule 135
 
 
 state 395:
@@ -6023,16 +6026,16 @@ state 395:
 
 	AND_datbind_opt	goto 453
 
-	.	reduce by rule 130
+	.	reduce by rule 131
 
 
 state 396:
 
-	datbind0 : tycon EQUALS conbind AND_datbind_opt .  (reduce by rule 127)
+	datbind0 : tycon EQUALS conbind AND_datbind_opt .  (reduce by rule 128)
 
 
 
-	.	reduce by rule 127
+	.	reduce by rule 128
 
 
 state 397:
@@ -6047,7 +6050,7 @@ state 397:
 	tyvarseq	goto 152
 	tyvarseq1	goto 110
 
-	.	reduce by rule 198
+	.	reduce by rule 199
 
 
 state 398:
@@ -6058,16 +6061,16 @@ state 398:
 
 	OF_ty_opt	goto 455
 
-	.	reduce by rule 135
+	.	reduce by rule 136
 
 
 state 399:
 
-	dec1' : DATATYPE tycon EQUALS DATATYPE longtycon .  (reduce by rule 97)
+	dec1' : DATATYPE tycon EQUALS DATATYPE longtycon .  (reduce by rule 98)
 
 
 
-	.	reduce by rule 97
+	.	reduce by rule 98
 
 
 state 400:
@@ -6078,7 +6081,7 @@ state 400:
 
 	AND_datbind_opt	goto 456
 
-	.	reduce by rule 130
+	.	reduce by rule 131
 
 
 state 401:
@@ -6099,37 +6102,37 @@ state 402:
 
 	COMMA_tyrow_opt	goto 458
 
-	.	reduce by rule 189
+	.	reduce by rule 190
 
 
 state 403:
 
-	ty_COMMA_list2 : ty COMMA ty_COMMA_list2 .  (reduce by rule 195)
+	ty_COMMA_list2 : ty COMMA ty_COMMA_list2 .  (reduce by rule 196)
 
 
 
-	.	reduce by rule 195
+	.	reduce by rule 196
 
 
 state 404:
 
 	ty_COMMA_list2 : ty . COMMA ty_COMMA_list2 
 	ty_COMMA_list2 : ty . COMMA ty 
-	ty_COMMA_list2 : ty COMMA ty .  (reduce by rule 196)
+	ty_COMMA_list2 : ty COMMA ty .  (reduce by rule 197)
 
 	COMMA	shift 328
 
 
-	.	reduce by rule 196
+	.	reduce by rule 197
 
 
 state 405:
 
-	strexp__AND_strbind_opt : strexp' AND_strbind_opt .  (reduce by rule 223)
+	strexp__AND_strbind_opt : strexp' AND_strbind_opt .  (reduce by rule 224)
 
 
 
-	.	reduce by rule 223
+	.	reduce by rule 224
 
 
 state 406:
@@ -6209,7 +6212,7 @@ state 409:
 	strdec1	goto 214
 	strdec1'	goto 213
 
-	.	reduce by rule 212
+	.	reduce by rule 213
 
 
 state 410:
@@ -6235,7 +6238,7 @@ state 410:
 	strdec1	goto 214
 	strdec1'	goto 213
 
-	.	reduce by rule 212
+	.	reduce by rule 213
 
 
 state 411:
@@ -6261,16 +6264,16 @@ state 411:
 	strdec1	goto 214
 	strdec1'	goto 213
 
-	.	reduce by rule 212
+	.	reduce by rule 213
 
 
 state 412:
 
-	sigexp : sigexp WHERE tyreadesc .  (reduce by rule 234)
+	sigexp : sigexp WHERE tyreadesc .  (reduce by rule 235)
 
 
 
-	.	reduce by rule 234
+	.	reduce by rule 235
 
 
 state 413:
@@ -6284,43 +6287,43 @@ state 413:
 	tyvarseq	goto 471
 	tyvarseq1	goto 110
 
-	.	reduce by rule 198
+	.	reduce by rule 199
 
 
 state 414:
 
-	strbind : strid SEAL sigexp EQUALS strexp__AND_strbind_opt .  (reduce by rule 220)
+	strbind : strid SEAL sigexp EQUALS strexp__AND_strbind_opt .  (reduce by rule 221)
 
 
 
-	.	reduce by rule 220
+	.	reduce by rule 221
 
 
 state 415:
 
-	sigexp' : SIG spec END .  (reduce by rule 235)
+	sigexp' : SIG spec END .  (reduce by rule 236)
 
 
 
-	.	reduce by rule 235
+	.	reduce by rule 236
 
 
 state 416:
 
-	AND_sigbind_opt : AND sigbind .  (reduce by rule 239)
+	AND_sigbind_opt : AND sigbind .  (reduce by rule 240)
 
 
 
-	.	reduce by rule 239
+	.	reduce by rule 240
 
 
 state 417:
 
-	sigexp__AND_sigbind_opt : sigexp WHERE tyreadesc__AND_sigbind_opt .  (reduce by rule 242)
+	sigexp__AND_sigbind_opt : sigexp WHERE tyreadesc__AND_sigbind_opt .  (reduce by rule 243)
 
 
 
-	.	reduce by rule 242
+	.	reduce by rule 243
 
 
 state 418:
@@ -6335,13 +6338,13 @@ state 418:
 	tyvarseq	goto 472
 	tyvarseq1	goto 110
 
-	.	reduce by rule 198
+	.	reduce by rule 199
 
 
 state 419:
 
 	spec1' : spec1' . spec1' 
-	spec1' : spec1' spec1' .  (reduce by rule 259)
+	spec1' : spec1' spec1' .  (reduce by rule 260)
 
 	DATATYPE	shift 276
 	EXCEPTION	shift 275
@@ -6354,16 +6357,16 @@ state 419:
 	spec1'	goto 419
 	spec1''	goto 344
 
-	.	reduce by rule 259
+	.	reduce by rule 260
 
 
 state 420:
 
-	spec1 : spec1 SHARING longstrid_EQUALS_list2 .  (reduce by rule 257)
+	spec1 : spec1 SHARING longstrid_EQUALS_list2 .  (reduce by rule 258)
 
 
 
-	.	reduce by rule 257
+	.	reduce by rule 258
 
 
 state 421:
@@ -6449,11 +6452,11 @@ state 426:
 
 state 427:
 
-	spec1 : SHARING TYPE longtycon_EQUALS_list2 .  (reduce by rule 254)
+	spec1 : SHARING TYPE longtycon_EQUALS_list2 .  (reduce by rule 255)
 
 
 
-	.	reduce by rule 254
+	.	reduce by rule 255
 
 
 state 428:
@@ -6468,25 +6471,25 @@ state 428:
 
 state 429:
 
-	sigid_list2 : sigid sigid_list2 .  (reduce by rule 272)
+	sigid_list2 : sigid sigid_list2 .  (reduce by rule 273)
 
 
 
-	.	reduce by rule 272
+	.	reduce by rule 273
 
 
 state 430:
 
 	sigid_list2 : sigid . sigid_list2 
 	sigid_list2 : sigid . sigid 
-	sigid_list2 : sigid sigid .  (reduce by rule 273)
+	sigid_list2 : sigid sigid .  (reduce by rule 274)
 
 	ALPHA	shift 74
 
 	sigid	goto 430
 	sigid_list2	goto 429
 
-	.	reduce by rule 273
+	.	reduce by rule 274
 
 
 state 431:
@@ -6497,7 +6500,7 @@ state 431:
 
 	AND_typdesc_opt	goto 483
 
-	.	reduce by rule 285
+	.	reduce by rule 286
 
 
 state 432:
@@ -6516,7 +6519,7 @@ state 432:
 	atty	goto 158
 	tyseq	goto 157
 
-	.	reduce by rule 193
+	.	reduce by rule 194
 
 
 state 433:
@@ -6529,7 +6532,7 @@ state 433:
 
 	AND_typdesc_opt	goto 483
 
-	.	reduce by rule 285
+	.	reduce by rule 286
 
 
 state 434:
@@ -6540,7 +6543,7 @@ state 434:
 
 	AND_exdesc_opt	goto 487
 
-	.	reduce by rule 299
+	.	reduce by rule 300
 
 
 state 435:
@@ -6571,38 +6574,38 @@ state 436:
 
 state 437:
 
-	COMMA_exprow_opt : COMMA exprow .  (reduce by rule 63)
+	COMMA_exprow_opt : COMMA exprow .  (reduce by rule 64)
 
 
 
-	.	reduce by rule 63
+	.	reduce by rule 64
 
 
 state 438:
 
-	AND_valbind_opt : AND valbind .  (reduce by rule 114)
+	AND_valbind_opt : AND valbind .  (reduce by rule 115)
 
 
 
-	.	reduce by rule 114
+	.	reduce by rule 115
 
 
 state 439:
 
-	pat : OP_opt vid' COLON_ty_opt AS pat .  (reduce by rule 171)
+	pat : OP_opt vid' COLON_ty_opt AS pat .  (reduce by rule 172)
 
 
 
-	.	reduce by rule 171
+	.	reduce by rule 172
 
 
 state 440:
 
-	patrow : vid' COLON_ty_opt AS_pat_opt COMMA_patrow_opt .  (reduce by rule 156)
+	patrow : vid' COLON_ty_opt AS_pat_opt COMMA_patrow_opt .  (reduce by rule 157)
 
 
 
-	.	reduce by rule 156
+	.	reduce by rule 157
 
 
 state 441:
@@ -6625,29 +6628,29 @@ state 441:
 
 state 442:
 
-	AS_pat_opt : AS pat .  (reduce by rule 161)
+	AS_pat_opt : AS pat .  (reduce by rule 162)
 
 
 
-	.	reduce by rule 161
+	.	reduce by rule 162
 
 
 state 443:
 
-	patrow : lab EQUALS pat COMMA_patrow_opt .  (reduce by rule 155)
+	patrow : lab EQUALS pat COMMA_patrow_opt .  (reduce by rule 156)
 
 
 
-	.	reduce by rule 155
+	.	reduce by rule 156
 
 
 state 444:
 
-	typbind : tyvarseq tycon EQUALS ty AND_typbind_opt .  (reduce by rule 123)
+	typbind : tyvarseq tycon EQUALS ty AND_typbind_opt .  (reduce by rule 124)
 
 
 
-	.	reduce by rule 123
+	.	reduce by rule 124
 
 
 state 445:
@@ -6662,7 +6665,7 @@ state 445:
 	tyvarseq	goto 111
 	tyvarseq1	goto 110
 
-	.	reduce by rule 198
+	.	reduce by rule 199
 
 
 state 446:
@@ -6709,7 +6712,7 @@ state 447:
 	infexp	goto 10
 	exp	goto 386
 
-	.	reduce by rule 42
+	.	reduce by rule 43
 
 
 state 448:
@@ -6738,7 +6741,7 @@ state 450:
 	exp : exp . ANDALSO exp 
 	exp : exp . ORELSE exp 
 	exp : exp . HANDLE match 
-	exp : IF exp THEN exp ELSE exp .  (reduce by rule 76)
+	exp : IF exp THEN exp ELSE exp .  (reduce by rule 77)
 
 	ANDALSO	shift 59
 	HANDLE	shift 58
@@ -6746,16 +6749,16 @@ state 450:
 	COLON	shift 56
 
 
-	.	reduce by rule 76
+	.	reduce by rule 77
 
 
 state 451:
 
-	AND_exbind_opt : AND exbind .  (reduce by rule 138)
+	AND_exbind_opt : AND exbind .  (reduce by rule 139)
 
 
 
-	.	reduce by rule 138
+	.	reduce by rule 139
 
 
 state 452:
@@ -6766,25 +6769,25 @@ state 452:
 
 	AND_exbind_opt	goto 499
 
-	.	reduce by rule 139
+	.	reduce by rule 140
 
 
 state 453:
 
-	datbind1 : tyvarseq1 tycon EQUALS conbind AND_datbind_opt .  (reduce by rule 128)
-
-
-
-	.	reduce by rule 128
-
-
-state 454:
-
-	AND_datbind_opt : AND datbind .  (reduce by rule 129)
+	datbind1 : tyvarseq1 tycon EQUALS conbind AND_datbind_opt .  (reduce by rule 129)
 
 
 
 	.	reduce by rule 129
+
+
+state 454:
+
+	AND_datbind_opt : AND datbind .  (reduce by rule 130)
+
+
+
+	.	reduce by rule 130
 
 
 state 455:
@@ -6795,34 +6798,34 @@ state 455:
 
 	BAR_conbind_opt	goto 500
 
-	.	reduce by rule 133
+	.	reduce by rule 134
 
 
 state 456:
 
-	datbind : tyvarseq tycon EQUALS conbind AND_datbind_opt .  (reduce by rule 126)
+	datbind : tyvarseq tycon EQUALS conbind AND_datbind_opt .  (reduce by rule 127)
 
 
 
-	.	reduce by rule 126
+	.	reduce by rule 127
 
 
 state 457:
 
-	dec1' : ABSTYPE datbind WITHTYPE_typbind_opt WITH dec END .  (reduce by rule 98)
+	dec1' : ABSTYPE datbind WITHTYPE_typbind_opt WITH dec END .  (reduce by rule 99)
 
 
 
-	.	reduce by rule 98
+	.	reduce by rule 99
 
 
 state 458:
 
-	tyrow : lab COLON ty COMMA_tyrow_opt .  (reduce by rule 187)
+	tyrow : lab COLON ty COMMA_tyrow_opt .  (reduce by rule 188)
 
 
 
-	.	reduce by rule 187
+	.	reduce by rule 188
 
 
 state 459:
@@ -6843,40 +6846,40 @@ state 459:
 
 state 460:
 
-	AND_strbind_opt : AND strbind .  (reduce by rule 221)
+	AND_strbind_opt : AND strbind .  (reduce by rule 222)
 
 
 
-	.	reduce by rule 221
+	.	reduce by rule 222
 
 
 state 461:
 
 	sigexp__AND_strbind_opt : sigexp' . AND_strbind_opt 
-	sigexp : sigexp' .  (reduce by rule 233)
+	sigexp : sigexp' .  (reduce by rule 234)
 
-	ABSTYPE	reduce by rule 222
+	ABSTYPE	reduce by rule 223
 	AND	shift 406
-	DATATYPE	reduce by rule 222
-	END	reduce by rule 222
-	EXCEPTION	reduce by rule 222
-	FUN	reduce by rule 222
-	IN	reduce by rule 222
-	INFIX	reduce by rule 222
-	INFIXR	reduce by rule 222
-	LOCAL	reduce by rule 222
-	NONFIX	reduce by rule 222
-	OPEN	reduce by rule 222
-	TYPE	reduce by rule 222
-	VAL	reduce by rule 222
-	RPAR	reduce by rule 222
-	COLON	reduce by rule 233
-	SEMICOLON	reduce by rule 222
-	FUNCTOR	reduce by rule 222
-	SIGNATURE	reduce by rule 222
-	STRUCTURE	reduce by rule 222
-	WHERE	reduce by rule 233
-	SEAL	reduce by rule 233
+	DATATYPE	reduce by rule 223
+	END	reduce by rule 223
+	EXCEPTION	reduce by rule 223
+	FUN	reduce by rule 223
+	IN	reduce by rule 223
+	INFIX	reduce by rule 223
+	INFIXR	reduce by rule 223
+	LOCAL	reduce by rule 223
+	NONFIX	reduce by rule 223
+	OPEN	reduce by rule 223
+	TYPE	reduce by rule 223
+	VAL	reduce by rule 223
+	RPAR	reduce by rule 223
+	COLON	reduce by rule 234
+	SEMICOLON	reduce by rule 223
+	FUNCTOR	reduce by rule 223
+	SIGNATURE	reduce by rule 223
+	STRUCTURE	reduce by rule 223
+	WHERE	reduce by rule 234
+	SEAL	reduce by rule 234
 
 	AND_strbind_opt	goto 503
 
@@ -6885,7 +6888,28 @@ state 461:
 
 state 462:
 
-	strexp : strexp SEAL sigexp .  (reduce by rule 205)
+	strexp : strexp SEAL sigexp .  (reduce by rule 206)
+	sigexp__AND_strbind_opt : sigexp . WHERE tyreadesc__AND_strbind_opt 
+	sigexp : sigexp . WHERE tyreadesc 
+
+	WHERE	shift 504
+
+
+	.	reduce by rule 206
+
+
+state 463:
+
+	strexp__AND_strbind_opt : strexp SEAL sigexp__AND_strbind_opt .  (reduce by rule 226)
+
+
+
+	.	reduce by rule 226
+
+
+state 464:
+
+	strexp : strexp COLON sigexp .  (reduce by rule 205)
 	sigexp__AND_strbind_opt : sigexp . WHERE tyreadesc__AND_strbind_opt 
 	sigexp : sigexp . WHERE tyreadesc 
 
@@ -6895,34 +6919,13 @@ state 462:
 	.	reduce by rule 205
 
 
-state 463:
+state 465:
 
-	strexp__AND_strbind_opt : strexp SEAL sigexp__AND_strbind_opt .  (reduce by rule 225)
+	strexp__AND_strbind_opt : strexp COLON sigexp__AND_strbind_opt .  (reduce by rule 225)
 
 
 
 	.	reduce by rule 225
-
-
-state 464:
-
-	strexp : strexp COLON sigexp .  (reduce by rule 204)
-	sigexp__AND_strbind_opt : sigexp . WHERE tyreadesc__AND_strbind_opt 
-	sigexp : sigexp . WHERE tyreadesc 
-
-	WHERE	shift 504
-
-
-	.	reduce by rule 204
-
-
-state 465:
-
-	strexp__AND_strbind_opt : strexp COLON sigexp__AND_strbind_opt .  (reduce by rule 224)
-
-
-
-	.	reduce by rule 224
 
 
 state 466:
@@ -6937,11 +6940,11 @@ state 466:
 
 state 467:
 
-	strexp : strexp' .  (reduce by rule 203)
+	strexp : strexp' .  (reduce by rule 204)
 
 
 
-	.	reduce by rule 203
+	.	reduce by rule 204
 
 
 state 468:
@@ -7009,11 +7012,11 @@ state 472:
 
 state 473:
 
-	spec1 : spec1 SHARING TYPE longtycon_EQUALS_list2 .  (reduce by rule 255)
+	spec1 : spec1 SHARING TYPE longtycon_EQUALS_list2 .  (reduce by rule 256)
 
 
 
-	.	reduce by rule 255
+	.	reduce by rule 256
 
 
 state 474:
@@ -7057,36 +7060,36 @@ state 476:
 
 	COLON_sigexp_opt	goto 517
 
-	.	reduce by rule 232
+	.	reduce by rule 233
 
 
 state 477:
 
-	strdesc : strid COLON sigexp__AND_strdesc_opt .  (reduce by rule 300)
+	strdesc : strid COLON sigexp__AND_strdesc_opt .  (reduce by rule 301)
 
 
 
-	.	reduce by rule 300
+	.	reduce by rule 301
 
 
 state 478:
 
-	sigexp : sigexp' .  (reduce by rule 233)
+	sigexp : sigexp' .  (reduce by rule 234)
 	sigexp__AND_strdesc_opt : sigexp' . AND_strdesc_opt 
 
 	AND	shift 520
-	DATATYPE	reduce by rule 302
-	END	reduce by rule 302
-	EXCEPTION	reduce by rule 302
-	TYPE	reduce by rule 302
-	VAL	reduce by rule 302
-	RPAR	reduce by rule 302
-	SEMICOLON	reduce by rule 302
-	EQTYPE	reduce by rule 302
-	INCLUDE	reduce by rule 302
-	SHARING	reduce by rule 302
-	STRUCTURE	reduce by rule 302
-	WHERE	reduce by rule 233
+	DATATYPE	reduce by rule 303
+	END	reduce by rule 303
+	EXCEPTION	reduce by rule 303
+	TYPE	reduce by rule 303
+	VAL	reduce by rule 303
+	RPAR	reduce by rule 303
+	SEMICOLON	reduce by rule 303
+	EQTYPE	reduce by rule 303
+	INCLUDE	reduce by rule 303
+	SHARING	reduce by rule 303
+	STRUCTURE	reduce by rule 303
+	WHERE	reduce by rule 234
 
 	AND_strdesc_opt	goto 519
 
@@ -7106,22 +7109,22 @@ state 479:
 
 state 480:
 
-	longstrid_EQUALS_list2 : longstrid EQUALS longstrid_EQUALS_list1 .  (reduce by rule 279)
+	longstrid_EQUALS_list2 : longstrid EQUALS longstrid_EQUALS_list1 .  (reduce by rule 280)
 
 
 
-	.	reduce by rule 279
+	.	reduce by rule 280
 
 
 state 481:
 
 	longstrid_EQUALS_list1 : longstrid . EQUALS longstrid_EQUALS_list1 
-	longstrid_EQUALS_list1 : longstrid .  (reduce by rule 278)
+	longstrid_EQUALS_list1 : longstrid .  (reduce by rule 279)
 
 	EQUALS	shift 522
 
 
-	.	reduce by rule 278
+	.	reduce by rule 279
 
 
 state 482:
@@ -7141,11 +7144,11 @@ state 482:
 
 state 483:
 
-	typdesc : tyvarseq tycon AND_typdesc_opt .  (reduce by rule 283)
+	typdesc : tyvarseq tycon AND_typdesc_opt .  (reduce by rule 284)
 
 
 
-	.	reduce by rule 283
+	.	reduce by rule 284
 
 
 state 484:
@@ -7160,7 +7163,7 @@ state 484:
 	tyvarseq1	goto 110
 	typdesc	goto 525
 
-	.	reduce by rule 198
+	.	reduce by rule 199
 
 
 state 485:
@@ -7171,7 +7174,7 @@ state 485:
 
 	AND_valdesc_opt	goto 526
 
-	.	reduce by rule 282
+	.	reduce by rule 283
 
 
 state 486:
@@ -7190,16 +7193,16 @@ state 486:
 	atty	goto 158
 	tyseq	goto 157
 
-	.	reduce by rule 193
+	.	reduce by rule 194
 
 
 state 487:
 
-	exdesc : vid' OF_ty_opt AND_exdesc_opt .  (reduce by rule 297)
+	exdesc : vid' OF_ty_opt AND_exdesc_opt .  (reduce by rule 298)
 
 
 
-	.	reduce by rule 297
+	.	reduce by rule 298
 
 
 state 488:
@@ -7238,7 +7241,7 @@ state 490:
 
 	AND_datdesc_opt	goto 531
 
-	.	reduce by rule 293
+	.	reduce by rule 294
 
 
 state 491:
@@ -7249,7 +7252,7 @@ state 491:
 
 	OF_ty_opt	goto 533
 
-	.	reduce by rule 135
+	.	reduce by rule 136
 
 
 state 492:
@@ -7268,20 +7271,20 @@ state 492:
 
 state 493:
 
-	COMMA_patrow_opt : COMMA patrow .  (reduce by rule 157)
+	COMMA_patrow_opt : COMMA patrow .  (reduce by rule 158)
 
 
 
-	.	reduce by rule 157
+	.	reduce by rule 158
 
 
 state 494:
 
-	AND_typbind_opt : AND typbind .  (reduce by rule 124)
+	AND_typbind_opt : AND typbind .  (reduce by rule 125)
 
 
 
-	.	reduce by rule 124
+	.	reduce by rule 125
 
 
 state 495:
@@ -7296,20 +7299,20 @@ state 495:
 
 state 496:
 
-	exp_SEMICOLON_list1 : exp SEMICOLON exp_SEMICOLON_list1 .  (reduce by rule 58)
+	exp_SEMICOLON_list1 : exp SEMICOLON exp_SEMICOLON_list1 .  (reduce by rule 59)
 
 
 
-	.	reduce by rule 58
+	.	reduce by rule 59
 
 
 state 497:
 
-	atexp : LET pushInfix dec IN exp_SEMICOLON_list1 popInfix END .  (reduce by rule 51)
+	atexp : LET pushInfix dec IN exp_SEMICOLON_list1 popInfix END .  (reduce by rule 52)
 
 
 
-	.	reduce by rule 51
+	.	reduce by rule 52
 
 
 state 498:
@@ -7333,25 +7336,25 @@ state 498:
 	dec1	goto 218
 	dec1'	goto 217
 
-	.	reduce by rule 85
+	.	reduce by rule 86
 
 
 state 499:
 
-	exbind : OP_opt vid' EQUALS OP_opt longvid AND_exbind_opt .  (reduce by rule 137)
+	exbind : OP_opt vid' EQUALS OP_opt longvid AND_exbind_opt .  (reduce by rule 138)
 
 
 
-	.	reduce by rule 137
+	.	reduce by rule 138
 
 
 state 500:
 
-	conbind : OP_opt vid' OF_ty_opt BAR_conbind_opt .  (reduce by rule 131)
+	conbind : OP_opt vid' OF_ty_opt BAR_conbind_opt .  (reduce by rule 132)
 
 
 
-	.	reduce by rule 131
+	.	reduce by rule 132
 
 
 state 501:
@@ -7363,25 +7366,25 @@ state 501:
 	OP_opt	goto 318
 	conbind	goto 537
 
-	.	reduce by rule 42
+	.	reduce by rule 43
 
 
 state 502:
 
-	COMMA_tyrow_opt : COMMA tyrow .  (reduce by rule 188)
+	COMMA_tyrow_opt : COMMA tyrow .  (reduce by rule 189)
 
 
 
-	.	reduce by rule 188
+	.	reduce by rule 189
 
 
 state 503:
 
-	sigexp__AND_strbind_opt : sigexp' AND_strbind_opt .  (reduce by rule 226)
+	sigexp__AND_strbind_opt : sigexp' AND_strbind_opt .  (reduce by rule 227)
 
 
 
-	.	reduce by rule 226
+	.	reduce by rule 227
 
 
 state 504:
@@ -7399,11 +7402,11 @@ state 504:
 
 state 505:
 
-	strexp' : funid LPAR strdec RPAR .  (reduce by rule 209)
+	strexp' : funid LPAR strdec RPAR .  (reduce by rule 210)
 
 
 
-	.	reduce by rule 209
+	.	reduce by rule 210
 
 
 state 506:
@@ -7436,11 +7439,11 @@ state 507:
 
 state 508:
 
-	strexp' : funid LPAR strexp RPAR .  (reduce by rule 208)
+	strexp' : funid LPAR strexp RPAR .  (reduce by rule 209)
 
 
 
-	.	reduce by rule 208
+	.	reduce by rule 209
 
 
 state 509:
@@ -7494,36 +7497,36 @@ state 512:
 
 state 513:
 
-	funbind : funid LPAR spec RPAR COLON_sigexp_opt EQUALS strexp__AND_funbind_opt .  (reduce by rule 311)
+	funbind : funid LPAR spec RPAR COLON_sigexp_opt EQUALS strexp__AND_funbind_opt .  (reduce by rule 312)
 
 
 
-	.	reduce by rule 311
+	.	reduce by rule 312
 
 
 state 514:
 
-	strexp : strexp' .  (reduce by rule 203)
+	strexp : strexp' .  (reduce by rule 204)
 	strexp__AND_funbind_opt : strexp' . AND_funbind_opt 
 
-	ABSTYPE	reduce by rule 314
+	ABSTYPE	reduce by rule 315
 	AND	shift 547
-	DATATYPE	reduce by rule 314
-	EXCEPTION	reduce by rule 314
-	FUN	reduce by rule 314
-	INFIX	reduce by rule 314
-	INFIXR	reduce by rule 314
-	LOCAL	reduce by rule 314
-	NONFIX	reduce by rule 314
-	OPEN	reduce by rule 314
-	TYPE	reduce by rule 314
-	VAL	reduce by rule 314
-	COLON	reduce by rule 203
-	SEMICOLON	reduce by rule 314
-	FUNCTOR	reduce by rule 314
-	SIGNATURE	reduce by rule 314
-	STRUCTURE	reduce by rule 314
-	SEAL	reduce by rule 203
+	DATATYPE	reduce by rule 315
+	EXCEPTION	reduce by rule 315
+	FUN	reduce by rule 315
+	INFIX	reduce by rule 315
+	INFIXR	reduce by rule 315
+	LOCAL	reduce by rule 315
+	NONFIX	reduce by rule 315
+	OPEN	reduce by rule 315
+	TYPE	reduce by rule 315
+	VAL	reduce by rule 315
+	COLON	reduce by rule 204
+	SEMICOLON	reduce by rule 315
+	FUNCTOR	reduce by rule 315
+	SIGNATURE	reduce by rule 315
+	STRUCTURE	reduce by rule 315
+	SEAL	reduce by rule 204
 
 	AND_funbind_opt	goto 546
 
@@ -7589,11 +7592,11 @@ state 518:
 
 state 519:
 
-	sigexp__AND_strdesc_opt : sigexp' AND_strdesc_opt .  (reduce by rule 303)
+	sigexp__AND_strdesc_opt : sigexp' AND_strdesc_opt .  (reduce by rule 304)
 
 
 
-	.	reduce by rule 303
+	.	reduce by rule 304
 
 
 state 520:
@@ -7637,40 +7640,40 @@ state 522:
 
 state 523:
 
-	longtycon_EQUALS_list2 : longtycon EQUALS longtycon_EQUALS_list1 .  (reduce by rule 276)
+	longtycon_EQUALS_list2 : longtycon EQUALS longtycon_EQUALS_list1 .  (reduce by rule 277)
 
 
 
-	.	reduce by rule 276
+	.	reduce by rule 277
 
 
 state 524:
 
 	longtycon_EQUALS_list1 : longtycon . EQUALS longtycon_EQUALS_list1 
-	longtycon_EQUALS_list1 : longtycon .  (reduce by rule 275)
+	longtycon_EQUALS_list1 : longtycon .  (reduce by rule 276)
 
 	EQUALS	shift 557
 
 
-	.	reduce by rule 275
+	.	reduce by rule 276
 
 
 state 525:
 
-	AND_typdesc_opt : AND typdesc .  (reduce by rule 284)
+	AND_typdesc_opt : AND typdesc .  (reduce by rule 285)
 
 
 
-	.	reduce by rule 284
+	.	reduce by rule 285
 
 
 state 526:
 
-	valdesc : vid' COLON ty AND_valdesc_opt .  (reduce by rule 280)
+	valdesc : vid' COLON ty AND_valdesc_opt .  (reduce by rule 281)
 
 
 
-	.	reduce by rule 280
+	.	reduce by rule 281
 
 
 state 527:
@@ -7695,16 +7698,16 @@ state 528:
 
 	AND_syndesc_opt	goto 559
 
-	.	reduce by rule 288
+	.	reduce by rule 289
 
 
 state 529:
 
-	AND_exdesc_opt : AND exdesc .  (reduce by rule 298)
+	AND_exdesc_opt : AND exdesc .  (reduce by rule 299)
 
 
 
-	.	reduce by rule 298
+	.	reduce by rule 299
 
 
 state 530:
@@ -7715,16 +7718,16 @@ state 530:
 
 	AND_datdesc_opt	goto 561
 
-	.	reduce by rule 293
+	.	reduce by rule 294
 
 
 state 531:
 
-	datdesc0 : tycon EQUALS condesc AND_datdesc_opt .  (reduce by rule 290)
+	datdesc0 : tycon EQUALS condesc AND_datdesc_opt .  (reduce by rule 291)
 
 
 
-	.	reduce by rule 290
+	.	reduce by rule 291
 
 
 state 532:
@@ -7739,7 +7742,7 @@ state 532:
 	tyvarseq1	goto 110
 	datdesc	goto 562
 
-	.	reduce by rule 198
+	.	reduce by rule 199
 
 
 state 533:
@@ -7750,25 +7753,25 @@ state 533:
 
 	BAR_condesc_opt	goto 564
 
-	.	reduce by rule 296
+	.	reduce by rule 297
 
 
 state 534:
 
-	spec1'' : DATATYPE tycon EQUALS DATATYPE longtycon .  (reduce by rule 267)
+	spec1'' : DATATYPE tycon EQUALS DATATYPE longtycon .  (reduce by rule 268)
 
 
 
-	.	reduce by rule 267
+	.	reduce by rule 268
 
 
 state 535:
 
-	strdec1' : LOCAL pushInfix strdec IN pushLocalInfix strdec popLocalInfix END .  (reduce by rule 218)
+	strdec1' : LOCAL pushInfix strdec IN pushLocalInfix strdec popLocalInfix END .  (reduce by rule 219)
 
 
 
-	.	reduce by rule 218
+	.	reduce by rule 219
 
 
 state 536:
@@ -7783,20 +7786,20 @@ state 536:
 
 state 537:
 
-	BAR_conbind_opt : BAR conbind .  (reduce by rule 132)
+	BAR_conbind_opt : BAR conbind .  (reduce by rule 133)
 
 
 
-	.	reduce by rule 132
+	.	reduce by rule 133
 
 
 state 538:
 
-	sigexp__AND_strbind_opt : sigexp WHERE tyreadesc__AND_strbind_opt .  (reduce by rule 227)
+	sigexp__AND_strbind_opt : sigexp WHERE tyreadesc__AND_strbind_opt .  (reduce by rule 228)
 
 
 
-	.	reduce by rule 227
+	.	reduce by rule 228
 
 
 state 539:
@@ -7811,12 +7814,23 @@ state 539:
 	tyvarseq	goto 567
 	tyvarseq1	goto 110
 
-	.	reduce by rule 198
+	.	reduce by rule 199
 
 
 state 540:
 
-	strexp : strexp SEAL sigexp .  (reduce by rule 205)
+	strexp : strexp SEAL sigexp .  (reduce by rule 206)
+	sigexp : sigexp . WHERE tyreadesc 
+
+	WHERE	shift 338
+
+
+	.	reduce by rule 206
+
+
+state 541:
+
+	strexp : strexp COLON sigexp .  (reduce by rule 205)
 	sigexp : sigexp . WHERE tyreadesc 
 
 	WHERE	shift 338
@@ -7825,24 +7839,13 @@ state 540:
 	.	reduce by rule 205
 
 
-state 541:
-
-	strexp : strexp COLON sigexp .  (reduce by rule 204)
-	sigexp : sigexp . WHERE tyreadesc 
-
-	WHERE	shift 338
-
-
-	.	reduce by rule 204
-
-
 state 542:
 
-	strexp' : STRUCT pushInfix strdec popInfix END .  (reduce by rule 206)
+	strexp' : STRUCT pushInfix strdec popInfix END .  (reduce by rule 207)
 
 
 
-	.	reduce by rule 206
+	.	reduce by rule 207
 
 
 state 543:
@@ -7875,7 +7878,7 @@ state 544:
 	atty	goto 158
 	tyseq	goto 157
 
-	.	reduce by rule 193
+	.	reduce by rule 194
 
 
 state 545:
@@ -7895,16 +7898,16 @@ state 545:
 	atty	goto 158
 	tyseq	goto 157
 
-	.	reduce by rule 193
+	.	reduce by rule 194
 
 
 state 546:
 
-	strexp__AND_funbind_opt : strexp' AND_funbind_opt .  (reduce by rule 315)
+	strexp__AND_funbind_opt : strexp' AND_funbind_opt .  (reduce by rule 316)
 
 
 
-	.	reduce by rule 315
+	.	reduce by rule 316
 
 
 state 547:
@@ -7953,11 +7956,11 @@ state 549:
 
 state 550:
 
-	funbind : funid LPAR spec RPAR SEAL sigexp EQUALS strexp__AND_funbind_opt .  (reduce by rule 312)
+	funbind : funid LPAR spec RPAR SEAL sigexp EQUALS strexp__AND_funbind_opt .  (reduce by rule 313)
 
 
 
-	.	reduce by rule 312
+	.	reduce by rule 313
 
 
 state 551:
@@ -7993,20 +7996,20 @@ state 552:
 
 state 553:
 
-	AND_strdesc_opt : AND strdesc .  (reduce by rule 301)
+	AND_strdesc_opt : AND strdesc .  (reduce by rule 302)
 
 
 
-	.	reduce by rule 301
+	.	reduce by rule 302
 
 
 state 554:
 
-	sigexp__AND_strdesc_opt : sigexp WHERE tyreadesc__AND_strdesc_opt .  (reduce by rule 304)
+	sigexp__AND_strdesc_opt : sigexp WHERE tyreadesc__AND_strdesc_opt .  (reduce by rule 305)
 
 
 
-	.	reduce by rule 304
+	.	reduce by rule 305
 
 
 state 555:
@@ -8021,16 +8024,16 @@ state 555:
 	tyvarseq	goto 579
 	tyvarseq1	goto 110
 
-	.	reduce by rule 198
+	.	reduce by rule 199
 
 
 state 556:
 
-	longstrid_EQUALS_list1 : longstrid EQUALS longstrid_EQUALS_list1 .  (reduce by rule 277)
+	longstrid_EQUALS_list1 : longstrid EQUALS longstrid_EQUALS_list1 .  (reduce by rule 278)
 
 
 
-	.	reduce by rule 277
+	.	reduce by rule 278
 
 
 state 557:
@@ -8050,20 +8053,20 @@ state 557:
 
 state 558:
 
-	AND_valdesc_opt : AND valdesc .  (reduce by rule 281)
+	AND_valdesc_opt : AND valdesc .  (reduce by rule 282)
 
 
 
-	.	reduce by rule 281
+	.	reduce by rule 282
 
 
 state 559:
 
-	syndesc : tyvarseq tycon EQUALS ty AND_syndesc_opt .  (reduce by rule 286)
+	syndesc : tyvarseq tycon EQUALS ty AND_syndesc_opt .  (reduce by rule 287)
 
 
 
-	.	reduce by rule 286
+	.	reduce by rule 287
 
 
 state 560:
@@ -8078,25 +8081,25 @@ state 560:
 	tyvarseq1	goto 110
 	syndesc	goto 581
 
-	.	reduce by rule 198
+	.	reduce by rule 199
 
 
 state 561:
 
-	datdesc1 : tyvarseq1 tycon EQUALS condesc AND_datdesc_opt .  (reduce by rule 291)
-
-
-
-	.	reduce by rule 291
-
-
-state 562:
-
-	AND_datdesc_opt : AND datdesc .  (reduce by rule 292)
+	datdesc1 : tyvarseq1 tycon EQUALS condesc AND_datdesc_opt .  (reduce by rule 292)
 
 
 
 	.	reduce by rule 292
+
+
+state 562:
+
+	AND_datdesc_opt : AND datdesc .  (reduce by rule 293)
+
+
+
+	.	reduce by rule 293
 
 
 state 563:
@@ -8113,11 +8116,11 @@ state 563:
 
 state 564:
 
-	condesc : vid' OF_ty_opt BAR_condesc_opt .  (reduce by rule 294)
+	condesc : vid' OF_ty_opt BAR_condesc_opt .  (reduce by rule 295)
 
 
 
-	.	reduce by rule 294
+	.	reduce by rule 295
 
 
 state 565:
@@ -8177,7 +8180,7 @@ state 569:
 
 	AND_tyreadesc_opt	goto 588
 
-	.	reduce by rule 248
+	.	reduce by rule 249
 
 
 state 570:
@@ -8185,23 +8188,23 @@ state 570:
 	tyreadesc__AND_sigbind_opt : TYPE tyvarseq longtycon EQUALS ty . AND_tyreadesc_opt__AND_sigbind_opt 
 	tyreadesc : TYPE tyvarseq longtycon EQUALS ty . AND_tyreadesc_opt 
 
-	ABSTYPE	reduce by rule 240
+	ABSTYPE	reduce by rule 241
 	AND	shift 592
-	DATATYPE	reduce by rule 240
-	EXCEPTION	reduce by rule 240
-	FUN	reduce by rule 240
-	INFIX	reduce by rule 240
-	INFIXR	reduce by rule 240
-	LOCAL	reduce by rule 240
-	NONFIX	reduce by rule 240
-	OPEN	reduce by rule 240
-	TYPE	reduce by rule 240
-	VAL	reduce by rule 240
-	SEMICOLON	reduce by rule 240
-	FUNCTOR	reduce by rule 240
-	SIGNATURE	reduce by rule 240
-	STRUCTURE	reduce by rule 240
-	WHERE	reduce by rule 248
+	DATATYPE	reduce by rule 241
+	EXCEPTION	reduce by rule 241
+	FUN	reduce by rule 241
+	INFIX	reduce by rule 241
+	INFIXR	reduce by rule 241
+	LOCAL	reduce by rule 241
+	NONFIX	reduce by rule 241
+	OPEN	reduce by rule 241
+	TYPE	reduce by rule 241
+	VAL	reduce by rule 241
+	SEMICOLON	reduce by rule 241
+	FUNCTOR	reduce by rule 241
+	SIGNATURE	reduce by rule 241
+	STRUCTURE	reduce by rule 241
+	WHERE	reduce by rule 249
 
 	AND_sigbind_opt	goto 591
 	AND_tyreadesc_opt__AND_sigbind_opt	goto 590
@@ -8212,46 +8215,46 @@ state 570:
 
 state 571:
 
-	AND_funbind_opt : AND funbind .  (reduce by rule 313)
+	AND_funbind_opt : AND funbind .  (reduce by rule 314)
 
 
 
-	.	reduce by rule 313
+	.	reduce by rule 314
 
 
 state 572:
 
-	strexp__AND_funbind_opt : strexp SEAL sigexp__AND_funbind_opt .  (reduce by rule 317)
+	strexp__AND_funbind_opt : strexp SEAL sigexp__AND_funbind_opt .  (reduce by rule 318)
 
 
 
-	.	reduce by rule 317
+	.	reduce by rule 318
 
 
 state 573:
 
-	sigexp : sigexp' .  (reduce by rule 233)
+	sigexp : sigexp' .  (reduce by rule 234)
 	sigexp__AND_funbind_opt : sigexp' . AND_funbind_opt 
 
-	ABSTYPE	reduce by rule 314
+	ABSTYPE	reduce by rule 315
 	AND	shift 547
-	DATATYPE	reduce by rule 314
-	EXCEPTION	reduce by rule 314
-	FUN	reduce by rule 314
-	INFIX	reduce by rule 314
-	INFIXR	reduce by rule 314
-	LOCAL	reduce by rule 314
-	NONFIX	reduce by rule 314
-	OPEN	reduce by rule 314
-	TYPE	reduce by rule 314
-	VAL	reduce by rule 314
-	COLON	reduce by rule 233
-	SEMICOLON	reduce by rule 314
-	FUNCTOR	reduce by rule 314
-	SIGNATURE	reduce by rule 314
-	STRUCTURE	reduce by rule 314
-	WHERE	reduce by rule 233
-	SEAL	reduce by rule 233
+	DATATYPE	reduce by rule 315
+	EXCEPTION	reduce by rule 315
+	FUN	reduce by rule 315
+	INFIX	reduce by rule 315
+	INFIXR	reduce by rule 315
+	LOCAL	reduce by rule 315
+	NONFIX	reduce by rule 315
+	OPEN	reduce by rule 315
+	TYPE	reduce by rule 315
+	VAL	reduce by rule 315
+	COLON	reduce by rule 234
+	SEMICOLON	reduce by rule 315
+	FUNCTOR	reduce by rule 315
+	SIGNATURE	reduce by rule 315
+	STRUCTURE	reduce by rule 315
+	WHERE	reduce by rule 234
+	SEAL	reduce by rule 234
 
 	AND_funbind_opt	goto 593
 
@@ -8260,7 +8263,28 @@ state 573:
 
 state 574:
 
-	strexp : strexp SEAL sigexp .  (reduce by rule 205)
+	strexp : strexp SEAL sigexp .  (reduce by rule 206)
+	sigexp : sigexp . WHERE tyreadesc 
+	sigexp__AND_funbind_opt : sigexp . WHERE tyreadesc__AND_funbind_opt 
+
+	WHERE	shift 594
+
+
+	.	reduce by rule 206
+
+
+state 575:
+
+	strexp__AND_funbind_opt : strexp COLON sigexp__AND_funbind_opt .  (reduce by rule 317)
+
+
+
+	.	reduce by rule 317
+
+
+state 576:
+
+	strexp : strexp COLON sigexp .  (reduce by rule 205)
 	sigexp : sigexp . WHERE tyreadesc 
 	sigexp__AND_funbind_opt : sigexp . WHERE tyreadesc__AND_funbind_opt 
 
@@ -8270,34 +8294,13 @@ state 574:
 	.	reduce by rule 205
 
 
-state 575:
-
-	strexp__AND_funbind_opt : strexp COLON sigexp__AND_funbind_opt .  (reduce by rule 316)
-
-
-
-	.	reduce by rule 316
-
-
-state 576:
-
-	strexp : strexp COLON sigexp .  (reduce by rule 204)
-	sigexp : sigexp . WHERE tyreadesc 
-	sigexp__AND_funbind_opt : sigexp . WHERE tyreadesc__AND_funbind_opt 
-
-	WHERE	shift 594
-
-
-	.	reduce by rule 204
-
-
 state 577:
 
-	funbind : funid LPAR strid COLON sigexp RPAR COLON_sigexp_opt EQUALS strexp__AND_funbind_opt .  (reduce by rule 309)
+	funbind : funid LPAR strid COLON sigexp RPAR COLON_sigexp_opt EQUALS strexp__AND_funbind_opt .  (reduce by rule 310)
 
 
 
-	.	reduce by rule 309
+	.	reduce by rule 310
 
 
 state 578:
@@ -8336,20 +8339,20 @@ state 579:
 
 state 580:
 
-	longtycon_EQUALS_list1 : longtycon EQUALS longtycon_EQUALS_list1 .  (reduce by rule 274)
+	longtycon_EQUALS_list1 : longtycon EQUALS longtycon_EQUALS_list1 .  (reduce by rule 275)
 
 
 
-	.	reduce by rule 274
+	.	reduce by rule 275
 
 
 state 581:
 
-	AND_syndesc_opt : AND syndesc .  (reduce by rule 287)
+	AND_syndesc_opt : AND syndesc .  (reduce by rule 288)
 
 
 
-	.	reduce by rule 287
+	.	reduce by rule 288
 
 
 state 582:
@@ -8376,20 +8379,20 @@ state 583:
 
 state 584:
 
-	BAR_condesc_opt : BAR condesc .  (reduce by rule 295)
+	BAR_condesc_opt : BAR condesc .  (reduce by rule 296)
 
 
 
-	.	reduce by rule 295
+	.	reduce by rule 296
 
 
 state 585:
 
-	dec1 : LOCAL pushInfix dec IN pushLocalInfix dec popLocalInfix END .  (reduce by rule 87)
+	dec1 : LOCAL pushInfix dec IN pushLocalInfix dec popLocalInfix END .  (reduce by rule 88)
 
 
 
-	.	reduce by rule 87
+	.	reduce by rule 88
 
 
 state 586:
@@ -8405,20 +8408,20 @@ state 586:
 
 state 587:
 
-	strexp' : LET pushInfix strdec IN strexp popInfix END .  (reduce by rule 210)
+	strexp' : LET pushInfix strdec IN strexp popInfix END .  (reduce by rule 211)
 
 
 
-	.	reduce by rule 210
+	.	reduce by rule 211
 
 
 state 588:
 
-	tyreadesc : TYPE tyvarseq longtycon EQUALS ty AND_tyreadesc_opt .  (reduce by rule 246)
+	tyreadesc : TYPE tyvarseq longtycon EQUALS ty AND_tyreadesc_opt .  (reduce by rule 247)
 
 
 
-	.	reduce by rule 246
+	.	reduce by rule 247
 
 
 state 589:
@@ -8434,20 +8437,20 @@ state 589:
 
 state 590:
 
-	tyreadesc__AND_sigbind_opt : TYPE tyvarseq longtycon EQUALS ty AND_tyreadesc_opt__AND_sigbind_opt .  (reduce by rule 243)
-
-
-
-	.	reduce by rule 243
-
-
-state 591:
-
-	AND_tyreadesc_opt__AND_sigbind_opt : AND_sigbind_opt .  (reduce by rule 244)
+	tyreadesc__AND_sigbind_opt : TYPE tyvarseq longtycon EQUALS ty AND_tyreadesc_opt__AND_sigbind_opt .  (reduce by rule 244)
 
 
 
 	.	reduce by rule 244
+
+
+state 591:
+
+	AND_tyreadesc_opt__AND_sigbind_opt : AND_sigbind_opt .  (reduce by rule 245)
+
+
+
+	.	reduce by rule 245
 
 
 state 592:
@@ -8469,11 +8472,11 @@ state 592:
 
 state 593:
 
-	sigexp__AND_funbind_opt : sigexp' AND_funbind_opt .  (reduce by rule 318)
+	sigexp__AND_funbind_opt : sigexp' AND_funbind_opt .  (reduce by rule 319)
 
 
 
-	.	reduce by rule 318
+	.	reduce by rule 319
 
 
 state 594:
@@ -8491,11 +8494,11 @@ state 594:
 
 state 595:
 
-	funbind : funid LPAR strid COLON sigexp RPAR SEAL sigexp EQUALS strexp__AND_funbind_opt .  (reduce by rule 310)
+	funbind : funid LPAR strid COLON sigexp RPAR SEAL sigexp EQUALS strexp__AND_funbind_opt .  (reduce by rule 311)
 
 
 
-	.	reduce by rule 310
+	.	reduce by rule 311
 
 
 state 596:
@@ -8550,34 +8553,34 @@ state 599:
 	atty	goto 158
 	tyseq	goto 157
 
-	.	reduce by rule 193
+	.	reduce by rule 194
 
 
 state 600:
 
-	AND_tyreadesc_opt : AND tyreadesc .  (reduce by rule 247)
+	AND_tyreadesc_opt : AND tyreadesc .  (reduce by rule 248)
 
 
 
-	.	reduce by rule 247
+	.	reduce by rule 248
 
 
 state 601:
 
-	AND_tyreadesc_opt__AND_sigbind_opt : AND tyreadesc__AND_sigbind_opt .  (reduce by rule 245)
+	AND_tyreadesc_opt__AND_sigbind_opt : AND tyreadesc__AND_sigbind_opt .  (reduce by rule 246)
 
 
 
-	.	reduce by rule 245
+	.	reduce by rule 246
 
 
 state 602:
 
-	sigexp__AND_funbind_opt : sigexp WHERE tyreadesc__AND_funbind_opt .  (reduce by rule 319)
+	sigexp__AND_funbind_opt : sigexp WHERE tyreadesc__AND_funbind_opt .  (reduce by rule 320)
 
 
 
-	.	reduce by rule 319
+	.	reduce by rule 320
 
 
 state 603:
@@ -8592,7 +8595,7 @@ state 603:
 	tyvarseq	goto 607
 	tyvarseq1	goto 110
 
-	.	reduce by rule 198
+	.	reduce by rule 199
 
 
 state 604:
@@ -8612,7 +8615,7 @@ state 604:
 	atty	goto 158
 	tyseq	goto 157
 
-	.	reduce by rule 193
+	.	reduce by rule 194
 
 
 state 605:
@@ -8623,7 +8626,7 @@ state 605:
 
 	AND_datdesc_opt	goto 609
 
-	.	reduce by rule 293
+	.	reduce by rule 294
 
 
 state 606:
@@ -8631,28 +8634,28 @@ state 606:
 	tyreadesc__AND_strbind_opt : TYPE tyvarseq longtycon EQUALS ty . AND_tyreadesc_opt__AND_strbind_opt 
 	tyreadesc : TYPE tyvarseq longtycon EQUALS ty . AND_tyreadesc_opt 
 
-	ABSTYPE	reduce by rule 222
+	ABSTYPE	reduce by rule 223
 	AND	shift 612
-	DATATYPE	reduce by rule 222
-	END	reduce by rule 222
-	EXCEPTION	reduce by rule 222
-	FUN	reduce by rule 222
-	IN	reduce by rule 222
-	INFIX	reduce by rule 222
-	INFIXR	reduce by rule 222
-	LOCAL	reduce by rule 222
-	NONFIX	reduce by rule 222
-	OPEN	reduce by rule 222
-	TYPE	reduce by rule 222
-	VAL	reduce by rule 222
-	RPAR	reduce by rule 222
-	COLON	reduce by rule 248
-	SEMICOLON	reduce by rule 222
-	FUNCTOR	reduce by rule 222
-	SIGNATURE	reduce by rule 222
-	STRUCTURE	reduce by rule 222
-	WHERE	reduce by rule 248
-	SEAL	reduce by rule 248
+	DATATYPE	reduce by rule 223
+	END	reduce by rule 223
+	EXCEPTION	reduce by rule 223
+	FUN	reduce by rule 223
+	IN	reduce by rule 223
+	INFIX	reduce by rule 223
+	INFIXR	reduce by rule 223
+	LOCAL	reduce by rule 223
+	NONFIX	reduce by rule 223
+	OPEN	reduce by rule 223
+	TYPE	reduce by rule 223
+	VAL	reduce by rule 223
+	RPAR	reduce by rule 223
+	COLON	reduce by rule 249
+	SEMICOLON	reduce by rule 223
+	FUNCTOR	reduce by rule 223
+	SIGNATURE	reduce by rule 223
+	STRUCTURE	reduce by rule 223
+	WHERE	reduce by rule 249
+	SEAL	reduce by rule 249
 
 	AND_strbind_opt	goto 611
 	AND_tyreadesc_opt__AND_strbind_opt	goto 610
@@ -8682,18 +8685,18 @@ state 608:
 	tyreadesc__AND_strdesc_opt : TYPE tyvarseq longtycon EQUALS ty . AND_tyreadesc_opt__AND_strdesc_opt 
 
 	AND	shift 616
-	DATATYPE	reduce by rule 302
-	END	reduce by rule 302
-	EXCEPTION	reduce by rule 302
-	TYPE	reduce by rule 302
-	VAL	reduce by rule 302
-	RPAR	reduce by rule 302
-	SEMICOLON	reduce by rule 302
-	EQTYPE	reduce by rule 302
-	INCLUDE	reduce by rule 302
-	SHARING	reduce by rule 302
-	STRUCTURE	reduce by rule 302
-	WHERE	reduce by rule 248
+	DATATYPE	reduce by rule 303
+	END	reduce by rule 303
+	EXCEPTION	reduce by rule 303
+	TYPE	reduce by rule 303
+	VAL	reduce by rule 303
+	RPAR	reduce by rule 303
+	SEMICOLON	reduce by rule 303
+	EQTYPE	reduce by rule 303
+	INCLUDE	reduce by rule 303
+	SHARING	reduce by rule 303
+	STRUCTURE	reduce by rule 303
+	WHERE	reduce by rule 249
 
 	AND_tyreadesc_opt	goto 588
 	AND_strdesc_opt	goto 615
@@ -8704,29 +8707,29 @@ state 608:
 
 state 609:
 
-	datdesc : tyvarseq tycon EQUALS condesc AND_datdesc_opt .  (reduce by rule 289)
+	datdesc : tyvarseq tycon EQUALS condesc AND_datdesc_opt .  (reduce by rule 290)
 
 
 
-	.	reduce by rule 289
+	.	reduce by rule 290
 
 
 state 610:
 
-	tyreadesc__AND_strbind_opt : TYPE tyvarseq longtycon EQUALS ty AND_tyreadesc_opt__AND_strbind_opt .  (reduce by rule 228)
-
-
-
-	.	reduce by rule 228
-
-
-state 611:
-
-	AND_tyreadesc_opt__AND_strbind_opt : AND_strbind_opt .  (reduce by rule 229)
+	tyreadesc__AND_strbind_opt : TYPE tyvarseq longtycon EQUALS ty AND_tyreadesc_opt__AND_strbind_opt .  (reduce by rule 229)
 
 
 
 	.	reduce by rule 229
+
+
+state 611:
+
+	AND_tyreadesc_opt__AND_strbind_opt : AND_strbind_opt .  (reduce by rule 230)
+
+
+
+	.	reduce by rule 230
 
 
 state 612:
@@ -8759,20 +8762,20 @@ state 613:
 
 state 614:
 
-	tyreadesc__AND_strdesc_opt : TYPE tyvarseq longtycon EQUALS ty AND_tyreadesc_opt__AND_strdesc_opt .  (reduce by rule 305)
-
-
-
-	.	reduce by rule 305
-
-
-state 615:
-
-	AND_tyreadesc_opt__AND_strdesc_opt : AND_strdesc_opt .  (reduce by rule 306)
+	tyreadesc__AND_strdesc_opt : TYPE tyvarseq longtycon EQUALS ty AND_tyreadesc_opt__AND_strdesc_opt .  (reduce by rule 306)
 
 
 
 	.	reduce by rule 306
+
+
+state 615:
+
+	AND_tyreadesc_opt__AND_strdesc_opt : AND_strdesc_opt .  (reduce by rule 307)
+
+
+
+	.	reduce by rule 307
 
 
 state 616:
@@ -8794,11 +8797,11 @@ state 616:
 
 state 617:
 
-	AND_tyreadesc_opt__AND_strbind_opt : AND tyreadesc__AND_strbind_opt .  (reduce by rule 230)
+	AND_tyreadesc_opt__AND_strbind_opt : AND tyreadesc__AND_strbind_opt .  (reduce by rule 231)
 
 
 
-	.	reduce by rule 230
+	.	reduce by rule 231
 
 
 state 618:
@@ -8818,16 +8821,16 @@ state 618:
 	atty	goto 158
 	tyseq	goto 157
 
-	.	reduce by rule 193
+	.	reduce by rule 194
 
 
 state 619:
 
-	AND_tyreadesc_opt__AND_strdesc_opt : AND tyreadesc__AND_strdesc_opt .  (reduce by rule 307)
+	AND_tyreadesc_opt__AND_strdesc_opt : AND tyreadesc__AND_strdesc_opt .  (reduce by rule 308)
 
 
 
-	.	reduce by rule 307
+	.	reduce by rule 308
 
 
 state 620:
@@ -8835,25 +8838,25 @@ state 620:
 	tyreadesc : TYPE tyvarseq longtycon EQUALS ty . AND_tyreadesc_opt 
 	tyreadesc__AND_funbind_opt : TYPE tyvarseq longtycon EQUALS ty . AND_tyreadesc_opt__AND_funbind_opt 
 
-	ABSTYPE	reduce by rule 314
+	ABSTYPE	reduce by rule 315
 	AND	shift 623
-	DATATYPE	reduce by rule 314
-	EXCEPTION	reduce by rule 314
-	FUN	reduce by rule 314
-	INFIX	reduce by rule 314
-	INFIXR	reduce by rule 314
-	LOCAL	reduce by rule 314
-	NONFIX	reduce by rule 314
-	OPEN	reduce by rule 314
-	TYPE	reduce by rule 314
-	VAL	reduce by rule 314
-	COLON	reduce by rule 248
-	SEMICOLON	reduce by rule 314
-	FUNCTOR	reduce by rule 314
-	SIGNATURE	reduce by rule 314
-	STRUCTURE	reduce by rule 314
-	WHERE	reduce by rule 248
-	SEAL	reduce by rule 248
+	DATATYPE	reduce by rule 315
+	EXCEPTION	reduce by rule 315
+	FUN	reduce by rule 315
+	INFIX	reduce by rule 315
+	INFIXR	reduce by rule 315
+	LOCAL	reduce by rule 315
+	NONFIX	reduce by rule 315
+	OPEN	reduce by rule 315
+	TYPE	reduce by rule 315
+	VAL	reduce by rule 315
+	COLON	reduce by rule 249
+	SEMICOLON	reduce by rule 315
+	FUNCTOR	reduce by rule 315
+	SIGNATURE	reduce by rule 315
+	STRUCTURE	reduce by rule 315
+	WHERE	reduce by rule 249
+	SEAL	reduce by rule 249
 
 	AND_tyreadesc_opt	goto 588
 	AND_funbind_opt	goto 622
@@ -8864,20 +8867,20 @@ state 620:
 
 state 621:
 
-	tyreadesc__AND_funbind_opt : TYPE tyvarseq longtycon EQUALS ty AND_tyreadesc_opt__AND_funbind_opt .  (reduce by rule 320)
-
-
-
-	.	reduce by rule 320
-
-
-state 622:
-
-	AND_tyreadesc_opt__AND_funbind_opt : AND_funbind_opt .  (reduce by rule 321)
+	tyreadesc__AND_funbind_opt : TYPE tyvarseq longtycon EQUALS ty AND_tyreadesc_opt__AND_funbind_opt .  (reduce by rule 321)
 
 
 
 	.	reduce by rule 321
+
+
+state 622:
+
+	AND_tyreadesc_opt__AND_funbind_opt : AND_funbind_opt .  (reduce by rule 322)
+
+
+
+	.	reduce by rule 322
 
 
 state 623:
@@ -8899,11 +8902,11 @@ state 623:
 
 state 624:
 
-	AND_tyreadesc_opt__AND_funbind_opt : AND tyreadesc__AND_funbind_opt .  (reduce by rule 322)
+	AND_tyreadesc_opt__AND_funbind_opt : AND tyreadesc__AND_funbind_opt .  (reduce by rule 323)
 
 
 
-	.	reduce by rule 322
+	.	reduce by rule 323
 
 
 state 625:

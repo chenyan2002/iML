@@ -28,6 +28,7 @@ sig
     type VId		= VId.Id
     type TyCon		= TyCon.Id
     type TyVar		= TyVar.TyVar
+    type LvVar          = LvVar.LvVar
     type StrId		= StrId.Id
     type longVId	= LongVId.longId
     type longTyCon	= LongTyCon.longId

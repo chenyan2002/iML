@@ -163,7 +163,11 @@
 	(* Identifiers [Section 2.4] *)
 	| ALPHA of string | SYMBOL of string | STAR
 	| TYVAR of string | ETYVAR of string
+        | LVVAR of string
 	| LONGID of string list * string
+
+         (* Levels *)
+       | STABLE | CHANGEABLE
 
 %keyword ABSTYPE AND ANDALSO AS CASE DO DATATYPE ELSE
 	 END EXCEPTION FN FUN HANDLE IF IN INFIX
@@ -207,6 +211,7 @@
 	|    vid'			of VId		(* excludes `=' *)
 	| tycon				of TyCon
 	| tyvar				of TyVar
+        | lvvar                         of LvVar        (* level variable *)
 	| strid				of StrId
 	| sigid				of SigId
 	| funid				of FunId
@@ -431,6 +436,8 @@
 	| SYMBOL	( TyCon.fromString SYMBOL )
 
   tyvar:  TYVAR		( TyVar.fromString TYVAR )
+
+  lvvar:  LVVAR         ( LvVar.fromString LVVAR )
 
   strid:  ALPHA		( StrId.fromString ALPHA )
 
