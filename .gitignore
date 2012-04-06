@@ -1,0 +1,9 @@
+Makefile.depend
+Makefile-alice.depend
+Makefile-dummy.depend
+Makefile-mosml.depend
+hamlet
+hamlet-image.x86-darwin
+hamlet-smlnj
+.cm/
+
