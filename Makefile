@@ -83,6 +83,9 @@ usage:
 	@${ECHO} "  make with-smlsharp (for SML# 0.20+)"
 	@${ECHO}
 
+def-use:
+	mlton -stop tc -prefer-abs-paths true -show-def-use hamlet.def-use sources.cm
+
 ################################################################################
 # Make dependencies
 
