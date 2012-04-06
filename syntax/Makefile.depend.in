@@ -1,0 +1,32 @@
+# Grammar
+GRAMMAR_CORE-sig.$(EXT) : SCon.$(EXT) Lab.$(EXT) IdsCore.$(EXT) TyVar.$(EXT)
+GRAMMAR_MODULE-sig.$(EXT) : GRAMMAR_CORE-sig.$(EXT) IdsModule.$(EXT)
+GRAMMAR_PROGRAM-sig.$(EXT) : GRAMMAR_MODULE-sig.$(EXT)
+GrammarCoreFn.$(EXT) : GRAMMAR_CORE-sig.$(EXT) SCon.$(EXT) Lab.$(EXT) IdsCore.$(EXT) TyVar.$(EXT)
+GrammarModuleFn.$(EXT) : GRAMMAR_CORE-sig.$(EXT) GRAMMAR_MODULE-sig.$(EXT) IdsCore.$(EXT) IdsModule.$(EXT)
+GrammarProgramFn.$(EXT) : GRAMMAR_MODULE-sig.$(EXT) GRAMMAR_PROGRAM-sig.$(EXT)
+Grammars.$(EXT) : Source.$(EXT) GrammarCoreFn.$(EXT) GrammarModuleFn.$(EXT) GrammarProgramFn.$(EXT)
+ID-sig.$(EXT) :
+IDSTATUS.$(EXT) :
+IdFn.$(EXT) : ID-sig.$(EXT) ../infrastructure/Stamp.$(EXT)
+IdStatus.$(EXT) : IDSTATUS-sig.$(EXT)
+IdsCore.$(EXT) : IdFn.$(EXT) LongIdFn.$(EXT) Lab.$(EXT) TyVar.$(EXT) ../infrastructure/FinMapFn.$(EXT)
+IdsModule.$(EXT) : IdFn.$(EXT) ../infrastructure/FinMapFn.$(EXT)
+LAB-sig.$(EXT) :
+LONGID-sig.$(EXT) : ID-sig.$(EXT)
+Lab.$(EXT) : LAB-sig.$(EXT) ../infrastructure/FinSetFn.$(EXT) ../infrastructure/FinMapFn.$(EXT)
+LongIdFn.$(EXT) : ID-sig.$(EXT) LONGID-sig.$(EXT)
+PPCore.$(EXT) : PP_CORE-sig.$(EXT) PPGrammar.$(EXT) Grammars.$(EXT) IdsCore.$(EXT) Lab.$(EXT) TyVar.$(EXT) SCon.$(EXT)
+PPGrammar.$(EXT) : PP_GRAMMAR-sig.$(EXT)
+PPModule.$(EXT) : PP_MODULE-sig.$(EXT) PPGrammar.$(EXT) PPCore.$(EXT) Grammars.$(EXT) IdsModule.$(EXT)
+PPProgram.$(EXT) : PP_PROGRAM-sig.$(EXT) PPGrammar.$(EXT) PPModule.$(EXT) Grammars.$(EXT)
+PP_CORE-sig.$(EXT) : Grammars.$(EXT) IdsCore.$(EXT)
+PP_GRAMMAR-sig.$(EXT) : Source.$(EXT)
+PP_MODULE-sig.$(EXT) : Grammars.$(EXT)
+PP_PROGRAM-sig.$(EXT) : Grammars.$(EXT)
+SCON-sig.$(EXT) : ../elab/TyName.$(EXT)
+SCon.$(EXT) : SCON-sig.$(EXT) ../elab/TyName.$(EXT)
+SOURCE-sig.$(EXT) :
+Source.$(EXT) : SOURCE-sig.$(EXT)
+TYVAR-sig.$(EXT) : ../elab/OverloadingClass.$(EXT)
+TyVar.$(EXT) : TYVAR-sig.$(EXT) ../elab/OverloadingClass.$(EXT) ../infrastructure/Stamp.$(EXT) ../infrastructure/FinSetFn.$(EXT) ../infrastructure/FinMapFn.$(EXT)

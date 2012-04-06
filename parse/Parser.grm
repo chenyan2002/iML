@@ -1,0 +1,1362 @@
+(*										*)
+(* (c) Andreas Rossberg 1999-2007						*)
+(*										*)
+(* Standard ML syntactical analysis						*)
+(*										*)
+(* Definition, Sections 2, 3, and 8, Appendix A and B				*)
+(*										*)
+(* Notes:									*)
+(*   - Two phrases named Fmatch and Fmrule have been added to factorize		*)
+(*     Fvalbind.								*)
+(*   - A phrase named SynDesc has been added to factorize type synonym		*)
+(*     specifications. Similarly, a phrase named TyReaDesc has been added to	*)
+(*     factorize type realisation signature expressions.			*)
+(*   - Infix expressions [Definition, Section 2.6] are resolved externally in	*)
+(*     structure Infix. The parser just maintains the infix environment J by	*)
+(*     side effect. To achieve correct treatment of scoped fixity directives,	*)
+(*     a stack of environments is used. To handle `local' we even need a	*)
+(*     second environment J' (together with a a second stack).			*)
+(*   - Syntactic restrictions [Definition, Sections 2.9 and 3.5] are checked	*)
+(*     in a separate pass.							*)
+(*   - Although not completely clear from the wording we assume that the	*)
+(*     Definition rules out the use of `=' as a tycon. Otherwise we would have	*)
+(*     a massive amount of grammar conflicts.					*)
+(*   - The Definition is also vague about what consists a non-infixed occurence	*)
+(*     of an infix identifier: we assume any occurences in expressions		*)
+(*     or patterns. This implies that uses of the keyword `op' in constructor	*)
+(*     and exception bindings are completely redundant.				*)
+(*   - Datatype replication requires rules for datatype to be duplicated to	*)
+(*     avoid conflicts on empty tyvarseqs.					*)
+(*   - Layered patterns require some grammar transformation hack, see pat.	*)
+(*   - The messy `sigexp where type ... and type ...' syntax requires some	*)
+(*     really ugly transformations (in absence of a lookahead of 2), watch out	*)
+(*     for non-terminals of the form xxx__AND_yyybind_opt.			*)
+(*   - ML-Yacc does not seem to like comments that stretch over several		*)
+(*     lines... Similarly, comments in semantic actions make it puke...		*)
+(*										*)
+(* Bugs:									*)
+(*   - We do NOT support declarations like					*)
+(*	  fun f p1 = case e1 of p2 => e2					*)
+(*	    | f p3 = e3								*)
+(*     (without parentheses around the case) because the transformations	*)
+(*     required to support this would be even a magnitude uglier than those	*)
+(*     above. In fact, no compiler I know of supports this.			*)
+(*										*)
+
+
+    (* Import *)
+
+    open GrammarCore
+    open GrammarModule
+    open GrammarProgram
+    open DerivedFormsCore
+    open DerivedFormsModule
+    open DerivedFormsProgram
+
+
+    (* Handling infix environments *)
+
+    val J  = ref Infix.empty	(* context *)
+    val J' = ref Infix.empty	(* local environment (+ enclosing one) *)
+
+    val stackJ  = ref [] : Infix.InfEnv list ref
+    val stackJ' = ref [] : Infix.InfEnv list ref
+
+    fun initJandJ'(J0) =
+	(
+	    J       := J0;
+	    J'      := J0;
+	    stackJ  := [];
+	    stackJ' := []
+	)
+
+    fun pushJ() =
+	(
+	    stackJ  := !J :: !stackJ
+	)
+
+    fun popJ() =
+	(
+	    J       := List.hd(!stackJ);
+	    stackJ  := List.tl(!stackJ)
+	)
+
+    fun pushJ'shiftJ() =
+	(
+	    stackJ' := !J' :: !stackJ';
+	    J'      := List.hd(!stackJ)
+	)
+
+    fun popJandJ'() =
+	(
+	    J       := !J';
+	    J'      := List.hd(!stackJ');
+	    stackJ  := List.tl(!stackJ);
+	    stackJ' := List.tl(!stackJ')
+	)
+
+
+    fun assignInfix(infstatus, vids) =
+	(
+	    J  := Infix.assign(!J, vids, infstatus);
+	    J' := Infix.assign(!J', vids, infstatus)
+	)
+
+    fun cancelInfix(vids) =
+	(
+	    J  := Infix.cancel(!J, vids);
+	    J' := Infix.cancel(!J', vids)
+	)
+
+
+    (* Helper for long identifiers *)
+
+    fun toLongId toId (strids, id) =
+	    ( List.map StrId.fromString strids, toId id )
+
+
+    (* Helper to handle typed patterns (needed because of layered patterns) *)
+
+    fun typedPat(pat,   []   ) = pat
+      | typedPat(pat, ty::tys) =
+	let
+	    val I = Source.over(infoPat pat, infoTy ty)
+	in
+	    typedPat(COLONPat(I, pat, ty), tys)
+	end
+
+
+
+%%
+
+
+%header (functor LrValsFn(structure Token : TOKEN))
+%name Parser
+
+%pos  Source.pos
+%arg  (I, J0) : (Source.pos * Source.pos -> Source.info) * Infix.InfEnv
+
+%verbose
+
+
+
+%term	(* End of file *)
+	  EOF
+
+	(* Reserved words for the core language [Section 2.1] *)
+	| ABSTYPE | AND | ANDALSO | AS | CASE | DO | DATATYPE | ELSE
+	| END | EXCEPTION | FN | FUN | HANDLE | IF | IN | INFIX
+	| INFIXR | LET | LOCAL | NONFIX | OF | OP | OPEN | ORELSE
+	| RAISE | REC | THEN | TYPE | VAL | WITH | WITHTYPE | WHILE
+	| LPAR | RPAR | LBRACK | RBRACK | LBRACE | RBRACE | COMMA | COLON
+	| SEMICOLON | DOTS | UNDERBAR | BAR | EQUALS | DARROW | ARROW | HASH
+
+	(* Additional reserved words for the modules language [Section 3.1] *)
+	| EQTYPE | FUNCTOR | INCLUDE | SHARING | SIG
+	| SIGNATURE | STRUCT | STRUCTURE | WHERE | SEAL
+
+	(* Special constants [Section 2.2] *)
+	| ZERO | DIGIT of string | NUMERIC of string
+	| INT of string | HEXINT of string | WORD of string | HEXWORD of string
+	| REAL of string | STRING of string | CHAR of string
+
+	(* Identifiers [Section 2.4] *)
+	| ALPHA of string | SYMBOL of string | STAR
+	| TYVAR of string | ETYVAR of string
+	| LONGID of string list * string
+
+%keyword ABSTYPE AND ANDALSO AS CASE DO DATATYPE ELSE
+	 END EXCEPTION FN FUN HANDLE IF IN INFIX
+	 INFIXR LET LOCAL NONFIX OF OP OPEN ORELSE
+	 RAISE REC THEN TYPE VAL WITH WITHTYPE WHILE
+	 EQTYPE FUNCTOR INCLUDE SHARING SIG
+	 SIGNATURE STRUCT STRUCTURE WHERE
+
+%eop     EOF
+%noshift EOF
+
+
+%left  SEMICOLON SHARING
+%right VAL FUN TYPE EQTYPE DATATYPE ABSTYPE EXCEPTION
+       STRUCTURE SIGNATURE FUNCTOR
+%right LOCAL OPEN INFIX INFIXR NONFIX INCLUDE
+%right AND
+%left  DARROW		(* L/R is arbitrary *)
+%left  BAR		(* L/R is arbitrary *)
+%left  DO		(* L/R is arbitrary *)
+%left  ELSE		(* L/R is arbitrary *)
+%left  RAISE		(* L/R is arbitrary *)
+%right HANDLE
+%right ORELSE
+%right ANDALSO
+%right AS
+%left  COLON
+%right ARROW
+
+
+%start program
+
+%nonterm
+	(* Constants *)
+	  scon				of SCon
+	| d				of int
+
+	(* Identifiers and labels *)
+	| lab				of Lab
+	| vid				of VId
+	|    vid'			of VId		(* excludes `=' *)
+	| tycon				of TyCon
+	| tyvar				of TyVar
+	| strid				of StrId
+	| sigid				of SigId
+	| funid				of FunId
+
+	| longvid			of longVId
+	|    longvid'			of longVId	(* excludes `=' *)
+	| longtycon			of longTyCon
+	| longstrid			of longStrId
+
+	| OP_opt			of Op
+
+	(* Nonterminals for core grammar *)
+	| atexp				of AtExp
+	|    exp_COMMA_list0		of Exp list
+	|    exp_COMMA_list1		of Exp list
+	|    exp_COMMA_list2		of Exp list
+	|    exp_SEMICOLON_list1	of Exp list
+	|    exp_SEMICOLON_list2	of Exp list
+	| exprow			of ExpRow
+	|    exprow_opt			of ExpRow option
+	|    COMMA_exprow_opt		of ExpRow option
+	| appexp			of AppExp
+	| infexp			of InfExp
+	| exp				of Exp
+
+	| match				of Match
+	|    BAR_match_opt		of Match option
+	| mrule				of Mrule
+
+	| dec				of Dec
+	|    dec1			of Dec
+	|    dec1'			of Dec (* excludes local and seq. *)
+	|    WITHTYPE_typbind_opt	of TypBind option
+	|    vid_list1			of VId list
+	|    longstrid_list1		of longStrId list
+	|    d_opt			of int
+	| valbind			of ValBind
+	|    AND_valbind_opt		of ValBind option
+	| fvalbind			of FvalBind
+	|    AND_fvalbind_opt		of FvalBind option
+	| fmatch			of Fmatch
+	|    BAR_fmatch_opt		of Fmatch option
+	| fmrule			of Fmrule
+	| typbind			of TypBind
+	|    AND_typbind_opt		of TypBind option
+	| datbind			of DatBind
+	|    datbind0			of DatBind
+	|    datbind1			of DatBind
+	|    AND_datbind_opt		of DatBind option
+	| conbind			of ConBind
+	|    BAR_conbind_opt		of ConBind option
+	|    OF_ty_opt			of Ty option
+	| exbind			of ExBind
+	|    AND_exbind_opt		of ExBind option
+
+	| atpat				of AtPat
+	|    atpat'			of AtPat (* excludes <op>longvid *)
+	|    pat_COMMA_list0		of Pat list
+	|    pat_COMMA_list1		of Pat list
+	|    pat_COMMA_list2		of Pat list
+	| patrow			of PatRow
+	|    patrow_opt			of PatRow option
+	|    COMMA_patrow_opt		of PatRow option
+	|    COLON_ty_opt		of Ty option
+	|    AS_pat_opt			of Pat option
+	| pat				of Pat
+	|    atpat_list1		of AtPat list
+	|    atpat_list2		of AtPat list
+	|    COLON_ty_list1		of Ty list
+
+	| ty				of Ty
+	|    tupty			of Ty
+	|    ty_STAR_list		of Ty list
+	|    consty			of Ty
+	|    atty			of Ty
+	| tyrow				of TyRow
+	|    tyrow_opt			of TyRow option
+	|    COMMA_tyrow_opt		of TyRow option
+	| tyseq				of Tyseq
+	|    ty_COMMA_list2		of Ty list
+	| tyvarseq			of TyVarseq
+	|    tyvarseq1			of TyVarseq
+	|    tyvar_COMMA_list1		of TyVar list
+
+	(* Nonterminals for the module language *)
+	| strexp			of StrExp
+	|    strexp'			of StrExp (* excludes constraints *)
+	| strdec			of StrDec
+	|    strdec1			of StrDec
+	|    strdec1'			of StrDec (* excludes sequencing *)
+	| strbind			of StrBind
+	|    AND_strbind_opt		of StrBind option
+	|    strexp__AND_strbind_opt	of StrExp * StrBind option
+	|    sigexp__AND_strbind_opt	of SigExp * StrBind option
+	|    tyreadesc__AND_strbind_opt	of TyReaDesc * StrBind option
+	|    AND_tyreadesc_opt__AND_strbind_opt
+					of TyReaDesc option * StrBind option
+	|    COLON_sigexp_opt		of SigExp option
+
+	| sigexp			of SigExp
+	|    sigexp'			of SigExp (* excludes where *)
+	| sigdec			of SigDec
+	| sigbind			of SigBind
+	|    AND_sigbind_opt		of SigBind option
+	|    sigexp__AND_sigbind_opt	of SigExp * SigBind option
+	|    tyreadesc__AND_sigbind_opt	of TyReaDesc * SigBind option
+	|    AND_tyreadesc_opt__AND_sigbind_opt
+					of TyReaDesc option * SigBind option
+	| tyreadesc			of TyReaDesc
+	|    AND_tyreadesc_opt		of TyReaDesc option
+
+	| spec				of Spec
+	|    spec1			of Spec
+	|    spec1'			of Spec (* excludes sharing *)
+	|    spec1''			of Spec (* excludes sharing and seq. *)
+	|    sigid_list2		of SigId list
+	|    longtycon_EQUALS_list1	of longTyCon list
+	|    longtycon_EQUALS_list2	of longTyCon list
+	|    longstrid_EQUALS_list1	of longStrId list
+	|    longstrid_EQUALS_list2	of longStrId list
+
+	| valdesc			of ValDesc
+	|    AND_valdesc_opt		of ValDesc option
+	| typdesc			of TypDesc
+	|    AND_typdesc_opt		of TypDesc option
+	| syndesc			of SynDesc
+	|    AND_syndesc_opt		of SynDesc option
+	| datdesc			of DatDesc
+	|    datdesc0			of DatDesc
+	|    datdesc1			of DatDesc
+	|    AND_datdesc_opt		of DatDesc option
+	| condesc			of ConDesc
+	|    BAR_condesc_opt		of ConDesc option
+	| exdesc			of ExDesc
+	|    AND_exdesc_opt		of ExDesc option
+	| strdesc			of StrDesc
+	|    AND_strdesc_opt		of StrDesc option
+	|    sigexp__AND_strdesc_opt	of SigExp * StrDesc option
+	|    tyreadesc__AND_strdesc_opt	of TyReaDesc * StrDesc option
+	|    AND_tyreadesc_opt__AND_strdesc_opt
+					of TyReaDesc option * StrDesc option
+
+	| fundec			of FunDec
+	| funbind			of FunBind
+	|    AND_funbind_opt		of FunBind option
+	|    strexp__AND_funbind_opt	of StrExp * FunBind option
+	|    sigexp__AND_funbind_opt	of SigExp * FunBind option
+	|    tyreadesc__AND_funbind_opt	of TyReaDesc * FunBind option
+	|    AND_tyreadesc_opt__AND_funbind_opt
+					of TyReaDesc option * FunBind option
+	| topdec			of TopDec
+	|    topdec1			of TopDec
+	|    topdec_opt			of TopDec option
+
+	(* Top nonterminal *)
+	| program			of Program * Infix.InfEnv
+	|    program'			of Program
+	|    program_opt		of Program option
+
+	(* Pseudo symbols to handle infix environment *)
+	| initInfix			of unit
+	| pushInfix			of unit
+	| popInfix			of unit
+	| pushLocalInfix		of unit
+	| popLocalInfix			of unit
+
+
+%%
+
+
+  (* Handling of infix environment *)
+
+  initInfix:		( initJandJ'(J0) )
+  pushInfix:		( pushJ() )
+  popInfix:		( popJ() )
+  pushLocalInfix:	( pushJ'shiftJ() )
+  popLocalInfix:	( popJandJ'() )
+
+
+
+  (* Special constants [Section 2.2] *)
+
+  scon:
+	  ZERO		( SCon.INT(SCon.DEC, "0", ref NONE) )
+	| DIGIT		( SCon.INT(SCon.DEC, DIGIT, ref NONE) )
+	| NUMERIC	( SCon.INT(SCon.DEC, NUMERIC, ref NONE) )
+	| INT		( SCon.INT(SCon.DEC, INT, ref NONE) )
+	| HEXINT	( SCon.INT(SCon.HEX, HEXINT, ref NONE) )
+	| WORD		( SCon.WORD(SCon.DEC, WORD, ref NONE) )
+	| HEXWORD	( SCon.WORD(SCon.HEX, HEXWORD, ref NONE) )
+	| REAL		( SCon.REAL(REAL, ref NONE) )
+	| STRING	( SCon.STRING(STRING, ref NONE) )
+	| CHAR		( SCon.CHAR(CHAR, ref NONE) )
+
+  d:
+	  ZERO		( 0 )
+	| DIGIT		( Option.valOf(Int.fromString DIGIT) )
+
+
+
+  (* Identifiers [Section 2.4] *)
+
+  lab:
+	  ALPHA		( Lab.fromString ALPHA )
+	| SYMBOL	( Lab.fromString SYMBOL )
+	| STAR		( Lab.fromString "*" )
+	| DIGIT		( Lab.fromString DIGIT )
+	| NUMERIC	( Lab.fromString NUMERIC )
+
+
+  vid:
+	  vid'		( vid' )
+	| EQUALS	( VId.fromString "=" )
+
+     vid':
+	  ALPHA		( VId.fromString ALPHA )
+	| SYMBOL	( VId.fromString SYMBOL )
+	| STAR		( VId.fromString "*" )
+
+  tycon:
+	  ALPHA		( TyCon.fromString ALPHA )
+	| SYMBOL	( TyCon.fromString SYMBOL )
+
+  tyvar:  TYVAR		( TyVar.fromString TYVAR )
+
+  strid:  ALPHA		( StrId.fromString ALPHA )
+
+  sigid:  ALPHA		( SigId.fromString ALPHA )
+
+  funid:  ALPHA		( FunId.fromString ALPHA )
+
+
+  longvid:
+	  longvid'	( longvid' )
+	| EQUALS	( LongVId.fromId(VId.fromString "=") )
+
+     longvid':
+	  vid'		( LongVId.fromId vid' )
+	| LONGID	( LongVId.implode(toLongId VId.fromString LONGID) )
+
+  longtycon:
+	  tycon		( LongTyCon.fromId tycon )
+	| LONGID	( LongTyCon.implode(toLongId TyCon.fromString LONGID) )
+
+  longstrid:
+	  strid		( LongStrId.fromId strid )
+	| LONGID	( LongStrId.implode(toLongId StrId.fromString LONGID) )
+
+
+  OP_opt:
+	  OP		( WITHOp )
+	| (*empty*)	( SANSOp )
+
+
+
+
+  (* Core: Expressions [Figure 20] *)
+
+  atexp:
+	  scon		( SCONAtExp(I(sconleft,sconright), scon) )
+	| OP_opt longvid
+			( IDAtExp(I(OP_optleft,longvidright),
+				       OP_opt, longvid) )
+	| LBRACE exprow_opt RBRACE
+			( RECORDAtExp(I(LBRACEleft,RBRACEright), exprow_opt) )
+	| HASH lab	( HASHAtExp(I(HASHleft,labright), lab) )
+	| LPAR RPAR	( UNITAtExp(I(LPARleft,RPARright)) )
+	| LPAR exp_COMMA_list2 RPAR
+			( TUPLEAtExp(I(LPARleft,RPARright), exp_COMMA_list2) )
+	| LBRACK exp_COMMA_list0 RBRACK
+			( LISTAtExp(I(LBRACKleft,RBRACKright),
+				    exp_COMMA_list0 ))
+	| LPAR exp_SEMICOLON_list2 RPAR
+			( SEQAtExp(I(LPARleft,RPARright), exp_SEMICOLON_list2) )
+	| LET pushInfix dec IN exp_SEMICOLON_list1 popInfix END
+			( LETAtExp(I(LETleft,ENDright),
+				   dec, exp_SEMICOLON_list1) )
+	| LPAR exp RPAR	( PARAtExp(I(LPARleft,RPARright), exp) )
+
+
+     exp_COMMA_list0:
+	  exp_COMMA_list1		( exp_COMMA_list1 )
+	| (*empty*)			( [] )
+
+     exp_COMMA_list1:
+	  exp COMMA exp_COMMA_list1	( exp::exp_COMMA_list1 )
+	| exp				( exp::[] )
+
+     exp_COMMA_list2:
+	  exp COMMA exp_COMMA_list1	( exp::exp_COMMA_list1 )
+
+     exp_SEMICOLON_list1:
+	  exp SEMICOLON exp_SEMICOLON_list1	( exp::exp_SEMICOLON_list1 )
+	| exp					( exp::[] )
+
+     exp_SEMICOLON_list2:
+	  exp SEMICOLON exp_SEMICOLON_list2	( exp::exp_SEMICOLON_list2 )
+	| exp SEMICOLON exp			( [exp1, exp2] )
+
+
+  exprow:
+	  lab EQUALS exp COMMA_exprow_opt
+	  			( ExpRow(I(lableft,COMMA_exprow_optright),
+	  				 lab, exp, COMMA_exprow_opt) )
+     COMMA_exprow_opt:
+	  COMMA exprow		( SOME exprow )
+	| (*empty*)		( NONE )
+
+     exprow_opt:
+	  exprow		( SOME exprow )
+	| (*empty*)		( NONE )
+
+
+  appexp:
+	  atexp			( atexp::[] )
+	| appexp atexp		( atexp::appexp )
+
+
+  infexp:
+	  appexp		( Infix.parseExp(!J, List.rev appexp) )
+	(*infexp vid infexp	( included above... )*)
+
+
+  exp:
+	  infexp		( infexp )
+	| exp COLON ty		( COLONExp(I(expleft,tyright), exp, ty) )
+	| exp ANDALSO exp	( ANDALSOExp(I(exp1left,exp2right), exp1, exp2))
+	| exp ORELSE exp	( ORELSEExp(I(exp1left,exp2right), exp1, exp2) )
+	| exp HANDLE match	( HANDLEExp(I(expleft,matchright), exp, match) )
+	| RAISE exp		( RAISEExp(I(RAISEleft,expright), exp) )
+	| IF exp THEN exp ELSE exp
+				( IFExp(I(IFleft,exp3right), exp1, exp2, exp3) )
+	| WHILE exp DO exp	( WHILEExp(I(WHILEleft,exp2right), exp1, exp2) )
+	| CASE exp OF match	( CASEExp(I(CASEleft,matchright), exp, match) )
+	| FN match		( FNExp(I(FNleft,matchright), match) )
+
+
+
+  (* Core: Matches [Figure 20] *)
+
+  match:
+	  mrule BAR_match_opt	( Match(I(mruleleft,BAR_match_optright),
+					mrule, BAR_match_opt) )
+
+     BAR_match_opt:
+	  BAR match			( SOME match )
+	| (*empty*) %prec DARROW	( NONE )
+
+  mrule:
+	  pat DARROW exp	( Mrule(I(patleft,expright), pat, exp) )
+
+
+
+  (* Core: Declarations [Figure 21] *)
+
+  dec:
+	  dec1		( dec1 )
+	| (*empty*)	( EMPTYDec(I(defaultPos,defaultPos)) )
+
+     dec1:
+	  dec1'		( dec1' )
+	| LOCAL pushInfix dec IN pushLocalInfix dec popLocalInfix END
+			( LOCALDec(I(LOCALleft,ENDright), dec1, dec2) )
+	| dec1 dec1 %prec SEMICOLON
+			( SEQDec(I(dec11left,dec12right), dec11, dec12) )
+	| SEMICOLON	( SEQDec(I(SEMICOLONleft,SEMICOLONright),
+				 EMPTYDec(I(SEMICOLONleft,SEMICOLONleft)),
+				 EMPTYDec(I(SEMICOLONright,SEMICOLONright))) )
+
+     dec1':
+	  VAL valbind	( VALDec(I(VALleft,valbindright),
+			     TyVarseq(I(defaultPos,defaultPos), []), valbind) )
+	| VAL tyvarseq1 valbind
+			( VALDec(I(VALleft,valbindright), tyvarseq1, valbind) )
+	| FUN fvalbind	( FUNDec(I(FUNleft,fvalbindright),
+			    TyVarseq(I(defaultPos,defaultPos), []), fvalbind) )
+	| FUN tyvarseq1 fvalbind
+			( FUNDec(I(FUNleft,fvalbindright), tyvarseq1, fvalbind))
+	| TYPE typbind	( TYPEDec(I(TYPEleft,typbindright), typbind) )
+	| DATATYPE datbind0 WITHTYPE_typbind_opt
+			( DATATYPEDec(I(DATATYPEleft,WITHTYPE_typbind_optright),
+				     datbind0, WITHTYPE_typbind_opt) )
+	| DATATYPE datbind1 WITHTYPE_typbind_opt
+			( DATATYPEDec(I(DATATYPEleft,WITHTYPE_typbind_optright),
+				      datbind1, WITHTYPE_typbind_opt) )
+	| DATATYPE tycon EQUALS DATATYPE longtycon
+			( DATATYPE2Dec(I(DATATYPEleft,longtyconright),
+				       tycon, longtycon) )
+	| ABSTYPE datbind WITHTYPE_typbind_opt WITH dec END
+			( ABSTYPEDec(I(ABSTYPEleft,ENDright), datbind,
+				     WITHTYPE_typbind_opt, dec) )
+	| EXCEPTION exbind
+			( EXCEPTIONDec(I(EXCEPTIONleft,exbindright), exbind) )
+	| OPEN longstrid_list1
+			( OPENDec(I(OPENleft,longstrid_list1right),
+				  longstrid_list1) )
+	| INFIX d_opt vid_list1
+			( assignInfix((Infix.LEFT, d_opt), vid_list1);
+			  EMPTYDec(I(INFIXleft,vid_list1right)) )
+	| INFIXR d_opt vid_list1
+			( assignInfix((Infix.RIGHT, d_opt), vid_list1);
+			  EMPTYDec(I(INFIXRleft,vid_list1right)) )
+	| NONFIX vid_list1
+			( cancelInfix(vid_list1);
+			  EMPTYDec(I(NONFIXleft,vid_list1right)) )
+
+     WITHTYPE_typbind_opt:
+	  WITHTYPE typbind	( SOME typbind )
+	| (*empty*)		( NONE )
+
+     vid_list1:
+	  vid vid_list1		( vid::vid_list1 )
+	| vid			( vid::[] )
+
+     longstrid_list1:
+	  longstrid longstrid_list1	( longstrid::longstrid_list1 )
+	| longstrid			( longstrid::[] )
+
+     d_opt:
+	  d			( d )
+	| (*empty*)		( 0 )
+
+
+
+  (* Core: Bindings [Figure 21] *)
+
+  valbind:
+	  pat EQUALS exp AND_valbind_opt
+			( PLAINValBind(I(patleft,AND_valbind_optright),
+				       pat, exp, AND_valbind_opt) )
+	| REC valbind
+			( RECValBind(I(RECleft,valbindright), valbind) )
+
+      AND_valbind_opt:
+	  AND valbind	( SOME valbind )
+	| (*empty*)	( NONE )
+
+
+  fvalbind:
+	  fmatch AND_fvalbind_opt
+			( FvalBind(I(fmatchleft,AND_fvalbind_optright),
+				     fmatch, AND_fvalbind_opt) )
+     AND_fvalbind_opt:
+	  AND fvalbind	( SOME fvalbind )
+	| (*empty*)	( NONE )
+
+  fmatch:
+	  fmrule BAR_fmatch_opt
+			( Fmatch(I(fmruleleft,BAR_fmatch_optright),
+				 fmrule, BAR_fmatch_opt) )
+
+     BAR_fmatch_opt:
+	  BAR fmatch	( SOME fmatch )
+	| (*empty*)	( NONE )
+
+  fmrule:
+	  atpat_list1 COLON_ty_opt EQUALS exp
+			( let
+			    val (op_opt, vid, atpats) =
+				Infix.parseFmrule(!J, atpat_list1)
+			  in
+			    Fmrule(I(atpat_list1left,expright),
+				   op_opt, vid, atpats, COLON_ty_opt, exp)
+			  end )
+
+  typbind:
+	  tyvarseq tycon EQUALS ty AND_typbind_opt
+			( TypBind(I(tyvarseqleft,AND_typbind_optright),
+				  tyvarseq, tycon, ty, AND_typbind_opt) )
+
+     AND_typbind_opt:
+	  AND typbind	( SOME typbind )
+	| (*empty*)	( NONE )
+
+
+  datbind:
+	  tyvarseq tycon EQUALS conbind AND_datbind_opt
+			( DatBind(I(tyvarseqleft,AND_datbind_optright),
+				  tyvarseq, tycon, conbind, AND_datbind_opt) )
+     datbind0:
+	  tycon EQUALS conbind AND_datbind_opt
+			( DatBind(I(tyconleft,AND_datbind_optright),
+				  TyVarseq(I(defaultPos,defaultPos), []),
+				  tycon, conbind, AND_datbind_opt) )
+     datbind1:
+	  tyvarseq1 tycon EQUALS conbind AND_datbind_opt
+			( DatBind(I(tyvarseq1left,AND_datbind_optright),
+				  tyvarseq1, tycon, conbind, AND_datbind_opt) )
+
+     AND_datbind_opt:
+	  AND datbind	( SOME datbind )
+	| (*empty*)	( NONE )
+
+
+  conbind:
+	  OP_opt vid' OF_ty_opt BAR_conbind_opt
+			( ConBind(I(OP_optleft,BAR_conbind_optright),
+				  OP_opt, vid', OF_ty_opt, BAR_conbind_opt) )
+
+     BAR_conbind_opt:
+	  BAR conbind	( SOME conbind )
+	| (*empty*)	( NONE )
+
+     OF_ty_opt:
+	  OF ty		( SOME ty )
+	| (*empty*)	( NONE )
+
+
+  exbind:
+	  OP_opt vid' OF_ty_opt AND_exbind_opt
+			( NEWExBind(I(OP_optleft,AND_exbind_optright),
+				    OP_opt, vid', OF_ty_opt, AND_exbind_opt) )
+	| OP_opt vid' EQUALS OP_opt longvid AND_exbind_opt
+			( EQUALExBind(I(OP_opt1left,AND_exbind_optright),
+				      OP_opt1, vid', OP_opt2, longvid,
+				      AND_exbind_opt) )
+     AND_exbind_opt:
+	  AND exbind	( SOME exbind )
+	| (*empty*)	( NONE )
+
+
+
+  (* Core: Patterns [Figure 22] *)
+
+  atpat:
+	  atpat'	( atpat' )
+	| OP_opt longvid'
+			( IDAtPat(I(OP_optleft,longvid'right),
+				  OP_opt, longvid') )
+     atpat':
+	  UNDERBAR	( WILDCARDAtPat(I(UNDERBARleft,UNDERBARright)) )
+	| scon		( SCONAtPat(I(sconleft,sconright), scon) )
+	| LBRACE patrow_opt RBRACE
+			( RECORDAtPat(I(LBRACEleft,RBRACEright), patrow_opt) )
+	| LPAR RPAR	( UNITAtPat(I(LPARleft,RPARright)) )
+	| LPAR pat_COMMA_list2 RPAR
+			( TUPLEAtPat(I(LPARleft,RPARright), pat_COMMA_list2) )
+	| LBRACK pat_COMMA_list0 RBRACK
+			( LISTAtPat(I(LBRACKleft,RBRACKright),
+				    pat_COMMA_list0) )
+	| LPAR pat RPAR ( PARAtPat(I(LPARleft,RPARright), pat) )
+
+
+     pat_COMMA_list0:
+	  pat_COMMA_list1		( pat_COMMA_list1 )
+	| (*empty*)			( [] )
+
+     pat_COMMA_list1:
+	  pat COMMA pat_COMMA_list1	( pat::pat_COMMA_list1 )
+	| pat				( pat::[] )
+
+     pat_COMMA_list2:
+	  pat COMMA pat_COMMA_list1	( pat::pat_COMMA_list1 )
+
+
+
+  patrow:
+	  DOTS		( DOTSPatRow(I(DOTSleft,DOTSright)) )
+	| lab EQUALS pat COMMA_patrow_opt
+			( FIELDPatRow(I(lableft,COMMA_patrow_optright),
+				      lab, pat, COMMA_patrow_opt) )
+	| vid' COLON_ty_opt AS_pat_opt COMMA_patrow_opt
+			( IDPatRow(I(vid'left,COMMA_patrow_optright),
+				   vid', COLON_ty_opt, AS_pat_opt,
+				   COMMA_patrow_opt) )
+     COMMA_patrow_opt:
+	  COMMA patrow	( SOME patrow )
+	| (*empty*)	( NONE )
+
+     COLON_ty_opt:
+	  COLON ty	( SOME ty )
+	| (*empty*)	( NONE )
+
+     AS_pat_opt:
+	  AS pat	( SOME pat )
+	| (*empty*)	( NONE )
+
+     patrow_opt:
+	  patrow	( SOME patrow )
+	| (*empty*)	( NONE )
+
+
+
+  pat:
+	  atpat		( Infix.parsePat(!J, [atpat]) )
+	| atpat_list2	( Infix.parsePat(!J, atpat_list2) )
+	(*pat vid pat	( included above... )*)
+	| atpat' COLON_ty_list1
+			( let val pat = Infix.parsePat(!J, [atpat'])
+			  in typedPat(pat, COLON_ty_list1) end )
+	| atpat_list2 COLON_ty_list1
+			( let val pat = Infix.parsePat(!J, atpat_list2)
+			  in typedPat(pat, COLON_ty_list1) end )
+	| OP_opt vid' COLON_ty_list1
+			( let val atpat = IDAtPat(I(OP_optleft,vid'right),
+						  OP_opt, LongVId.fromId vid')
+			      val pat   = Infix.parsePat(!J, [atpat])
+			  in typedPat(pat, COLON_ty_list1) end )
+	| OP_opt LONGID COLON_ty_list1
+			( let val longvid = LongVId.implode
+						(toLongId VId.fromString LONGID)
+			      val atpat = IDAtPat(I(OP_optleft,LONGIDright),
+						  OP_opt, longvid)
+			      val pat   = Infix.parsePat(!J, [atpat])
+			  in typedPat(pat, COLON_ty_list1) end )
+	| OP_opt vid' COLON_ty_opt AS pat
+			( Infix.parsePat(!J,
+				 [ IDAtPat(I(OP_optleft,vid'right), OP_opt,
+					   LongVId.implode([],vid')) ] ) ;
+			  ASPat(I(OP_optleft,patright),
+				OP_opt, vid', COLON_ty_opt, pat) )
+     atpat_list1:
+	  atpat atpat_list1	( atpat::atpat_list1 )
+	| atpat			( atpat::[] )
+
+     atpat_list2:
+	  atpat atpat_list1	( atpat::atpat_list1 )
+
+     COLON_ty_list1:
+	  COLON ty COLON_ty_list1	( ty::COLON_ty_list1 )
+	| COLON ty			( ty::[] )
+
+
+
+  (* Core: Type expressions [Figure 23] *)
+
+  ty:
+	  tupty		 ( tupty )
+	| tupty ARROW ty ( ARROWTy(I(tuptyleft,tyright), tupty, ty) )
+
+     tupty:
+	  ty_STAR_list	 ( TUPLETy(I(ty_STAR_listleft,ty_STAR_listright),
+				   ty_STAR_list) )
+
+     ty_STAR_list:
+	  consty STAR ty_STAR_list	( consty::ty_STAR_list )
+	| consty	 		( consty::[] )	  
+
+     consty:
+	  atty			( atty )
+	| tyseq longtycon	( CONTy(I(tyseqleft,longtyconright),
+					tyseq, longtycon) )
+     atty:
+	  tyvar		( VARTy(I(tyvarleft,tyvarright), tyvar) )
+	| LBRACE tyrow_opt RBRACE
+			( RECORDTy(I(LBRACEleft,RBRACEright), tyrow_opt) )
+	| LPAR ty RPAR	( PARTy(I(LPARleft,RPARright), ty) )
+
+
+  tyrow:
+	  lab COLON ty COMMA_tyrow_opt
+			( TyRow(I(lableft,COMMA_tyrow_optright),
+				lab, ty, COMMA_tyrow_opt) )
+     COMMA_tyrow_opt:
+	  COMMA tyrow	( SOME tyrow )
+	| (*empty*)	( NONE )
+
+     tyrow_opt:
+	  tyrow		( SOME tyrow )
+	| (*empty*)	( NONE )
+
+
+
+  (* Core: Sequences [Appendix B, 2nd bullet] *)
+
+  tyseq:
+	  consty			( Tyseq(I(constyleft,constyright),
+						[consty]) )
+	| (*empty*)			( Tyseq(I(defaultPos,defaultPos), []) )
+	| LPAR ty_COMMA_list2 RPAR	( Tyseq(I(LPARleft,RPARright),
+						ty_COMMA_list2) )
+
+     ty_COMMA_list2:
+	  ty COMMA ty_COMMA_list2	( ty::ty_COMMA_list2 )
+	| ty COMMA ty			( [ty1, ty2] )
+
+
+  tyvarseq:
+	  tyvarseq1			( tyvarseq1 )
+	| (*empty*)			( TyVarseq(I(defaultPos,defaultPos),
+						   []) )
+     tyvarseq1:
+	  tyvar				( TyVarseq(I(tyvarleft,tyvarright),
+						   [tyvar]) )
+	| LPAR tyvar_COMMA_list1 RPAR	( TyVarseq(I(LPARleft,RPARright),
+						   tyvar_COMMA_list1) )
+     tyvar_COMMA_list1:
+	  tyvar COMMA tyvar_COMMA_list1	( tyvar::tyvar_COMMA_list1 )
+	| tyvar				( tyvar::[] )
+
+
+
+
+  (* Modules: Structures [Figures 6 and 18] *)
+
+  strexp:
+	  strexp'	( strexp' )
+	| strexp COLON sigexp
+			( COLONStrExp(I(strexpleft,sigexpright),
+				      strexp, sigexp) )
+	| strexp SEAL sigexp
+			( SEALStrExp(I(strexpleft,sigexpright), strexp, sigexp))
+
+     strexp':
+	  STRUCT pushInfix strdec popInfix END
+			( STRUCTStrExp(I(STRUCTleft,ENDright), strdec) )
+	| longstrid	( IDStrExp(I(longstridleft,longstridright), longstrid) )
+	| funid LPAR strexp RPAR
+			( APPStrExp(I(funidleft,RPARright), funid, strexp) )
+	| funid LPAR strdec RPAR
+			( APPDECStrExp(I(funidleft,RPARright), funid, strdec) )
+	| LET pushInfix strdec IN strexp popInfix END
+			( LETStrExp(I(LETleft,ENDright), strdec, strexp) )
+
+
+  strdec:
+	  strdec1	( strdec1 )
+	| (*empty*)	( EMPTYStrDec(I(defaultPos,defaultPos)) )
+
+     strdec1:
+	  strdec1'	( strdec1' )
+	| strdec1 strdec1 %prec SEMICOLON
+			( SEQStrDec(I(strdec11left,strdec12right),
+				    strdec11, strdec12) )
+	| SEMICOLON	( SEQStrDec(I(SEMICOLONleft,SEMICOLONright),
+				 EMPTYStrDec(I(SEMICOLONleft,SEMICOLONleft)),
+				 EMPTYStrDec(I(SEMICOLONright,SEMICOLONright))) )
+
+     strdec1':
+	  dec1'		( DECStrDec(I(dec1'left,dec1'right), dec1') )
+	| STRUCTURE strbind
+			( STRUCTUREStrDec(I(STRUCTUREleft,strbindright),
+					  strbind) )
+	| LOCAL pushInfix strdec IN pushLocalInfix strdec popLocalInfix END
+			( LOCALStrDec(I(LOCALleft,ENDright), strdec1, strdec2) )
+
+
+  strbind:
+	  strid COLON_sigexp_opt EQUALS strexp__AND_strbind_opt
+			( TRANSStrBind(I(stridleft,
+					 strexp__AND_strbind_optright),
+				       strid, COLON_sigexp_opt,
+				       #1 strexp__AND_strbind_opt,
+				       #2 strexp__AND_strbind_opt) )
+	| strid SEAL sigexp EQUALS strexp__AND_strbind_opt
+			( SEALStrBind(I(stridleft,strexp__AND_strbind_optright),
+				      strid, sigexp, #1 strexp__AND_strbind_opt,
+				      #2 strexp__AND_strbind_opt) )
+     AND_strbind_opt:
+	  AND strbind	( SOME strbind )
+	| (*empty*)	( NONE )
+
+     strexp__AND_strbind_opt:
+	  strexp' AND_strbind_opt
+			( ( strexp', AND_strbind_opt ) )
+	| strexp COLON sigexp__AND_strbind_opt
+			( ( COLONStrExp(I(strexpleft,
+					  sigexp__AND_strbind_optright),
+					strexp, #1 sigexp__AND_strbind_opt),
+			    #2 sigexp__AND_strbind_opt ) )
+	| strexp SEAL sigexp__AND_strbind_opt
+			( ( SEALStrExp(I(strexpleft,
+					 sigexp__AND_strbind_optright),
+				       strexp, #1 sigexp__AND_strbind_opt),
+			    #2 sigexp__AND_strbind_opt ) )
+
+     sigexp__AND_strbind_opt:
+	  sigexp' AND_strbind_opt
+			( ( sigexp', AND_strbind_opt ) )
+	| sigexp WHERE tyreadesc__AND_strbind_opt
+			( ( WHERETYPESigExp(I(sigexpleft,
+					      tyreadesc__AND_strbind_optright),
+					   sigexp,
+					   #1 tyreadesc__AND_strbind_opt),
+			    #2 tyreadesc__AND_strbind_opt ) )
+
+     tyreadesc__AND_strbind_opt:
+	  TYPE tyvarseq longtycon EQUALS ty AND_tyreadesc_opt__AND_strbind_opt
+			( ( TyReaDesc(I(TYPEleft,
+				       AND_tyreadesc_opt__AND_strbind_optright),
+				      tyvarseq, longtycon, ty,
+				      #1 AND_tyreadesc_opt__AND_strbind_opt),
+			    #2 AND_tyreadesc_opt__AND_strbind_opt ) )
+
+     AND_tyreadesc_opt__AND_strbind_opt:
+	  AND_strbind_opt	( ( NONE, AND_strbind_opt ) )
+	| AND tyreadesc__AND_strbind_opt
+	  			( ( SOME(#1 tyreadesc__AND_strbind_opt),
+				    #2 tyreadesc__AND_strbind_opt ) )
+
+
+     COLON_sigexp_opt:
+	  COLON sigexp	( SOME sigexp )
+	| (*empty*)	( NONE )
+
+
+
+  (* Modules: Signatures [Figures 6 and 19] *)
+
+  sigexp:
+	  sigexp'	( sigexp' )
+	| sigexp WHERE tyreadesc
+			( WHERETYPESigExp(I(sigexpleft,tyreadescright),
+					  sigexp, tyreadesc) )
+     sigexp':
+	  SIG spec END	( SIGSigExp(I(SIGleft,ENDright), spec) )
+	| sigid		( IDSigExp(I(sigidleft,sigidright), sigid) )
+
+  sigdec:
+	  SIGNATURE sigbind
+			( SigDec(I(SIGNATUREleft,sigbindright), sigbind) )
+
+  sigbind:
+	  sigid EQUALS sigexp__AND_sigbind_opt
+			( SigBind(I(sigidleft,sigexp__AND_sigbind_optright),
+				  sigid, #1 sigexp__AND_sigbind_opt,
+				  #2 sigexp__AND_sigbind_opt) )
+
+     AND_sigbind_opt:
+	  AND sigbind	( SOME sigbind )
+	| (*empty*)	( NONE )
+
+     sigexp__AND_sigbind_opt:
+	  sigexp' AND_sigbind_opt
+	  		( ( sigexp', AND_sigbind_opt ) )
+	| sigexp WHERE tyreadesc__AND_sigbind_opt
+			( ( WHERETYPESigExp(I(sigexpleft,
+					      tyreadesc__AND_sigbind_optright),
+					   sigexp,
+					   #1 tyreadesc__AND_sigbind_opt),
+			    #2 tyreadesc__AND_sigbind_opt ) )
+
+     tyreadesc__AND_sigbind_opt:
+	  TYPE tyvarseq longtycon EQUALS ty AND_tyreadesc_opt__AND_sigbind_opt
+			( ( TyReaDesc(I(TYPEleft,
+				       AND_tyreadesc_opt__AND_sigbind_optright),
+				      tyvarseq, longtycon, ty,
+				      #1 AND_tyreadesc_opt__AND_sigbind_opt),
+			    #2 AND_tyreadesc_opt__AND_sigbind_opt ) )
+
+     AND_tyreadesc_opt__AND_sigbind_opt:
+	  AND_sigbind_opt	( ( NONE, AND_sigbind_opt) )
+	| AND tyreadesc__AND_sigbind_opt
+	  			( ( SOME(#1 tyreadesc__AND_sigbind_opt),
+				    #2 tyreadesc__AND_sigbind_opt ) )
+
+
+  tyreadesc:
+	  TYPE tyvarseq longtycon EQUALS ty AND_tyreadesc_opt
+			( TyReaDesc(I(TYPEleft,AND_tyreadesc_optright),
+				    tyvarseq, longtycon, ty,
+				    AND_tyreadesc_opt) )
+     AND_tyreadesc_opt:
+	  AND tyreadesc	( SOME tyreadesc )
+	| (*empty*)	( NONE )
+
+
+
+  (* Modules: Specifications [Figures 7 and 19] *)
+
+  spec:
+	  spec1		( spec1 )
+	| (*empty*)	( EMPTYSpec(I(defaultPos,defaultPos)) )
+
+     spec1:
+	  spec1''	( spec1'' )
+	| spec1 spec1' %prec SEMICOLON
+			( SEQSpec(I(spec1left,spec1'right), spec1, spec1') )
+	| SEMICOLON	( SEQSpec(I(SEMICOLONleft,SEMICOLONright),
+				 EMPTYSpec(I(SEMICOLONleft,SEMICOLONleft)),
+				 EMPTYSpec(I(SEMICOLONright,SEMICOLONright))) )
+	| SHARING TYPE longtycon_EQUALS_list2
+			( SHARINGTYPESpec(I(SHARINGleft,
+					    longtycon_EQUALS_list2right),
+					  EMPTYSpec(I(SHARINGleft,SHARINGleft)),
+					  longtycon_EQUALS_list2) )
+	| spec1 SHARING TYPE longtycon_EQUALS_list2
+			( SHARINGTYPESpec(I(spec1left,
+					    longtycon_EQUALS_list2right),
+					  spec1, longtycon_EQUALS_list2) )
+	| SHARING longstrid_EQUALS_list2
+			( SHARINGSpec(I(SHARINGleft,
+					longstrid_EQUALS_list2right),
+				      EMPTYSpec(I(SHARINGleft,SHARINGleft)),
+				      longstrid_EQUALS_list2) )
+	| spec1 SHARING longstrid_EQUALS_list2
+			( SHARINGSpec(I(spec1left,longstrid_EQUALS_list2right),
+				      spec1, longstrid_EQUALS_list2) )
+
+     spec1':
+	  spec1''	( spec1'' )
+	| spec1' spec1' %prec SEMICOLON
+			( SEQSpec(I(spec1'1left,spec1'2right),
+				  spec1'1, spec1'2) )
+	| SEMICOLON	( SEQSpec(I(SEMICOLONleft,SEMICOLONright),
+				 EMPTYSpec(I(SEMICOLONleft,SEMICOLONleft)),
+				 EMPTYSpec(I(SEMICOLONright,SEMICOLONright))) )
+
+     spec1'':
+	  VAL valdesc	( VALSpec(I(VALleft,valdescright), valdesc) )
+	| TYPE typdesc	( TYPESpec(I(TYPEleft,typdescright), typdesc) )
+	| EQTYPE typdesc
+	  		( EQTYPESpec(I(EQTYPEleft,typdescright), typdesc) )
+	| TYPE syndesc
+			( SYNSpec(I(TYPEleft,syndescright), syndesc) )
+	| DATATYPE datdesc0
+			( DATATYPESpec(I(DATATYPEleft,datdesc0right), datdesc0))
+	| DATATYPE datdesc1
+			( DATATYPESpec(I(DATATYPEleft,datdesc1right), datdesc1))
+	| DATATYPE tycon EQUALS DATATYPE longtycon
+			( DATATYPE2Spec(I(DATATYPEleft,longtyconright),
+					tycon, longtycon) )
+	| EXCEPTION exdesc
+			( EXCEPTIONSpec(I(EXCEPTIONleft,exdescright), exdesc) )
+	| STRUCTURE strdesc
+			( STRUCTURESpec(I(STRUCTUREleft,strdescright), strdesc))
+	| INCLUDE sigexp
+			( INCLUDESpec(I(INCLUDEleft,sigexpright), sigexp) )
+	| INCLUDE sigid_list2
+			( INCLUDEMULTISpec(I(INCLUDEleft,sigid_list2right),
+					   sigid_list2) )
+
+     sigid_list2:
+	  sigid sigid_list2	( sigid::sigid_list2 )
+	| sigid	sigid		( sigid1::sigid2::[] )
+
+     longtycon_EQUALS_list1:
+	  longtycon EQUALS longtycon_EQUALS_list1
+				( longtycon::longtycon_EQUALS_list1 )
+	| longtycon		( longtycon::[] )
+
+     longtycon_EQUALS_list2:
+	  longtycon EQUALS longtycon_EQUALS_list1
+				( longtycon::longtycon_EQUALS_list1 )
+     longstrid_EQUALS_list1:
+	  longstrid EQUALS longstrid_EQUALS_list1
+				( longstrid::longstrid_EQUALS_list1 )
+	| longstrid		( longstrid::[] )
+
+     longstrid_EQUALS_list2:
+	  longstrid EQUALS longstrid_EQUALS_list1
+				( longstrid::longstrid_EQUALS_list1 )
+
+
+  (* Modules: Descriptions [Figures 7 and 19] *)
+
+  valdesc:
+	  vid' COLON ty AND_valdesc_opt
+	  		( ValDesc(I(vid'left,AND_valdesc_optright),
+				  vid', ty, AND_valdesc_opt) )
+     AND_valdesc_opt:
+	  AND valdesc	( SOME valdesc )
+	| (*empty*)	( NONE )
+
+  typdesc:
+	  tyvarseq tycon AND_typdesc_opt
+			( TypDesc(I(tyvarseqleft,AND_typdesc_optright),
+				  tyvarseq, tycon, AND_typdesc_opt) )
+     AND_typdesc_opt:
+	  AND typdesc	( SOME typdesc )
+	| (*empty*)	( NONE )
+
+  syndesc:
+	  tyvarseq tycon EQUALS ty AND_syndesc_opt
+			( SynDesc(I(tyvarseqleft,AND_syndesc_optright),
+				  tyvarseq, tycon, ty, AND_syndesc_opt) )
+     AND_syndesc_opt:
+	  AND syndesc	( SOME syndesc )
+	| (*empty*)	( NONE )
+
+  datdesc:
+	  tyvarseq tycon EQUALS condesc AND_datdesc_opt
+	  		( DatDesc(I(tyvarseqleft,AND_datdesc_optright),
+	  			  tyvarseq, tycon, condesc, AND_datdesc_opt) )
+     datdesc0:
+	  tycon EQUALS condesc AND_datdesc_opt
+	  		( DatDesc(I(tyconleft,AND_datdesc_optright),
+	  			  TyVarseq(I(defaultPos,defaultPos), []),
+				  tycon, condesc, AND_datdesc_opt) )
+     datdesc1:
+	  tyvarseq1 tycon EQUALS condesc AND_datdesc_opt
+	  		( DatDesc(I(tyvarseq1left,AND_datdesc_optright),
+	  			  tyvarseq1, tycon, condesc, AND_datdesc_opt) )
+     AND_datdesc_opt:
+	  AND datdesc	( SOME datdesc )
+	| (*empty*)	( NONE )
+
+  condesc:
+	  vid' OF_ty_opt BAR_condesc_opt
+			( ConDesc(I(vid'left,BAR_condesc_optright),
+				  vid', OF_ty_opt, BAR_condesc_opt) )
+     BAR_condesc_opt:
+	  BAR condesc	( SOME condesc )
+	| (*empty*)	( NONE )
+
+  exdesc:
+	  vid' OF_ty_opt AND_exdesc_opt
+	  		( ExDesc(I(vid'left,AND_exdesc_optright),
+	  			 vid', OF_ty_opt, AND_exdesc_opt) )
+     AND_exdesc_opt:
+	  AND exdesc	( SOME exdesc )
+	| (*empty*)	( NONE )
+
+  strdesc:
+	  strid COLON sigexp__AND_strdesc_opt
+	  		( StrDesc(I(stridleft,sigexp__AND_strdesc_optright),
+	  			  strid, #1 sigexp__AND_strdesc_opt,
+				  #2 sigexp__AND_strdesc_opt) )
+     AND_strdesc_opt:
+	  AND strdesc	( SOME strdesc )
+	| (*empty*)	( NONE )
+
+     sigexp__AND_strdesc_opt:
+	  sigexp' AND_strdesc_opt
+			( ( sigexp', AND_strdesc_opt ) )
+	| sigexp WHERE tyreadesc__AND_strdesc_opt
+			( ( WHERETYPESigExp(I(sigexpleft,
+					      tyreadesc__AND_strdesc_optright),
+					   sigexp,
+					   #1 tyreadesc__AND_strdesc_opt),
+			    #2 tyreadesc__AND_strdesc_opt ) )
+
+     tyreadesc__AND_strdesc_opt:
+	  TYPE tyvarseq longtycon EQUALS ty AND_tyreadesc_opt__AND_strdesc_opt
+			( ( TyReaDesc(I(TYPEleft,
+				       AND_tyreadesc_opt__AND_strdesc_optright),
+				      tyvarseq, longtycon, ty,
+				      #1 AND_tyreadesc_opt__AND_strdesc_opt),
+			    #2 AND_tyreadesc_opt__AND_strdesc_opt ) )
+
+     AND_tyreadesc_opt__AND_strdesc_opt:
+	  AND_strdesc_opt	( ( NONE, AND_strdesc_opt ) )
+	| AND tyreadesc__AND_strdesc_opt
+	  			( ( SOME(#1 tyreadesc__AND_strdesc_opt),
+				    #2 tyreadesc__AND_strdesc_opt ) )
+
+
+
+  (* Modules: Functors [Figures 8 and 18] *)
+
+  fundec:
+	  FUNCTOR funbind	( FunDec(I(FUNCTORleft,funbindright), funbind) )
+
+  funbind:
+	  funid LPAR strid COLON sigexp RPAR COLON_sigexp_opt EQUALS
+		strexp__AND_funbind_opt
+			( TRANSFunBind(I(funidleft,
+					 strexp__AND_funbind_optright),
+				       funid, strid, sigexp, COLON_sigexp_opt,
+				       #1 strexp__AND_funbind_opt,
+				       #2 strexp__AND_funbind_opt) )
+	| funid LPAR strid COLON sigexp RPAR SEAL sigexp EQUALS
+		strexp__AND_funbind_opt
+			( SEALFunBind(I(funidleft,strexp__AND_funbind_optright),
+				      funid, strid, sigexp1, sigexp2,
+				      #1 strexp__AND_funbind_opt,
+				      #2 strexp__AND_funbind_opt) )
+	| funid LPAR spec RPAR COLON_sigexp_opt EQUALS strexp__AND_funbind_opt
+			( TRANSSPECFunBind(I(funidleft,
+					     strexp__AND_funbind_optright),
+					   funid, spec, COLON_sigexp_opt,
+					   #1 strexp__AND_funbind_opt,
+					   #2 strexp__AND_funbind_opt) )
+	| funid LPAR spec RPAR SEAL sigexp EQUALS
+		strexp__AND_funbind_opt
+			( SEALSPECFunBind(I(funidleft,
+					    strexp__AND_funbind_optright),
+					  funid, spec, sigexp,
+					  #1 strexp__AND_funbind_opt,
+					  #2 strexp__AND_funbind_opt) )
+     AND_funbind_opt:
+	  AND funbind	( SOME funbind )
+	| (*empty*)	( NONE )
+
+     strexp__AND_funbind_opt:
+	  strexp' AND_funbind_opt
+			( ( strexp', AND_funbind_opt ) )
+	| strexp COLON sigexp__AND_funbind_opt
+			( ( COLONStrExp(I(strexpleft,
+					  sigexp__AND_funbind_optright),
+					strexp, #1 sigexp__AND_funbind_opt),
+			    #2 sigexp__AND_funbind_opt ) )
+	| strexp SEAL sigexp__AND_funbind_opt
+			( ( SEALStrExp(I(strexpleft,
+					 sigexp__AND_funbind_optright),
+				       strexp, #1 sigexp__AND_funbind_opt),
+			    #2 sigexp__AND_funbind_opt ) )
+
+     sigexp__AND_funbind_opt:
+	  sigexp' AND_funbind_opt
+			( ( sigexp', AND_funbind_opt ) )
+	| sigexp WHERE tyreadesc__AND_funbind_opt
+			( ( WHERETYPESigExp(I(sigexpleft,
+					      tyreadesc__AND_funbind_optright),
+					   sigexp,
+					   #1 tyreadesc__AND_funbind_opt),
+			    #2 tyreadesc__AND_funbind_opt ) )
+
+     tyreadesc__AND_funbind_opt:
+	  TYPE tyvarseq longtycon EQUALS ty AND_tyreadesc_opt__AND_funbind_opt
+			( ( TyReaDesc(I(TYPEleft,
+				       AND_tyreadesc_opt__AND_funbind_optright),
+				      tyvarseq, longtycon, ty,
+				      #1 AND_tyreadesc_opt__AND_funbind_opt),
+			    #2 AND_tyreadesc_opt__AND_funbind_opt ) )
+
+     AND_tyreadesc_opt__AND_funbind_opt:
+	  AND_funbind_opt
+			( ( NONE, AND_funbind_opt ) )
+	| AND tyreadesc__AND_funbind_opt
+	  		( ( SOME(#1 tyreadesc__AND_funbind_opt),
+			    #2 tyreadesc__AND_funbind_opt ) )
+
+
+
+  (* Modules: Top-level Declarations [Figure 8] *)
+
+  topdec:
+	  topdec1	( topdec1 )
+	| (*empty*)	( STRDECTopDec(I(defaultPos,defaultPos),
+				       EMPTYStrDec(I(defaultPos,defaultPos)),
+				       NONE) )
+     topdec1:
+	  strdec1' topdec_opt
+			( STRDECTopDec(I(strdec1'left,topdec_optright),
+				       strdec1', topdec_opt) )
+	| sigdec topdec_opt
+			( SIGDECTopDec(I(sigdecleft,topdec_optright),
+				       sigdec, topdec_opt) )
+	| fundec topdec_opt
+			( FUNDECTopDec(I(fundecleft,topdec_optright),
+				       fundec, topdec_opt) )
+     topdec_opt:
+	  topdec1	( SOME topdec1 )
+	| (*empty*)	( NONE )
+
+
+
+  (* Programs [Section 8 and Figure 18] *)
+
+  program:
+	  initInfix program'	( (program', !J) )
+
+     program':
+	  topdec SEMICOLON program_opt
+	  		( TOPDECProgram(I(topdecleft,SEMICOLONright),
+					topdec, program_opt) )
+	| exp SEMICOLON program_opt
+	  		( EXPProgram(I(expleft,SEMICOLONright),
+				     exp, program_opt) )
+     program_opt:
+	  program'	( SOME program' )
+	| (*empty*)	( NONE )
