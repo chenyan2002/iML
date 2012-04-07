@@ -137,6 +137,7 @@
   symbolicid = {symbol}+;
   id         = {alphanumid} | {symbolicid};
   tyvar      = "'"({letter} | {digit} | [_'])*;
+  lvvar      = "$"({letter} | {digit} | [_$])*;
   longid     = ({alphanumid}".")+ ({id}|"="|"*");
 
   printable  = [^\000-\032"\127\\];
@@ -217,6 +218,10 @@
   <INITIAL>"with"	=> ( token(WITH,      yypos, yytext) );
   <INITIAL>"withtype"	=> ( token(WITHTYPE,  yypos, yytext) );
 
+  <INITIAL>"$S" => ( token(STABLE, yypos, yytext) );
+  <INITIAL>"$C" => ( token(CHANGEABLE, yypos, yytext) );
+  <INITIAL>{lvvar} => ( tokenOf(LVVAR, toId, yypos, yytext) );
+                        
   <INITIAL>"0"		=> ( token  (ZERO,              yypos, yytext) );
   <INITIAL>[1-9]	=> ( tokenOf(DIGIT,   toInt,    yypos, yytext) );
   <INITIAL>{numericlab}	=> ( tokenOf(NUMERIC, toInt,    yypos, yytext) );

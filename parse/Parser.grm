@@ -295,6 +295,8 @@
 	| tyvarseq			of TyVarseq
 	|    tyvarseq1			of TyVarseq
 	|    tyvar_COMMA_list1		of TyVar list
+        (* levels *)
+        | level                         of Level.t
 
 	(* Nonterminals for the module language *)
 	| strexp			of StrExp
@@ -837,6 +839,12 @@
 	| COLON ty			( ty::[] )
 
 
+  (* Level *)
+  level:
+         lvvar       (Level.LVar lvvar)
+       | STABLE      (Level.Stable)
+       | CHANGEABLE  (Level.Changeable)
+       | (*empty*)   (Level.Unknown)
 
   (* Core: Type expressions [Figure 23] *)
 
