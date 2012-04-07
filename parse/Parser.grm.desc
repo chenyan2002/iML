@@ -1,17 +1,10 @@
-5 rules not reduced
-
-warning: rule <lvvar : LVVAR > will never be reduced
-warning: rule <level : lvvar > will never be reduced
-warning: rule <level : STABLE > will never be reduced
-warning: rule <level : CHANGEABLE > will never be reduced
-warning: rule <level : > will never be reduced
 
 state 0:
 
 	program : . initInfix program' 
 
 
-	program	goto 625
+	program	goto 635
 	initInfix	goto 1
 
 	.	reduce by rule 0
@@ -42,7 +35,7 @@ state 1:
 	LPAR	shift 31
 	LBRACK	shift 30
 	LBRACE	shift 29
-	SEMICOLON	reduce by rule 329
+	SEMICOLON	reduce by rule 331
 	EQUALS	reduce by rule 43
 	HASH	shift 28
 	FUNCTOR	shift 27
@@ -82,20 +75,20 @@ state 1:
 
 state 2:
 
-	program : initInfix program' .  (reduce by rule 335)
+	program : initInfix program' .  (reduce by rule 337)
 
 
 
-	.	reduce by rule 335
+	.	reduce by rule 337
 
 
 state 3:
 
-	topdec : topdec1 .  (reduce by rule 328)
+	topdec : topdec1 .  (reduce by rule 330)
 
 
 
-	.	reduce by rule 328
+	.	reduce by rule 330
 
 
 state 4:
@@ -134,7 +127,7 @@ state 5:
 	topdec1	goto 52
 	topdec_opt	goto 51
 
-	.	reduce by rule 334
+	.	reduce by rule 336
 
 
 state 6:
@@ -163,7 +156,7 @@ state 6:
 	topdec1	goto 52
 	topdec_opt	goto 53
 
-	.	reduce by rule 334
+	.	reduce by rule 336
 
 
 state 7:
@@ -192,16 +185,16 @@ state 7:
 	topdec1	goto 52
 	topdec_opt	goto 54
 
-	.	reduce by rule 334
+	.	reduce by rule 336
 
 
 state 8:
 
-	strdec1' : dec1' .  (reduce by rule 221)
+	strdec1' : dec1' .  (reduce by rule 223)
 
 
 
-	.	reduce by rule 221
+	.	reduce by rule 223
 
 
 state 9:
@@ -659,7 +652,7 @@ state 34:
 	tyvarseq	goto 111
 	tyvarseq1	goto 110
 
-	.	reduce by rule 203
+	.	reduce by rule 205
 
 
 state 35:
@@ -967,14 +960,14 @@ state 49:
 	tyvarseq	goto 152
 	tyvarseq1	goto 110
 
-	.	reduce by rule 203
+	.	reduce by rule 205
 
 
 state 50:
 
 	program' : topdec SEMICOLON . program_opt 
 
-	EOF	reduce by rule 339
+	EOF	reduce by rule 341
 	ABSTYPE	shift 49
 	CASE	shift 48
 	DATATYPE	shift 47
@@ -996,7 +989,7 @@ state 50:
 	LPAR	shift 31
 	LBRACK	shift 30
 	LBRACE	shift 29
-	SEMICOLON	reduce by rule 329
+	SEMICOLON	reduce by rule 331
 	EQUALS	reduce by rule 43
 	HASH	shift 28
 	FUNCTOR	shift 27
@@ -1037,45 +1030,45 @@ state 50:
 
 state 51:
 
-	topdec1 : fundec topdec_opt .  (reduce by rule 332)
+	topdec1 : fundec topdec_opt .  (reduce by rule 334)
 
 
 
-	.	reduce by rule 332
+	.	reduce by rule 334
 
 
 state 52:
 
-	topdec_opt : topdec1 .  (reduce by rule 333)
+	topdec_opt : topdec1 .  (reduce by rule 335)
+
+
+
+	.	reduce by rule 335
+
+
+state 53:
+
+	topdec1 : sigdec topdec_opt .  (reduce by rule 333)
 
 
 
 	.	reduce by rule 333
 
 
-state 53:
-
-	topdec1 : sigdec topdec_opt .  (reduce by rule 331)
-
-
-
-	.	reduce by rule 331
-
-
 state 54:
 
-	topdec1 : strdec1' topdec_opt .  (reduce by rule 330)
+	topdec1 : strdec1' topdec_opt .  (reduce by rule 332)
 
 
 
-	.	reduce by rule 330
+	.	reduce by rule 332
 
 
 state 55:
 
 	program' : exp SEMICOLON . program_opt 
 
-	EOF	reduce by rule 339
+	EOF	reduce by rule 341
 	ABSTYPE	shift 49
 	CASE	shift 48
 	DATATYPE	shift 47
@@ -1097,7 +1090,7 @@ state 55:
 	LPAR	shift 31
 	LBRACK	shift 30
 	LBRACE	shift 29
-	SEMICOLON	reduce by rule 329
+	SEMICOLON	reduce by rule 331
 	EQUALS	reduce by rule 43
 	HASH	shift 28
 	FUNCTOR	shift 27
@@ -1152,7 +1145,7 @@ state 56:
 	atty	goto 158
 	tyseq	goto 157
 
-	.	reduce by rule 198
+	.	reduce by rule 200
 
 
 state 57:
@@ -1342,11 +1335,11 @@ state 68:
 
 state 69:
 
-	strdec1' : STRUCTURE strbind .  (reduce by rule 222)
+	strdec1' : STRUCTURE strbind .  (reduce by rule 224)
 
 
 
-	.	reduce by rule 222
+	.	reduce by rule 224
 
 
 state 70:
@@ -1359,7 +1352,7 @@ state 70:
 
 	COLON_sigexp_opt	goto 169
 
-	.	reduce by rule 237
+	.	reduce by rule 239
 
 
 state 71:
@@ -1373,11 +1366,11 @@ state 71:
 
 state 72:
 
-	sigdec : SIGNATURE sigbind .  (reduce by rule 242)
+	sigdec : SIGNATURE sigbind .  (reduce by rule 244)
 
 
 
-	.	reduce by rule 242
+	.	reduce by rule 244
 
 
 state 73:
@@ -1401,11 +1394,11 @@ state 74:
 
 state 75:
 
-	fundec : FUNCTOR funbind .  (reduce by rule 313)
+	fundec : FUNCTOR funbind .  (reduce by rule 315)
 
 
 
-	.	reduce by rule 313
+	.	reduce by rule 315
 
 
 state 76:
@@ -1756,11 +1749,11 @@ state 101:
 
 state 102:
 
-	tyvarseq1 : tyvar .  (reduce by rule 204)
+	tyvarseq1 : tyvar .  (reduce by rule 206)
 
 
 
-	.	reduce by rule 204
+	.	reduce by rule 206
 
 
 state 103:
@@ -1918,11 +1911,11 @@ state 109:
 
 state 110:
 
-	tyvarseq : tyvarseq1 .  (reduce by rule 202)
+	tyvarseq : tyvarseq1 .  (reduce by rule 204)
 
 
 
-	.	reduce by rule 202
+	.	reduce by rule 204
 
 
 state 111:
@@ -2084,7 +2077,7 @@ state 123:
 	strdec1	goto 214
 	strdec1'	goto 213
 
-	.	reduce by rule 217
+	.	reduce by rule 219
 
 
 state 124:
@@ -2520,34 +2513,34 @@ state 153:
 
 state 154:
 
-	program' : topdec SEMICOLON program_opt .  (reduce by rule 336)
-
-
-
-	.	reduce by rule 336
-
-
-state 155:
-
-	program_opt : program' .  (reduce by rule 338)
+	program' : topdec SEMICOLON program_opt .  (reduce by rule 338)
 
 
 
 	.	reduce by rule 338
 
 
+state 155:
+
+	program_opt : program' .  (reduce by rule 340)
+
+
+
+	.	reduce by rule 340
+
+
 state 156:
 
-	program' : exp SEMICOLON program_opt .  (reduce by rule 337)
+	program' : exp SEMICOLON program_opt .  (reduce by rule 339)
 
 
 
-	.	reduce by rule 337
+	.	reduce by rule 339
 
 
 state 157:
 
-	consty : tyseq . longtycon 
+	consty : tyseq . longtycon level 
 
 	ALPHA	shift 150
 	SYMBOL	shift 149
@@ -2561,65 +2554,66 @@ state 157:
 
 state 158:
 
-	consty : atty .  (reduce by rule 187)
+	consty : atty .  (reduce by rule 189)
 
 
 
-	.	reduce by rule 187
+	.	reduce by rule 189
 
 
 state 159:
 
 	ty_STAR_list : consty . STAR ty_STAR_list 
-	ty_STAR_list : consty .  (reduce by rule 186)
-	tyseq : consty .  (reduce by rule 197)
+	ty_STAR_list : consty .  (reduce by rule 188)
+	tyseq : consty .  (reduce by rule 199)
 
-	ABSTYPE	reduce by rule 186
-	AND	reduce by rule 186
-	ANDALSO	reduce by rule 186
-	AS	reduce by rule 186
-	DO	reduce by rule 186
-	DATATYPE	reduce by rule 186
-	ELSE	reduce by rule 186
-	END	reduce by rule 186
-	EXCEPTION	reduce by rule 186
-	FUN	reduce by rule 186
-	HANDLE	reduce by rule 186
-	IN	reduce by rule 186
-	INFIX	reduce by rule 186
-	INFIXR	reduce by rule 186
-	LOCAL	reduce by rule 186
-	NONFIX	reduce by rule 186
-	OF	reduce by rule 186
-	OPEN	reduce by rule 186
-	ORELSE	reduce by rule 186
-	THEN	reduce by rule 186
-	TYPE	reduce by rule 186
-	VAL	reduce by rule 186
-	WITH	reduce by rule 186
-	WITHTYPE	reduce by rule 186
-	RPAR	reduce by rule 186
-	RBRACK	reduce by rule 186
-	RBRACE	reduce by rule 186
-	COMMA	reduce by rule 186
-	COLON	reduce by rule 186
-	SEMICOLON	reduce by rule 186
-	BAR	reduce by rule 186
-	EQUALS	reduce by rule 186
-	DARROW	reduce by rule 186
-	ARROW	reduce by rule 186
-	EQTYPE	reduce by rule 186
-	FUNCTOR	reduce by rule 186
-	INCLUDE	reduce by rule 186
-	SHARING	reduce by rule 186
-	SIGNATURE	reduce by rule 186
-	STRUCTURE	reduce by rule 186
-	WHERE	reduce by rule 186
-	SEAL	reduce by rule 186
-	ALPHA	reduce by rule 197
-	SYMBOL	reduce by rule 197
+	ABSTYPE	reduce by rule 188
+	AND	reduce by rule 188
+	ANDALSO	reduce by rule 188
+	AS	reduce by rule 188
+	DO	reduce by rule 188
+	DATATYPE	reduce by rule 188
+	ELSE	reduce by rule 188
+	END	reduce by rule 188
+	EXCEPTION	reduce by rule 188
+	FUN	reduce by rule 188
+	HANDLE	reduce by rule 188
+	IN	reduce by rule 188
+	INFIX	reduce by rule 188
+	INFIXR	reduce by rule 188
+	LOCAL	reduce by rule 188
+	NONFIX	reduce by rule 188
+	OF	reduce by rule 188
+	OPEN	reduce by rule 188
+	ORELSE	reduce by rule 188
+	THEN	reduce by rule 188
+	TYPE	reduce by rule 188
+	VAL	reduce by rule 188
+	WITH	reduce by rule 188
+	WITHTYPE	reduce by rule 188
+	RPAR	reduce by rule 188
+	RBRACK	reduce by rule 188
+	RBRACE	reduce by rule 188
+	COMMA	reduce by rule 188
+	COLON	reduce by rule 188
+	SEMICOLON	reduce by rule 188
+	BAR	reduce by rule 188
+	EQUALS	reduce by rule 188
+	DARROW	reduce by rule 188
+	ARROW	reduce by rule 188
+	HASH	reduce by rule 188
+	EQTYPE	reduce by rule 188
+	FUNCTOR	reduce by rule 188
+	INCLUDE	reduce by rule 188
+	SHARING	reduce by rule 188
+	SIGNATURE	reduce by rule 188
+	STRUCTURE	reduce by rule 188
+	WHERE	reduce by rule 188
+	SEAL	reduce by rule 188
+	ALPHA	reduce by rule 199
+	SYMBOL	reduce by rule 199
 	STAR	shift 248
-	LONGID	reduce by rule 197
+	LONGID	reduce by rule 199
 
 
 	.	error
@@ -2627,22 +2621,24 @@ state 159:
 
 state 160:
 
-	tupty : ty_STAR_list .  (reduce by rule 184)
+	tupty : ty_STAR_list .  (reduce by rule 185)
+	tupty : ty_STAR_list . HASH level' 
+
+	HASH	shift 249
 
 
-
-	.	reduce by rule 184
+	.	reduce by rule 185
 
 
 state 161:
 
-	ty : tupty .  (reduce by rule 182)
-	ty : tupty . ARROW ty 
+	ty : tupty .  (reduce by rule 183)
+	ty : tupty . ARROW level ty 
 
-	ARROW	shift 249
+	ARROW	shift 250
 
 
-	.	reduce by rule 182
+	.	reduce by rule 183
 
 
 state 162:
@@ -2656,16 +2652,16 @@ state 162:
 
 state 163:
 
-	atty : tyvar .  (reduce by rule 189)
+	atty : tyvar .  (reduce by rule 191)
 
 
 
-	.	reduce by rule 189
+	.	reduce by rule 191
 
 
 state 164:
 
-	atty : LBRACE . tyrow_opt RBRACE 
+	atty : LBRACE . tyrow_opt RBRACE level 
 
 	DIGIT	shift 83
 	NUMERIC	shift 82
@@ -2673,11 +2669,11 @@ state 164:
 	SYMBOL	shift 80
 	STAR	shift 79
 
-	lab	goto 252
-	tyrow	goto 251
-	tyrow_opt	goto 250
+	lab	goto 253
+	tyrow	goto 252
+	tyrow_opt	goto 251
 
-	.	reduce by rule 196
+	.	reduce by rule 198
 
 
 state 165:
@@ -2690,15 +2686,15 @@ state 165:
 	TYVAR	shift 104
 
 	tyvar	goto 163
-	ty	goto 254
+	ty	goto 255
 	tupty	goto 161
 	ty_STAR_list	goto 160
 	consty	goto 159
 	atty	goto 158
 	tyseq	goto 157
-	ty_COMMA_list2	goto 253
+	ty_COMMA_list2	goto 254
 
-	.	reduce by rule 198
+	.	reduce by rule 200
 
 
 state 166:
@@ -2745,7 +2741,7 @@ state 169:
 
 	strbind : strid COLON_sigexp_opt . EQUALS strexp__AND_strbind_opt 
 
-	EQUALS	shift 255
+	EQUALS	shift 256
 
 
 	.	error
@@ -2755,12 +2751,12 @@ state 170:
 
 	strbind : strid SEAL . sigexp EQUALS strexp__AND_strbind_opt 
 
-	SIG	shift 259
+	SIG	shift 260
 	ALPHA	shift 74
 
-	sigid	goto 258
-	sigexp	goto 257
-	sigexp'	goto 256
+	sigid	goto 259
+	sigexp	goto 258
+	sigexp'	goto 257
 
 	.	error
 
@@ -2769,12 +2765,12 @@ state 171:
 
 	COLON_sigexp_opt : COLON . sigexp 
 
-	SIG	shift 259
+	SIG	shift 260
 	ALPHA	shift 74
 
-	sigid	goto 258
-	sigexp	goto 260
-	sigexp'	goto 256
+	sigid	goto 259
+	sigexp	goto 261
+	sigexp'	goto 257
 
 	.	error
 
@@ -2783,13 +2779,13 @@ state 172:
 
 	sigbind : sigid EQUALS . sigexp__AND_sigbind_opt 
 
-	SIG	shift 259
+	SIG	shift 260
 	ALPHA	shift 74
 
-	sigid	goto 258
-	sigexp	goto 263
-	sigexp'	goto 262
-	sigexp__AND_sigbind_opt	goto 261
+	sigid	goto 259
+	sigexp	goto 264
+	sigexp'	goto 263
+	sigexp__AND_sigbind_opt	goto 262
 
 	.	error
 
@@ -2801,23 +2797,23 @@ state 173:
 	funbind : funid LPAR . spec RPAR COLON_sigexp_opt EQUALS strexp__AND_funbind_opt 
 	funbind : funid LPAR . spec RPAR SEAL sigexp EQUALS strexp__AND_funbind_opt 
 
-	DATATYPE	shift 276
-	EXCEPTION	shift 275
-	TYPE	shift 274
-	VAL	shift 273
-	SEMICOLON	shift 272
-	EQTYPE	shift 271
-	INCLUDE	shift 270
-	SHARING	shift 269
-	STRUCTURE	shift 268
+	DATATYPE	shift 277
+	EXCEPTION	shift 276
+	TYPE	shift 275
+	VAL	shift 274
+	SEMICOLON	shift 273
+	EQTYPE	shift 272
+	INCLUDE	shift 271
+	SHARING	shift 270
+	STRUCTURE	shift 269
 	ALPHA	shift 71
 
-	strid	goto 267
-	spec	goto 266
-	spec1	goto 265
-	spec1''	goto 264
+	strid	goto 268
+	spec	goto 267
+	spec1	goto 266
+	spec1''	goto 265
 
-	.	reduce by rule 255
+	.	reduce by rule 257
 
 
 state 174:
@@ -2860,7 +2856,7 @@ state 175:
 	atexp	goto 12
 	appexp	goto 11
 	infexp	goto 10
-	exp	goto 277
+	exp	goto 278
 
 	.	reduce by rule 43
 
@@ -2894,7 +2890,7 @@ state 176:
 	scon	goto 14
 	OP_opt	goto 13
 	atexp	goto 12
-	exp_COMMA_list1	goto 278
+	exp_COMMA_list1	goto 279
 	appexp	goto 11
 	infexp	goto 10
 	exp	goto 87
@@ -2941,10 +2937,10 @@ state 178:
 	scon	goto 14
 	OP_opt	goto 13
 	atexp	goto 12
-	exp_SEMICOLON_list2	goto 280
+	exp_SEMICOLON_list2	goto 281
 	appexp	goto 11
 	infexp	goto 10
-	exp	goto 279
+	exp	goto 280
 
 	.	reduce by rule 43
 
@@ -2978,7 +2974,7 @@ state 179:
 	scon	goto 14
 	OP_opt	goto 13
 	atexp	goto 12
-	exp_COMMA_list1	goto 281
+	exp_COMMA_list1	goto 282
 	appexp	goto 11
 	infexp	goto 10
 	exp	goto 87
@@ -3044,7 +3040,7 @@ state 183:
 	atexp	goto 12
 	appexp	goto 11
 	infexp	goto 10
-	exp	goto 282
+	exp	goto 283
 
 	.	reduce by rule 43
 
@@ -3077,14 +3073,14 @@ state 186:
 	TYVAR	shift 104
 
 	tyvar	goto 163
-	ty	goto 283
+	ty	goto 284
 	tupty	goto 161
 	ty_STAR_list	goto 160
 	consty	goto 159
 	atty	goto 158
 	tyseq	goto 157
 
-	.	reduce by rule 198
+	.	reduce by rule 200
 
 
 state 187:
@@ -3118,7 +3114,7 @@ state 187:
 	atexp	goto 12
 	appexp	goto 11
 	infexp	goto 10
-	exp	goto 284
+	exp	goto 285
 
 	.	reduce by rule 43
 
@@ -3165,7 +3161,7 @@ state 191:
 	LBRACE	reduce by rule 36
 	RBRACE	reduce by rule 36
 	COMMA	reduce by rule 36
-	COLON	shift 287
+	COLON	shift 288
 	UNDERBAR	reduce by rule 36
 	EQUALS	reduce by rule 36
 	DARROW	reduce by rule 36
@@ -3184,8 +3180,8 @@ state 191:
 	STAR	reduce by rule 36
 	LONGID	reduce by rule 36
 
-	COLON_ty_opt	goto 286
-	COLON_ty_list1	goto 285
+	COLON_ty_opt	goto 287
+	COLON_ty_list1	goto 286
 
 	.	error
 
@@ -3197,7 +3193,7 @@ state 192:
 
 	COLON	shift 186
 
-	COLON_ty_list1	goto 288
+	COLON_ty_list1	goto 289
 
 	.	reduce by rule 37
 
@@ -3206,7 +3202,7 @@ state 193:
 
 	atpat' : LBRACE patrow_opt . RBRACE 
 
-	RBRACE	shift 289
+	RBRACE	shift 290
 
 
 	.	error
@@ -3227,7 +3223,7 @@ state 195:
 
 	COLON	shift 227
 
-	COLON_ty_opt	goto 290
+	COLON_ty_opt	goto 291
 
 	.	reduce by rule 161
 
@@ -3236,7 +3232,7 @@ state 196:
 
 	patrow : lab . EQUALS pat COMMA_patrow_opt 
 
-	EQUALS	shift 291
+	EQUALS	shift 292
 
 
 	.	error
@@ -3301,7 +3297,7 @@ state 201:
 	pat_COMMA_list1 : pat . COMMA pat_COMMA_list1 
 	pat_COMMA_list1 : pat .  (reduce by rule 153)
 
-	COMMA	shift 292
+	COMMA	shift 293
 
 
 	.	reduce by rule 153
@@ -3320,7 +3316,7 @@ state 203:
 
 	atpat' : LBRACK pat_COMMA_list0 . RBRACK 
 
-	RBRACK	shift 293
+	RBRACK	shift 294
 
 
 	.	error
@@ -3330,7 +3326,7 @@ state 204:
 
 	tyvarseq1 : LPAR tyvar_COMMA_list1 . RPAR 
 
-	RPAR	shift 294
+	RPAR	shift 295
 
 
 	.	error
@@ -3341,8 +3337,8 @@ state 205:
 	atpat' : LPAR pat . RPAR 
 	pat_COMMA_list2 : pat . COMMA pat_COMMA_list1 
 
-	RPAR	shift 296
-	COMMA	shift 295
+	RPAR	shift 297
+	COMMA	shift 296
 
 
 	.	error
@@ -3352,7 +3348,7 @@ state 206:
 
 	atpat' : LPAR pat_COMMA_list2 . RPAR 
 
-	RPAR	shift 297
+	RPAR	shift 298
 
 
 	.	error
@@ -3361,12 +3357,12 @@ state 206:
 state 207:
 
 	tyvar_COMMA_list1 : tyvar . COMMA tyvar_COMMA_list1 
-	tyvar_COMMA_list1 : tyvar .  (reduce by rule 207)
+	tyvar_COMMA_list1 : tyvar .  (reduce by rule 209)
 
-	COMMA	shift 298
+	COMMA	shift 299
 
 
-	.	reduce by rule 207
+	.	reduce by rule 209
 
 
 state 208:
@@ -3391,7 +3387,7 @@ state 210:
 
 	typbind : tyvarseq tycon . EQUALS ty AND_typbind_opt 
 
-	EQUALS	shift 299
+	EQUALS	shift 300
 
 
 	.	error
@@ -3417,16 +3413,16 @@ state 212:
 
 state 213:
 
-	strdec1 : strdec1' .  (reduce by rule 218)
+	strdec1 : strdec1' .  (reduce by rule 220)
 
 
 
-	.	reduce by rule 218
+	.	reduce by rule 220
 
 
 state 214:
 
-	strdec : strdec1 .  (reduce by rule 216)
+	strdec : strdec1 .  (reduce by rule 218)
 	strdec1 : strdec1 . strdec1 
 
 	ABSTYPE	shift 49
@@ -3444,17 +3440,17 @@ state 214:
 	STRUCTURE	shift 25
 
 	dec1'	goto 8
-	strdec1	goto 300
+	strdec1	goto 301
 	strdec1'	goto 213
 
-	.	reduce by rule 216
+	.	reduce by rule 218
 
 
 state 215:
 
 	strdec1' : LOCAL pushInfix strdec . IN pushLocalInfix strdec popLocalInfix END 
 
-	IN	shift 301
+	IN	shift 302
 
 
 	.	error
@@ -3462,11 +3458,11 @@ state 215:
 
 state 216:
 
-	strdec1 : SEMICOLON .  (reduce by rule 220)
+	strdec1 : SEMICOLON .  (reduce by rule 222)
 
 
 
-	.	reduce by rule 220
+	.	reduce by rule 222
 
 
 state 217:
@@ -3496,7 +3492,7 @@ state 218:
 	VAL	shift 33
 	SEMICOLON	shift 220
 
-	dec1	goto 302
+	dec1	goto 303
 	dec1'	goto 217
 
 	.	reduce by rule 85
@@ -3506,7 +3502,7 @@ state 219:
 
 	atexp : LET pushInfix dec . IN exp_SEMICOLON_list1 popInfix END 
 
-	IN	shift 303
+	IN	shift 304
 
 
 	.	error
@@ -3526,7 +3522,7 @@ state 221:
 	dec1 : LOCAL . pushInfix dec IN pushLocalInfix dec popLocalInfix END 
 
 
-	pushInfix	goto 304
+	pushInfix	goto 305
 
 	.	reduce by rule 1
 
@@ -3580,7 +3576,7 @@ state 224:
 	atexp	goto 12
 	appexp	goto 11
 	infexp	goto 10
-	exp	goto 305
+	exp	goto 306
 
 	.	reduce by rule 43
 
@@ -3598,7 +3594,7 @@ state 226:
 
 	fmrule : atpat_list1 COLON_ty_opt . EQUALS exp 
 
-	EQUALS	shift 306
+	EQUALS	shift 307
 
 
 	.	error
@@ -3613,14 +3609,14 @@ state 227:
 	TYVAR	shift 104
 
 	tyvar	goto 163
-	ty	goto 307
+	ty	goto 308
 	tupty	goto 161
 	ty_STAR_list	goto 160
 	consty	goto 159
 	atty	goto 158
 	tyseq	goto 157
 
-	.	reduce by rule 198
+	.	reduce by rule 200
 
 
 state 228:
@@ -3663,7 +3659,7 @@ state 230:
 
 	scon	goto 103
 	OP_opt	goto 138
-	fmatch	goto 308
+	fmatch	goto 309
 	fmrule	goto 135
 	atpat	goto 134
 	atpat'	goto 133
@@ -3703,7 +3699,7 @@ state 232:
 
 	scon	goto 103
 	OP_opt	goto 138
-	fvalbind	goto 309
+	fvalbind	goto 310
 	fmatch	goto 136
 	fmrule	goto 135
 	atpat	goto 134
@@ -3744,7 +3740,7 @@ state 233:
 	atexp	goto 12
 	appexp	goto 11
 	infexp	goto 10
-	exp	goto 310
+	exp	goto 311
 
 	.	reduce by rule 43
 
@@ -3780,7 +3776,7 @@ state 235:
 
 	scon	goto 103
 	OP_opt	goto 101
-	match	goto 311
+	match	goto 312
 	mrule	goto 140
 	atpat	goto 99
 	atpat'	goto 98
@@ -3795,10 +3791,10 @@ state 236:
 	exbind : OP_opt vid' . OF_ty_opt AND_exbind_opt 
 	exbind : OP_opt vid' . EQUALS OP_opt longvid AND_exbind_opt 
 
-	OF	shift 314
-	EQUALS	shift 313
+	OF	shift 315
+	EQUALS	shift 314
 
-	OF_ty_opt	goto 312
+	OF_ty_opt	goto 313
 
 	.	reduce by rule 136
 
@@ -3807,7 +3803,7 @@ state 237:
 
 	datbind1 : tyvarseq1 tycon . EQUALS conbind AND_datbind_opt 
 
-	EQUALS	shift 315
+	EQUALS	shift 316
 
 
 	.	error
@@ -3830,11 +3826,11 @@ state 239:
 	TYVAR	shift 104
 
 	tyvar	goto 102
-	typbind	goto 316
+	typbind	goto 317
 	tyvarseq	goto 111
 	tyvarseq1	goto 110
 
-	.	reduce by rule 203
+	.	reduce by rule 205
 
 
 state 240:
@@ -3851,11 +3847,11 @@ state 241:
 	dec1' : DATATYPE tycon EQUALS . DATATYPE longtycon 
 	datbind0 : tycon EQUALS . conbind AND_datbind_opt 
 
-	DATATYPE	shift 319
+	DATATYPE	shift 320
 	OP	shift 37
 
-	OP_opt	goto 318
-	conbind	goto 317
+	OP_opt	goto 319
+	conbind	goto 318
 
 	.	reduce by rule 43
 
@@ -3882,7 +3878,7 @@ state 242:
 
 	scon	goto 103
 	OP_opt	goto 101
-	match	goto 320
+	match	goto 321
 	mrule	goto 140
 	atpat	goto 99
 	atpat'	goto 98
@@ -3896,7 +3892,7 @@ state 243:
 
 	datbind : tyvarseq tycon . EQUALS conbind AND_datbind_opt 
 
-	EQUALS	shift 321
+	EQUALS	shift 322
 
 
 	.	error
@@ -3906,7 +3902,7 @@ state 244:
 
 	dec1' : ABSTYPE datbind WITHTYPE_typbind_opt . WITH dec END 
 
-	WITH	shift 322
+	WITH	shift 323
 
 
 	.	error
@@ -3914,11 +3910,17 @@ state 244:
 
 state 245:
 
-	consty : tyseq longtycon .  (reduce by rule 188)
+	consty : tyseq longtycon . level 
 
+	LVVAR	shift 329
+	STABLE	shift 328
+	CHANGEABLE	shift 327
 
+	lvvar	goto 326
+	level	goto 325
+	level'	goto 324
 
-	.	reduce by rule 188
+	.	reduce by rule 179
 
 
 state 246:
@@ -3948,67 +3950,67 @@ state 248:
 	TYVAR	shift 104
 
 	tyvar	goto 163
-	ty_STAR_list	goto 323
+	ty_STAR_list	goto 330
 	consty	goto 159
 	atty	goto 158
 	tyseq	goto 157
 
-	.	reduce by rule 198
+	.	reduce by rule 200
 
 
 state 249:
 
-	ty : tupty ARROW . ty 
+	tupty : ty_STAR_list HASH . level' 
 
-	LPAR	shift 165
-	LBRACE	shift 164
-	TYVAR	shift 104
+	LVVAR	shift 329
+	STABLE	shift 328
+	CHANGEABLE	shift 327
 
-	tyvar	goto 163
-	ty	goto 324
-	tupty	goto 161
-	ty_STAR_list	goto 160
-	consty	goto 159
-	atty	goto 158
-	tyseq	goto 157
+	lvvar	goto 326
+	level'	goto 331
 
-	.	reduce by rule 198
+	.	error
 
 
 state 250:
 
-	atty : LBRACE tyrow_opt . RBRACE 
+	ty : tupty ARROW . level ty 
 
-	RBRACE	shift 325
+	LVVAR	shift 329
+	STABLE	shift 328
+	CHANGEABLE	shift 327
 
+	lvvar	goto 326
+	level	goto 332
+	level'	goto 324
 
-	.	error
+	.	reduce by rule 179
 
 
 state 251:
 
-	tyrow_opt : tyrow .  (reduce by rule 195)
+	atty : LBRACE tyrow_opt . RBRACE level 
 
-
-
-	.	reduce by rule 195
-
-
-state 252:
-
-	tyrow : lab . COLON ty COMMA_tyrow_opt 
-
-	COLON	shift 326
+	RBRACE	shift 333
 
 
 	.	error
 
 
+state 252:
+
+	tyrow_opt : tyrow .  (reduce by rule 197)
+
+
+
+	.	reduce by rule 197
+
+
 state 253:
 
-	tyseq : LPAR ty_COMMA_list2 . RPAR 
+	tyrow : lab . COLON ty COMMA_tyrow_opt 
 
-	RPAR	shift 327
+	COLON	shift 334
 
 
 	.	error
@@ -4016,12 +4018,9 @@ state 253:
 
 state 254:
 
-	atty : LPAR ty . RPAR 
-	ty_COMMA_list2 : ty . COMMA ty_COMMA_list2 
-	ty_COMMA_list2 : ty . COMMA ty 
+	tyseq : LPAR ty_COMMA_list2 . RPAR 
 
-	RPAR	shift 329
-	COMMA	shift 328
+	RPAR	shift 335
 
 
 	.	error
@@ -4029,182 +4028,184 @@ state 254:
 
 state 255:
 
-	strbind : strid COLON_sigexp_opt EQUALS . strexp__AND_strbind_opt 
+	atty : LPAR ty . RPAR 
+	ty_COMMA_list2 : ty . COMMA ty_COMMA_list2 
+	ty_COMMA_list2 : ty . COMMA ty 
 
-	LET	shift 337
-	STRUCT	shift 336
-	ALPHA	shift 335
-	LONGID	shift 118
+	RPAR	shift 337
+	COMMA	shift 336
 
-	strid	goto 117
-	funid	goto 334
-	longstrid	goto 333
-	strexp	goto 332
-	strexp'	goto 331
-	strexp__AND_strbind_opt	goto 330
 
 	.	error
 
 
 state 256:
 
-	sigexp : sigexp' .  (reduce by rule 238)
+	strbind : strid COLON_sigexp_opt EQUALS . strexp__AND_strbind_opt 
 
+	LET	shift 345
+	STRUCT	shift 344
+	ALPHA	shift 343
+	LONGID	shift 118
 
+	strid	goto 117
+	funid	goto 342
+	longstrid	goto 341
+	strexp	goto 340
+	strexp'	goto 339
+	strexp__AND_strbind_opt	goto 338
 
-	.	reduce by rule 238
+	.	error
 
 
 state 257:
 
+	sigexp : sigexp' .  (reduce by rule 240)
+
+
+
+	.	reduce by rule 240
+
+
+state 258:
+
 	strbind : strid SEAL sigexp . EQUALS strexp__AND_strbind_opt 
 	sigexp : sigexp . WHERE tyreadesc 
 
-	EQUALS	shift 339
-	WHERE	shift 338
+	EQUALS	shift 347
+	WHERE	shift 346
 
 
 	.	error
 
 
-state 258:
-
-	sigexp' : sigid .  (reduce by rule 241)
-
-
-
-	.	reduce by rule 241
-
-
 state 259:
 
-	sigexp' : SIG . spec END 
-
-	DATATYPE	shift 276
-	EXCEPTION	shift 275
-	TYPE	shift 274
-	VAL	shift 273
-	SEMICOLON	shift 272
-	EQTYPE	shift 271
-	INCLUDE	shift 270
-	SHARING	shift 269
-	STRUCTURE	shift 268
-
-	spec	goto 340
-	spec1	goto 265
-	spec1''	goto 264
-
-	.	reduce by rule 255
-
-
-state 260:
-
-	COLON_sigexp_opt : COLON sigexp .  (reduce by rule 236)
-	sigexp : sigexp . WHERE tyreadesc 
-
-	WHERE	shift 338
-
-
-	.	reduce by rule 236
-
-
-state 261:
-
-	sigbind : sigid EQUALS sigexp__AND_sigbind_opt .  (reduce by rule 243)
+	sigexp' : sigid .  (reduce by rule 243)
 
 
 
 	.	reduce by rule 243
 
 
+state 260:
+
+	sigexp' : SIG . spec END 
+
+	DATATYPE	shift 277
+	EXCEPTION	shift 276
+	TYPE	shift 275
+	VAL	shift 274
+	SEMICOLON	shift 273
+	EQTYPE	shift 272
+	INCLUDE	shift 271
+	SHARING	shift 270
+	STRUCTURE	shift 269
+
+	spec	goto 348
+	spec1	goto 266
+	spec1''	goto 265
+
+	.	reduce by rule 257
+
+
+state 261:
+
+	COLON_sigexp_opt : COLON sigexp .  (reduce by rule 238)
+	sigexp : sigexp . WHERE tyreadesc 
+
+	WHERE	shift 346
+
+
+	.	reduce by rule 238
+
+
 state 262:
 
-	sigexp : sigexp' .  (reduce by rule 238)
-	sigexp__AND_sigbind_opt : sigexp' . AND_sigbind_opt 
+	sigbind : sigid EQUALS sigexp__AND_sigbind_opt .  (reduce by rule 245)
 
-	ABSTYPE	reduce by rule 245
-	AND	shift 342
-	DATATYPE	reduce by rule 245
-	EXCEPTION	reduce by rule 245
-	FUN	reduce by rule 245
-	INFIX	reduce by rule 245
-	INFIXR	reduce by rule 245
-	LOCAL	reduce by rule 245
-	NONFIX	reduce by rule 245
-	OPEN	reduce by rule 245
-	TYPE	reduce by rule 245
-	VAL	reduce by rule 245
-	SEMICOLON	reduce by rule 245
-	FUNCTOR	reduce by rule 245
-	SIGNATURE	reduce by rule 245
-	STRUCTURE	reduce by rule 245
-	WHERE	reduce by rule 238
 
-	AND_sigbind_opt	goto 341
 
-	.	error
+	.	reduce by rule 245
 
 
 state 263:
 
-	sigexp : sigexp . WHERE tyreadesc 
-	sigexp__AND_sigbind_opt : sigexp . WHERE tyreadesc__AND_sigbind_opt 
+	sigexp : sigexp' .  (reduce by rule 240)
+	sigexp__AND_sigbind_opt : sigexp' . AND_sigbind_opt 
 
-	WHERE	shift 343
+	ABSTYPE	reduce by rule 247
+	AND	shift 350
+	DATATYPE	reduce by rule 247
+	EXCEPTION	reduce by rule 247
+	FUN	reduce by rule 247
+	INFIX	reduce by rule 247
+	INFIXR	reduce by rule 247
+	LOCAL	reduce by rule 247
+	NONFIX	reduce by rule 247
+	OPEN	reduce by rule 247
+	TYPE	reduce by rule 247
+	VAL	reduce by rule 247
+	SEMICOLON	reduce by rule 247
+	FUNCTOR	reduce by rule 247
+	SIGNATURE	reduce by rule 247
+	STRUCTURE	reduce by rule 247
+	WHERE	reduce by rule 240
 
+	AND_sigbind_opt	goto 349
 
 	.	error
 
 
 state 264:
 
-	spec1 : spec1'' .  (reduce by rule 256)
+	sigexp : sigexp . WHERE tyreadesc 
+	sigexp__AND_sigbind_opt : sigexp . WHERE tyreadesc__AND_sigbind_opt 
 
-
-
-	.	reduce by rule 256
-
-
-state 265:
-
-	spec : spec1 .  (reduce by rule 254)
-	spec1 : spec1 . spec1' 
-	spec1 : spec1 . SHARING TYPE longtycon_EQUALS_list2 
-	spec1 : spec1 . SHARING longstrid_EQUALS_list2 
-
-	DATATYPE	shift 276
-	EXCEPTION	shift 275
-	TYPE	shift 274
-	VAL	shift 273
-	SEMICOLON	shift 347
-	EQTYPE	shift 271
-	INCLUDE	shift 270
-	SHARING	shift 346
-	STRUCTURE	shift 268
-
-	spec1'	goto 345
-	spec1''	goto 344
-
-	.	reduce by rule 254
-
-
-state 266:
-
-	funbind : funid LPAR spec . RPAR COLON_sigexp_opt EQUALS strexp__AND_funbind_opt 
-	funbind : funid LPAR spec . RPAR SEAL sigexp EQUALS strexp__AND_funbind_opt 
-
-	RPAR	shift 348
+	WHERE	shift 351
 
 
 	.	error
 
 
+state 265:
+
+	spec1 : spec1'' .  (reduce by rule 258)
+
+
+
+	.	reduce by rule 258
+
+
+state 266:
+
+	spec : spec1 .  (reduce by rule 256)
+	spec1 : spec1 . spec1' 
+	spec1 : spec1 . SHARING TYPE longtycon_EQUALS_list2 
+	spec1 : spec1 . SHARING longstrid_EQUALS_list2 
+
+	DATATYPE	shift 277
+	EXCEPTION	shift 276
+	TYPE	shift 275
+	VAL	shift 274
+	SEMICOLON	shift 355
+	EQTYPE	shift 272
+	INCLUDE	shift 271
+	SHARING	shift 354
+	STRUCTURE	shift 269
+
+	spec1'	goto 353
+	spec1''	goto 352
+
+	.	reduce by rule 256
+
+
 state 267:
 
-	funbind : funid LPAR strid . COLON sigexp RPAR COLON_sigexp_opt EQUALS strexp__AND_funbind_opt 
-	funbind : funid LPAR strid . COLON sigexp RPAR SEAL sigexp EQUALS strexp__AND_funbind_opt 
+	funbind : funid LPAR spec . RPAR COLON_sigexp_opt EQUALS strexp__AND_funbind_opt 
+	funbind : funid LPAR spec . RPAR SEAL sigexp EQUALS strexp__AND_funbind_opt 
 
-	COLON	shift 349
+	RPAR	shift 356
 
 
 	.	error
@@ -4212,49 +4213,60 @@ state 267:
 
 state 268:
 
-	spec1'' : STRUCTURE . strdesc 
+	funbind : funid LPAR strid . COLON sigexp RPAR COLON_sigexp_opt EQUALS strexp__AND_funbind_opt 
+	funbind : funid LPAR strid . COLON sigexp RPAR SEAL sigexp EQUALS strexp__AND_funbind_opt 
 
-	ALPHA	shift 71
+	COLON	shift 357
 
-	strid	goto 351
-	strdesc	goto 350
 
 	.	error
 
 
 state 269:
 
-	spec1 : SHARING . TYPE longtycon_EQUALS_list2 
-	spec1 : SHARING . longstrid_EQUALS_list2 
+	spec1'' : STRUCTURE . strdesc 
 
-	TYPE	shift 354
 	ALPHA	shift 71
-	LONGID	shift 118
 
-	strid	goto 117
-	longstrid	goto 353
-	longstrid_EQUALS_list2	goto 352
+	strid	goto 359
+	strdesc	goto 358
 
 	.	error
 
 
 state 270:
 
-	spec1'' : INCLUDE . sigexp 
-	spec1'' : INCLUDE . sigid_list2 
+	spec1 : SHARING . TYPE longtycon_EQUALS_list2 
+	spec1 : SHARING . longstrid_EQUALS_list2 
 
-	SIG	shift 259
-	ALPHA	shift 74
+	TYPE	shift 362
+	ALPHA	shift 71
+	LONGID	shift 118
 
-	sigid	goto 357
-	sigexp	goto 356
-	sigexp'	goto 256
-	sigid_list2	goto 355
+	strid	goto 117
+	longstrid	goto 361
+	longstrid_EQUALS_list2	goto 360
 
 	.	error
 
 
 state 271:
+
+	spec1'' : INCLUDE . sigexp 
+	spec1'' : INCLUDE . sigid_list2 
+
+	SIG	shift 260
+	ALPHA	shift 74
+
+	sigid	goto 365
+	sigexp	goto 364
+	sigexp'	goto 257
+	sigid_list2	goto 363
+
+	.	error
+
+
+state 272:
 
 	spec1'' : EQTYPE . typdesc 
 
@@ -4262,23 +4274,23 @@ state 271:
 	TYVAR	shift 104
 
 	tyvar	goto 102
-	tyvarseq	goto 359
+	tyvarseq	goto 367
 	tyvarseq1	goto 110
-	typdesc	goto 358
+	typdesc	goto 366
 
-	.	reduce by rule 203
-
-
-state 272:
-
-	spec1 : SEMICOLON .  (reduce by rule 258)
-
-
-
-	.	reduce by rule 258
+	.	reduce by rule 205
 
 
 state 273:
+
+	spec1 : SEMICOLON .  (reduce by rule 260)
+
+
+
+	.	reduce by rule 260
+
+
+state 274:
 
 	spec1'' : VAL . valdesc 
 
@@ -4286,13 +4298,13 @@ state 273:
 	SYMBOL	shift 66
 	STAR	shift 65
 
-	vid'	goto 361
-	valdesc	goto 360
+	vid'	goto 369
+	valdesc	goto 368
 
 	.	error
 
 
-state 274:
+state 275:
 
 	spec1'' : TYPE . typdesc 
 	spec1'' : TYPE . syndesc 
@@ -4301,15 +4313,15 @@ state 274:
 	TYVAR	shift 104
 
 	tyvar	goto 102
-	tyvarseq	goto 364
+	tyvarseq	goto 372
 	tyvarseq1	goto 110
-	typdesc	goto 363
-	syndesc	goto 362
+	typdesc	goto 371
+	syndesc	goto 370
 
-	.	reduce by rule 203
+	.	reduce by rule 205
 
 
-state 275:
+state 276:
 
 	spec1'' : EXCEPTION . exdesc 
 
@@ -4317,13 +4329,13 @@ state 275:
 	SYMBOL	shift 66
 	STAR	shift 65
 
-	vid'	goto 366
-	exdesc	goto 365
+	vid'	goto 374
+	exdesc	goto 373
 
 	.	error
 
 
-state 276:
+state 277:
 
 	spec1'' : DATATYPE . datdesc0 
 	spec1'' : DATATYPE . datdesc1 
@@ -4334,16 +4346,16 @@ state 276:
 	SYMBOL	shift 149
 	TYVAR	shift 104
 
-	tycon	goto 370
+	tycon	goto 378
 	tyvar	goto 102
-	tyvarseq1	goto 369
-	datdesc0	goto 368
-	datdesc1	goto 367
+	tyvarseq1	goto 377
+	datdesc0	goto 376
+	datdesc1	goto 375
 
 	.	error
 
 
-state 277:
+state 278:
 
 	exprow : lab EQUALS exp . COMMA_exprow_opt 
 	exp : exp . COLON ty 
@@ -4354,15 +4366,15 @@ state 277:
 	ANDALSO	shift 59
 	HANDLE	shift 58
 	ORELSE	shift 57
-	COMMA	shift 372
+	COMMA	shift 380
 	COLON	shift 56
 
-	COMMA_exprow_opt	goto 371
+	COMMA_exprow_opt	goto 379
 
 	.	reduce by rule 65
 
 
-state 278:
+state 279:
 
 	exp_COMMA_list1 : exp COMMA exp_COMMA_list1 .  (reduce by rule 56)
 
@@ -4371,7 +4383,7 @@ state 278:
 	.	reduce by rule 56
 
 
-state 279:
+state 280:
 
 	exp_SEMICOLON_list2 : exp . SEMICOLON exp_SEMICOLON_list2 
 	exp_SEMICOLON_list2 : exp . SEMICOLON exp 
@@ -4391,7 +4403,7 @@ state 279:
 	.	reduce by rule 62
 
 
-state 280:
+state 281:
 
 	exp_SEMICOLON_list2 : exp SEMICOLON exp_SEMICOLON_list2 .  (reduce by rule 61)
 
@@ -4400,7 +4412,7 @@ state 280:
 	.	reduce by rule 61
 
 
-state 281:
+state 282:
 
 	exp_COMMA_list2 : exp COMMA exp_COMMA_list1 .  (reduce by rule 58)
 
@@ -4409,7 +4421,7 @@ state 281:
 	.	reduce by rule 58
 
 
-state 282:
+state 283:
 
 	exp : exp . COLON ty 
 	exp : exp . ANDALSO exp 
@@ -4426,19 +4438,19 @@ state 282:
 	.	reduce by rule 78
 
 
-state 283:
+state 284:
 
 	COLON_ty_list1 : COLON ty . COLON_ty_list1 
 	COLON_ty_list1 : COLON ty .  (reduce by rule 177)
 
 	COLON	shift 186
 
-	COLON_ty_list1	goto 373
+	COLON_ty_list1	goto 381
 
 	.	reduce by rule 177
 
 
-state 284:
+state 285:
 
 	exp : exp . COLON ty 
 	exp : exp . ANDALSO exp 
@@ -4446,18 +4458,18 @@ state 284:
 	exp : exp . HANDLE match 
 	valbind : pat EQUALS exp . AND_valbind_opt 
 
-	AND	shift 375
+	AND	shift 383
 	ANDALSO	shift 59
 	HANDLE	shift 58
 	ORELSE	shift 57
 	COLON	shift 56
 
-	AND_valbind_opt	goto 374
+	AND_valbind_opt	goto 382
 
 	.	reduce by rule 116
 
 
-state 285:
+state 286:
 
 	pat : OP_opt vid' COLON_ty_list1 .  (reduce by rule 170)
 
@@ -4466,17 +4478,17 @@ state 285:
 	.	reduce by rule 170
 
 
-state 286:
+state 287:
 
 	pat : OP_opt vid' COLON_ty_opt . AS pat 
 
-	AS	shift 376
+	AS	shift 384
 
 
 	.	error
 
 
-state 287:
+state 288:
 
 	COLON_ty_opt : COLON . ty 
 	COLON_ty_list1 : COLON . ty COLON_ty_list1 
@@ -4487,17 +4499,17 @@ state 287:
 	TYVAR	shift 104
 
 	tyvar	goto 163
-	ty	goto 377
+	ty	goto 385
 	tupty	goto 161
 	ty_STAR_list	goto 160
 	consty	goto 159
 	atty	goto 158
 	tyseq	goto 157
 
-	.	reduce by rule 198
+	.	reduce by rule 200
 
 
-state 288:
+state 289:
 
 	pat : OP_opt LONGID COLON_ty_list1 .  (reduce by rule 171)
 
@@ -4506,7 +4518,7 @@ state 288:
 	.	reduce by rule 171
 
 
-state 289:
+state 290:
 
 	atpat' : LBRACE patrow_opt RBRACE .  (reduce by rule 145)
 
@@ -4515,18 +4527,18 @@ state 289:
 	.	reduce by rule 145
 
 
-state 290:
+state 291:
 
 	patrow : vid' COLON_ty_opt . AS_pat_opt COMMA_patrow_opt 
 
-	AS	shift 379
+	AS	shift 387
 
-	AS_pat_opt	goto 378
+	AS_pat_opt	goto 386
 
 	.	reduce by rule 163
 
 
-state 291:
+state 292:
 
 	patrow : lab EQUALS . pat COMMA_patrow_opt 
 
@@ -4550,13 +4562,13 @@ state 291:
 	OP_opt	goto 101
 	atpat	goto 99
 	atpat'	goto 98
-	pat	goto 380
+	pat	goto 388
 	atpat_list2	goto 96
 
 	.	reduce by rule 43
 
 
-state 292:
+state 293:
 
 	pat_COMMA_list1 : pat COMMA . pat_COMMA_list1 
 
@@ -4580,14 +4592,14 @@ state 292:
 	OP_opt	goto 101
 	atpat	goto 99
 	atpat'	goto 98
-	pat_COMMA_list1	goto 381
+	pat_COMMA_list1	goto 389
 	pat	goto 201
 	atpat_list2	goto 96
 
 	.	reduce by rule 43
 
 
-state 293:
+state 294:
 
 	atpat' : LBRACK pat_COMMA_list0 RBRACK .  (reduce by rule 148)
 
@@ -4596,16 +4608,16 @@ state 293:
 	.	reduce by rule 148
 
 
-state 294:
-
-	tyvarseq1 : LPAR tyvar_COMMA_list1 RPAR .  (reduce by rule 205)
-
-
-
-	.	reduce by rule 205
-
-
 state 295:
+
+	tyvarseq1 : LPAR tyvar_COMMA_list1 RPAR .  (reduce by rule 207)
+
+
+
+	.	reduce by rule 207
+
+
+state 296:
 
 	pat_COMMA_list2 : pat COMMA . pat_COMMA_list1 
 
@@ -4629,14 +4641,14 @@ state 295:
 	OP_opt	goto 101
 	atpat	goto 99
 	atpat'	goto 98
-	pat_COMMA_list1	goto 382
+	pat_COMMA_list1	goto 390
 	pat	goto 201
 	atpat_list2	goto 96
 
 	.	reduce by rule 43
 
 
-state 296:
+state 297:
 
 	atpat' : LPAR pat RPAR .  (reduce by rule 149)
 
@@ -4645,7 +4657,7 @@ state 296:
 	.	reduce by rule 149
 
 
-state 297:
+state 298:
 
 	atpat' : LPAR pat_COMMA_list2 RPAR .  (reduce by rule 147)
 
@@ -4654,19 +4666,19 @@ state 297:
 	.	reduce by rule 147
 
 
-state 298:
+state 299:
 
 	tyvar_COMMA_list1 : tyvar COMMA . tyvar_COMMA_list1 
 
 	TYVAR	shift 104
 
 	tyvar	goto 207
-	tyvar_COMMA_list1	goto 383
+	tyvar_COMMA_list1	goto 391
 
 	.	error
 
 
-state 299:
+state 300:
 
 	typbind : tyvarseq tycon EQUALS . ty AND_typbind_opt 
 
@@ -4675,20 +4687,20 @@ state 299:
 	TYVAR	shift 104
 
 	tyvar	goto 163
-	ty	goto 384
+	ty	goto 392
 	tupty	goto 161
 	ty_STAR_list	goto 160
 	consty	goto 159
 	atty	goto 158
 	tyseq	goto 157
 
-	.	reduce by rule 198
+	.	reduce by rule 200
 
 
-state 300:
+state 301:
 
 	strdec1 : strdec1 . strdec1 
-	strdec1 : strdec1 strdec1 .  (reduce by rule 219)
+	strdec1 : strdec1 strdec1 .  (reduce by rule 221)
 
 	ABSTYPE	shift 49
 	DATATYPE	shift 47
@@ -4704,23 +4716,23 @@ state 300:
 	STRUCTURE	shift 25
 
 	dec1'	goto 8
-	strdec1	goto 300
+	strdec1	goto 301
 	strdec1'	goto 213
 
-	.	reduce by rule 219
+	.	reduce by rule 221
 
 
-state 301:
+state 302:
 
 	strdec1' : LOCAL pushInfix strdec IN . pushLocalInfix strdec popLocalInfix END 
 
 
-	pushLocalInfix	goto 385
+	pushLocalInfix	goto 393
 
 	.	reduce by rule 3
 
 
-state 302:
+state 303:
 
 	dec1 : dec1 . dec1 
 	dec1 : dec1 dec1 .  (reduce by rule 89)
@@ -4737,13 +4749,13 @@ state 302:
 	TYPE	shift 34
 	VAL	shift 33
 
-	dec1	goto 302
+	dec1	goto 303
 	dec1'	goto 217
 
 	.	reduce by rule 89
 
 
-state 303:
+state 304:
 
 	atexp : LET pushInfix dec IN . exp_SEMICOLON_list1 popInfix END 
 
@@ -4772,15 +4784,15 @@ state 303:
 	scon	goto 14
 	OP_opt	goto 13
 	atexp	goto 12
-	exp_SEMICOLON_list1	goto 387
+	exp_SEMICOLON_list1	goto 395
 	appexp	goto 11
 	infexp	goto 10
-	exp	goto 386
+	exp	goto 394
 
 	.	reduce by rule 43
 
 
-state 304:
+state 305:
 
 	dec1 : LOCAL pushInfix . dec IN pushLocalInfix dec popLocalInfix END 
 
@@ -4797,14 +4809,14 @@ state 304:
 	VAL	shift 33
 	SEMICOLON	shift 220
 
-	dec	goto 388
+	dec	goto 396
 	dec1	goto 218
 	dec1'	goto 217
 
 	.	reduce by rule 86
 
 
-state 305:
+state 306:
 
 	exp : exp . COLON ty 
 	exp : exp . ANDALSO exp 
@@ -4813,7 +4825,7 @@ state 305:
 	exp : IF exp THEN exp . ELSE exp 
 
 	ANDALSO	shift 59
-	ELSE	shift 389
+	ELSE	shift 397
 	HANDLE	shift 58
 	ORELSE	shift 57
 	COLON	shift 56
@@ -4822,7 +4834,7 @@ state 305:
 	.	error
 
 
-state 306:
+state 307:
 
 	fmrule : atpat_list1 COLON_ty_opt EQUALS . exp 
 
@@ -4853,12 +4865,12 @@ state 306:
 	atexp	goto 12
 	appexp	goto 11
 	infexp	goto 10
-	exp	goto 390
+	exp	goto 398
 
 	.	reduce by rule 43
 
 
-state 307:
+state 308:
 
 	COLON_ty_opt : COLON ty .  (reduce by rule 160)
 
@@ -4867,7 +4879,7 @@ state 307:
 	.	reduce by rule 160
 
 
-state 308:
+state 309:
 
 	BAR_fmatch_opt : BAR fmatch .  (reduce by rule 121)
 
@@ -4876,7 +4888,7 @@ state 308:
 	.	reduce by rule 121
 
 
-state 309:
+state 310:
 
 	AND_fvalbind_opt : AND fvalbind .  (reduce by rule 118)
 
@@ -4885,7 +4897,7 @@ state 309:
 	.	reduce by rule 118
 
 
-state 310:
+state 311:
 
 	exp : exp . COLON ty 
 	exp : exp . ANDALSO exp 
@@ -4902,7 +4914,7 @@ state 310:
 	.	reduce by rule 84
 
 
-state 311:
+state 312:
 
 	BAR_match_opt : BAR match .  (reduce by rule 82)
 
@@ -4911,29 +4923,29 @@ state 311:
 	.	reduce by rule 82
 
 
-state 312:
+state 313:
 
 	exbind : OP_opt vid' OF_ty_opt . AND_exbind_opt 
 
-	AND	shift 392
+	AND	shift 400
 
-	AND_exbind_opt	goto 391
+	AND_exbind_opt	goto 399
 
 	.	reduce by rule 140
 
 
-state 313:
+state 314:
 
 	exbind : OP_opt vid' EQUALS . OP_opt longvid AND_exbind_opt 
 
 	OP	shift 37
 
-	OP_opt	goto 393
+	OP_opt	goto 401
 
 	.	reduce by rule 43
 
 
-state 314:
+state 315:
 
 	OF_ty_opt : OF . ty 
 
@@ -4942,29 +4954,29 @@ state 314:
 	TYVAR	shift 104
 
 	tyvar	goto 163
-	ty	goto 394
+	ty	goto 402
 	tupty	goto 161
 	ty_STAR_list	goto 160
 	consty	goto 159
 	atty	goto 158
 	tyseq	goto 157
 
-	.	reduce by rule 198
+	.	reduce by rule 200
 
 
-state 315:
+state 316:
 
 	datbind1 : tyvarseq1 tycon EQUALS . conbind AND_datbind_opt 
 
 	OP	shift 37
 
-	OP_opt	goto 318
-	conbind	goto 395
+	OP_opt	goto 319
+	conbind	goto 403
 
 	.	reduce by rule 43
 
 
-state 316:
+state 317:
 
 	WITHTYPE_typbind_opt : WITHTYPE typbind .  (reduce by rule 105)
 
@@ -4973,18 +4985,18 @@ state 316:
 	.	reduce by rule 105
 
 
-state 317:
+state 318:
 
 	datbind0 : tycon EQUALS conbind . AND_datbind_opt 
 
-	AND	shift 397
+	AND	shift 405
 
-	AND_datbind_opt	goto 396
+	AND_datbind_opt	goto 404
 
 	.	reduce by rule 131
 
 
-state 318:
+state 319:
 
 	conbind : OP_opt . vid' OF_ty_opt BAR_conbind_opt 
 
@@ -4992,12 +5004,12 @@ state 318:
 	SYMBOL	shift 66
 	STAR	shift 65
 
-	vid'	goto 398
+	vid'	goto 406
 
 	.	error
 
 
-state 319:
+state 320:
 
 	dec1' : DATATYPE tycon EQUALS DATATYPE . longtycon 
 
@@ -5006,12 +5018,12 @@ state 319:
 	LONGID	shift 247
 
 	tycon	goto 246
-	longtycon	goto 399
+	longtycon	goto 407
 
 	.	error
 
 
-state 320:
+state 321:
 
 	exp : CASE exp OF match .  (reduce by rule 79)
 
@@ -5020,19 +5032,19 @@ state 320:
 	.	reduce by rule 79
 
 
-state 321:
+state 322:
 
 	datbind : tyvarseq tycon EQUALS . conbind AND_datbind_opt 
 
 	OP	shift 37
 
-	OP_opt	goto 318
-	conbind	goto 400
+	OP_opt	goto 319
+	conbind	goto 408
 
 	.	reduce by rule 43
 
 
-state 322:
+state 323:
 
 	dec1' : ABSTYPE datbind WITHTYPE_typbind_opt WITH . dec END 
 
@@ -5049,34 +5061,25 @@ state 322:
 	VAL	shift 33
 	SEMICOLON	shift 220
 
-	dec	goto 401
+	dec	goto 409
 	dec1	goto 218
 	dec1'	goto 217
 
 	.	reduce by rule 86
 
 
-state 323:
-
-	ty_STAR_list : consty STAR ty_STAR_list .  (reduce by rule 185)
-
-
-
-	.	reduce by rule 185
-
-
 state 324:
 
-	ty : tupty ARROW ty .  (reduce by rule 183)
+	level : level' .  (reduce by rule 178)
 
 
 
-	.	reduce by rule 183
+	.	reduce by rule 178
 
 
 state 325:
 
-	atty : LBRACE tyrow_opt RBRACE .  (reduce by rule 190)
+	consty : tyseq longtycon level .  (reduce by rule 190)
 
 
 
@@ -5085,6 +5088,94 @@ state 325:
 
 state 326:
 
+	level' : lvvar .  (reduce by rule 180)
+
+
+
+	.	reduce by rule 180
+
+
+state 327:
+
+	level' : CHANGEABLE .  (reduce by rule 182)
+
+
+
+	.	reduce by rule 182
+
+
+state 328:
+
+	level' : STABLE .  (reduce by rule 181)
+
+
+
+	.	reduce by rule 181
+
+
+state 329:
+
+	lvvar : LVVAR .  (reduce by rule 30)
+
+
+
+	.	reduce by rule 30
+
+
+state 330:
+
+	ty_STAR_list : consty STAR ty_STAR_list .  (reduce by rule 187)
+
+
+
+	.	reduce by rule 187
+
+
+state 331:
+
+	tupty : ty_STAR_list HASH level' .  (reduce by rule 186)
+
+
+
+	.	reduce by rule 186
+
+
+state 332:
+
+	ty : tupty ARROW level . ty 
+
+	LPAR	shift 165
+	LBRACE	shift 164
+	TYVAR	shift 104
+
+	tyvar	goto 163
+	ty	goto 410
+	tupty	goto 161
+	ty_STAR_list	goto 160
+	consty	goto 159
+	atty	goto 158
+	tyseq	goto 157
+
+	.	reduce by rule 200
+
+
+state 333:
+
+	atty : LBRACE tyrow_opt RBRACE . level 
+
+	LVVAR	shift 329
+	STABLE	shift 328
+	CHANGEABLE	shift 327
+
+	lvvar	goto 326
+	level	goto 411
+	level'	goto 324
+
+	.	reduce by rule 179
+
+
+state 334:
+
 	tyrow : lab COLON . ty COMMA_tyrow_opt 
 
 	LPAR	shift 165
@@ -5092,26 +5183,26 @@ state 326:
 	TYVAR	shift 104
 
 	tyvar	goto 163
-	ty	goto 402
+	ty	goto 412
 	tupty	goto 161
 	ty_STAR_list	goto 160
 	consty	goto 159
 	atty	goto 158
 	tyseq	goto 157
 
-	.	reduce by rule 198
+	.	reduce by rule 200
 
 
-state 327:
+state 335:
 
-	tyseq : LPAR ty_COMMA_list2 RPAR .  (reduce by rule 199)
-
-
-
-	.	reduce by rule 199
+	tyseq : LPAR ty_COMMA_list2 RPAR .  (reduce by rule 201)
 
 
-state 328:
+
+	.	reduce by rule 201
+
+
+state 336:
 
 	ty_COMMA_list2 : ty COMMA . ty_COMMA_list2 
 	ty_COMMA_list2 : ty COMMA . ty 
@@ -5121,102 +5212,102 @@ state 328:
 	TYVAR	shift 104
 
 	tyvar	goto 163
-	ty	goto 404
+	ty	goto 414
 	tupty	goto 161
 	ty_STAR_list	goto 160
 	consty	goto 159
 	atty	goto 158
 	tyseq	goto 157
-	ty_COMMA_list2	goto 403
+	ty_COMMA_list2	goto 413
 
-	.	reduce by rule 198
-
-
-state 329:
-
-	atty : LPAR ty RPAR .  (reduce by rule 191)
+	.	reduce by rule 200
 
 
+state 337:
 
-	.	reduce by rule 191
-
-
-state 330:
-
-	strbind : strid COLON_sigexp_opt EQUALS strexp__AND_strbind_opt .  (reduce by rule 224)
+	atty : LPAR ty RPAR .  (reduce by rule 193)
 
 
 
-	.	reduce by rule 224
+	.	reduce by rule 193
 
 
-state 331:
+state 338:
 
-	strexp : strexp' .  (reduce by rule 208)
+	strbind : strid COLON_sigexp_opt EQUALS strexp__AND_strbind_opt .  (reduce by rule 226)
+
+
+
+	.	reduce by rule 226
+
+
+state 339:
+
+	strexp : strexp' .  (reduce by rule 210)
 	strexp__AND_strbind_opt : strexp' . AND_strbind_opt 
 
-	ABSTYPE	reduce by rule 227
-	AND	shift 406
-	DATATYPE	reduce by rule 227
-	END	reduce by rule 227
-	EXCEPTION	reduce by rule 227
-	FUN	reduce by rule 227
-	IN	reduce by rule 227
-	INFIX	reduce by rule 227
-	INFIXR	reduce by rule 227
-	LOCAL	reduce by rule 227
-	NONFIX	reduce by rule 227
-	OPEN	reduce by rule 227
-	TYPE	reduce by rule 227
-	VAL	reduce by rule 227
-	RPAR	reduce by rule 227
-	COLON	reduce by rule 208
-	SEMICOLON	reduce by rule 227
-	FUNCTOR	reduce by rule 227
-	SIGNATURE	reduce by rule 227
-	STRUCTURE	reduce by rule 227
-	SEAL	reduce by rule 208
+	ABSTYPE	reduce by rule 229
+	AND	shift 416
+	DATATYPE	reduce by rule 229
+	END	reduce by rule 229
+	EXCEPTION	reduce by rule 229
+	FUN	reduce by rule 229
+	IN	reduce by rule 229
+	INFIX	reduce by rule 229
+	INFIXR	reduce by rule 229
+	LOCAL	reduce by rule 229
+	NONFIX	reduce by rule 229
+	OPEN	reduce by rule 229
+	TYPE	reduce by rule 229
+	VAL	reduce by rule 229
+	RPAR	reduce by rule 229
+	COLON	reduce by rule 210
+	SEMICOLON	reduce by rule 229
+	FUNCTOR	reduce by rule 229
+	SIGNATURE	reduce by rule 229
+	STRUCTURE	reduce by rule 229
+	SEAL	reduce by rule 210
 
-	AND_strbind_opt	goto 405
+	AND_strbind_opt	goto 415
 
 	.	error
 
 
-state 332:
+state 340:
 
 	strexp : strexp . COLON sigexp 
 	strexp : strexp . SEAL sigexp 
 	strexp__AND_strbind_opt : strexp . COLON sigexp__AND_strbind_opt 
 	strexp__AND_strbind_opt : strexp . SEAL sigexp__AND_strbind_opt 
 
-	COLON	shift 408
-	SEAL	shift 407
+	COLON	shift 418
+	SEAL	shift 417
 
 
 	.	error
 
 
-state 333:
+state 341:
 
-	strexp' : longstrid .  (reduce by rule 212)
-
-
-
-	.	reduce by rule 212
+	strexp' : longstrid .  (reduce by rule 214)
 
 
-state 334:
+
+	.	reduce by rule 214
+
+
+state 342:
 
 	strexp' : funid . LPAR strexp RPAR 
 	strexp' : funid . LPAR strdec RPAR 
 
-	LPAR	shift 409
+	LPAR	shift 419
 
 
 	.	error
 
 
-state 335:
+state 343:
 
 	strid : ALPHA .  (reduce by rule 31)
 	funid : ALPHA .  (reduce by rule 33)
@@ -5248,220 +5339,220 @@ state 335:
 	.	error
 
 
-state 336:
+state 344:
 
 	strexp' : STRUCT . pushInfix strdec popInfix END 
 
 
-	pushInfix	goto 410
+	pushInfix	goto 420
 
 	.	reduce by rule 1
-
-
-state 337:
-
-	strexp' : LET . pushInfix strdec IN strexp popInfix END 
-
-
-	pushInfix	goto 411
-
-	.	reduce by rule 1
-
-
-state 338:
-
-	sigexp : sigexp WHERE . tyreadesc 
-
-	TYPE	shift 413
-
-	tyreadesc	goto 412
-
-	.	error
-
-
-state 339:
-
-	strbind : strid SEAL sigexp EQUALS . strexp__AND_strbind_opt 
-
-	LET	shift 337
-	STRUCT	shift 336
-	ALPHA	shift 335
-	LONGID	shift 118
-
-	strid	goto 117
-	funid	goto 334
-	longstrid	goto 333
-	strexp	goto 332
-	strexp'	goto 331
-	strexp__AND_strbind_opt	goto 414
-
-	.	error
-
-
-state 340:
-
-	sigexp' : SIG spec . END 
-
-	END	shift 415
-
-
-	.	error
-
-
-state 341:
-
-	sigexp__AND_sigbind_opt : sigexp' AND_sigbind_opt .  (reduce by rule 246)
-
-
-
-	.	reduce by rule 246
-
-
-state 342:
-
-	AND_sigbind_opt : AND . sigbind 
-
-	ALPHA	shift 74
-
-	sigid	goto 73
-	sigbind	goto 416
-
-	.	error
-
-
-state 343:
-
-	sigexp : sigexp WHERE . tyreadesc 
-	sigexp__AND_sigbind_opt : sigexp WHERE . tyreadesc__AND_sigbind_opt 
-
-	TYPE	shift 418
-
-	tyreadesc__AND_sigbind_opt	goto 417
-	tyreadesc	goto 412
-
-	.	error
-
-
-state 344:
-
-	spec1' : spec1'' .  (reduce by rule 263)
-
-
-
-	.	reduce by rule 263
 
 
 state 345:
 
-	spec1 : spec1 spec1' .  (reduce by rule 257)
-	spec1' : spec1' . spec1' 
+	strexp' : LET . pushInfix strdec IN strexp popInfix END 
 
-	DATATYPE	shift 276
-	EXCEPTION	shift 275
-	TYPE	shift 274
-	VAL	shift 273
-	EQTYPE	shift 271
-	INCLUDE	shift 270
-	STRUCTURE	shift 268
 
-	spec1'	goto 419
-	spec1''	goto 344
+	pushInfix	goto 421
 
-	.	reduce by rule 257
+	.	reduce by rule 1
 
 
 state 346:
 
-	spec1 : spec1 SHARING . TYPE longtycon_EQUALS_list2 
-	spec1 : spec1 SHARING . longstrid_EQUALS_list2 
+	sigexp : sigexp WHERE . tyreadesc 
 
-	TYPE	shift 421
-	ALPHA	shift 71
-	LONGID	shift 118
+	TYPE	shift 423
 
-	strid	goto 117
-	longstrid	goto 353
-	longstrid_EQUALS_list2	goto 420
+	tyreadesc	goto 422
 
 	.	error
 
 
 state 347:
 
-	spec1' : SEMICOLON .  (reduce by rule 265)
+	strbind : strid SEAL sigexp EQUALS . strexp__AND_strbind_opt 
 
+	LET	shift 345
+	STRUCT	shift 344
+	ALPHA	shift 343
+	LONGID	shift 118
 
-
-	.	reduce by rule 265
-
-
-state 348:
-
-	funbind : funid LPAR spec RPAR . COLON_sigexp_opt EQUALS strexp__AND_funbind_opt 
-	funbind : funid LPAR spec RPAR . SEAL sigexp EQUALS strexp__AND_funbind_opt 
-
-	COLON	shift 171
-	SEAL	shift 423
-
-	COLON_sigexp_opt	goto 422
-
-	.	reduce by rule 237
-
-
-state 349:
-
-	funbind : funid LPAR strid COLON . sigexp RPAR COLON_sigexp_opt EQUALS strexp__AND_funbind_opt 
-	funbind : funid LPAR strid COLON . sigexp RPAR SEAL sigexp EQUALS strexp__AND_funbind_opt 
-
-	SIG	shift 259
-	ALPHA	shift 74
-
-	sigid	goto 258
-	sigexp	goto 424
-	sigexp'	goto 256
+	strid	goto 117
+	funid	goto 342
+	longstrid	goto 341
+	strexp	goto 340
+	strexp'	goto 339
+	strexp__AND_strbind_opt	goto 424
 
 	.	error
 
 
+state 348:
+
+	sigexp' : SIG spec . END 
+
+	END	shift 425
+
+
+	.	error
+
+
+state 349:
+
+	sigexp__AND_sigbind_opt : sigexp' AND_sigbind_opt .  (reduce by rule 248)
+
+
+
+	.	reduce by rule 248
+
+
 state 350:
 
-	spec1'' : STRUCTURE strdesc .  (reduce by rule 274)
+	AND_sigbind_opt : AND . sigbind 
 
+	ALPHA	shift 74
 
+	sigid	goto 73
+	sigbind	goto 426
 
-	.	reduce by rule 274
+	.	error
 
 
 state 351:
 
-	strdesc : strid . COLON sigexp__AND_strdesc_opt 
+	sigexp : sigexp WHERE . tyreadesc 
+	sigexp__AND_sigbind_opt : sigexp WHERE . tyreadesc__AND_sigbind_opt 
 
-	COLON	shift 425
+	TYPE	shift 428
 
+	tyreadesc__AND_sigbind_opt	goto 427
+	tyreadesc	goto 422
 
 	.	error
 
 
 state 352:
 
-	spec1 : SHARING longstrid_EQUALS_list2 .  (reduce by rule 261)
+	spec1' : spec1'' .  (reduce by rule 265)
 
 
 
-	.	reduce by rule 261
+	.	reduce by rule 265
 
 
 state 353:
 
-	longstrid_EQUALS_list2 : longstrid . EQUALS longstrid_EQUALS_list1 
+	spec1 : spec1 spec1' .  (reduce by rule 259)
+	spec1' : spec1' . spec1' 
 
-	EQUALS	shift 426
+	DATATYPE	shift 277
+	EXCEPTION	shift 276
+	TYPE	shift 275
+	VAL	shift 274
+	EQTYPE	shift 272
+	INCLUDE	shift 271
+	STRUCTURE	shift 269
+
+	spec1'	goto 429
+	spec1''	goto 352
+
+	.	reduce by rule 259
+
+
+state 354:
+
+	spec1 : spec1 SHARING . TYPE longtycon_EQUALS_list2 
+	spec1 : spec1 SHARING . longstrid_EQUALS_list2 
+
+	TYPE	shift 431
+	ALPHA	shift 71
+	LONGID	shift 118
+
+	strid	goto 117
+	longstrid	goto 361
+	longstrid_EQUALS_list2	goto 430
+
+	.	error
+
+
+state 355:
+
+	spec1' : SEMICOLON .  (reduce by rule 267)
+
+
+
+	.	reduce by rule 267
+
+
+state 356:
+
+	funbind : funid LPAR spec RPAR . COLON_sigexp_opt EQUALS strexp__AND_funbind_opt 
+	funbind : funid LPAR spec RPAR . SEAL sigexp EQUALS strexp__AND_funbind_opt 
+
+	COLON	shift 171
+	SEAL	shift 433
+
+	COLON_sigexp_opt	goto 432
+
+	.	reduce by rule 239
+
+
+state 357:
+
+	funbind : funid LPAR strid COLON . sigexp RPAR COLON_sigexp_opt EQUALS strexp__AND_funbind_opt 
+	funbind : funid LPAR strid COLON . sigexp RPAR SEAL sigexp EQUALS strexp__AND_funbind_opt 
+
+	SIG	shift 260
+	ALPHA	shift 74
+
+	sigid	goto 259
+	sigexp	goto 434
+	sigexp'	goto 257
+
+	.	error
+
+
+state 358:
+
+	spec1'' : STRUCTURE strdesc .  (reduce by rule 276)
+
+
+
+	.	reduce by rule 276
+
+
+state 359:
+
+	strdesc : strid . COLON sigexp__AND_strdesc_opt 
+
+	COLON	shift 435
 
 
 	.	error
 
 
-state 354:
+state 360:
+
+	spec1 : SHARING longstrid_EQUALS_list2 .  (reduce by rule 263)
+
+
+
+	.	reduce by rule 263
+
+
+state 361:
+
+	longstrid_EQUALS_list2 : longstrid . EQUALS longstrid_EQUALS_list1 
+
+	EQUALS	shift 436
+
+
+	.	error
+
+
+state 362:
 
 	spec1 : SHARING TYPE . longtycon_EQUALS_list2 
 
@@ -5470,105 +5561,105 @@ state 354:
 	LONGID	shift 247
 
 	tycon	goto 246
-	longtycon	goto 428
-	longtycon_EQUALS_list2	goto 427
+	longtycon	goto 438
+	longtycon_EQUALS_list2	goto 437
 
 	.	error
 
 
-state 355:
+state 363:
 
-	spec1'' : INCLUDE sigid_list2 .  (reduce by rule 276)
-
-
-
-	.	reduce by rule 276
+	spec1'' : INCLUDE sigid_list2 .  (reduce by rule 278)
 
 
-state 356:
+
+	.	reduce by rule 278
+
+
+state 364:
 
 	sigexp : sigexp . WHERE tyreadesc 
-	spec1'' : INCLUDE sigexp .  (reduce by rule 275)
+	spec1'' : INCLUDE sigexp .  (reduce by rule 277)
 
-	WHERE	shift 338
-
-
-	.	reduce by rule 275
+	WHERE	shift 346
 
 
-state 357:
+	.	reduce by rule 277
 
-	sigexp' : sigid .  (reduce by rule 241)
+
+state 365:
+
+	sigexp' : sigid .  (reduce by rule 243)
 	sigid_list2 : sigid . sigid_list2 
 	sigid_list2 : sigid . sigid 
 
 	ALPHA	shift 74
 
-	sigid	goto 430
-	sigid_list2	goto 429
+	sigid	goto 440
+	sigid_list2	goto 439
 
-	.	reduce by rule 241
-
-
-state 358:
-
-	spec1'' : EQTYPE typdesc .  (reduce by rule 268)
+	.	reduce by rule 243
 
 
+state 366:
 
-	.	reduce by rule 268
+	spec1'' : EQTYPE typdesc .  (reduce by rule 270)
 
 
-state 359:
+
+	.	reduce by rule 270
+
+
+state 367:
 
 	typdesc : tyvarseq . tycon AND_typdesc_opt 
 
 	ALPHA	shift 150
 	SYMBOL	shift 149
 
-	tycon	goto 431
+	tycon	goto 441
 
 	.	error
 
 
-state 360:
+state 368:
 
-	spec1'' : VAL valdesc .  (reduce by rule 266)
-
-
-
-	.	reduce by rule 266
+	spec1'' : VAL valdesc .  (reduce by rule 268)
 
 
-state 361:
+
+	.	reduce by rule 268
+
+
+state 369:
 
 	valdesc : vid' . COLON ty AND_valdesc_opt 
 
-	COLON	shift 432
+	COLON	shift 442
 
 
 	.	error
 
 
-state 362:
+state 370:
 
-	spec1'' : TYPE syndesc .  (reduce by rule 269)
+	spec1'' : TYPE syndesc .  (reduce by rule 271)
+
+
+
+	.	reduce by rule 271
+
+
+state 371:
+
+	spec1'' : TYPE typdesc .  (reduce by rule 269)
 
 
 
 	.	reduce by rule 269
 
 
-state 363:
-
-	spec1'' : TYPE typdesc .  (reduce by rule 267)
-
-
-
-	.	reduce by rule 267
-
-
-state 364:
+state 372:
 
 	typdesc : tyvarseq . tycon AND_typdesc_opt 
 	syndesc : tyvarseq . tycon EQUALS ty AND_syndesc_opt 
@@ -5576,73 +5667,73 @@ state 364:
 	ALPHA	shift 150
 	SYMBOL	shift 149
 
-	tycon	goto 433
+	tycon	goto 443
 
 	.	error
 
 
-state 365:
+state 373:
 
-	spec1'' : EXCEPTION exdesc .  (reduce by rule 273)
+	spec1'' : EXCEPTION exdesc .  (reduce by rule 275)
+
+
+
+	.	reduce by rule 275
+
+
+state 374:
+
+	exdesc : vid' . OF_ty_opt AND_exdesc_opt 
+
+	OF	shift 315
+
+	OF_ty_opt	goto 444
+
+	.	reduce by rule 136
+
+
+state 375:
+
+	spec1'' : DATATYPE datdesc1 .  (reduce by rule 273)
 
 
 
 	.	reduce by rule 273
 
 
-state 366:
+state 376:
 
-	exdesc : vid' . OF_ty_opt AND_exdesc_opt 
-
-	OF	shift 314
-
-	OF_ty_opt	goto 434
-
-	.	reduce by rule 136
-
-
-state 367:
-
-	spec1'' : DATATYPE datdesc1 .  (reduce by rule 271)
+	spec1'' : DATATYPE datdesc0 .  (reduce by rule 272)
 
 
 
-	.	reduce by rule 271
+	.	reduce by rule 272
 
 
-state 368:
-
-	spec1'' : DATATYPE datdesc0 .  (reduce by rule 270)
-
-
-
-	.	reduce by rule 270
-
-
-state 369:
+state 377:
 
 	datdesc1 : tyvarseq1 . tycon EQUALS condesc AND_datdesc_opt 
 
 	ALPHA	shift 150
 	SYMBOL	shift 149
 
-	tycon	goto 435
+	tycon	goto 445
 
 	.	error
 
 
-state 370:
+state 378:
 
 	spec1'' : DATATYPE tycon . EQUALS DATATYPE longtycon 
 	datdesc0 : tycon . EQUALS condesc AND_datdesc_opt 
 
-	EQUALS	shift 436
+	EQUALS	shift 446
 
 
 	.	error
 
 
-state 371:
+state 379:
 
 	exprow : lab EQUALS exp COMMA_exprow_opt .  (reduce by rule 63)
 
@@ -5651,7 +5742,7 @@ state 371:
 	.	reduce by rule 63
 
 
-state 372:
+state 380:
 
 	COMMA_exprow_opt : COMMA . exprow 
 
@@ -5662,12 +5753,12 @@ state 372:
 	STAR	shift 79
 
 	lab	goto 86
-	exprow	goto 437
+	exprow	goto 447
 
 	.	error
 
 
-state 373:
+state 381:
 
 	COLON_ty_list1 : COLON ty COLON_ty_list1 .  (reduce by rule 176)
 
@@ -5676,7 +5767,7 @@ state 373:
 	.	reduce by rule 176
 
 
-state 374:
+state 382:
 
 	valbind : pat EQUALS exp AND_valbind_opt .  (reduce by rule 113)
 
@@ -5685,7 +5776,7 @@ state 374:
 	.	reduce by rule 113
 
 
-state 375:
+state 383:
 
 	AND_valbind_opt : AND . valbind 
 
@@ -5708,7 +5799,7 @@ state 375:
 
 	scon	goto 103
 	OP_opt	goto 101
-	valbind	goto 438
+	valbind	goto 448
 	atpat	goto 99
 	atpat'	goto 98
 	pat	goto 97
@@ -5717,7 +5808,7 @@ state 375:
 	.	reduce by rule 43
 
 
-state 376:
+state 384:
 
 	pat : OP_opt vid' COLON_ty_opt AS . pat 
 
@@ -5741,13 +5832,13 @@ state 376:
 	OP_opt	goto 101
 	atpat	goto 99
 	atpat'	goto 98
-	pat	goto 439
+	pat	goto 449
 	atpat_list2	goto 96
 
 	.	reduce by rule 43
 
 
-state 377:
+state 385:
 
 	COLON_ty_opt : COLON ty .  (reduce by rule 160)
 	COLON_ty_list1 : COLON ty . COLON_ty_list1 
@@ -5762,23 +5853,23 @@ state 377:
 	EQUALS	reduce by rule 177
 	DARROW	reduce by rule 177
 
-	COLON_ty_list1	goto 373
+	COLON_ty_list1	goto 381
 
 	.	error
 
 
-state 378:
+state 386:
 
 	patrow : vid' COLON_ty_opt AS_pat_opt . COMMA_patrow_opt 
 
-	COMMA	shift 441
+	COMMA	shift 451
 
-	COMMA_patrow_opt	goto 440
+	COMMA_patrow_opt	goto 450
 
 	.	reduce by rule 159
 
 
-state 379:
+state 387:
 
 	AS_pat_opt : AS . pat 
 
@@ -5802,24 +5893,24 @@ state 379:
 	OP_opt	goto 101
 	atpat	goto 99
 	atpat'	goto 98
-	pat	goto 442
+	pat	goto 452
 	atpat_list2	goto 96
 
 	.	reduce by rule 43
 
 
-state 380:
+state 388:
 
 	patrow : lab EQUALS pat . COMMA_patrow_opt 
 
-	COMMA	shift 441
+	COMMA	shift 451
 
-	COMMA_patrow_opt	goto 443
+	COMMA_patrow_opt	goto 453
 
 	.	reduce by rule 159
 
 
-state 381:
+state 389:
 
 	pat_COMMA_list1 : pat COMMA pat_COMMA_list1 .  (reduce by rule 152)
 
@@ -5828,7 +5919,7 @@ state 381:
 	.	reduce by rule 152
 
 
-state 382:
+state 390:
 
 	pat_COMMA_list2 : pat COMMA pat_COMMA_list1 .  (reduce by rule 154)
 
@@ -5837,27 +5928,27 @@ state 382:
 	.	reduce by rule 154
 
 
-state 383:
+state 391:
 
-	tyvar_COMMA_list1 : tyvar COMMA tyvar_COMMA_list1 .  (reduce by rule 206)
-
-
-
-	.	reduce by rule 206
+	tyvar_COMMA_list1 : tyvar COMMA tyvar_COMMA_list1 .  (reduce by rule 208)
 
 
-state 384:
+
+	.	reduce by rule 208
+
+
+state 392:
 
 	typbind : tyvarseq tycon EQUALS ty . AND_typbind_opt 
 
-	AND	shift 445
+	AND	shift 455
 
-	AND_typbind_opt	goto 444
+	AND_typbind_opt	goto 454
 
 	.	reduce by rule 126
 
 
-state 385:
+state 393:
 
 	strdec1' : LOCAL pushInfix strdec IN pushLocalInfix . strdec popLocalInfix END 
 
@@ -5876,14 +5967,14 @@ state 385:
 	STRUCTURE	shift 25
 
 	dec1'	goto 8
-	strdec	goto 446
+	strdec	goto 456
 	strdec1	goto 214
 	strdec1'	goto 213
 
-	.	reduce by rule 217
+	.	reduce by rule 219
 
 
-state 386:
+state 394:
 
 	exp_SEMICOLON_list1 : exp . SEMICOLON exp_SEMICOLON_list1 
 	exp_SEMICOLON_list1 : exp .  (reduce by rule 60)
@@ -5896,33 +5987,33 @@ state 386:
 	HANDLE	shift 58
 	ORELSE	shift 57
 	COLON	shift 56
-	SEMICOLON	shift 447
+	SEMICOLON	shift 457
 
 
 	.	reduce by rule 60
 
 
-state 387:
+state 395:
 
 	atexp : LET pushInfix dec IN exp_SEMICOLON_list1 . popInfix END 
 
 
-	popInfix	goto 448
+	popInfix	goto 458
 
 	.	reduce by rule 2
 
 
-state 388:
+state 396:
 
 	dec1 : LOCAL pushInfix dec . IN pushLocalInfix dec popLocalInfix END 
 
-	IN	shift 449
+	IN	shift 459
 
 
 	.	error
 
 
-state 389:
+state 397:
 
 	exp : IF exp THEN exp ELSE . exp 
 
@@ -5953,12 +6044,12 @@ state 389:
 	atexp	goto 12
 	appexp	goto 11
 	infexp	goto 10
-	exp	goto 450
+	exp	goto 460
 
 	.	reduce by rule 43
 
 
-state 390:
+state 398:
 
 	exp : exp . COLON ty 
 	exp : exp . ANDALSO exp 
@@ -5975,7 +6066,7 @@ state 390:
 	.	reduce by rule 123
 
 
-state 391:
+state 399:
 
 	exbind : OP_opt vid' OF_ty_opt AND_exbind_opt .  (reduce by rule 137)
 
@@ -5984,19 +6075,19 @@ state 391:
 	.	reduce by rule 137
 
 
-state 392:
+state 400:
 
 	AND_exbind_opt : AND . exbind 
 
 	OP	shift 37
 
 	OP_opt	goto 144
-	exbind	goto 451
+	exbind	goto 461
 
 	.	reduce by rule 43
 
 
-state 393:
+state 401:
 
 	exbind : OP_opt vid' EQUALS OP_opt . longvid AND_exbind_opt 
 
@@ -6007,13 +6098,13 @@ state 393:
 	LONGID	shift 64
 
 	vid'	goto 63
-	longvid	goto 452
+	longvid	goto 462
 	longvid'	goto 61
 
 	.	error
 
 
-state 394:
+state 402:
 
 	OF_ty_opt : OF ty .  (reduce by rule 135)
 
@@ -6022,18 +6113,18 @@ state 394:
 	.	reduce by rule 135
 
 
-state 395:
+state 403:
 
 	datbind1 : tyvarseq1 tycon EQUALS conbind . AND_datbind_opt 
 
-	AND	shift 397
+	AND	shift 405
 
-	AND_datbind_opt	goto 453
+	AND_datbind_opt	goto 463
 
 	.	reduce by rule 131
 
 
-state 396:
+state 404:
 
 	datbind0 : tycon EQUALS conbind AND_datbind_opt .  (reduce by rule 128)
 
@@ -6042,7 +6133,7 @@ state 396:
 	.	reduce by rule 128
 
 
-state 397:
+state 405:
 
 	AND_datbind_opt : AND . datbind 
 
@@ -6050,25 +6141,25 @@ state 397:
 	TYVAR	shift 104
 
 	tyvar	goto 102
-	datbind	goto 454
+	datbind	goto 464
 	tyvarseq	goto 152
 	tyvarseq1	goto 110
 
-	.	reduce by rule 203
+	.	reduce by rule 205
 
 
-state 398:
+state 406:
 
 	conbind : OP_opt vid' . OF_ty_opt BAR_conbind_opt 
 
-	OF	shift 314
+	OF	shift 315
 
-	OF_ty_opt	goto 455
+	OF_ty_opt	goto 465
 
 	.	reduce by rule 136
 
 
-state 399:
+state 407:
 
 	dec1' : DATATYPE tycon EQUALS DATATYPE longtycon .  (reduce by rule 98)
 
@@ -6077,113 +6168,131 @@ state 399:
 	.	reduce by rule 98
 
 
-state 400:
+state 408:
 
 	datbind : tyvarseq tycon EQUALS conbind . AND_datbind_opt 
 
-	AND	shift 397
+	AND	shift 405
 
-	AND_datbind_opt	goto 456
+	AND_datbind_opt	goto 466
 
 	.	reduce by rule 131
 
 
-state 401:
+state 409:
 
 	dec1' : ABSTYPE datbind WITHTYPE_typbind_opt WITH dec . END 
 
-	END	shift 457
+	END	shift 467
 
 
 	.	error
 
 
-state 402:
+state 410:
+
+	ty : tupty ARROW level ty .  (reduce by rule 184)
+
+
+
+	.	reduce by rule 184
+
+
+state 411:
+
+	atty : LBRACE tyrow_opt RBRACE level .  (reduce by rule 192)
+
+
+
+	.	reduce by rule 192
+
+
+state 412:
 
 	tyrow : lab COLON ty . COMMA_tyrow_opt 
 
-	COMMA	shift 459
+	COMMA	shift 469
 
-	COMMA_tyrow_opt	goto 458
+	COMMA_tyrow_opt	goto 468
 
-	.	reduce by rule 194
-
-
-state 403:
-
-	ty_COMMA_list2 : ty COMMA ty_COMMA_list2 .  (reduce by rule 200)
+	.	reduce by rule 196
 
 
+state 413:
 
-	.	reduce by rule 200
+	ty_COMMA_list2 : ty COMMA ty_COMMA_list2 .  (reduce by rule 202)
 
 
-state 404:
+
+	.	reduce by rule 202
+
+
+state 414:
 
 	ty_COMMA_list2 : ty . COMMA ty_COMMA_list2 
 	ty_COMMA_list2 : ty . COMMA ty 
-	ty_COMMA_list2 : ty COMMA ty .  (reduce by rule 201)
+	ty_COMMA_list2 : ty COMMA ty .  (reduce by rule 203)
 
-	COMMA	shift 328
-
-
-	.	reduce by rule 201
+	COMMA	shift 336
 
 
-state 405:
-
-	strexp__AND_strbind_opt : strexp' AND_strbind_opt .  (reduce by rule 228)
+	.	reduce by rule 203
 
 
+state 415:
 
-	.	reduce by rule 228
+	strexp__AND_strbind_opt : strexp' AND_strbind_opt .  (reduce by rule 230)
 
 
-state 406:
+
+	.	reduce by rule 230
+
+
+state 416:
 
 	AND_strbind_opt : AND . strbind 
 
 	ALPHA	shift 71
 
 	strid	goto 70
-	strbind	goto 460
+	strbind	goto 470
 
 	.	error
 
 
-state 407:
+state 417:
 
 	strexp : strexp SEAL . sigexp 
 	strexp__AND_strbind_opt : strexp SEAL . sigexp__AND_strbind_opt 
 
-	SIG	shift 259
+	SIG	shift 260
 	ALPHA	shift 74
 
-	sigid	goto 258
-	sigexp__AND_strbind_opt	goto 463
-	sigexp	goto 462
-	sigexp'	goto 461
+	sigid	goto 259
+	sigexp__AND_strbind_opt	goto 473
+	sigexp	goto 472
+	sigexp'	goto 471
 
 	.	error
 
 
-state 408:
+state 418:
 
 	strexp : strexp COLON . sigexp 
 	strexp__AND_strbind_opt : strexp COLON . sigexp__AND_strbind_opt 
 
-	SIG	shift 259
+	SIG	shift 260
 	ALPHA	shift 74
 
-	sigid	goto 258
-	sigexp__AND_strbind_opt	goto 465
-	sigexp	goto 464
-	sigexp'	goto 461
+	sigid	goto 259
+	sigexp__AND_strbind_opt	goto 475
+	sigexp	goto 474
+	sigexp'	goto 471
 
 	.	error
 
 
-state 409:
+state 419:
 
 	strexp' : funid LPAR . strexp RPAR 
 	strexp' : funid LPAR . strdec RPAR 
@@ -6194,32 +6303,32 @@ state 409:
 	FUN	shift 44
 	INFIX	shift 42
 	INFIXR	shift 41
-	LET	shift 337
+	LET	shift 345
 	LOCAL	shift 39
 	NONFIX	shift 38
 	OPEN	shift 36
 	TYPE	shift 34
 	VAL	shift 33
 	SEMICOLON	shift 216
-	STRUCT	shift 336
+	STRUCT	shift 344
 	STRUCTURE	shift 25
-	ALPHA	shift 335
+	ALPHA	shift 343
 	LONGID	shift 118
 
 	strid	goto 117
-	funid	goto 334
-	longstrid	goto 333
+	funid	goto 342
+	longstrid	goto 341
 	dec1'	goto 8
-	strexp	goto 468
-	strexp'	goto 467
-	strdec	goto 466
+	strexp	goto 478
+	strexp'	goto 477
+	strdec	goto 476
 	strdec1	goto 214
 	strdec1'	goto 213
 
-	.	reduce by rule 217
+	.	reduce by rule 219
 
 
-state 410:
+state 420:
 
 	strexp' : STRUCT pushInfix . strdec popInfix END 
 
@@ -6238,14 +6347,14 @@ state 410:
 	STRUCTURE	shift 25
 
 	dec1'	goto 8
-	strdec	goto 469
+	strdec	goto 479
 	strdec1	goto 214
 	strdec1'	goto 213
 
-	.	reduce by rule 217
+	.	reduce by rule 219
 
 
-state 411:
+state 421:
 
 	strexp' : LET pushInfix . strdec IN strexp popInfix END 
 
@@ -6264,23 +6373,23 @@ state 411:
 	STRUCTURE	shift 25
 
 	dec1'	goto 8
-	strdec	goto 470
+	strdec	goto 480
 	strdec1	goto 214
 	strdec1'	goto 213
 
-	.	reduce by rule 217
+	.	reduce by rule 219
 
 
-state 412:
+state 422:
 
-	sigexp : sigexp WHERE tyreadesc .  (reduce by rule 239)
-
-
-
-	.	reduce by rule 239
+	sigexp : sigexp WHERE tyreadesc .  (reduce by rule 241)
 
 
-state 413:
+
+	.	reduce by rule 241
+
+
+state 423:
 
 	tyreadesc : TYPE . tyvarseq longtycon EQUALS ty AND_tyreadesc_opt 
 
@@ -6288,49 +6397,49 @@ state 413:
 	TYVAR	shift 104
 
 	tyvar	goto 102
-	tyvarseq	goto 471
+	tyvarseq	goto 481
 	tyvarseq1	goto 110
 
-	.	reduce by rule 203
+	.	reduce by rule 205
 
 
-state 414:
+state 424:
 
-	strbind : strid SEAL sigexp EQUALS strexp__AND_strbind_opt .  (reduce by rule 225)
-
-
-
-	.	reduce by rule 225
-
-
-state 415:
-
-	sigexp' : SIG spec END .  (reduce by rule 240)
+	strbind : strid SEAL sigexp EQUALS strexp__AND_strbind_opt .  (reduce by rule 227)
 
 
 
-	.	reduce by rule 240
+	.	reduce by rule 227
 
 
-state 416:
+state 425:
 
-	AND_sigbind_opt : AND sigbind .  (reduce by rule 244)
-
-
-
-	.	reduce by rule 244
-
-
-state 417:
-
-	sigexp__AND_sigbind_opt : sigexp WHERE tyreadesc__AND_sigbind_opt .  (reduce by rule 247)
+	sigexp' : SIG spec END .  (reduce by rule 242)
 
 
 
-	.	reduce by rule 247
+	.	reduce by rule 242
 
 
-state 418:
+state 426:
+
+	AND_sigbind_opt : AND sigbind .  (reduce by rule 246)
+
+
+
+	.	reduce by rule 246
+
+
+state 427:
+
+	sigexp__AND_sigbind_opt : sigexp WHERE tyreadesc__AND_sigbind_opt .  (reduce by rule 249)
+
+
+
+	.	reduce by rule 249
+
+
+state 428:
 
 	tyreadesc__AND_sigbind_opt : TYPE . tyvarseq longtycon EQUALS ty AND_tyreadesc_opt__AND_sigbind_opt 
 	tyreadesc : TYPE . tyvarseq longtycon EQUALS ty AND_tyreadesc_opt 
@@ -6339,41 +6448,41 @@ state 418:
 	TYVAR	shift 104
 
 	tyvar	goto 102
-	tyvarseq	goto 472
+	tyvarseq	goto 482
 	tyvarseq1	goto 110
 
-	.	reduce by rule 203
+	.	reduce by rule 205
 
 
-state 419:
+state 429:
 
 	spec1' : spec1' . spec1' 
-	spec1' : spec1' spec1' .  (reduce by rule 264)
+	spec1' : spec1' spec1' .  (reduce by rule 266)
 
-	DATATYPE	shift 276
-	EXCEPTION	shift 275
-	TYPE	shift 274
-	VAL	shift 273
-	EQTYPE	shift 271
-	INCLUDE	shift 270
-	STRUCTURE	shift 268
+	DATATYPE	shift 277
+	EXCEPTION	shift 276
+	TYPE	shift 275
+	VAL	shift 274
+	EQTYPE	shift 272
+	INCLUDE	shift 271
+	STRUCTURE	shift 269
 
-	spec1'	goto 419
-	spec1''	goto 344
+	spec1'	goto 429
+	spec1''	goto 352
+
+	.	reduce by rule 266
+
+
+state 430:
+
+	spec1 : spec1 SHARING longstrid_EQUALS_list2 .  (reduce by rule 264)
+
+
 
 	.	reduce by rule 264
 
 
-state 420:
-
-	spec1 : spec1 SHARING longstrid_EQUALS_list2 .  (reduce by rule 262)
-
-
-
-	.	reduce by rule 262
-
-
-state 421:
+state 431:
 
 	spec1 : spec1 SHARING TYPE . longtycon_EQUALS_list2 
 
@@ -6382,65 +6491,65 @@ state 421:
 	LONGID	shift 247
 
 	tycon	goto 246
-	longtycon	goto 428
-	longtycon_EQUALS_list2	goto 473
+	longtycon	goto 438
+	longtycon_EQUALS_list2	goto 483
 
 	.	error
 
 
-state 422:
+state 432:
 
 	funbind : funid LPAR spec RPAR COLON_sigexp_opt . EQUALS strexp__AND_funbind_opt 
 
-	EQUALS	shift 474
+	EQUALS	shift 484
 
 
 	.	error
 
 
-state 423:
+state 433:
 
 	funbind : funid LPAR spec RPAR SEAL . sigexp EQUALS strexp__AND_funbind_opt 
 
-	SIG	shift 259
+	SIG	shift 260
 	ALPHA	shift 74
 
-	sigid	goto 258
-	sigexp	goto 475
-	sigexp'	goto 256
+	sigid	goto 259
+	sigexp	goto 485
+	sigexp'	goto 257
 
 	.	error
 
 
-state 424:
+state 434:
 
 	sigexp : sigexp . WHERE tyreadesc 
 	funbind : funid LPAR strid COLON sigexp . RPAR COLON_sigexp_opt EQUALS strexp__AND_funbind_opt 
 	funbind : funid LPAR strid COLON sigexp . RPAR SEAL sigexp EQUALS strexp__AND_funbind_opt 
 
-	RPAR	shift 476
-	WHERE	shift 338
+	RPAR	shift 486
+	WHERE	shift 346
 
 
 	.	error
 
 
-state 425:
+state 435:
 
 	strdesc : strid COLON . sigexp__AND_strdesc_opt 
 
-	SIG	shift 259
+	SIG	shift 260
 	ALPHA	shift 74
 
-	sigid	goto 258
-	sigexp	goto 479
-	sigexp'	goto 478
-	sigexp__AND_strdesc_opt	goto 477
+	sigid	goto 259
+	sigexp	goto 489
+	sigexp'	goto 488
+	sigexp__AND_strdesc_opt	goto 487
 
 	.	error
 
 
-state 426:
+state 436:
 
 	longstrid_EQUALS_list2 : longstrid EQUALS . longstrid_EQUALS_list1 
 
@@ -6448,66 +6557,66 @@ state 426:
 	LONGID	shift 118
 
 	strid	goto 117
-	longstrid	goto 481
-	longstrid_EQUALS_list1	goto 480
+	longstrid	goto 491
+	longstrid_EQUALS_list1	goto 490
 
 	.	error
 
 
-state 427:
+state 437:
 
-	spec1 : SHARING TYPE longtycon_EQUALS_list2 .  (reduce by rule 259)
-
-
-
-	.	reduce by rule 259
+	spec1 : SHARING TYPE longtycon_EQUALS_list2 .  (reduce by rule 261)
 
 
-state 428:
+
+	.	reduce by rule 261
+
+
+state 438:
 
 	longtycon_EQUALS_list2 : longtycon . EQUALS longtycon_EQUALS_list1 
 
-	EQUALS	shift 482
+	EQUALS	shift 492
 
 
 	.	error
 
 
-state 429:
+state 439:
 
-	sigid_list2 : sigid sigid_list2 .  (reduce by rule 277)
-
-
-
-	.	reduce by rule 277
+	sigid_list2 : sigid sigid_list2 .  (reduce by rule 279)
 
 
-state 430:
+
+	.	reduce by rule 279
+
+
+state 440:
 
 	sigid_list2 : sigid . sigid_list2 
 	sigid_list2 : sigid . sigid 
-	sigid_list2 : sigid sigid .  (reduce by rule 278)
+	sigid_list2 : sigid sigid .  (reduce by rule 280)
 
 	ALPHA	shift 74
 
-	sigid	goto 430
-	sigid_list2	goto 429
+	sigid	goto 440
+	sigid_list2	goto 439
 
-	.	reduce by rule 278
+	.	reduce by rule 280
 
 
-state 431:
+state 441:
 
 	typdesc : tyvarseq tycon . AND_typdesc_opt 
 
-	AND	shift 484
+	AND	shift 494
 
-	AND_typdesc_opt	goto 483
+	AND_typdesc_opt	goto 493
 
-	.	reduce by rule 290
+	.	reduce by rule 292
 
 
-state 432:
+state 442:
 
 	valdesc : vid' COLON . ty AND_valdesc_opt 
 
@@ -6516,67 +6625,67 @@ state 432:
 	TYVAR	shift 104
 
 	tyvar	goto 163
-	ty	goto 485
+	ty	goto 495
 	tupty	goto 161
 	ty_STAR_list	goto 160
 	consty	goto 159
 	atty	goto 158
 	tyseq	goto 157
 
-	.	reduce by rule 198
+	.	reduce by rule 200
 
 
-state 433:
+state 443:
 
 	typdesc : tyvarseq tycon . AND_typdesc_opt 
 	syndesc : tyvarseq tycon . EQUALS ty AND_syndesc_opt 
 
-	AND	shift 484
-	EQUALS	shift 486
+	AND	shift 494
+	EQUALS	shift 496
 
-	AND_typdesc_opt	goto 483
+	AND_typdesc_opt	goto 493
 
-	.	reduce by rule 290
+	.	reduce by rule 292
 
 
-state 434:
+state 444:
 
 	exdesc : vid' OF_ty_opt . AND_exdesc_opt 
 
-	AND	shift 488
+	AND	shift 498
 
-	AND_exdesc_opt	goto 487
+	AND_exdesc_opt	goto 497
 
-	.	reduce by rule 304
+	.	reduce by rule 306
 
 
-state 435:
+state 445:
 
 	datdesc1 : tyvarseq1 tycon . EQUALS condesc AND_datdesc_opt 
 
-	EQUALS	shift 489
+	EQUALS	shift 499
 
 
 	.	error
 
 
-state 436:
+state 446:
 
 	spec1'' : DATATYPE tycon EQUALS . DATATYPE longtycon 
 	datdesc0 : tycon EQUALS . condesc AND_datdesc_opt 
 
-	DATATYPE	shift 492
+	DATATYPE	shift 502
 	ALPHA	shift 67
 	SYMBOL	shift 66
 	STAR	shift 65
 
-	vid'	goto 491
-	condesc	goto 490
+	vid'	goto 501
+	condesc	goto 500
 
 	.	error
 
 
-state 437:
+state 447:
 
 	COMMA_exprow_opt : COMMA exprow .  (reduce by rule 64)
 
@@ -6585,7 +6694,7 @@ state 437:
 	.	reduce by rule 64
 
 
-state 438:
+state 448:
 
 	AND_valbind_opt : AND valbind .  (reduce by rule 115)
 
@@ -6594,7 +6703,7 @@ state 438:
 	.	reduce by rule 115
 
 
-state 439:
+state 449:
 
 	pat : OP_opt vid' COLON_ty_opt AS pat .  (reduce by rule 172)
 
@@ -6603,7 +6712,7 @@ state 439:
 	.	reduce by rule 172
 
 
-state 440:
+state 450:
 
 	patrow : vid' COLON_ty_opt AS_pat_opt COMMA_patrow_opt .  (reduce by rule 157)
 
@@ -6612,7 +6721,7 @@ state 440:
 	.	reduce by rule 157
 
 
-state 441:
+state 451:
 
 	COMMA_patrow_opt : COMMA . patrow 
 
@@ -6625,12 +6734,12 @@ state 441:
 
 	lab	goto 196
 	vid'	goto 195
-	patrow	goto 493
+	patrow	goto 503
 
 	.	error
 
 
-state 442:
+state 452:
 
 	AS_pat_opt : AS pat .  (reduce by rule 162)
 
@@ -6639,7 +6748,7 @@ state 442:
 	.	reduce by rule 162
 
 
-state 443:
+state 453:
 
 	patrow : lab EQUALS pat COMMA_patrow_opt .  (reduce by rule 156)
 
@@ -6648,7 +6757,7 @@ state 443:
 	.	reduce by rule 156
 
 
-state 444:
+state 454:
 
 	typbind : tyvarseq tycon EQUALS ty AND_typbind_opt .  (reduce by rule 124)
 
@@ -6657,7 +6766,7 @@ state 444:
 	.	reduce by rule 124
 
 
-state 445:
+state 455:
 
 	AND_typbind_opt : AND . typbind 
 
@@ -6665,24 +6774,24 @@ state 445:
 	TYVAR	shift 104
 
 	tyvar	goto 102
-	typbind	goto 494
+	typbind	goto 504
 	tyvarseq	goto 111
 	tyvarseq1	goto 110
 
-	.	reduce by rule 203
+	.	reduce by rule 205
 
 
-state 446:
+state 456:
 
 	strdec1' : LOCAL pushInfix strdec IN pushLocalInfix strdec . popLocalInfix END 
 
 
-	popLocalInfix	goto 495
+	popLocalInfix	goto 505
 
 	.	reduce by rule 4
 
 
-state 447:
+state 457:
 
 	exp_SEMICOLON_list1 : exp SEMICOLON . exp_SEMICOLON_list1 
 
@@ -6711,35 +6820,35 @@ state 447:
 	scon	goto 14
 	OP_opt	goto 13
 	atexp	goto 12
-	exp_SEMICOLON_list1	goto 496
+	exp_SEMICOLON_list1	goto 506
 	appexp	goto 11
 	infexp	goto 10
-	exp	goto 386
+	exp	goto 394
 
 	.	reduce by rule 43
 
 
-state 448:
+state 458:
 
 	atexp : LET pushInfix dec IN exp_SEMICOLON_list1 popInfix . END 
 
-	END	shift 497
+	END	shift 507
 
 
 	.	error
 
 
-state 449:
+state 459:
 
 	dec1 : LOCAL pushInfix dec IN . pushLocalInfix dec popLocalInfix END 
 
 
-	pushLocalInfix	goto 498
+	pushLocalInfix	goto 508
 
 	.	reduce by rule 3
 
 
-state 450:
+state 460:
 
 	exp : exp . COLON ty 
 	exp : exp . ANDALSO exp 
@@ -6756,7 +6865,7 @@ state 450:
 	.	reduce by rule 77
 
 
-state 451:
+state 461:
 
 	AND_exbind_opt : AND exbind .  (reduce by rule 139)
 
@@ -6765,18 +6874,18 @@ state 451:
 	.	reduce by rule 139
 
 
-state 452:
+state 462:
 
 	exbind : OP_opt vid' EQUALS OP_opt longvid . AND_exbind_opt 
 
-	AND	shift 392
+	AND	shift 400
 
-	AND_exbind_opt	goto 499
+	AND_exbind_opt	goto 509
 
 	.	reduce by rule 140
 
 
-state 453:
+state 463:
 
 	datbind1 : tyvarseq1 tycon EQUALS conbind AND_datbind_opt .  (reduce by rule 129)
 
@@ -6785,7 +6894,7 @@ state 453:
 	.	reduce by rule 129
 
 
-state 454:
+state 464:
 
 	AND_datbind_opt : AND datbind .  (reduce by rule 130)
 
@@ -6794,18 +6903,18 @@ state 454:
 	.	reduce by rule 130
 
 
-state 455:
+state 465:
 
 	conbind : OP_opt vid' OF_ty_opt . BAR_conbind_opt 
 
-	BAR	shift 501
+	BAR	shift 511
 
-	BAR_conbind_opt	goto 500
+	BAR_conbind_opt	goto 510
 
 	.	reduce by rule 134
 
 
-state 456:
+state 466:
 
 	datbind : tyvarseq tycon EQUALS conbind AND_datbind_opt .  (reduce by rule 127)
 
@@ -6814,7 +6923,7 @@ state 456:
 	.	reduce by rule 127
 
 
-state 457:
+state 467:
 
 	dec1' : ABSTYPE datbind WITHTYPE_typbind_opt WITH dec END .  (reduce by rule 99)
 
@@ -6823,16 +6932,16 @@ state 457:
 	.	reduce by rule 99
 
 
-state 458:
+state 468:
 
-	tyrow : lab COLON ty COMMA_tyrow_opt .  (reduce by rule 192)
-
-
-
-	.	reduce by rule 192
+	tyrow : lab COLON ty COMMA_tyrow_opt .  (reduce by rule 194)
 
 
-state 459:
+
+	.	reduce by rule 194
+
+
+state 469:
 
 	COMMA_tyrow_opt : COMMA . tyrow 
 
@@ -6842,150 +6951,150 @@ state 459:
 	SYMBOL	shift 80
 	STAR	shift 79
 
-	lab	goto 252
-	tyrow	goto 502
+	lab	goto 253
+	tyrow	goto 512
 
 	.	error
 
 
-state 460:
+state 470:
 
-	AND_strbind_opt : AND strbind .  (reduce by rule 226)
-
-
-
-	.	reduce by rule 226
+	AND_strbind_opt : AND strbind .  (reduce by rule 228)
 
 
-state 461:
+
+	.	reduce by rule 228
+
+
+state 471:
 
 	sigexp__AND_strbind_opt : sigexp' . AND_strbind_opt 
-	sigexp : sigexp' .  (reduce by rule 238)
+	sigexp : sigexp' .  (reduce by rule 240)
 
-	ABSTYPE	reduce by rule 227
-	AND	shift 406
-	DATATYPE	reduce by rule 227
-	END	reduce by rule 227
-	EXCEPTION	reduce by rule 227
-	FUN	reduce by rule 227
-	IN	reduce by rule 227
-	INFIX	reduce by rule 227
-	INFIXR	reduce by rule 227
-	LOCAL	reduce by rule 227
-	NONFIX	reduce by rule 227
-	OPEN	reduce by rule 227
-	TYPE	reduce by rule 227
-	VAL	reduce by rule 227
-	RPAR	reduce by rule 227
-	COLON	reduce by rule 238
-	SEMICOLON	reduce by rule 227
-	FUNCTOR	reduce by rule 227
-	SIGNATURE	reduce by rule 227
-	STRUCTURE	reduce by rule 227
-	WHERE	reduce by rule 238
-	SEAL	reduce by rule 238
+	ABSTYPE	reduce by rule 229
+	AND	shift 416
+	DATATYPE	reduce by rule 229
+	END	reduce by rule 229
+	EXCEPTION	reduce by rule 229
+	FUN	reduce by rule 229
+	IN	reduce by rule 229
+	INFIX	reduce by rule 229
+	INFIXR	reduce by rule 229
+	LOCAL	reduce by rule 229
+	NONFIX	reduce by rule 229
+	OPEN	reduce by rule 229
+	TYPE	reduce by rule 229
+	VAL	reduce by rule 229
+	RPAR	reduce by rule 229
+	COLON	reduce by rule 240
+	SEMICOLON	reduce by rule 229
+	FUNCTOR	reduce by rule 229
+	SIGNATURE	reduce by rule 229
+	STRUCTURE	reduce by rule 229
+	WHERE	reduce by rule 240
+	SEAL	reduce by rule 240
 
-	AND_strbind_opt	goto 503
+	AND_strbind_opt	goto 513
 
 	.	error
 
 
-state 462:
+state 472:
 
-	strexp : strexp SEAL sigexp .  (reduce by rule 210)
+	strexp : strexp SEAL sigexp .  (reduce by rule 212)
 	sigexp__AND_strbind_opt : sigexp . WHERE tyreadesc__AND_strbind_opt 
 	sigexp : sigexp . WHERE tyreadesc 
 
-	WHERE	shift 504
+	WHERE	shift 514
+
+
+	.	reduce by rule 212
+
+
+state 473:
+
+	strexp__AND_strbind_opt : strexp SEAL sigexp__AND_strbind_opt .  (reduce by rule 232)
+
+
+
+	.	reduce by rule 232
+
+
+state 474:
+
+	strexp : strexp COLON sigexp .  (reduce by rule 211)
+	sigexp__AND_strbind_opt : sigexp . WHERE tyreadesc__AND_strbind_opt 
+	sigexp : sigexp . WHERE tyreadesc 
+
+	WHERE	shift 514
+
+
+	.	reduce by rule 211
+
+
+state 475:
+
+	strexp__AND_strbind_opt : strexp COLON sigexp__AND_strbind_opt .  (reduce by rule 231)
+
+
+
+	.	reduce by rule 231
+
+
+state 476:
+
+	strexp' : funid LPAR strdec . RPAR 
+
+	RPAR	shift 515
+
+
+	.	error
+
+
+state 477:
+
+	strexp : strexp' .  (reduce by rule 210)
+
 
 
 	.	reduce by rule 210
 
 
-state 463:
-
-	strexp__AND_strbind_opt : strexp SEAL sigexp__AND_strbind_opt .  (reduce by rule 230)
-
-
-
-	.	reduce by rule 230
-
-
-state 464:
-
-	strexp : strexp COLON sigexp .  (reduce by rule 209)
-	sigexp__AND_strbind_opt : sigexp . WHERE tyreadesc__AND_strbind_opt 
-	sigexp : sigexp . WHERE tyreadesc 
-
-	WHERE	shift 504
-
-
-	.	reduce by rule 209
-
-
-state 465:
-
-	strexp__AND_strbind_opt : strexp COLON sigexp__AND_strbind_opt .  (reduce by rule 229)
-
-
-
-	.	reduce by rule 229
-
-
-state 466:
-
-	strexp' : funid LPAR strdec . RPAR 
-
-	RPAR	shift 505
-
-
-	.	error
-
-
-state 467:
-
-	strexp : strexp' .  (reduce by rule 208)
-
-
-
-	.	reduce by rule 208
-
-
-state 468:
+state 478:
 
 	strexp : strexp . COLON sigexp 
 	strexp : strexp . SEAL sigexp 
 	strexp' : funid LPAR strexp . RPAR 
 
-	RPAR	shift 508
-	COLON	shift 507
-	SEAL	shift 506
+	RPAR	shift 518
+	COLON	shift 517
+	SEAL	shift 516
 
 
 	.	error
 
 
-state 469:
+state 479:
 
 	strexp' : STRUCT pushInfix strdec . popInfix END 
 
 
-	popInfix	goto 509
+	popInfix	goto 519
 
 	.	reduce by rule 2
 
 
-state 470:
+state 480:
 
 	strexp' : LET pushInfix strdec . IN strexp popInfix END 
 
-	IN	shift 510
+	IN	shift 520
 
 
 	.	error
 
 
-state 471:
+state 481:
 
 	tyreadesc : TYPE tyvarseq . longtycon EQUALS ty AND_tyreadesc_opt 
 
@@ -6994,12 +7103,12 @@ state 471:
 	LONGID	shift 247
 
 	tycon	goto 246
-	longtycon	goto 511
+	longtycon	goto 521
 
 	.	error
 
 
-state 472:
+state 482:
 
 	tyreadesc__AND_sigbind_opt : TYPE tyvarseq . longtycon EQUALS ty AND_tyreadesc_opt__AND_sigbind_opt 
 	tyreadesc : TYPE tyvarseq . longtycon EQUALS ty AND_tyreadesc_opt 
@@ -7009,129 +7118,129 @@ state 472:
 	LONGID	shift 247
 
 	tycon	goto 246
-	longtycon	goto 512
+	longtycon	goto 522
 
 	.	error
 
 
-state 473:
+state 483:
 
-	spec1 : spec1 SHARING TYPE longtycon_EQUALS_list2 .  (reduce by rule 260)
-
-
-
-	.	reduce by rule 260
+	spec1 : spec1 SHARING TYPE longtycon_EQUALS_list2 .  (reduce by rule 262)
 
 
-state 474:
+
+	.	reduce by rule 262
+
+
+state 484:
 
 	funbind : funid LPAR spec RPAR COLON_sigexp_opt EQUALS . strexp__AND_funbind_opt 
 
-	LET	shift 337
-	STRUCT	shift 336
-	ALPHA	shift 335
+	LET	shift 345
+	STRUCT	shift 344
+	ALPHA	shift 343
 	LONGID	shift 118
 
 	strid	goto 117
-	funid	goto 334
-	longstrid	goto 333
-	strexp	goto 515
-	strexp'	goto 514
-	strexp__AND_funbind_opt	goto 513
+	funid	goto 342
+	longstrid	goto 341
+	strexp	goto 525
+	strexp'	goto 524
+	strexp__AND_funbind_opt	goto 523
 
 	.	error
 
 
-state 475:
+state 485:
 
 	sigexp : sigexp . WHERE tyreadesc 
 	funbind : funid LPAR spec RPAR SEAL sigexp . EQUALS strexp__AND_funbind_opt 
 
-	EQUALS	shift 516
-	WHERE	shift 338
+	EQUALS	shift 526
+	WHERE	shift 346
 
 
 	.	error
 
 
-state 476:
+state 486:
 
 	funbind : funid LPAR strid COLON sigexp RPAR . COLON_sigexp_opt EQUALS strexp__AND_funbind_opt 
 	funbind : funid LPAR strid COLON sigexp RPAR . SEAL sigexp EQUALS strexp__AND_funbind_opt 
 
 	COLON	shift 171
-	SEAL	shift 518
+	SEAL	shift 528
 
-	COLON_sigexp_opt	goto 517
+	COLON_sigexp_opt	goto 527
 
-	.	reduce by rule 237
-
-
-state 477:
-
-	strdesc : strid COLON sigexp__AND_strdesc_opt .  (reduce by rule 305)
+	.	reduce by rule 239
 
 
+state 487:
 
-	.	reduce by rule 305
+	strdesc : strid COLON sigexp__AND_strdesc_opt .  (reduce by rule 307)
 
 
-state 478:
 
-	sigexp : sigexp' .  (reduce by rule 238)
+	.	reduce by rule 307
+
+
+state 488:
+
+	sigexp : sigexp' .  (reduce by rule 240)
 	sigexp__AND_strdesc_opt : sigexp' . AND_strdesc_opt 
 
-	AND	shift 520
-	DATATYPE	reduce by rule 307
-	END	reduce by rule 307
-	EXCEPTION	reduce by rule 307
-	TYPE	reduce by rule 307
-	VAL	reduce by rule 307
-	RPAR	reduce by rule 307
-	SEMICOLON	reduce by rule 307
-	EQTYPE	reduce by rule 307
-	INCLUDE	reduce by rule 307
-	SHARING	reduce by rule 307
-	STRUCTURE	reduce by rule 307
-	WHERE	reduce by rule 238
+	AND	shift 530
+	DATATYPE	reduce by rule 309
+	END	reduce by rule 309
+	EXCEPTION	reduce by rule 309
+	TYPE	reduce by rule 309
+	VAL	reduce by rule 309
+	RPAR	reduce by rule 309
+	SEMICOLON	reduce by rule 309
+	EQTYPE	reduce by rule 309
+	INCLUDE	reduce by rule 309
+	SHARING	reduce by rule 309
+	STRUCTURE	reduce by rule 309
+	WHERE	reduce by rule 240
 
-	AND_strdesc_opt	goto 519
+	AND_strdesc_opt	goto 529
 
 	.	error
 
 
-state 479:
+state 489:
 
 	sigexp : sigexp . WHERE tyreadesc 
 	sigexp__AND_strdesc_opt : sigexp . WHERE tyreadesc__AND_strdesc_opt 
 
-	WHERE	shift 521
+	WHERE	shift 531
 
 
 	.	error
 
 
-state 480:
+state 490:
 
-	longstrid_EQUALS_list2 : longstrid EQUALS longstrid_EQUALS_list1 .  (reduce by rule 284)
-
-
-
-	.	reduce by rule 284
+	longstrid_EQUALS_list2 : longstrid EQUALS longstrid_EQUALS_list1 .  (reduce by rule 286)
 
 
-state 481:
+
+	.	reduce by rule 286
+
+
+state 491:
 
 	longstrid_EQUALS_list1 : longstrid . EQUALS longstrid_EQUALS_list1 
-	longstrid_EQUALS_list1 : longstrid .  (reduce by rule 283)
+	longstrid_EQUALS_list1 : longstrid .  (reduce by rule 285)
 
-	EQUALS	shift 522
-
-
-	.	reduce by rule 283
+	EQUALS	shift 532
 
 
-state 482:
+	.	reduce by rule 285
+
+
+state 492:
 
 	longtycon_EQUALS_list2 : longtycon EQUALS . longtycon_EQUALS_list1 
 
@@ -7140,22 +7249,22 @@ state 482:
 	LONGID	shift 247
 
 	tycon	goto 246
-	longtycon	goto 524
-	longtycon_EQUALS_list1	goto 523
+	longtycon	goto 534
+	longtycon_EQUALS_list1	goto 533
 
 	.	error
 
 
-state 483:
+state 493:
 
-	typdesc : tyvarseq tycon AND_typdesc_opt .  (reduce by rule 288)
-
-
-
-	.	reduce by rule 288
+	typdesc : tyvarseq tycon AND_typdesc_opt .  (reduce by rule 290)
 
 
-state 484:
+
+	.	reduce by rule 290
+
+
+state 494:
 
 	AND_typdesc_opt : AND . typdesc 
 
@@ -7163,25 +7272,25 @@ state 484:
 	TYVAR	shift 104
 
 	tyvar	goto 102
-	tyvarseq	goto 359
+	tyvarseq	goto 367
 	tyvarseq1	goto 110
-	typdesc	goto 525
+	typdesc	goto 535
 
-	.	reduce by rule 203
+	.	reduce by rule 205
 
 
-state 485:
+state 495:
 
 	valdesc : vid' COLON ty . AND_valdesc_opt 
 
-	AND	shift 527
+	AND	shift 537
 
-	AND_valdesc_opt	goto 526
+	AND_valdesc_opt	goto 536
 
-	.	reduce by rule 287
+	.	reduce by rule 289
 
 
-state 486:
+state 496:
 
 	syndesc : tyvarseq tycon EQUALS . ty AND_syndesc_opt 
 
@@ -7190,26 +7299,26 @@ state 486:
 	TYVAR	shift 104
 
 	tyvar	goto 163
-	ty	goto 528
+	ty	goto 538
 	tupty	goto 161
 	ty_STAR_list	goto 160
 	consty	goto 159
 	atty	goto 158
 	tyseq	goto 157
 
-	.	reduce by rule 198
+	.	reduce by rule 200
 
 
-state 487:
+state 497:
 
-	exdesc : vid' OF_ty_opt AND_exdesc_opt .  (reduce by rule 302)
-
-
-
-	.	reduce by rule 302
+	exdesc : vid' OF_ty_opt AND_exdesc_opt .  (reduce by rule 304)
 
 
-state 488:
+
+	.	reduce by rule 304
+
+
+state 498:
 
 	AND_exdesc_opt : AND . exdesc 
 
@@ -7217,13 +7326,13 @@ state 488:
 	SYMBOL	shift 66
 	STAR	shift 65
 
-	vid'	goto 366
-	exdesc	goto 529
+	vid'	goto 374
+	exdesc	goto 539
 
 	.	error
 
 
-state 489:
+state 499:
 
 	datdesc1 : tyvarseq1 tycon EQUALS . condesc AND_datdesc_opt 
 
@@ -7231,35 +7340,35 @@ state 489:
 	SYMBOL	shift 66
 	STAR	shift 65
 
-	vid'	goto 491
-	condesc	goto 530
+	vid'	goto 501
+	condesc	goto 540
 
 	.	error
 
 
-state 490:
+state 500:
 
 	datdesc0 : tycon EQUALS condesc . AND_datdesc_opt 
 
-	AND	shift 532
+	AND	shift 542
 
-	AND_datdesc_opt	goto 531
+	AND_datdesc_opt	goto 541
 
-	.	reduce by rule 298
+	.	reduce by rule 300
 
 
-state 491:
+state 501:
 
 	condesc : vid' . OF_ty_opt BAR_condesc_opt 
 
-	OF	shift 314
+	OF	shift 315
 
-	OF_ty_opt	goto 533
+	OF_ty_opt	goto 543
 
 	.	reduce by rule 136
 
 
-state 492:
+state 502:
 
 	spec1'' : DATATYPE tycon EQUALS DATATYPE . longtycon 
 
@@ -7268,12 +7377,12 @@ state 492:
 	LONGID	shift 247
 
 	tycon	goto 246
-	longtycon	goto 534
+	longtycon	goto 544
 
 	.	error
 
 
-state 493:
+state 503:
 
 	COMMA_patrow_opt : COMMA patrow .  (reduce by rule 158)
 
@@ -7282,7 +7391,7 @@ state 493:
 	.	reduce by rule 158
 
 
-state 494:
+state 504:
 
 	AND_typbind_opt : AND typbind .  (reduce by rule 125)
 
@@ -7291,17 +7400,17 @@ state 494:
 	.	reduce by rule 125
 
 
-state 495:
+state 505:
 
 	strdec1' : LOCAL pushInfix strdec IN pushLocalInfix strdec popLocalInfix . END 
 
-	END	shift 535
+	END	shift 545
 
 
 	.	error
 
 
-state 496:
+state 506:
 
 	exp_SEMICOLON_list1 : exp SEMICOLON exp_SEMICOLON_list1 .  (reduce by rule 59)
 
@@ -7310,7 +7419,7 @@ state 496:
 	.	reduce by rule 59
 
 
-state 497:
+state 507:
 
 	atexp : LET pushInfix dec IN exp_SEMICOLON_list1 popInfix END .  (reduce by rule 52)
 
@@ -7319,7 +7428,7 @@ state 497:
 	.	reduce by rule 52
 
 
-state 498:
+state 508:
 
 	dec1 : LOCAL pushInfix dec IN pushLocalInfix . dec popLocalInfix END 
 
@@ -7336,14 +7445,14 @@ state 498:
 	VAL	shift 33
 	SEMICOLON	shift 220
 
-	dec	goto 536
+	dec	goto 546
 	dec1	goto 218
 	dec1'	goto 217
 
 	.	reduce by rule 86
 
 
-state 499:
+state 509:
 
 	exbind : OP_opt vid' EQUALS OP_opt longvid AND_exbind_opt .  (reduce by rule 138)
 
@@ -7352,7 +7461,7 @@ state 499:
 	.	reduce by rule 138
 
 
-state 500:
+state 510:
 
 	conbind : OP_opt vid' OF_ty_opt BAR_conbind_opt .  (reduce by rule 132)
 
@@ -7361,274 +7470,274 @@ state 500:
 	.	reduce by rule 132
 
 
-state 501:
+state 511:
 
 	BAR_conbind_opt : BAR . conbind 
 
 	OP	shift 37
 
-	OP_opt	goto 318
-	conbind	goto 537
+	OP_opt	goto 319
+	conbind	goto 547
 
 	.	reduce by rule 43
 
 
-state 502:
-
-	COMMA_tyrow_opt : COMMA tyrow .  (reduce by rule 193)
-
-
-
-	.	reduce by rule 193
-
-
-state 503:
-
-	sigexp__AND_strbind_opt : sigexp' AND_strbind_opt .  (reduce by rule 231)
-
-
-
-	.	reduce by rule 231
-
-
-state 504:
-
-	sigexp__AND_strbind_opt : sigexp WHERE . tyreadesc__AND_strbind_opt 
-	sigexp : sigexp WHERE . tyreadesc 
-
-	TYPE	shift 539
-
-	tyreadesc__AND_strbind_opt	goto 538
-	tyreadesc	goto 412
-
-	.	error
-
-
-state 505:
-
-	strexp' : funid LPAR strdec RPAR .  (reduce by rule 214)
-
-
-
-	.	reduce by rule 214
-
-
-state 506:
-
-	strexp : strexp SEAL . sigexp 
-
-	SIG	shift 259
-	ALPHA	shift 74
-
-	sigid	goto 258
-	sigexp	goto 540
-	sigexp'	goto 256
-
-	.	error
-
-
-state 507:
-
-	strexp : strexp COLON . sigexp 
-
-	SIG	shift 259
-	ALPHA	shift 74
-
-	sigid	goto 258
-	sigexp	goto 541
-	sigexp'	goto 256
-
-	.	error
-
-
-state 508:
-
-	strexp' : funid LPAR strexp RPAR .  (reduce by rule 213)
-
-
-
-	.	reduce by rule 213
-
-
-state 509:
-
-	strexp' : STRUCT pushInfix strdec popInfix . END 
-
-	END	shift 542
-
-
-	.	error
-
-
-state 510:
-
-	strexp' : LET pushInfix strdec IN . strexp popInfix END 
-
-	LET	shift 337
-	STRUCT	shift 336
-	ALPHA	shift 335
-	LONGID	shift 118
-
-	strid	goto 117
-	funid	goto 334
-	longstrid	goto 333
-	strexp	goto 543
-	strexp'	goto 467
-
-	.	error
-
-
-state 511:
-
-	tyreadesc : TYPE tyvarseq longtycon . EQUALS ty AND_tyreadesc_opt 
-
-	EQUALS	shift 544
-
-
-	.	error
-
-
 state 512:
 
-	tyreadesc__AND_sigbind_opt : TYPE tyvarseq longtycon . EQUALS ty AND_tyreadesc_opt__AND_sigbind_opt 
-	tyreadesc : TYPE tyvarseq longtycon . EQUALS ty AND_tyreadesc_opt 
-
-	EQUALS	shift 545
+	COMMA_tyrow_opt : COMMA tyrow .  (reduce by rule 195)
 
 
-	.	error
+
+	.	reduce by rule 195
 
 
 state 513:
 
-	funbind : funid LPAR spec RPAR COLON_sigexp_opt EQUALS strexp__AND_funbind_opt .  (reduce by rule 316)
+	sigexp__AND_strbind_opt : sigexp' AND_strbind_opt .  (reduce by rule 233)
 
 
 
-	.	reduce by rule 316
+	.	reduce by rule 233
 
 
 state 514:
 
-	strexp : strexp' .  (reduce by rule 208)
-	strexp__AND_funbind_opt : strexp' . AND_funbind_opt 
+	sigexp__AND_strbind_opt : sigexp WHERE . tyreadesc__AND_strbind_opt 
+	sigexp : sigexp WHERE . tyreadesc 
 
-	ABSTYPE	reduce by rule 319
-	AND	shift 547
-	DATATYPE	reduce by rule 319
-	EXCEPTION	reduce by rule 319
-	FUN	reduce by rule 319
-	INFIX	reduce by rule 319
-	INFIXR	reduce by rule 319
-	LOCAL	reduce by rule 319
-	NONFIX	reduce by rule 319
-	OPEN	reduce by rule 319
-	TYPE	reduce by rule 319
-	VAL	reduce by rule 319
-	COLON	reduce by rule 208
-	SEMICOLON	reduce by rule 319
-	FUNCTOR	reduce by rule 319
-	SIGNATURE	reduce by rule 319
-	STRUCTURE	reduce by rule 319
-	SEAL	reduce by rule 208
+	TYPE	shift 549
 
-	AND_funbind_opt	goto 546
+	tyreadesc__AND_strbind_opt	goto 548
+	tyreadesc	goto 422
 
 	.	error
 
 
 state 515:
 
-	strexp : strexp . COLON sigexp 
-	strexp : strexp . SEAL sigexp 
-	strexp__AND_funbind_opt : strexp . COLON sigexp__AND_funbind_opt 
-	strexp__AND_funbind_opt : strexp . SEAL sigexp__AND_funbind_opt 
-
-	COLON	shift 549
-	SEAL	shift 548
+	strexp' : funid LPAR strdec RPAR .  (reduce by rule 216)
 
 
-	.	error
+
+	.	reduce by rule 216
 
 
 state 516:
 
-	funbind : funid LPAR spec RPAR SEAL sigexp EQUALS . strexp__AND_funbind_opt 
+	strexp : strexp SEAL . sigexp 
 
-	LET	shift 337
-	STRUCT	shift 336
-	ALPHA	shift 335
-	LONGID	shift 118
+	SIG	shift 260
+	ALPHA	shift 74
 
-	strid	goto 117
-	funid	goto 334
-	longstrid	goto 333
-	strexp	goto 515
-	strexp'	goto 514
-	strexp__AND_funbind_opt	goto 550
+	sigid	goto 259
+	sigexp	goto 550
+	sigexp'	goto 257
 
 	.	error
 
 
 state 517:
 
-	funbind : funid LPAR strid COLON sigexp RPAR COLON_sigexp_opt . EQUALS strexp__AND_funbind_opt 
+	strexp : strexp COLON . sigexp 
 
-	EQUALS	shift 551
+	SIG	shift 260
+	ALPHA	shift 74
 
+	sigid	goto 259
+	sigexp	goto 551
+	sigexp'	goto 257
 
 	.	error
 
 
 state 518:
 
-	funbind : funid LPAR strid COLON sigexp RPAR SEAL . sigexp EQUALS strexp__AND_funbind_opt 
+	strexp' : funid LPAR strexp RPAR .  (reduce by rule 215)
 
-	SIG	shift 259
-	ALPHA	shift 74
 
-	sigid	goto 258
-	sigexp	goto 552
-	sigexp'	goto 256
 
-	.	error
+	.	reduce by rule 215
 
 
 state 519:
 
-	sigexp__AND_strdesc_opt : sigexp' AND_strdesc_opt .  (reduce by rule 308)
+	strexp' : STRUCT pushInfix strdec popInfix . END 
+
+	END	shift 552
 
 
-
-	.	reduce by rule 308
+	.	error
 
 
 state 520:
 
-	AND_strdesc_opt : AND . strdesc 
+	strexp' : LET pushInfix strdec IN . strexp popInfix END 
 
-	ALPHA	shift 71
+	LET	shift 345
+	STRUCT	shift 344
+	ALPHA	shift 343
+	LONGID	shift 118
 
-	strid	goto 351
-	strdesc	goto 553
+	strid	goto 117
+	funid	goto 342
+	longstrid	goto 341
+	strexp	goto 553
+	strexp'	goto 477
 
 	.	error
 
 
 state 521:
 
-	sigexp : sigexp WHERE . tyreadesc 
-	sigexp__AND_strdesc_opt : sigexp WHERE . tyreadesc__AND_strdesc_opt 
+	tyreadesc : TYPE tyvarseq longtycon . EQUALS ty AND_tyreadesc_opt 
 
-	TYPE	shift 555
+	EQUALS	shift 554
 
-	tyreadesc	goto 412
-	tyreadesc__AND_strdesc_opt	goto 554
 
 	.	error
 
 
 state 522:
+
+	tyreadesc__AND_sigbind_opt : TYPE tyvarseq longtycon . EQUALS ty AND_tyreadesc_opt__AND_sigbind_opt 
+	tyreadesc : TYPE tyvarseq longtycon . EQUALS ty AND_tyreadesc_opt 
+
+	EQUALS	shift 555
+
+
+	.	error
+
+
+state 523:
+
+	funbind : funid LPAR spec RPAR COLON_sigexp_opt EQUALS strexp__AND_funbind_opt .  (reduce by rule 318)
+
+
+
+	.	reduce by rule 318
+
+
+state 524:
+
+	strexp : strexp' .  (reduce by rule 210)
+	strexp__AND_funbind_opt : strexp' . AND_funbind_opt 
+
+	ABSTYPE	reduce by rule 321
+	AND	shift 557
+	DATATYPE	reduce by rule 321
+	EXCEPTION	reduce by rule 321
+	FUN	reduce by rule 321
+	INFIX	reduce by rule 321
+	INFIXR	reduce by rule 321
+	LOCAL	reduce by rule 321
+	NONFIX	reduce by rule 321
+	OPEN	reduce by rule 321
+	TYPE	reduce by rule 321
+	VAL	reduce by rule 321
+	COLON	reduce by rule 210
+	SEMICOLON	reduce by rule 321
+	FUNCTOR	reduce by rule 321
+	SIGNATURE	reduce by rule 321
+	STRUCTURE	reduce by rule 321
+	SEAL	reduce by rule 210
+
+	AND_funbind_opt	goto 556
+
+	.	error
+
+
+state 525:
+
+	strexp : strexp . COLON sigexp 
+	strexp : strexp . SEAL sigexp 
+	strexp__AND_funbind_opt : strexp . COLON sigexp__AND_funbind_opt 
+	strexp__AND_funbind_opt : strexp . SEAL sigexp__AND_funbind_opt 
+
+	COLON	shift 559
+	SEAL	shift 558
+
+
+	.	error
+
+
+state 526:
+
+	funbind : funid LPAR spec RPAR SEAL sigexp EQUALS . strexp__AND_funbind_opt 
+
+	LET	shift 345
+	STRUCT	shift 344
+	ALPHA	shift 343
+	LONGID	shift 118
+
+	strid	goto 117
+	funid	goto 342
+	longstrid	goto 341
+	strexp	goto 525
+	strexp'	goto 524
+	strexp__AND_funbind_opt	goto 560
+
+	.	error
+
+
+state 527:
+
+	funbind : funid LPAR strid COLON sigexp RPAR COLON_sigexp_opt . EQUALS strexp__AND_funbind_opt 
+
+	EQUALS	shift 561
+
+
+	.	error
+
+
+state 528:
+
+	funbind : funid LPAR strid COLON sigexp RPAR SEAL . sigexp EQUALS strexp__AND_funbind_opt 
+
+	SIG	shift 260
+	ALPHA	shift 74
+
+	sigid	goto 259
+	sigexp	goto 562
+	sigexp'	goto 257
+
+	.	error
+
+
+state 529:
+
+	sigexp__AND_strdesc_opt : sigexp' AND_strdesc_opt .  (reduce by rule 310)
+
+
+
+	.	reduce by rule 310
+
+
+state 530:
+
+	AND_strdesc_opt : AND . strdesc 
+
+	ALPHA	shift 71
+
+	strid	goto 359
+	strdesc	goto 563
+
+	.	error
+
+
+state 531:
+
+	sigexp : sigexp WHERE . tyreadesc 
+	sigexp__AND_strdesc_opt : sigexp WHERE . tyreadesc__AND_strdesc_opt 
+
+	TYPE	shift 565
+
+	tyreadesc	goto 422
+	tyreadesc__AND_strdesc_opt	goto 564
+
+	.	error
+
+
+state 532:
 
 	longstrid_EQUALS_list1 : longstrid EQUALS . longstrid_EQUALS_list1 
 
@@ -7636,51 +7745,51 @@ state 522:
 	LONGID	shift 118
 
 	strid	goto 117
-	longstrid	goto 481
-	longstrid_EQUALS_list1	goto 556
+	longstrid	goto 491
+	longstrid_EQUALS_list1	goto 566
 
 	.	error
 
 
-state 523:
+state 533:
 
-	longtycon_EQUALS_list2 : longtycon EQUALS longtycon_EQUALS_list1 .  (reduce by rule 281)
-
-
-
-	.	reduce by rule 281
+	longtycon_EQUALS_list2 : longtycon EQUALS longtycon_EQUALS_list1 .  (reduce by rule 283)
 
 
-state 524:
+
+	.	reduce by rule 283
+
+
+state 534:
 
 	longtycon_EQUALS_list1 : longtycon . EQUALS longtycon_EQUALS_list1 
-	longtycon_EQUALS_list1 : longtycon .  (reduce by rule 280)
+	longtycon_EQUALS_list1 : longtycon .  (reduce by rule 282)
 
-	EQUALS	shift 557
-
-
-	.	reduce by rule 280
+	EQUALS	shift 567
 
 
-state 525:
-
-	AND_typdesc_opt : AND typdesc .  (reduce by rule 289)
+	.	reduce by rule 282
 
 
+state 535:
 
-	.	reduce by rule 289
-
-
-state 526:
-
-	valdesc : vid' COLON ty AND_valdesc_opt .  (reduce by rule 285)
+	AND_typdesc_opt : AND typdesc .  (reduce by rule 291)
 
 
 
-	.	reduce by rule 285
+	.	reduce by rule 291
 
 
-state 527:
+state 536:
+
+	valdesc : vid' COLON ty AND_valdesc_opt .  (reduce by rule 287)
+
+
+
+	.	reduce by rule 287
+
+
+state 537:
 
 	AND_valdesc_opt : AND . valdesc 
 
@@ -7688,53 +7797,53 @@ state 527:
 	SYMBOL	shift 66
 	STAR	shift 65
 
-	vid'	goto 361
-	valdesc	goto 558
+	vid'	goto 369
+	valdesc	goto 568
 
 	.	error
 
 
-state 528:
+state 538:
 
 	syndesc : tyvarseq tycon EQUALS ty . AND_syndesc_opt 
 
-	AND	shift 560
+	AND	shift 570
 
-	AND_syndesc_opt	goto 559
-
-	.	reduce by rule 293
-
-
-state 529:
-
-	AND_exdesc_opt : AND exdesc .  (reduce by rule 303)
-
-
-
-	.	reduce by rule 303
-
-
-state 530:
-
-	datdesc1 : tyvarseq1 tycon EQUALS condesc . AND_datdesc_opt 
-
-	AND	shift 532
-
-	AND_datdesc_opt	goto 561
-
-	.	reduce by rule 298
-
-
-state 531:
-
-	datdesc0 : tycon EQUALS condesc AND_datdesc_opt .  (reduce by rule 295)
-
-
+	AND_syndesc_opt	goto 569
 
 	.	reduce by rule 295
 
 
-state 532:
+state 539:
+
+	AND_exdesc_opt : AND exdesc .  (reduce by rule 305)
+
+
+
+	.	reduce by rule 305
+
+
+state 540:
+
+	datdesc1 : tyvarseq1 tycon EQUALS condesc . AND_datdesc_opt 
+
+	AND	shift 542
+
+	AND_datdesc_opt	goto 571
+
+	.	reduce by rule 300
+
+
+state 541:
+
+	datdesc0 : tycon EQUALS condesc AND_datdesc_opt .  (reduce by rule 297)
+
+
+
+	.	reduce by rule 297
+
+
+state 542:
 
 	AND_datdesc_opt : AND . datdesc 
 
@@ -7742,53 +7851,53 @@ state 532:
 	TYVAR	shift 104
 
 	tyvar	goto 102
-	tyvarseq	goto 563
+	tyvarseq	goto 573
 	tyvarseq1	goto 110
-	datdesc	goto 562
+	datdesc	goto 572
 
-	.	reduce by rule 203
+	.	reduce by rule 205
 
 
-state 533:
+state 543:
 
 	condesc : vid' OF_ty_opt . BAR_condesc_opt 
 
-	BAR	shift 565
+	BAR	shift 575
 
-	BAR_condesc_opt	goto 564
+	BAR_condesc_opt	goto 574
 
-	.	reduce by rule 301
-
-
-state 534:
-
-	spec1'' : DATATYPE tycon EQUALS DATATYPE longtycon .  (reduce by rule 272)
+	.	reduce by rule 303
 
 
+state 544:
 
-	.	reduce by rule 272
-
-
-state 535:
-
-	strdec1' : LOCAL pushInfix strdec IN pushLocalInfix strdec popLocalInfix END .  (reduce by rule 223)
+	spec1'' : DATATYPE tycon EQUALS DATATYPE longtycon .  (reduce by rule 274)
 
 
 
-	.	reduce by rule 223
+	.	reduce by rule 274
 
 
-state 536:
+state 545:
+
+	strdec1' : LOCAL pushInfix strdec IN pushLocalInfix strdec popLocalInfix END .  (reduce by rule 225)
+
+
+
+	.	reduce by rule 225
+
+
+state 546:
 
 	dec1 : LOCAL pushInfix dec IN pushLocalInfix dec . popLocalInfix END 
 
 
-	popLocalInfix	goto 566
+	popLocalInfix	goto 576
 
 	.	reduce by rule 4
 
 
-state 537:
+state 547:
 
 	BAR_conbind_opt : BAR conbind .  (reduce by rule 133)
 
@@ -7797,16 +7906,16 @@ state 537:
 	.	reduce by rule 133
 
 
-state 538:
+state 548:
 
-	sigexp__AND_strbind_opt : sigexp WHERE tyreadesc__AND_strbind_opt .  (reduce by rule 232)
-
-
-
-	.	reduce by rule 232
+	sigexp__AND_strbind_opt : sigexp WHERE tyreadesc__AND_strbind_opt .  (reduce by rule 234)
 
 
-state 539:
+
+	.	reduce by rule 234
+
+
+state 549:
 
 	tyreadesc__AND_strbind_opt : TYPE . tyvarseq longtycon EQUALS ty AND_tyreadesc_opt__AND_strbind_opt 
 	tyreadesc : TYPE . tyvarseq longtycon EQUALS ty AND_tyreadesc_opt 
@@ -7815,58 +7924,58 @@ state 539:
 	TYVAR	shift 104
 
 	tyvar	goto 102
-	tyvarseq	goto 567
+	tyvarseq	goto 577
 	tyvarseq1	goto 110
 
-	.	reduce by rule 203
+	.	reduce by rule 205
 
 
-state 540:
+state 550:
 
-	strexp : strexp SEAL sigexp .  (reduce by rule 210)
+	strexp : strexp SEAL sigexp .  (reduce by rule 212)
 	sigexp : sigexp . WHERE tyreadesc 
 
-	WHERE	shift 338
+	WHERE	shift 346
 
 
-	.	reduce by rule 210
+	.	reduce by rule 212
 
 
-state 541:
+state 551:
 
-	strexp : strexp COLON sigexp .  (reduce by rule 209)
+	strexp : strexp COLON sigexp .  (reduce by rule 211)
 	sigexp : sigexp . WHERE tyreadesc 
 
-	WHERE	shift 338
-
-
-	.	reduce by rule 209
-
-
-state 542:
-
-	strexp' : STRUCT pushInfix strdec popInfix END .  (reduce by rule 211)
-
+	WHERE	shift 346
 
 
 	.	reduce by rule 211
 
 
-state 543:
+state 552:
+
+	strexp' : STRUCT pushInfix strdec popInfix END .  (reduce by rule 213)
+
+
+
+	.	reduce by rule 213
+
+
+state 553:
 
 	strexp : strexp . COLON sigexp 
 	strexp : strexp . SEAL sigexp 
 	strexp' : LET pushInfix strdec IN strexp . popInfix END 
 
-	COLON	shift 507
-	SEAL	shift 506
+	COLON	shift 517
+	SEAL	shift 516
 
-	popInfix	goto 568
+	popInfix	goto 578
 
 	.	reduce by rule 2
 
 
-state 544:
+state 554:
 
 	tyreadesc : TYPE tyvarseq longtycon EQUALS . ty AND_tyreadesc_opt 
 
@@ -7875,17 +7984,17 @@ state 544:
 	TYVAR	shift 104
 
 	tyvar	goto 163
-	ty	goto 569
+	ty	goto 579
 	tupty	goto 161
 	ty_STAR_list	goto 160
 	consty	goto 159
 	atty	goto 158
 	tyseq	goto 157
 
-	.	reduce by rule 198
+	.	reduce by rule 200
 
 
-state 545:
+state 555:
 
 	tyreadesc__AND_sigbind_opt : TYPE tyvarseq longtycon EQUALS . ty AND_tyreadesc_opt__AND_sigbind_opt 
 	tyreadesc : TYPE tyvarseq longtycon EQUALS . ty AND_tyreadesc_opt 
@@ -7895,128 +8004,128 @@ state 545:
 	TYVAR	shift 104
 
 	tyvar	goto 163
-	ty	goto 570
+	ty	goto 580
 	tupty	goto 161
 	ty_STAR_list	goto 160
 	consty	goto 159
 	atty	goto 158
 	tyseq	goto 157
 
-	.	reduce by rule 198
+	.	reduce by rule 200
 
 
-state 546:
+state 556:
 
-	strexp__AND_funbind_opt : strexp' AND_funbind_opt .  (reduce by rule 320)
-
-
-
-	.	reduce by rule 320
+	strexp__AND_funbind_opt : strexp' AND_funbind_opt .  (reduce by rule 322)
 
 
-state 547:
+
+	.	reduce by rule 322
+
+
+state 557:
 
 	AND_funbind_opt : AND . funbind 
 
 	ALPHA	shift 77
 
 	funid	goto 76
-	funbind	goto 571
+	funbind	goto 581
 
 	.	error
 
 
-state 548:
+state 558:
 
 	strexp : strexp SEAL . sigexp 
 	strexp__AND_funbind_opt : strexp SEAL . sigexp__AND_funbind_opt 
 
-	SIG	shift 259
+	SIG	shift 260
 	ALPHA	shift 74
 
-	sigid	goto 258
-	sigexp	goto 574
-	sigexp'	goto 573
-	sigexp__AND_funbind_opt	goto 572
+	sigid	goto 259
+	sigexp	goto 584
+	sigexp'	goto 583
+	sigexp__AND_funbind_opt	goto 582
 
 	.	error
 
 
-state 549:
+state 559:
 
 	strexp : strexp COLON . sigexp 
 	strexp__AND_funbind_opt : strexp COLON . sigexp__AND_funbind_opt 
 
-	SIG	shift 259
+	SIG	shift 260
 	ALPHA	shift 74
 
-	sigid	goto 258
-	sigexp	goto 576
-	sigexp'	goto 573
-	sigexp__AND_funbind_opt	goto 575
+	sigid	goto 259
+	sigexp	goto 586
+	sigexp'	goto 583
+	sigexp__AND_funbind_opt	goto 585
 
 	.	error
 
 
-state 550:
+state 560:
 
-	funbind : funid LPAR spec RPAR SEAL sigexp EQUALS strexp__AND_funbind_opt .  (reduce by rule 317)
-
-
-
-	.	reduce by rule 317
+	funbind : funid LPAR spec RPAR SEAL sigexp EQUALS strexp__AND_funbind_opt .  (reduce by rule 319)
 
 
-state 551:
+
+	.	reduce by rule 319
+
+
+state 561:
 
 	funbind : funid LPAR strid COLON sigexp RPAR COLON_sigexp_opt EQUALS . strexp__AND_funbind_opt 
 
-	LET	shift 337
-	STRUCT	shift 336
-	ALPHA	shift 335
+	LET	shift 345
+	STRUCT	shift 344
+	ALPHA	shift 343
 	LONGID	shift 118
 
 	strid	goto 117
-	funid	goto 334
-	longstrid	goto 333
-	strexp	goto 515
-	strexp'	goto 514
-	strexp__AND_funbind_opt	goto 577
+	funid	goto 342
+	longstrid	goto 341
+	strexp	goto 525
+	strexp'	goto 524
+	strexp__AND_funbind_opt	goto 587
 
 	.	error
 
 
-state 552:
+state 562:
 
 	sigexp : sigexp . WHERE tyreadesc 
 	funbind : funid LPAR strid COLON sigexp RPAR SEAL sigexp . EQUALS strexp__AND_funbind_opt 
 
-	EQUALS	shift 578
-	WHERE	shift 338
+	EQUALS	shift 588
+	WHERE	shift 346
 
 
 	.	error
 
 
-state 553:
+state 563:
 
-	AND_strdesc_opt : AND strdesc .  (reduce by rule 306)
-
-
-
-	.	reduce by rule 306
-
-
-state 554:
-
-	sigexp__AND_strdesc_opt : sigexp WHERE tyreadesc__AND_strdesc_opt .  (reduce by rule 309)
+	AND_strdesc_opt : AND strdesc .  (reduce by rule 308)
 
 
 
-	.	reduce by rule 309
+	.	reduce by rule 308
 
 
-state 555:
+state 564:
+
+	sigexp__AND_strdesc_opt : sigexp WHERE tyreadesc__AND_strdesc_opt .  (reduce by rule 311)
+
+
+
+	.	reduce by rule 311
+
+
+state 565:
 
 	tyreadesc : TYPE . tyvarseq longtycon EQUALS ty AND_tyreadesc_opt 
 	tyreadesc__AND_strdesc_opt : TYPE . tyvarseq longtycon EQUALS ty AND_tyreadesc_opt__AND_strdesc_opt 
@@ -8025,22 +8134,22 @@ state 555:
 	TYVAR	shift 104
 
 	tyvar	goto 102
-	tyvarseq	goto 579
+	tyvarseq	goto 589
 	tyvarseq1	goto 110
 
-	.	reduce by rule 203
+	.	reduce by rule 205
 
 
-state 556:
+state 566:
 
-	longstrid_EQUALS_list1 : longstrid EQUALS longstrid_EQUALS_list1 .  (reduce by rule 282)
-
-
-
-	.	reduce by rule 282
+	longstrid_EQUALS_list1 : longstrid EQUALS longstrid_EQUALS_list1 .  (reduce by rule 284)
 
 
-state 557:
+
+	.	reduce by rule 284
+
+
+state 567:
 
 	longtycon_EQUALS_list1 : longtycon EQUALS . longtycon_EQUALS_list1 
 
@@ -8049,31 +8158,31 @@ state 557:
 	LONGID	shift 247
 
 	tycon	goto 246
-	longtycon	goto 524
-	longtycon_EQUALS_list1	goto 580
+	longtycon	goto 534
+	longtycon_EQUALS_list1	goto 590
 
 	.	error
 
 
-state 558:
+state 568:
 
-	AND_valdesc_opt : AND valdesc .  (reduce by rule 286)
-
-
-
-	.	reduce by rule 286
-
-
-state 559:
-
-	syndesc : tyvarseq tycon EQUALS ty AND_syndesc_opt .  (reduce by rule 291)
+	AND_valdesc_opt : AND valdesc .  (reduce by rule 288)
 
 
 
-	.	reduce by rule 291
+	.	reduce by rule 288
 
 
-state 560:
+state 569:
+
+	syndesc : tyvarseq tycon EQUALS ty AND_syndesc_opt .  (reduce by rule 293)
+
+
+
+	.	reduce by rule 293
+
+
+state 570:
 
 	AND_syndesc_opt : AND . syndesc 
 
@@ -8081,53 +8190,53 @@ state 560:
 	TYVAR	shift 104
 
 	tyvar	goto 102
-	tyvarseq	goto 582
+	tyvarseq	goto 592
 	tyvarseq1	goto 110
-	syndesc	goto 581
+	syndesc	goto 591
 
-	.	reduce by rule 203
-
-
-state 561:
-
-	datdesc1 : tyvarseq1 tycon EQUALS condesc AND_datdesc_opt .  (reduce by rule 296)
+	.	reduce by rule 205
 
 
+state 571:
 
-	.	reduce by rule 296
-
-
-state 562:
-
-	AND_datdesc_opt : AND datdesc .  (reduce by rule 297)
+	datdesc1 : tyvarseq1 tycon EQUALS condesc AND_datdesc_opt .  (reduce by rule 298)
 
 
 
-	.	reduce by rule 297
+	.	reduce by rule 298
 
 
-state 563:
+state 572:
 
-	datdesc : tyvarseq . tycon EQUALS condesc AND_datdesc_opt 
-
-	ALPHA	shift 150
-	SYMBOL	shift 149
-
-	tycon	goto 583
-
-	.	error
-
-
-state 564:
-
-	condesc : vid' OF_ty_opt BAR_condesc_opt .  (reduce by rule 299)
+	AND_datdesc_opt : AND datdesc .  (reduce by rule 299)
 
 
 
 	.	reduce by rule 299
 
 
-state 565:
+state 573:
+
+	datdesc : tyvarseq . tycon EQUALS condesc AND_datdesc_opt 
+
+	ALPHA	shift 150
+	SYMBOL	shift 149
+
+	tycon	goto 593
+
+	.	error
+
+
+state 574:
+
+	condesc : vid' OF_ty_opt BAR_condesc_opt .  (reduce by rule 301)
+
+
+
+	.	reduce by rule 301
+
+
+state 575:
 
 	BAR_condesc_opt : BAR . condesc 
 
@@ -8135,201 +8244,26 @@ state 565:
 	SYMBOL	shift 66
 	STAR	shift 65
 
-	vid'	goto 491
-	condesc	goto 584
+	vid'	goto 501
+	condesc	goto 594
 
 	.	error
-
-
-state 566:
-
-	dec1 : LOCAL pushInfix dec IN pushLocalInfix dec popLocalInfix . END 
-
-	END	shift 585
-
-
-	.	error
-
-
-state 567:
-
-	tyreadesc__AND_strbind_opt : TYPE tyvarseq . longtycon EQUALS ty AND_tyreadesc_opt__AND_strbind_opt 
-	tyreadesc : TYPE tyvarseq . longtycon EQUALS ty AND_tyreadesc_opt 
-
-	ALPHA	shift 150
-	SYMBOL	shift 149
-	LONGID	shift 247
-
-	tycon	goto 246
-	longtycon	goto 586
-
-	.	error
-
-
-state 568:
-
-	strexp' : LET pushInfix strdec IN strexp popInfix . END 
-
-	END	shift 587
-
-
-	.	error
-
-
-state 569:
-
-	tyreadesc : TYPE tyvarseq longtycon EQUALS ty . AND_tyreadesc_opt 
-
-	AND	shift 589
-
-	AND_tyreadesc_opt	goto 588
-
-	.	reduce by rule 253
-
-
-state 570:
-
-	tyreadesc__AND_sigbind_opt : TYPE tyvarseq longtycon EQUALS ty . AND_tyreadesc_opt__AND_sigbind_opt 
-	tyreadesc : TYPE tyvarseq longtycon EQUALS ty . AND_tyreadesc_opt 
-
-	ABSTYPE	reduce by rule 245
-	AND	shift 592
-	DATATYPE	reduce by rule 245
-	EXCEPTION	reduce by rule 245
-	FUN	reduce by rule 245
-	INFIX	reduce by rule 245
-	INFIXR	reduce by rule 245
-	LOCAL	reduce by rule 245
-	NONFIX	reduce by rule 245
-	OPEN	reduce by rule 245
-	TYPE	reduce by rule 245
-	VAL	reduce by rule 245
-	SEMICOLON	reduce by rule 245
-	FUNCTOR	reduce by rule 245
-	SIGNATURE	reduce by rule 245
-	STRUCTURE	reduce by rule 245
-	WHERE	reduce by rule 253
-
-	AND_sigbind_opt	goto 591
-	AND_tyreadesc_opt__AND_sigbind_opt	goto 590
-	AND_tyreadesc_opt	goto 588
-
-	.	error
-
-
-state 571:
-
-	AND_funbind_opt : AND funbind .  (reduce by rule 318)
-
-
-
-	.	reduce by rule 318
-
-
-state 572:
-
-	strexp__AND_funbind_opt : strexp SEAL sigexp__AND_funbind_opt .  (reduce by rule 322)
-
-
-
-	.	reduce by rule 322
-
-
-state 573:
-
-	sigexp : sigexp' .  (reduce by rule 238)
-	sigexp__AND_funbind_opt : sigexp' . AND_funbind_opt 
-
-	ABSTYPE	reduce by rule 319
-	AND	shift 547
-	DATATYPE	reduce by rule 319
-	EXCEPTION	reduce by rule 319
-	FUN	reduce by rule 319
-	INFIX	reduce by rule 319
-	INFIXR	reduce by rule 319
-	LOCAL	reduce by rule 319
-	NONFIX	reduce by rule 319
-	OPEN	reduce by rule 319
-	TYPE	reduce by rule 319
-	VAL	reduce by rule 319
-	COLON	reduce by rule 238
-	SEMICOLON	reduce by rule 319
-	FUNCTOR	reduce by rule 319
-	SIGNATURE	reduce by rule 319
-	STRUCTURE	reduce by rule 319
-	WHERE	reduce by rule 238
-	SEAL	reduce by rule 238
-
-	AND_funbind_opt	goto 593
-
-	.	error
-
-
-state 574:
-
-	strexp : strexp SEAL sigexp .  (reduce by rule 210)
-	sigexp : sigexp . WHERE tyreadesc 
-	sigexp__AND_funbind_opt : sigexp . WHERE tyreadesc__AND_funbind_opt 
-
-	WHERE	shift 594
-
-
-	.	reduce by rule 210
-
-
-state 575:
-
-	strexp__AND_funbind_opt : strexp COLON sigexp__AND_funbind_opt .  (reduce by rule 321)
-
-
-
-	.	reduce by rule 321
 
 
 state 576:
 
-	strexp : strexp COLON sigexp .  (reduce by rule 209)
-	sigexp : sigexp . WHERE tyreadesc 
-	sigexp__AND_funbind_opt : sigexp . WHERE tyreadesc__AND_funbind_opt 
+	dec1 : LOCAL pushInfix dec IN pushLocalInfix dec popLocalInfix . END 
 
-	WHERE	shift 594
+	END	shift 595
 
-
-	.	reduce by rule 209
-
-
-state 577:
-
-	funbind : funid LPAR strid COLON sigexp RPAR COLON_sigexp_opt EQUALS strexp__AND_funbind_opt .  (reduce by rule 314)
-
-
-
-	.	reduce by rule 314
-
-
-state 578:
-
-	funbind : funid LPAR strid COLON sigexp RPAR SEAL sigexp EQUALS . strexp__AND_funbind_opt 
-
-	LET	shift 337
-	STRUCT	shift 336
-	ALPHA	shift 335
-	LONGID	shift 118
-
-	strid	goto 117
-	funid	goto 334
-	longstrid	goto 333
-	strexp	goto 515
-	strexp'	goto 514
-	strexp__AND_funbind_opt	goto 595
 
 	.	error
 
 
-state 579:
+state 577:
 
+	tyreadesc__AND_strbind_opt : TYPE tyvarseq . longtycon EQUALS ty AND_tyreadesc_opt__AND_strbind_opt 
 	tyreadesc : TYPE tyvarseq . longtycon EQUALS ty AND_tyreadesc_opt 
-	tyreadesc__AND_strdesc_opt : TYPE tyvarseq . longtycon EQUALS ty AND_tyreadesc_opt__AND_strdesc_opt 
 
 	ALPHA	shift 150
 	SYMBOL	shift 149
@@ -8341,56 +8275,231 @@ state 579:
 	.	error
 
 
-state 580:
+state 578:
 
-	longtycon_EQUALS_list1 : longtycon EQUALS longtycon_EQUALS_list1 .  (reduce by rule 279)
+	strexp' : LET pushInfix strdec IN strexp popInfix . END 
 
+	END	shift 597
 
-
-	.	reduce by rule 279
-
-
-state 581:
-
-	AND_syndesc_opt : AND syndesc .  (reduce by rule 292)
-
-
-
-	.	reduce by rule 292
-
-
-state 582:
-
-	syndesc : tyvarseq . tycon EQUALS ty AND_syndesc_opt 
-
-	ALPHA	shift 150
-	SYMBOL	shift 149
-
-	tycon	goto 597
 
 	.	error
 
 
+state 579:
+
+	tyreadesc : TYPE tyvarseq longtycon EQUALS ty . AND_tyreadesc_opt 
+
+	AND	shift 599
+
+	AND_tyreadesc_opt	goto 598
+
+	.	reduce by rule 255
+
+
+state 580:
+
+	tyreadesc__AND_sigbind_opt : TYPE tyvarseq longtycon EQUALS ty . AND_tyreadesc_opt__AND_sigbind_opt 
+	tyreadesc : TYPE tyvarseq longtycon EQUALS ty . AND_tyreadesc_opt 
+
+	ABSTYPE	reduce by rule 247
+	AND	shift 602
+	DATATYPE	reduce by rule 247
+	EXCEPTION	reduce by rule 247
+	FUN	reduce by rule 247
+	INFIX	reduce by rule 247
+	INFIXR	reduce by rule 247
+	LOCAL	reduce by rule 247
+	NONFIX	reduce by rule 247
+	OPEN	reduce by rule 247
+	TYPE	reduce by rule 247
+	VAL	reduce by rule 247
+	SEMICOLON	reduce by rule 247
+	FUNCTOR	reduce by rule 247
+	SIGNATURE	reduce by rule 247
+	STRUCTURE	reduce by rule 247
+	WHERE	reduce by rule 255
+
+	AND_sigbind_opt	goto 601
+	AND_tyreadesc_opt__AND_sigbind_opt	goto 600
+	AND_tyreadesc_opt	goto 598
+
+	.	error
+
+
+state 581:
+
+	AND_funbind_opt : AND funbind .  (reduce by rule 320)
+
+
+
+	.	reduce by rule 320
+
+
+state 582:
+
+	strexp__AND_funbind_opt : strexp SEAL sigexp__AND_funbind_opt .  (reduce by rule 324)
+
+
+
+	.	reduce by rule 324
+
+
 state 583:
 
-	datdesc : tyvarseq tycon . EQUALS condesc AND_datdesc_opt 
+	sigexp : sigexp' .  (reduce by rule 240)
+	sigexp__AND_funbind_opt : sigexp' . AND_funbind_opt 
 
-	EQUALS	shift 598
+	ABSTYPE	reduce by rule 321
+	AND	shift 557
+	DATATYPE	reduce by rule 321
+	EXCEPTION	reduce by rule 321
+	FUN	reduce by rule 321
+	INFIX	reduce by rule 321
+	INFIXR	reduce by rule 321
+	LOCAL	reduce by rule 321
+	NONFIX	reduce by rule 321
+	OPEN	reduce by rule 321
+	TYPE	reduce by rule 321
+	VAL	reduce by rule 321
+	COLON	reduce by rule 240
+	SEMICOLON	reduce by rule 321
+	FUNCTOR	reduce by rule 321
+	SIGNATURE	reduce by rule 321
+	STRUCTURE	reduce by rule 321
+	WHERE	reduce by rule 240
+	SEAL	reduce by rule 240
 
+	AND_funbind_opt	goto 603
 
 	.	error
 
 
 state 584:
 
-	BAR_condesc_opt : BAR condesc .  (reduce by rule 300)
+	strexp : strexp SEAL sigexp .  (reduce by rule 212)
+	sigexp : sigexp . WHERE tyreadesc 
+	sigexp__AND_funbind_opt : sigexp . WHERE tyreadesc__AND_funbind_opt 
+
+	WHERE	shift 604
 
 
-
-	.	reduce by rule 300
+	.	reduce by rule 212
 
 
 state 585:
+
+	strexp__AND_funbind_opt : strexp COLON sigexp__AND_funbind_opt .  (reduce by rule 323)
+
+
+
+	.	reduce by rule 323
+
+
+state 586:
+
+	strexp : strexp COLON sigexp .  (reduce by rule 211)
+	sigexp : sigexp . WHERE tyreadesc 
+	sigexp__AND_funbind_opt : sigexp . WHERE tyreadesc__AND_funbind_opt 
+
+	WHERE	shift 604
+
+
+	.	reduce by rule 211
+
+
+state 587:
+
+	funbind : funid LPAR strid COLON sigexp RPAR COLON_sigexp_opt EQUALS strexp__AND_funbind_opt .  (reduce by rule 316)
+
+
+
+	.	reduce by rule 316
+
+
+state 588:
+
+	funbind : funid LPAR strid COLON sigexp RPAR SEAL sigexp EQUALS . strexp__AND_funbind_opt 
+
+	LET	shift 345
+	STRUCT	shift 344
+	ALPHA	shift 343
+	LONGID	shift 118
+
+	strid	goto 117
+	funid	goto 342
+	longstrid	goto 341
+	strexp	goto 525
+	strexp'	goto 524
+	strexp__AND_funbind_opt	goto 605
+
+	.	error
+
+
+state 589:
+
+	tyreadesc : TYPE tyvarseq . longtycon EQUALS ty AND_tyreadesc_opt 
+	tyreadesc__AND_strdesc_opt : TYPE tyvarseq . longtycon EQUALS ty AND_tyreadesc_opt__AND_strdesc_opt 
+
+	ALPHA	shift 150
+	SYMBOL	shift 149
+	LONGID	shift 247
+
+	tycon	goto 246
+	longtycon	goto 606
+
+	.	error
+
+
+state 590:
+
+	longtycon_EQUALS_list1 : longtycon EQUALS longtycon_EQUALS_list1 .  (reduce by rule 281)
+
+
+
+	.	reduce by rule 281
+
+
+state 591:
+
+	AND_syndesc_opt : AND syndesc .  (reduce by rule 294)
+
+
+
+	.	reduce by rule 294
+
+
+state 592:
+
+	syndesc : tyvarseq . tycon EQUALS ty AND_syndesc_opt 
+
+	ALPHA	shift 150
+	SYMBOL	shift 149
+
+	tycon	goto 607
+
+	.	error
+
+
+state 593:
+
+	datdesc : tyvarseq tycon . EQUALS condesc AND_datdesc_opt 
+
+	EQUALS	shift 608
+
+
+	.	error
+
+
+state 594:
+
+	BAR_condesc_opt : BAR condesc .  (reduce by rule 302)
+
+
+
+	.	reduce by rule 302
+
+
+state 595:
 
 	dec1 : LOCAL pushInfix dec IN pushLocalInfix dec popLocalInfix END .  (reduce by rule 88)
 
@@ -8399,118 +8508,12 @@ state 585:
 	.	reduce by rule 88
 
 
-state 586:
+state 596:
 
 	tyreadesc__AND_strbind_opt : TYPE tyvarseq longtycon . EQUALS ty AND_tyreadesc_opt__AND_strbind_opt 
 	tyreadesc : TYPE tyvarseq longtycon . EQUALS ty AND_tyreadesc_opt 
 
-	EQUALS	shift 599
-
-
-	.	error
-
-
-state 587:
-
-	strexp' : LET pushInfix strdec IN strexp popInfix END .  (reduce by rule 215)
-
-
-
-	.	reduce by rule 215
-
-
-state 588:
-
-	tyreadesc : TYPE tyvarseq longtycon EQUALS ty AND_tyreadesc_opt .  (reduce by rule 251)
-
-
-
-	.	reduce by rule 251
-
-
-state 589:
-
-	AND_tyreadesc_opt : AND . tyreadesc 
-
-	TYPE	shift 413
-
-	tyreadesc	goto 600
-
-	.	error
-
-
-state 590:
-
-	tyreadesc__AND_sigbind_opt : TYPE tyvarseq longtycon EQUALS ty AND_tyreadesc_opt__AND_sigbind_opt .  (reduce by rule 248)
-
-
-
-	.	reduce by rule 248
-
-
-state 591:
-
-	AND_tyreadesc_opt__AND_sigbind_opt : AND_sigbind_opt .  (reduce by rule 249)
-
-
-
-	.	reduce by rule 249
-
-
-state 592:
-
-	AND_sigbind_opt : AND . sigbind 
-	AND_tyreadesc_opt__AND_sigbind_opt : AND . tyreadesc__AND_sigbind_opt 
-	AND_tyreadesc_opt : AND . tyreadesc 
-
-	TYPE	shift 418
-	ALPHA	shift 74
-
-	sigid	goto 73
-	sigbind	goto 416
-	tyreadesc__AND_sigbind_opt	goto 601
-	tyreadesc	goto 600
-
-	.	error
-
-
-state 593:
-
-	sigexp__AND_funbind_opt : sigexp' AND_funbind_opt .  (reduce by rule 323)
-
-
-
-	.	reduce by rule 323
-
-
-state 594:
-
-	sigexp : sigexp WHERE . tyreadesc 
-	sigexp__AND_funbind_opt : sigexp WHERE . tyreadesc__AND_funbind_opt 
-
-	TYPE	shift 603
-
-	tyreadesc	goto 412
-	tyreadesc__AND_funbind_opt	goto 602
-
-	.	error
-
-
-state 595:
-
-	funbind : funid LPAR strid COLON sigexp RPAR SEAL sigexp EQUALS strexp__AND_funbind_opt .  (reduce by rule 315)
-
-
-
-	.	reduce by rule 315
-
-
-state 596:
-
-	tyreadesc : TYPE tyvarseq longtycon . EQUALS ty AND_tyreadesc_opt 
-	tyreadesc__AND_strdesc_opt : TYPE tyvarseq longtycon . EQUALS ty AND_tyreadesc_opt__AND_strdesc_opt 
-
-	EQUALS	shift 604
+	EQUALS	shift 609
 
 
 	.	error
@@ -8518,15 +8521,121 @@ state 596:
 
 state 597:
 
-	syndesc : tyvarseq tycon . EQUALS ty AND_syndesc_opt 
+	strexp' : LET pushInfix strdec IN strexp popInfix END .  (reduce by rule 217)
 
-	EQUALS	shift 486
+
+
+	.	reduce by rule 217
+
+
+state 598:
+
+	tyreadesc : TYPE tyvarseq longtycon EQUALS ty AND_tyreadesc_opt .  (reduce by rule 253)
+
+
+
+	.	reduce by rule 253
+
+
+state 599:
+
+	AND_tyreadesc_opt : AND . tyreadesc 
+
+	TYPE	shift 423
+
+	tyreadesc	goto 610
+
+	.	error
+
+
+state 600:
+
+	tyreadesc__AND_sigbind_opt : TYPE tyvarseq longtycon EQUALS ty AND_tyreadesc_opt__AND_sigbind_opt .  (reduce by rule 250)
+
+
+
+	.	reduce by rule 250
+
+
+state 601:
+
+	AND_tyreadesc_opt__AND_sigbind_opt : AND_sigbind_opt .  (reduce by rule 251)
+
+
+
+	.	reduce by rule 251
+
+
+state 602:
+
+	AND_sigbind_opt : AND . sigbind 
+	AND_tyreadesc_opt__AND_sigbind_opt : AND . tyreadesc__AND_sigbind_opt 
+	AND_tyreadesc_opt : AND . tyreadesc 
+
+	TYPE	shift 428
+	ALPHA	shift 74
+
+	sigid	goto 73
+	sigbind	goto 426
+	tyreadesc__AND_sigbind_opt	goto 611
+	tyreadesc	goto 610
+
+	.	error
+
+
+state 603:
+
+	sigexp__AND_funbind_opt : sigexp' AND_funbind_opt .  (reduce by rule 325)
+
+
+
+	.	reduce by rule 325
+
+
+state 604:
+
+	sigexp : sigexp WHERE . tyreadesc 
+	sigexp__AND_funbind_opt : sigexp WHERE . tyreadesc__AND_funbind_opt 
+
+	TYPE	shift 613
+
+	tyreadesc	goto 422
+	tyreadesc__AND_funbind_opt	goto 612
+
+	.	error
+
+
+state 605:
+
+	funbind : funid LPAR strid COLON sigexp RPAR SEAL sigexp EQUALS strexp__AND_funbind_opt .  (reduce by rule 317)
+
+
+
+	.	reduce by rule 317
+
+
+state 606:
+
+	tyreadesc : TYPE tyvarseq longtycon . EQUALS ty AND_tyreadesc_opt 
+	tyreadesc__AND_strdesc_opt : TYPE tyvarseq longtycon . EQUALS ty AND_tyreadesc_opt__AND_strdesc_opt 
+
+	EQUALS	shift 614
 
 
 	.	error
 
 
-state 598:
+state 607:
+
+	syndesc : tyvarseq tycon . EQUALS ty AND_syndesc_opt 
+
+	EQUALS	shift 496
+
+
+	.	error
+
+
+state 608:
 
 	datdesc : tyvarseq tycon EQUALS . condesc AND_datdesc_opt 
 
@@ -8534,13 +8643,13 @@ state 598:
 	SYMBOL	shift 66
 	STAR	shift 65
 
-	vid'	goto 491
-	condesc	goto 605
+	vid'	goto 501
+	condesc	goto 615
 
 	.	error
 
 
-state 599:
+state 609:
 
 	tyreadesc__AND_strbind_opt : TYPE tyvarseq longtycon EQUALS . ty AND_tyreadesc_opt__AND_strbind_opt 
 	tyreadesc : TYPE tyvarseq longtycon EQUALS . ty AND_tyreadesc_opt 
@@ -8550,44 +8659,44 @@ state 599:
 	TYVAR	shift 104
 
 	tyvar	goto 163
-	ty	goto 606
+	ty	goto 616
 	tupty	goto 161
 	ty_STAR_list	goto 160
 	consty	goto 159
 	atty	goto 158
 	tyseq	goto 157
 
-	.	reduce by rule 198
+	.	reduce by rule 200
 
 
-state 600:
+state 610:
 
-	AND_tyreadesc_opt : AND tyreadesc .  (reduce by rule 252)
+	AND_tyreadesc_opt : AND tyreadesc .  (reduce by rule 254)
+
+
+
+	.	reduce by rule 254
+
+
+state 611:
+
+	AND_tyreadesc_opt__AND_sigbind_opt : AND tyreadesc__AND_sigbind_opt .  (reduce by rule 252)
 
 
 
 	.	reduce by rule 252
 
 
-state 601:
+state 612:
 
-	AND_tyreadesc_opt__AND_sigbind_opt : AND tyreadesc__AND_sigbind_opt .  (reduce by rule 250)
-
-
-
-	.	reduce by rule 250
-
-
-state 602:
-
-	sigexp__AND_funbind_opt : sigexp WHERE tyreadesc__AND_funbind_opt .  (reduce by rule 324)
+	sigexp__AND_funbind_opt : sigexp WHERE tyreadesc__AND_funbind_opt .  (reduce by rule 326)
 
 
 
-	.	reduce by rule 324
+	.	reduce by rule 326
 
 
-state 603:
+state 613:
 
 	tyreadesc : TYPE . tyvarseq longtycon EQUALS ty AND_tyreadesc_opt 
 	tyreadesc__AND_funbind_opt : TYPE . tyvarseq longtycon EQUALS ty AND_tyreadesc_opt__AND_funbind_opt 
@@ -8596,13 +8705,13 @@ state 603:
 	TYVAR	shift 104
 
 	tyvar	goto 102
-	tyvarseq	goto 607
+	tyvarseq	goto 617
 	tyvarseq1	goto 110
 
-	.	reduce by rule 203
+	.	reduce by rule 205
 
 
-state 604:
+state 614:
 
 	tyreadesc : TYPE tyvarseq longtycon EQUALS . ty AND_tyreadesc_opt 
 	tyreadesc__AND_strdesc_opt : TYPE tyvarseq longtycon EQUALS . ty AND_tyreadesc_opt__AND_strdesc_opt 
@@ -8612,63 +8721,63 @@ state 604:
 	TYVAR	shift 104
 
 	tyvar	goto 163
-	ty	goto 608
+	ty	goto 618
 	tupty	goto 161
 	ty_STAR_list	goto 160
 	consty	goto 159
 	atty	goto 158
 	tyseq	goto 157
 
-	.	reduce by rule 198
+	.	reduce by rule 200
 
 
-state 605:
+state 615:
 
 	datdesc : tyvarseq tycon EQUALS condesc . AND_datdesc_opt 
 
-	AND	shift 532
+	AND	shift 542
 
-	AND_datdesc_opt	goto 609
+	AND_datdesc_opt	goto 619
 
-	.	reduce by rule 298
+	.	reduce by rule 300
 
 
-state 606:
+state 616:
 
 	tyreadesc__AND_strbind_opt : TYPE tyvarseq longtycon EQUALS ty . AND_tyreadesc_opt__AND_strbind_opt 
 	tyreadesc : TYPE tyvarseq longtycon EQUALS ty . AND_tyreadesc_opt 
 
-	ABSTYPE	reduce by rule 227
-	AND	shift 612
-	DATATYPE	reduce by rule 227
-	END	reduce by rule 227
-	EXCEPTION	reduce by rule 227
-	FUN	reduce by rule 227
-	IN	reduce by rule 227
-	INFIX	reduce by rule 227
-	INFIXR	reduce by rule 227
-	LOCAL	reduce by rule 227
-	NONFIX	reduce by rule 227
-	OPEN	reduce by rule 227
-	TYPE	reduce by rule 227
-	VAL	reduce by rule 227
-	RPAR	reduce by rule 227
-	COLON	reduce by rule 253
-	SEMICOLON	reduce by rule 227
-	FUNCTOR	reduce by rule 227
-	SIGNATURE	reduce by rule 227
-	STRUCTURE	reduce by rule 227
-	WHERE	reduce by rule 253
-	SEAL	reduce by rule 253
+	ABSTYPE	reduce by rule 229
+	AND	shift 622
+	DATATYPE	reduce by rule 229
+	END	reduce by rule 229
+	EXCEPTION	reduce by rule 229
+	FUN	reduce by rule 229
+	IN	reduce by rule 229
+	INFIX	reduce by rule 229
+	INFIXR	reduce by rule 229
+	LOCAL	reduce by rule 229
+	NONFIX	reduce by rule 229
+	OPEN	reduce by rule 229
+	TYPE	reduce by rule 229
+	VAL	reduce by rule 229
+	RPAR	reduce by rule 229
+	COLON	reduce by rule 255
+	SEMICOLON	reduce by rule 229
+	FUNCTOR	reduce by rule 229
+	SIGNATURE	reduce by rule 229
+	STRUCTURE	reduce by rule 229
+	WHERE	reduce by rule 255
+	SEAL	reduce by rule 255
 
-	AND_strbind_opt	goto 611
-	AND_tyreadesc_opt__AND_strbind_opt	goto 610
-	AND_tyreadesc_opt	goto 588
+	AND_strbind_opt	goto 621
+	AND_tyreadesc_opt__AND_strbind_opt	goto 620
+	AND_tyreadesc_opt	goto 598
 
 	.	error
 
 
-state 607:
+state 617:
 
 	tyreadesc : TYPE tyvarseq . longtycon EQUALS ty AND_tyreadesc_opt 
 	tyreadesc__AND_funbind_opt : TYPE tyvarseq . longtycon EQUALS ty AND_tyreadesc_opt__AND_funbind_opt 
@@ -8678,137 +8787,137 @@ state 607:
 	LONGID	shift 247
 
 	tycon	goto 246
-	longtycon	goto 613
+	longtycon	goto 623
 
 	.	error
 
 
-state 608:
+state 618:
 
 	tyreadesc : TYPE tyvarseq longtycon EQUALS ty . AND_tyreadesc_opt 
 	tyreadesc__AND_strdesc_opt : TYPE tyvarseq longtycon EQUALS ty . AND_tyreadesc_opt__AND_strdesc_opt 
 
-	AND	shift 616
-	DATATYPE	reduce by rule 307
-	END	reduce by rule 307
-	EXCEPTION	reduce by rule 307
-	TYPE	reduce by rule 307
-	VAL	reduce by rule 307
-	RPAR	reduce by rule 307
-	SEMICOLON	reduce by rule 307
-	EQTYPE	reduce by rule 307
-	INCLUDE	reduce by rule 307
-	SHARING	reduce by rule 307
-	STRUCTURE	reduce by rule 307
-	WHERE	reduce by rule 253
+	AND	shift 626
+	DATATYPE	reduce by rule 309
+	END	reduce by rule 309
+	EXCEPTION	reduce by rule 309
+	TYPE	reduce by rule 309
+	VAL	reduce by rule 309
+	RPAR	reduce by rule 309
+	SEMICOLON	reduce by rule 309
+	EQTYPE	reduce by rule 309
+	INCLUDE	reduce by rule 309
+	SHARING	reduce by rule 309
+	STRUCTURE	reduce by rule 309
+	WHERE	reduce by rule 255
 
-	AND_tyreadesc_opt	goto 588
-	AND_strdesc_opt	goto 615
-	AND_tyreadesc_opt__AND_strdesc_opt	goto 614
-
-	.	error
-
-
-state 609:
-
-	datdesc : tyvarseq tycon EQUALS condesc AND_datdesc_opt .  (reduce by rule 294)
-
-
-
-	.	reduce by rule 294
-
-
-state 610:
-
-	tyreadesc__AND_strbind_opt : TYPE tyvarseq longtycon EQUALS ty AND_tyreadesc_opt__AND_strbind_opt .  (reduce by rule 233)
-
-
-
-	.	reduce by rule 233
-
-
-state 611:
-
-	AND_tyreadesc_opt__AND_strbind_opt : AND_strbind_opt .  (reduce by rule 234)
-
-
-
-	.	reduce by rule 234
-
-
-state 612:
-
-	AND_strbind_opt : AND . strbind 
-	AND_tyreadesc_opt__AND_strbind_opt : AND . tyreadesc__AND_strbind_opt 
-	AND_tyreadesc_opt : AND . tyreadesc 
-
-	TYPE	shift 539
-	ALPHA	shift 71
-
-	strid	goto 70
-	strbind	goto 460
-	tyreadesc__AND_strbind_opt	goto 617
-	tyreadesc	goto 600
+	AND_tyreadesc_opt	goto 598
+	AND_strdesc_opt	goto 625
+	AND_tyreadesc_opt__AND_strdesc_opt	goto 624
 
 	.	error
 
 
-state 613:
+state 619:
 
-	tyreadesc : TYPE tyvarseq longtycon . EQUALS ty AND_tyreadesc_opt 
-	tyreadesc__AND_funbind_opt : TYPE tyvarseq longtycon . EQUALS ty AND_tyreadesc_opt__AND_funbind_opt 
-
-	EQUALS	shift 618
-
-
-	.	error
-
-
-state 614:
-
-	tyreadesc__AND_strdesc_opt : TYPE tyvarseq longtycon EQUALS ty AND_tyreadesc_opt__AND_strdesc_opt .  (reduce by rule 310)
+	datdesc : tyvarseq tycon EQUALS condesc AND_datdesc_opt .  (reduce by rule 296)
 
 
 
-	.	reduce by rule 310
+	.	reduce by rule 296
 
 
-state 615:
+state 620:
 
-	AND_tyreadesc_opt__AND_strdesc_opt : AND_strdesc_opt .  (reduce by rule 311)
-
-
-
-	.	reduce by rule 311
-
-
-state 616:
-
-	AND_tyreadesc_opt : AND . tyreadesc 
-	AND_strdesc_opt : AND . strdesc 
-	AND_tyreadesc_opt__AND_strdesc_opt : AND . tyreadesc__AND_strdesc_opt 
-
-	TYPE	shift 555
-	ALPHA	shift 71
-
-	strid	goto 351
-	tyreadesc	goto 600
-	strdesc	goto 553
-	tyreadesc__AND_strdesc_opt	goto 619
-
-	.	error
-
-
-state 617:
-
-	AND_tyreadesc_opt__AND_strbind_opt : AND tyreadesc__AND_strbind_opt .  (reduce by rule 235)
+	tyreadesc__AND_strbind_opt : TYPE tyvarseq longtycon EQUALS ty AND_tyreadesc_opt__AND_strbind_opt .  (reduce by rule 235)
 
 
 
 	.	reduce by rule 235
 
 
-state 618:
+state 621:
+
+	AND_tyreadesc_opt__AND_strbind_opt : AND_strbind_opt .  (reduce by rule 236)
+
+
+
+	.	reduce by rule 236
+
+
+state 622:
+
+	AND_strbind_opt : AND . strbind 
+	AND_tyreadesc_opt__AND_strbind_opt : AND . tyreadesc__AND_strbind_opt 
+	AND_tyreadesc_opt : AND . tyreadesc 
+
+	TYPE	shift 549
+	ALPHA	shift 71
+
+	strid	goto 70
+	strbind	goto 470
+	tyreadesc__AND_strbind_opt	goto 627
+	tyreadesc	goto 610
+
+	.	error
+
+
+state 623:
+
+	tyreadesc : TYPE tyvarseq longtycon . EQUALS ty AND_tyreadesc_opt 
+	tyreadesc__AND_funbind_opt : TYPE tyvarseq longtycon . EQUALS ty AND_tyreadesc_opt__AND_funbind_opt 
+
+	EQUALS	shift 628
+
+
+	.	error
+
+
+state 624:
+
+	tyreadesc__AND_strdesc_opt : TYPE tyvarseq longtycon EQUALS ty AND_tyreadesc_opt__AND_strdesc_opt .  (reduce by rule 312)
+
+
+
+	.	reduce by rule 312
+
+
+state 625:
+
+	AND_tyreadesc_opt__AND_strdesc_opt : AND_strdesc_opt .  (reduce by rule 313)
+
+
+
+	.	reduce by rule 313
+
+
+state 626:
+
+	AND_tyreadesc_opt : AND . tyreadesc 
+	AND_strdesc_opt : AND . strdesc 
+	AND_tyreadesc_opt__AND_strdesc_opt : AND . tyreadesc__AND_strdesc_opt 
+
+	TYPE	shift 565
+	ALPHA	shift 71
+
+	strid	goto 359
+	tyreadesc	goto 610
+	strdesc	goto 563
+	tyreadesc__AND_strdesc_opt	goto 629
+
+	.	error
+
+
+state 627:
+
+	AND_tyreadesc_opt__AND_strbind_opt : AND tyreadesc__AND_strbind_opt .  (reduce by rule 237)
+
+
+
+	.	reduce by rule 237
+
+
+state 628:
 
 	tyreadesc : TYPE tyvarseq longtycon EQUALS . ty AND_tyreadesc_opt 
 	tyreadesc__AND_funbind_opt : TYPE tyvarseq longtycon EQUALS . ty AND_tyreadesc_opt__AND_funbind_opt 
@@ -8818,102 +8927,102 @@ state 618:
 	TYVAR	shift 104
 
 	tyvar	goto 163
-	ty	goto 620
+	ty	goto 630
 	tupty	goto 161
 	ty_STAR_list	goto 160
 	consty	goto 159
 	atty	goto 158
 	tyseq	goto 157
 
-	.	reduce by rule 198
+	.	reduce by rule 200
 
 
-state 619:
+state 629:
 
-	AND_tyreadesc_opt__AND_strdesc_opt : AND tyreadesc__AND_strdesc_opt .  (reduce by rule 312)
-
-
-
-	.	reduce by rule 312
+	AND_tyreadesc_opt__AND_strdesc_opt : AND tyreadesc__AND_strdesc_opt .  (reduce by rule 314)
 
 
-state 620:
+
+	.	reduce by rule 314
+
+
+state 630:
 
 	tyreadesc : TYPE tyvarseq longtycon EQUALS ty . AND_tyreadesc_opt 
 	tyreadesc__AND_funbind_opt : TYPE tyvarseq longtycon EQUALS ty . AND_tyreadesc_opt__AND_funbind_opt 
 
-	ABSTYPE	reduce by rule 319
-	AND	shift 623
-	DATATYPE	reduce by rule 319
-	EXCEPTION	reduce by rule 319
-	FUN	reduce by rule 319
-	INFIX	reduce by rule 319
-	INFIXR	reduce by rule 319
-	LOCAL	reduce by rule 319
-	NONFIX	reduce by rule 319
-	OPEN	reduce by rule 319
-	TYPE	reduce by rule 319
-	VAL	reduce by rule 319
-	COLON	reduce by rule 253
-	SEMICOLON	reduce by rule 319
-	FUNCTOR	reduce by rule 319
-	SIGNATURE	reduce by rule 319
-	STRUCTURE	reduce by rule 319
-	WHERE	reduce by rule 253
-	SEAL	reduce by rule 253
+	ABSTYPE	reduce by rule 321
+	AND	shift 633
+	DATATYPE	reduce by rule 321
+	EXCEPTION	reduce by rule 321
+	FUN	reduce by rule 321
+	INFIX	reduce by rule 321
+	INFIXR	reduce by rule 321
+	LOCAL	reduce by rule 321
+	NONFIX	reduce by rule 321
+	OPEN	reduce by rule 321
+	TYPE	reduce by rule 321
+	VAL	reduce by rule 321
+	COLON	reduce by rule 255
+	SEMICOLON	reduce by rule 321
+	FUNCTOR	reduce by rule 321
+	SIGNATURE	reduce by rule 321
+	STRUCTURE	reduce by rule 321
+	WHERE	reduce by rule 255
+	SEAL	reduce by rule 255
 
-	AND_tyreadesc_opt	goto 588
-	AND_funbind_opt	goto 622
-	AND_tyreadesc_opt__AND_funbind_opt	goto 621
-
-	.	error
-
-
-state 621:
-
-	tyreadesc__AND_funbind_opt : TYPE tyvarseq longtycon EQUALS ty AND_tyreadesc_opt__AND_funbind_opt .  (reduce by rule 325)
-
-
-
-	.	reduce by rule 325
-
-
-state 622:
-
-	AND_tyreadesc_opt__AND_funbind_opt : AND_funbind_opt .  (reduce by rule 326)
-
-
-
-	.	reduce by rule 326
-
-
-state 623:
-
-	AND_tyreadesc_opt : AND . tyreadesc 
-	AND_funbind_opt : AND . funbind 
-	AND_tyreadesc_opt__AND_funbind_opt : AND . tyreadesc__AND_funbind_opt 
-
-	TYPE	shift 603
-	ALPHA	shift 77
-
-	funid	goto 76
-	tyreadesc	goto 600
-	funbind	goto 571
-	tyreadesc__AND_funbind_opt	goto 624
+	AND_tyreadesc_opt	goto 598
+	AND_funbind_opt	goto 632
+	AND_tyreadesc_opt__AND_funbind_opt	goto 631
 
 	.	error
 
 
-state 624:
+state 631:
 
-	AND_tyreadesc_opt__AND_funbind_opt : AND tyreadesc__AND_funbind_opt .  (reduce by rule 327)
+	tyreadesc__AND_funbind_opt : TYPE tyvarseq longtycon EQUALS ty AND_tyreadesc_opt__AND_funbind_opt .  (reduce by rule 327)
 
 
 
 	.	reduce by rule 327
 
 
-state 625:
+state 632:
+
+	AND_tyreadesc_opt__AND_funbind_opt : AND_funbind_opt .  (reduce by rule 328)
+
+
+
+	.	reduce by rule 328
+
+
+state 633:
+
+	AND_tyreadesc_opt : AND . tyreadesc 
+	AND_funbind_opt : AND . funbind 
+	AND_tyreadesc_opt__AND_funbind_opt : AND . tyreadesc__AND_funbind_opt 
+
+	TYPE	shift 613
+	ALPHA	shift 77
+
+	funid	goto 76
+	tyreadesc	goto 610
+	funbind	goto 581
+	tyreadesc__AND_funbind_opt	goto 634
+
+	.	error
+
+
+state 634:
+
+	AND_tyreadesc_opt__AND_funbind_opt : AND tyreadesc__AND_funbind_opt .  (reduce by rule 329)
+
+
+
+	.	reduce by rule 329
+
+
+state 635:
 
 
 	EOF	accept
@@ -8921,5 +9030,5 @@ state 625:
 
 	.	error
 
-1137 of 2718 action table entries left after compaction
-950 goto table entries
+1145 of 2742 action table entries left after compaction
+961 goto table entries

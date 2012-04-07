@@ -297,6 +297,7 @@
 	|    tyvar_COMMA_list1		of TyVar list
         (* levels *)
         | level                         of Level.t
+        |    level'                     of Level.t
 
 	(* Nonterminals for the module language *)
 	| strexp			of StrExp
@@ -841,20 +842,25 @@
 
   (* Level *)
   level:
+         level'     (level')
+       | (*empty*)  (Level.Unknown)
+
+  level':
          lvvar       (Level.LVar lvvar)
        | STABLE      (Level.Stable)
        | CHANGEABLE  (Level.Changeable)
-       | (*empty*)   (Level.Unknown)
 
   (* Core: Type expressions [Figure 23] *)
 
   ty:
 	  tupty		 ( tupty )
-	| tupty ARROW ty ( ARROWTy(I(tuptyleft,tyright), tupty, ty) )
+	| tupty ARROW level ty ( ARROWTy(I(tuptyleft,tyright), tupty, ty, level, Level.Stable) ) (* assume outer stable *)
 
      tupty:
 	  ty_STAR_list	 ( TUPLETy(I(ty_STAR_listleft,ty_STAR_listright),
-				   ty_STAR_list) )
+				   ty_STAR_list, Level.Stable) )
+        | ty_STAR_list HASH level'  (TUPLETy(I(ty_STAR_listleft,level'right),
+				             ty_STAR_list, level'))
 
      ty_STAR_list:
 	  consty STAR ty_STAR_list	( consty::ty_STAR_list )
@@ -862,12 +868,12 @@
 
      consty:
 	  atty			( atty )
-	| tyseq longtycon	( CONTy(I(tyseqleft,longtyconright),
-					tyseq, longtycon) )
+	| tyseq longtycon level	( CONTy(I(tyseqleft,levelright),
+					tyseq, longtycon, level) )
      atty:
 	  tyvar		( VARTy(I(tyvarleft,tyvarright), tyvar) )
-	| LBRACE tyrow_opt RBRACE
-			( RECORDTy(I(LBRACEleft,RBRACEright), tyrow_opt) )
+	| LBRACE tyrow_opt RBRACE level
+			( RECORDTy(I(LBRACEleft,levelright), tyrow_opt, level) )
 	| LPAR ty RPAR	( PARTy(I(LPARleft,RPARright), ty) )
 
 

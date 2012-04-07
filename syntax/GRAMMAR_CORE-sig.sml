@@ -124,9 +124,9 @@ sig
 
     and Ty =
 	  VARTy          of Info * TyVar
-	| RECORDTy       of Info * TyRow option
-	| CONTy          of Info * Tyseq * longTyCon
-	| ARROWTy        of Info * Ty * Ty
+	| RECORDTy       of Info * TyRow option * Level.t
+	| CONTy          of Info * Tyseq * longTyCon * Level.t
+	| ARROWTy        of Info * Ty * Ty * Level.t * Level.t  (* mode,outer *)
 	| PARTy          of Info * Ty
 
     and TyRow =

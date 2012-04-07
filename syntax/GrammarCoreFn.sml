@@ -124,9 +124,9 @@ struct
 
     and Ty =
 	  VARTy          of Info * TyVar
-	| RECORDTy       of Info * TyRow option
-	| CONTy          of Info * Tyseq * longTyCon
-	| ARROWTy        of Info * Ty * Ty
+	| RECORDTy       of Info * TyRow option * Level.t
+	| CONTy          of Info * Tyseq * longTyCon * Level.t
+	| ARROWTy        of Info * Ty * Ty * Level.t * Level.t  (* mode,outer *)
 	| PARTy          of Info * Ty
 
     and TyRow =
@@ -201,9 +201,9 @@ struct
       | infoPat(ASPat(I,_,_,_,_))		= I
 
     fun infoTy(VARTy(I,_))			= I
-      | infoTy(RECORDTy(I,_))			= I
-      | infoTy(CONTy(I,_,_))			= I
-      | infoTy(ARROWTy(I,_,_))			= I
+      | infoTy(RECORDTy(I,_,_))			= I
+      | infoTy(CONTy(I,_,_,_))			= I
+      | infoTy(ARROWTy(I,_,_,_,_))		= I
       | infoTy(PARTy(I,_))			= I
 
     fun infoTyRow(TyRow(I,_,_,_))		= I

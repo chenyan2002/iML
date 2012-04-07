@@ -63,7 +63,7 @@ sig
 								-> PatRow
     (* Types [Figure 16] *)
 
-    val TUPLETy :	Info * Ty list				-> Ty
+    val TUPLETy :	Info * Ty list * Level.t		-> Ty
 
     (* Function-value bindings [Figure 17] *)
 

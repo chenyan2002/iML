@@ -78,6 +78,7 @@ struct
 
 
     (* Rewriting of withtype declarations [Appendix A, 2nd bullet] *)
+    (* TODO: replaceLv and rewriteLv  *)
 
     fun findTyCon(tycon, C.TypBind(_, tyvarseq, tycon', ty, typbind_opt)) =
 	    if tycon' = tycon then
@@ -102,15 +103,16 @@ struct
 	    loop(tyvars, tys)
 	end
 
-      | replaceTy tyvarseq_tyseq (C.RECORDTy(I, tyrow_opt)) =
-	    C.RECORDTy(I, Option.map (replaceTyRow tyvarseq_tyseq) tyrow_opt)
+      | replaceTy tyvarseq_tyseq (C.RECORDTy(I, tyrow_opt, level)) =
+	    C.RECORDTy(I, Option.map (replaceTyRow tyvarseq_tyseq) tyrow_opt, level)
 
-      | replaceTy tyvarseq_tyseq (C.CONTy(I, tyseq', tycon)) =
-	    C.CONTy(I, replaceTyseq tyvarseq_tyseq tyseq', tycon)
+      | replaceTy tyvarseq_tyseq (C.CONTy(I, tyseq', tycon, level)) =
+	    C.CONTy(I, replaceTyseq tyvarseq_tyseq tyseq', tycon, level)
 
-      | replaceTy tyvarseq_tyseq (C.ARROWTy(I, ty1, ty2)) =
+      | replaceTy tyvarseq_tyseq (C.ARROWTy(I, ty1, ty2, mode, level)) =
 	    C.ARROWTy(I, replaceTy tyvarseq_tyseq ty1,
-			 replaceTy tyvarseq_tyseq ty2)
+			 replaceTy tyvarseq_tyseq ty2,
+                         mode, level)
 
       | replaceTy tyvarseq_tyseq (C.PARTy(I, ty)) =
 	    C.PARTy(I, replaceTy tyvarseq_tyseq ty)
@@ -125,24 +127,24 @@ struct
 
     fun rewriteTy typbind (ty as C.VARTy _) = ty
 
-      | rewriteTy typbind (C.RECORDTy(I, tyrow_opt)) =
-	    C.RECORDTy(I, Option.map (rewriteTyRow typbind) tyrow_opt)
+      | rewriteTy typbind (C.RECORDTy(I, tyrow_opt, level)) =
+	    C.RECORDTy(I, Option.map (rewriteTyRow typbind) tyrow_opt, level)
 
-      | rewriteTy typbind (C.CONTy(I, tyseq, longtycon)) =
+      | rewriteTy typbind (C.CONTy(I, tyseq, longtycon, level)) =
 	let 
 	    val tyseq'          = rewriteTyseq typbind tyseq
 	    val (strids, tycon) = LongTyCon.explode longtycon
 	in
 	    if not(List.null strids) then
-		C.CONTy(I, tyseq', longtycon)
+		C.CONTy(I, tyseq', longtycon, level)
 	    else
 		case findTyCon(tycon, typbind)
 		  of SOME(tyvarseq', ty') => replaceTy (tyvarseq',tyseq') ty'
-		   | NONE                 => C.CONTy(I, tyseq', longtycon)
+		   | NONE                 => C.CONTy(I, tyseq', longtycon, level)
 	end
 
-      | rewriteTy typbind (C.ARROWTy(I, ty1, ty2)) =
-	    C.ARROWTy(I, rewriteTy typbind ty1, rewriteTy typbind ty2)
+      | rewriteTy typbind (C.ARROWTy(I, ty1, ty2, mode, level)) =
+	    C.ARROWTy(I, rewriteTy typbind ty1, rewriteTy typbind ty2, mode, level)
 
       | rewriteTy typbind (C.PARTy(I, ty)) =
 	    C.PARTy(I, rewriteTy typbind ty)
@@ -314,14 +316,14 @@ struct
 
     (* Type Expressions [Figure 16] *)
 
-    fun TUPLETy(I, [ty]) = ty
-      | TUPLETy(I,  tys) =
+    fun TUPLETy(I, [ty], level) = ty
+      | TUPLETy(I,  tys, level) =
 	let
 	    fun toTyRow(n,   []    ) = NONE
 	      | toTyRow(n, ty::tys') =
 		SOME(C.TyRow(I, Lab.fromInt n, ty, toTyRow(n+1, tys')))
 	in
-	    C.RECORDTy(I, toTyRow(1, tys))
+	    C.RECORDTy(I, toTyRow(1, tys), level)
 	end
 
 
