@@ -114,11 +114,11 @@ struct
 	    ?unguardedTyVarsTy ty_opt + unguardedTyVarsPat pat
 
     and unguardedTyVarsTy(VARTy(_, tyvar)) = TyVarSet.singleton tyvar
-      | unguardedTyVarsTy(RECORDTy(_, tyrow_opt)) =
+      | unguardedTyVarsTy(RECORDTy(_, tyrow_opt,_)) =
 	    ?unguardedTyVarsTyRow tyrow_opt
-      | unguardedTyVarsTy(CONTy(_, tyseq, longtycon)) =
+      | unguardedTyVarsTy(CONTy(_, tyseq, longtycon,_)) =
 	    unguardedTyVarsTyseq tyseq
-      | unguardedTyVarsTy(ARROWTy(_, ty, ty')) =
+      | unguardedTyVarsTy(ARROWTy(_, ty, ty',_,_)) =
 	    unguardedTyVarsTy ty + unguardedTyVarsTy ty'
       | unguardedTyVarsTy(PARTy(_, ty)) =
 	    unguardedTyVarsTy ty

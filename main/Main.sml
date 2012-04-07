@@ -52,6 +52,7 @@ struct
 	; OS.Process.failure
 	)
 
+(*
     fun main' ["-h"]        = ( usage() ; OS.Process.success )
       | main' ["-p"]        = start (SOME "Parsing") Sml.parseSession
       | main' ["-l"]        = start (SOME "Elaboration") Sml.elabSession
@@ -63,6 +64,10 @@ struct
       | main' ("-v"::names) = run Sml.evalFiles names
       | main' ("-x"::names) = run Sml.execFiles names
       | main' names         = run Sml.execFiles names
+*)
+    fun main' ["-h"] = ( usage() ; OS.Process.success )
+      | main' [] = start NONE Sml.parseSession
+      | main' names = run Sml.parseFiles names
 
     fun main() =
 	let

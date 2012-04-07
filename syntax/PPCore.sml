@@ -33,6 +33,7 @@ struct
     fun ppTyVar(out, i, tyvar) = ppAtom(out, i, "TyVar", TyVar.toString tyvar)
     fun ppTyCon(out, i, tycon) = ppAtom(out, i, "TyCon", TyCon.toString tycon)
     fun ppStrId(out, i, strid) = ppAtom(out, i, "StrId", StrId.toString strid)
+    fun ppLvVar(out, i, lvvar) = ppAtom(out, i, "LvVar", LvVar.toString lvvar)
 
     fun ppLongVId(out, i, longvid) =
 	    ppAtom(out, i, "LongVId", LongVId.toString longvid)
@@ -191,21 +192,24 @@ struct
 	    ppElem(out, i, "ASPat", I,
 		   [sub ppVId vid, subo ppTy ty_opt, sub ppPat pat])
 
+    (* Level *)
+
+    and ppLevel(out, i, lv) = ppAtom(out, i, "Lv", Level.toString lv)
 
     (* Type expressions *)
 
     and ppTy(out, i, VARTy(I, tyvar)) =
 	    ppElem(out, i, "VARTy", I,
 		   [sub ppTyVar tyvar])
-      | ppTy(out, i, RECORDTy(I, tyrow_opt)) =
+      | ppTy(out, i, RECORDTy(I, tyrow_opt, level)) =
 	    ppElem(out, i, "RECORDTy", I,
-		   [subo ppTyRow tyrow_opt])
-      | ppTy(out, i, CONTy(I, tyseq, longtycon)) =
+		   [subo ppTyRow tyrow_opt, sub ppLevel level])
+      | ppTy(out, i, CONTy(I, tyseq, longtycon, level)) =
 	    ppElem(out, i, "CONTy", I,
-		   [sub ppTyseq tyseq, sub ppLongTyCon longtycon])
-      | ppTy(out, i, ARROWTy(I, ty1, ty2)) =
+		   [sub ppTyseq tyseq, sub ppLongTyCon longtycon, sub ppLevel level])
+      | ppTy(out, i, ARROWTy(I, ty1, ty2, mode, level)) =
 	    ppElem(out, i, "ARROWTy", I,
-		   [sub ppTy ty1, sub ppTy ty2])
+		   [sub ppTy ty1, sub ppLevel mode, sub ppTy ty2, sub ppLevel level])
       | ppTy(out, i, PARTy(I, ty)) =
 	    ppElem(out, i, "PARTy", I,
 		   [sub ppTy ty])

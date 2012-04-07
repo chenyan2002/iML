@@ -7,10 +7,11 @@
 structure Sml : SML =
 struct
     (* Initial arguments *)
-
+(*
     type arg = (Infix.InfEnv * BindingBasis.Basis) * Basis.Basis * Program.State
 
     val J0          = InitialInfixEnv.J0
+
     val B0_BIND     = StaticBasis.toBindingBasis InitialStaticBasis.B0
     val B0_BIND'    = StaticBasis.toBindingBasis Library.B0_STAT
     val B0_STAT     = InitialStaticBasis.B0
@@ -38,8 +39,19 @@ struct
 	in
 	    (J', B_BIND')
 	end
+*)
+    type arg = Infix.InfEnv * BindingBasis.Basis
+    val initialArg = (InitialInfixEnv.J0, BindingBasis.empty)
+    fun parseArg x = x
+    fun parse (J, B_BIND) (filenameOpt, source) = 
+      let
+        val (J',program) = Parse.parse(J, source, filenameOpt)
+        val _ = PPProgram.ppProgram(TextIO.stdOut, 0, program)
+      in
+        (J', B_BIND)
+      end
 
-
+(*
     (* Parsing and elaboration *)
 
     fun elabArg ((J,B_BIND), (B_STAT,B_DYN), s) = (J, B_BIND, B_STAT)
@@ -84,7 +96,7 @@ struct
 	end
 
     val exec = exec' true
-
+*)
 
     (* Process the `use' queue *)
 
@@ -182,7 +194,7 @@ struct
     (* Install library *)
 
     val basisPath = ref "basis"
-
+(*
     fun loadLib() =
 	( TextIO.output(TextIO.stdOut, "[loading standard basis library]\n")
 	; TextIO.flushOut TextIO.stdOut
@@ -194,6 +206,8 @@ struct
 	( TextIO.output(TextIO.stdOut, "[library not found]\n")
 	; initialArg
 	)
+*)
+    fun loadLib() = initialArg
 
     val libRef = ref(NONE : arg option)
 
@@ -209,22 +223,27 @@ struct
     fun processSession (f, arg) () = fromSession(f, arg(lib()))
 
     val parseString  = processString(parse, parseArg)
+(*
     val elabString   = processString(elab, elabArg)
     val evalString   = processString(eval, evalArg)
     val execString   = processString(exec, execArg)
-
+*)
     val parseFile    = processFile(parse, parseArg)
+(*
     val elabFile     = processFile(elab, elabArg)
     val evalFile     = processFile(eval, evalArg)
     val execFile     = processFile(exec, execArg)
-
+*)
     val parseFiles   = processFiles(parse, parseArg)
+(*
     val elabFiles    = processFiles(elab,  elabArg)
     val evalFiles    = processFiles(eval,  evalArg)
     val execFiles    = processFiles(exec,  execArg)
-
+*)
     val parseSession = processSession(parse, parseArg)
+(*
     val elabSession  = processSession(elab,  elabArg)
     val evalSession  = processSession(eval,  evalArg)
     val execSession  = processSession(exec,  execArg)
+*)
 end;

@@ -4,4 +4,7 @@ sig
               | Changeable
               | LVar of LvVar.LvVar
               | Unknown
+
+   val toString : t -> string
+
 end
