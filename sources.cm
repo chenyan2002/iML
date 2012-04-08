@@ -35,16 +35,17 @@ Group is
     (* Basic objects of the core
        (plus TyName and OverloadingClass, needed by TyVar and SCon) *)
 
+    syntax/LVVAR-sig.sml
+    syntax/LvVar.sml
+    syntax/LEVEL-sig.sml
+    syntax/Level.sml
+
     elab/TYNAME-sig.sml
     elab/TyName.sml
     elab/OVERLOADINGCLASS-sig.sml
     elab/OverloadingClass.sml
     syntax/TYVAR-sig.sml
     syntax/TyVar.sml
-    syntax/LVVAR-sig.sml
-    syntax/LvVar.sml
-    syntax/LEVEL-sig.sml
-    syntax/Level.sml
     syntax/SCON-sig.sml
     syntax/SCon.sml
 
@@ -102,7 +103,6 @@ Group is
     parse/BINDING_BASIS-sig.sml
     parse/BindingBasis.sml
 
-(*
     (* Static core objects *)
 
     elab/StaticObjectsCore.sml
@@ -164,7 +164,7 @@ Group is
 
     exec/BASIS-sig.sml
     exec/Basis.sml
-*)
+
     (* Parsing *)
 
     parse/INFIX-sig.sml
@@ -185,7 +185,6 @@ Group is
     parse/PARSE-sig.sml
     parse/Parse.sml
 
-(*
     (* Syntax analysis *)
 
     elab/SCOPE_TYVARS-sig.sml
@@ -197,8 +196,7 @@ Group is
     parse/SyntacticRestrictionsModule.sml
     parse/SYNTACTIC_RESTRICTIONS_PROGRAM-sig.sml
     parse/SyntacticRestrictionsProgram.sml
-*)
-(*
+
     (* Environments and library *)
 
     elab/INITIAL_STATIC_ENV-sig.sml
@@ -210,17 +208,15 @@ Group is
     eval/InitialDynamicEnv.sml
     eval/INITIAL_DYNAMIC_BASIS-sig.sml
     eval/InitialDynamicBasis.sml
-*)
+
     lib/USE-sig.sml
     lib/Use.sml
-(*
     lib/LIBRARY-sig.sml
     lib/Library.sml
 
     eval/BASVAL-sig.sml
     eval/BasVal.sml
-*)
-(*
+
     (* Elaboration *)
 
     elab/CLOS-sig.sml
@@ -234,7 +230,7 @@ Group is
     elab/ElabModule.sml
 
     (* Evaluation *)
-
+(*
     eval/EVAL_CORE-sig.sml
     eval/EvalCore.sml
 
@@ -248,14 +244,14 @@ Group is
 
     infrastructure/PP_MISC-sig.sml
     infrastructure/PPMisc.sml
-(*
+
     elab/PP_TYPE-sig.sml
     elab/PPType.sml
     elab/PP_STATIC_ENV-sig.sml
     elab/PPStaticEnv.sml
     elab/PP_STATIC_BASIS-sig.sml
     elab/PPStaticBasis.sml
-
+(*
     eval/PP_VAL-sig.sml
     eval/PPVal.sml
     eval/PP_DYNAMIC_ENV-sig.sml
@@ -279,9 +275,9 @@ Group is
     syntax/PPModule.sml
     syntax/PP_PROGRAM-sig.sml
     syntax/PPProgram.sml
-(*
-    (* Program execution *)
 
+    (* Program execution *)
+(*
     exec/PROGRAM-sig.sml
     exec/Program.sml
 *)

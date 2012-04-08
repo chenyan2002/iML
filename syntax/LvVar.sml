@@ -17,13 +17,13 @@ structure LvVar :> LVVAR =
 struct
     (* Import types *)
 
-    type OverloadingClass = OverloadingClass.OverloadingClass
+    (*type OverloadingClass = OverloadingClass.OverloadingClass*)
 
     (* Type [Sections 2.4 and 4.1]*)
 
     type LvVar = { name :        string		(* [alpha] or [tyvar] *)
 		 , equality :    bool
-		 , overloading : OverloadingClass ref option
+		 (*, overloading : OverloadingClass ref option*)
 		 }
 
 
@@ -33,7 +33,6 @@ struct
 	{ name = "_" ^ (if equality then "$$" else "$") ^
 		 Stamp.toString(Stamp.stamp())
 	, equality = equality
-	, overloading = NONE
 	}
 
     fun fromInt equality n =
@@ -43,31 +42,19 @@ struct
 	    val name = (if equality then "$$" else "$") ^
 		       (if i = 0 then c else c ^ Int.toString i)
 	in
-	    {name = name, equality = equality, overloading = NONE}
+	    {name = name, equality = equality}
 	end
 
     fun fromString s =
     	{ name        = s
     	, equality    = String.size(s) > 1 andalso String.sub(s,1) = #"$"
-	, overloading = NONE
 	}
-
-    fun fromOverloadingClass(s, O) =
-    	{ name        = s
-    	, equality    = false
-	, overloading = SOME(ref O)
-	}
-
 
     (* Attributes [Section 4.1] *)
 
-    fun toString {name, equality, overloading} = name
+    fun toString {name, equality} = name
 
-    fun admitsEquality {name, equality, overloading} = equality
-
-    fun overloadingClass {name, equality, overloading} =
-	Option.map op! overloading
-
+    fun admitsEquality {name, equality} = equality
 
     (* Ordering *)
 

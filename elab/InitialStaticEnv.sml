@@ -45,15 +45,15 @@ struct
 
     (* TyNames [Appendix C] *)
 
-    val tBool   = TyName.tyname(TyCon.toString tyconBool,   0, true,  2)
-    val tInt    = TyName.tyname(TyCon.toString tyconInt,    0, true,  0)
-    val tWord   = TyName.tyname(TyCon.toString tyconWord,   0, true,  0)
-    val tReal   = TyName.tyname(TyCon.toString tyconReal,   0, false, 0)
-    val tString = TyName.tyname(TyCon.toString tyconString, 0, true,  0)
-    val tChar   = TyName.tyname(TyCon.toString tyconChar,   0, true,  0)
-    val tList   = TyName.tyname(TyCon.toString tyconList,   1, true,  2)
-    val tRef    = TyName.tyname(TyCon.toString tyconRef,    1, true,  1)
-    val tExn    = TyName.tyname(TyCon.toString tyconExn,    0, false, 0)
+    val tBool   = TyName.tyname(TyCon.toString tyconBool,   0, true,  2, Level.Stable)
+    val tInt    = TyName.tyname(TyCon.toString tyconInt,    0, true,  0, Level.Stable)
+    val tWord   = TyName.tyname(TyCon.toString tyconWord,   0, true,  0, Level.Stable)
+    val tReal   = TyName.tyname(TyCon.toString tyconReal,   0, false, 0, Level.Stable)
+    val tString = TyName.tyname(TyCon.toString tyconString, 0, true,  0, Level.Stable)
+    val tChar   = TyName.tyname(TyCon.toString tyconChar,   0, true,  0, Level.Stable)
+    val tList   = TyName.tyname(TyCon.toString tyconList,   1, true,  2, Level.Stable)
+    val tRef    = TyName.tyname(TyCon.toString tyconRef,    1, true,  1, Level.Stable)
+    val tExn    = TyName.tyname(TyCon.toString tyconExn,    0, false, 0, Level.Stable)
 
     val T0      = TyNameSet.fromList[tBool, tInt, tWord, tReal, tString, tChar,
 				     tList, tRef, tExn]
@@ -87,15 +87,15 @@ struct
     val funType = Type.fromFunType
 
     val sigmaEq     = ([alphaEq],
-		       funType(pairType(tauAlphaEq,tauAlphaEq), tauBool))
+		       funType(pairType(tauAlphaEq,tauAlphaEq), tauBool, ref Level.Stable, ref Level.Stable))
     val sigmaAssign = ([alpha],
-		       funType(pairType(tauAlphaRef,tauAlpha), tauUnit))
+		       funType(pairType(tauAlphaRef,tauAlpha), tauUnit, ref Level.Stable, ref Level.Stable))
     val sigmaFalse  = ([], tauBool)
     val sigmaTrue   = ([], tauBool)
     val sigmaNil    = ([alpha], tauAlphaList)
     val sigmaCons   = ([alpha],
-		       funType(pairType(tauAlpha, tauAlphaList), tauAlphaList))
-    val sigmaRef    = ([alpha], funType(tauAlpha, tauAlphaRef))
+		       funType(pairType(tauAlpha, tauAlphaList), tauAlphaList, ref Level.Stable, ref Level.Stable))
+    val sigmaRef    = ([alpha], funType(tauAlpha, tauAlphaRef, ref Level.Stable, ref Level.Stable))
 
     val sigmaMatch  = ([], tauExn)
     val sigmaBind   = ([], tauExn)

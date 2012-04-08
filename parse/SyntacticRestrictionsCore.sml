@@ -524,7 +524,7 @@ struct
     and checkTy(VARTy(I, tyvar)) =
 	    TyVarSet.singleton tyvar
 
-      | checkTy(RECORDTy(I, tyrow_opt)) =
+      | checkTy(RECORDTy(I, tyrow_opt,_)) =
 	let
 	    val (U,labs) = case tyrow_opt
 			     of NONE       => ( TyVarSet.empty, LabSet.empty )
@@ -533,7 +533,7 @@ struct
 	    U
 	end
 
-      | checkTy(CONTy(I, tyseq, longtycon)) =
+      | checkTy(CONTy(I, tyseq, longtycon,_)) =
 	let
 	    val Tyseq(_,tys) = tyseq
 	    val Us = List.map checkTy tys
@@ -541,7 +541,7 @@ struct
 	    List.foldl TyVarSet.union TyVarSet.empty Us
 	end
 
-      | checkTy(ARROWTy(I, ty, ty')) =
+      | checkTy(ARROWTy(I, ty, ty',_,_)) =
 	let
 	    val U  = checkTy ty
 	    val U' = checkTy ty'

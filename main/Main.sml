@@ -66,8 +66,10 @@ struct
       | main' names         = run Sml.execFiles names
 *)
     fun main' ["-h"] = ( usage() ; OS.Process.success )
-      | main' [] = start NONE Sml.parseSession
-      | main' names = run Sml.parseFiles names
+      | main' ["-p"] = start (SOME "Parsing") Sml.parseSession
+      | main' [] = start NONE Sml.elabSession
+      | main' ("-p"::names) = run Sml.parseFiles names
+      | main' names = run Sml.elabFiles names
 
     fun main() =
 	let

@@ -20,6 +20,8 @@ struct
     fun ppLab lab     = text(Lab.toString lab)
     fun ppTyVar alpha = text(TyVar.toString alpha)
     fun ppTyName t    = text(TyName.toString t)
+    fun ppLvVar var   = text(LvVar.toString var)
+    fun ppLv lv       = text(Level.toString (!lv))
 
     fun ppOverloadingClass O =
 	let
@@ -51,7 +53,7 @@ struct
 
     and ppType'Prec p (TyVar(alpha))   = ppTyVar alpha
 
-      | ppType'Prec p (RowType(rho,r)) =
+      | ppType'Prec p (RowType(rho,r,lv)) =
 	let
 	    fun isTuple(   [],     n) = n > 2
 	      | isTuple(lab::labs, n) =
@@ -61,25 +63,27 @@ struct
 	    val (labs,taus) = ListPair.unzip labtaus
 	in
 	    if not(Option.isSome r) andalso List.null labs then
-		text "unit"
+		text "unit " ^/^ ppLv lv
 	    else if not(Option.isSome r) andalso isTuple(labs, 1) then
 		let
 		    val doc = fbox(below(nest(
-				  ppStarList (ppTypePrec(starPrec+1)) taus
+				  ppStarList (ppTypePrec(starPrec+1)) taus ^/^
+                                  ppLv lv
 			      )))
 		in
 		    parenAt starPrec (p, doc)
 		end
 	    else
-		brace(ppCommaList ppLabType labtaus ^^ ppRowVar r)
+		brace(ppCommaList ppLabType labtaus ^^ ppRowVar r ^^ ppLv lv)
 	end
 
-      | ppType'Prec p (FunType(tau1,tau2)) =
+      | ppType'Prec p (FunType(tau1,tau2,mode,lv)) =
 	let
 	    val doc = fbox(below(nest(
 			  ppTypePrec (arrowPrec+1) tau1 ^/^
-			  text "->" ^/^
-			  ppTypePrec arrowPrec tau2
+			  text "->" ^/^ ppLv mode ^/^
+			  ppTypePrec arrowPrec tau2 ^/^
+                          ppLv lv
 		      )))
 	in
 	    parenAt arrowPrec (p, doc)

@@ -62,7 +62,7 @@ struct
 
     (* Projections *)
 
-    fun range(ref(FunType(tau1,tau2))) = tau2
+    fun range(ref(FunType(tau1,tau2,_,_))) = tau2
       | range(ref(Determined(tau)))    = range tau
       | range tau                      = tau
 
@@ -99,11 +99,11 @@ struct
 			of NONE     => tau
 			 | SOME tau => tau
 		     )
-		   | RowType(rho, NONE) =>
+		   | RowType(rho, NONE, lv) =>
 			(* If row is closed, we can safely copy. *)
-			ref(RowType(LabMap.map clone rho, NONE))
+			ref(RowType(LabMap.map clone rho, NONE, lv))
 
-		   | RowType(rho, SOME _) =>
+		   | RowType(rho, SOME _, lv) =>
 			(* If the row is not closed, than we must keep sharing!
 			 * The row may not contain any tynames or tyvars
 			 * of the domains of mu and phi in this case.
@@ -114,8 +114,8 @@ struct
 			 *)
 			tau
 
-		   | FunType(tau1,tau2) =>
-			ref(FunType(clone tau1, clone tau2))
+		   | FunType(tau1,tau2,mode,lv) =>
+			ref(FunType(clone tau1, clone tau2,mode,lv))
 
 		   | ConsType(taus,t) =>
 		     let
@@ -174,11 +174,11 @@ struct
 
     and tyvars'(TyVar(alpha)) = TyVarSet.singleton alpha
 
-      | tyvars'(RowType(rho,r)) =
+      | tyvars'(RowType(rho,r,_)) =
 	    LabMap.foldl (fn(tau,U) => TyVarSet.union(U, tyvars tau))
 			 TyVarSet.empty rho
 
-      | tyvars'(FunType(tau1,tau2)) =
+      | tyvars'(FunType(tau1,tau2,_,_)) =
 	    TyVarSet.union(tyvars tau1, tyvars tau2)
  
       | tyvars'(ConsType(taus,t)) =
@@ -200,11 +200,11 @@ struct
 
     and tynames'(TyVar(alpha)) = TyNameSet.empty
 
-      | tynames'(RowType(rho,r)) =
+      | tynames'(RowType(rho,r,_)) =
 	    LabMap.foldl (fn(tau,T) =>
 			  TyNameSet.union(T, tynames tau)) TyNameSet.empty rho
 
-      | tynames'(FunType(tau1,tau2)) =
+      | tynames'(FunType(tau1,tau2,_,_)) =
 	    TyNameSet.union(tynames tau1, tynames tau2)
  
       | tynames'(ConsType(taus,t)) =
@@ -232,11 +232,11 @@ struct
 
     and undetermined'(TyVar(alpha)) = StampMap.empty
 
-      | undetermined'(RowType(rho,r)) =
+      | undetermined'(RowType(rho,r,_)) =
 	    LabMap.foldl (fn(tau,Z) =>
 		StampMap.unionWith #2 (Z, undetermined tau)) StampMap.empty rho
 
-      | undetermined'(FunType(tau1,tau2)) =
+      | undetermined'(FunType(tau1,tau2,_,_)) =
 	    StampMap.unionWith #2 (undetermined tau1, undetermined tau2)
 
       | undetermined'(ConsType(taus,t)) =
@@ -260,10 +260,10 @@ struct
     and admitsEquality'(TyVar alpha) =
 	    TyVar.admitsEquality alpha
 
-      | admitsEquality'(RowType(rho,NONE)) =
+      | admitsEquality'(RowType(rho,NONE,_)) =
 	    LabMap.all admitsEquality rho
 
-      | admitsEquality'(RowType(rho,SOME{eq,...})) =
+      | admitsEquality'(RowType(rho,SOME{eq,...},_)) =
 	    eq andalso LabMap.all admitsEquality rho
 	    orelse raise Fail "Type.admitsEquality: undetermined row type"
 
@@ -294,10 +294,10 @@ struct
     and equals'(TyVar(alpha1), TyVar(alpha2)) =
 	   alpha1 = alpha2
 
-      | equals'(FunType(tau11,tau12), FunType(tau21,tau22)) =
-	   equals(tau11,tau21) andalso equals(tau12,tau22)
+      | equals'(FunType(tau11,tau12,ref mode1,ref lv1), FunType(tau21,tau22,ref mode2,ref lv2)) =
+	   equals(tau11,tau21) andalso equals(tau12,tau22) andalso mode1 = mode2 andalso lv1 = lv2
 
-      | equals'(RowType(rho1,r1), RowType(rho2,r2)) =
+      | equals'(RowType(rho1,r1,ref lv1), RowType(rho2,r2,ref lv2)) =
 	let
 	    fun equalsField(lab, tau1) =
 		case LabMap.find(rho2, lab)
@@ -305,7 +305,8 @@ struct
 		   | NONE      => false
 	in
 	    r1 = r2 andalso LabMap.numItems rho1 = LabMap.numItems rho2 andalso
-	    LabMap.alli equalsField rho1
+	    LabMap.alli equalsField rho1 andalso
+            lv1 = lv2
 	end
 
       | equals'(tau' as ConsType(taus1,t1), ConsType(taus2,t2)) =
@@ -329,9 +330,9 @@ struct
 
     and occurs'(z, TyVar(alpha)) =
 	    false
-      | occurs'(z, RowType(rho,r)) =
+      | occurs'(z, RowType(rho,r,_)) =
 	    LabMap.exists (fn tau => occurs(z, tau)) rho
-      | occurs'(z, FunType(tau1,tau2)) =
+      | occurs'(z, FunType(tau1,tau2,_,_)) =
 	    occurs(z, tau1) orelse occurs(z, tau2)
       | occurs'(z, ConsType(taus,t)) =
 	    List.exists (fn tau => occurs(z, tau)) taus
@@ -342,6 +343,12 @@ struct
       | occurs'(z, Determined(tau)) =
 	    occurs(z, tau)
 
+    fun unifyLv (lv1, lv2) =
+      if lv1 = lv2 then () else
+      case (!lv1, !lv2) of
+        (Level.Unknown,_) => lv1 := !lv2
+      | (_, Level.Unknown) => lv2 := !lv1
+      | _ => ()  (* TODO *)
 
     fun unify(ref(Determined(tau1)), tau2) = unify(tau1, tau2)
       | unify(tau1, ref(Determined(tau2))) = unify(tau1, tau2)
@@ -365,13 +372,15 @@ struct
 	else
 	    raise Unify
 
-      | unify'(tau' as FunType(tau11,tau12), FunType(tau21,tau22)) =
+      | unify'(tau' as FunType(tau11,tau12,mode1,lv1), FunType(tau21,tau22,mode2,lv2)) =
 	   ( unify(tau11,tau21)
 	   ; unify(tau12,tau22)
+           ; unifyLv(mode1,mode2)
+           ; unifyLv(lv1,lv2)
 	   ; tau'
 	   )
 
-      | unify'(RowType(rho1,r1), RowType(rho2,r2)) =
+      | unify'(RowType(rho1,r1,lv1), RowType(rho2,r2,lv2)) =
 	let
 	    fun unifyField r (lab, tau1, rho) =
 		case LabMap.find(rho, lab)
@@ -392,8 +401,9 @@ struct
 			       SOME{eq=eq2, time=time2}) =>
 				  SOME{eq = eq1 orelse eq2,
 				       time = Stamp.min(time1, time2)}
+            val _ = unifyLv(lv1,lv2)
 	in
-	    RowType(LabMap.unionWith #2 (rho2,rho1'), r)
+	    RowType(LabMap.unionWith #2 (rho2,rho1'), r, lv1)
 	end
 
       | unify'(tau' as ConsType(taus1,t1), ConsType(taus2,t2)) =
@@ -439,11 +449,11 @@ struct
 	else
 	    raise Unify
 
-      | propagate'(time, eq) (RowType(rho,r)) =
+      | propagate'(time, eq) (RowType(rho,r,lv)) =
 	    ( LabMap.app (propagate(time, eq)) rho
-	    ; RowType(rho, Option.map (propagateRowVar(time, eq)) r)
+	    ; RowType(rho, Option.map (propagateRowVar(time, eq)) r, lv)
 	    )
-      | propagate'(time, eq) (tau' as FunType(tau1,tau2)) =
+      | propagate'(time, eq) (tau' as FunType(tau1,tau2,mode,lv)) =
 	if eq then
 	    raise Unify
 	else
@@ -490,18 +500,23 @@ struct
       | resolve(tau as ref(Overloaded(O))) =
 	    tau := ConsType([], OverloadingClass.default O)
 
-      | resolve(ref(RowType(rho, SOME _))) =
+      | resolve(ref(RowType(rho, SOME _, _))) =
 	    raise Flexible
 
       | resolve _ = ()
 
 
+    fun getLv (ref(RowType(_,_,lv))) = lv
+      | getLv _ = ref Level.Unknown
+
+
     (* Operations on rows *)
 
-    val emptyRow                     = ( LabMap.empty, NONE )
-    fun singletonRow(lab,tau)        = ( LabMap.singleton(lab,tau), NONE )
+    val emptyRow : RowType           = ( LabMap.empty, NONE, ref Level.Unknown )
+    fun singletonRow(lab,tau)        = ( LabMap.singleton(lab,tau), NONE, getLv tau )
     fun guessRow()                   = ( LabMap.empty,
-					 SOME{eq=false, time=Stamp.stamp()} )
-    fun insertRow((rho,r), lab, tau) = ( LabMap.insert(rho, lab, tau), r )
-    fun findLab((rho,r), lab)        = LabMap.find(rho, lab)
+					 SOME{eq=false, time=Stamp.stamp()}, ref Level.Unknown )
+    (* TODO ? *)
+    fun insertRow((rho,r,lv), lab, tau) = ( LabMap.insert(rho, lab, tau), r, lv )
+    fun findLab((rho,r,lv), lab)        = LabMap.find(rho, lab)
 end;

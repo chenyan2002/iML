@@ -23,12 +23,12 @@ struct
     fun ppStrId strid = text(StrId.toString strid)
 
     fun ppTyName t    = text(TyName.toString t)
-
+    fun ppLv lv       = text(Level.toString (!lv))
 
     (* Environments *)
 
-    fun ppConTypeScheme (_, ref(FunType(tau,_))) =
-	    text "of" ^/^ PPType.ppType tau
+    fun ppConTypeScheme (_, ref(FunType(tau,_,mode,lv))) =
+	    text "of" ^/^ PPType.ppType tau ^/^ ppLv mode ^/^ ppLv lv
 
       | ppConTypeScheme _ = empty
 

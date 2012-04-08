@@ -200,7 +200,7 @@ struct
 	    val tau' = elabAtExp (utaus, fnmatches) (C, atexp)
 	    val tau  = Type.guess false
 	in
-	    Type.unify(tau1, Type.fromFunType(tau',tau))
+	    Type.unify(tau1, Type.fromFunType(tau',tau,ref Level.Unknown, ref Level.Unknown))
 	    handle Type.Unify => error(I, "type mismatch on application");
 	    tau
 	end
@@ -223,7 +223,7 @@ struct
 	    val tau1 = elabExp (utaus, fnmatches) (C, exp)
 	    val tau2 = elabMatch (utaus, fnmatches) (C, match)
 	in
-	    Type.unify(Type.fromFunType(InitialStaticEnv.tauExn, tau1), tau2)
+	    Type.unify(Type.fromFunType(InitialStaticEnv.tauExn, tau1, ref Level.Stable, ref Level.Stable), tau2)
 	    handle Type.Unify =>
 		   error(I, "type mismatch in handler");
 	    tau1
@@ -281,7 +281,7 @@ struct
 	    val  tau'    = elabExp (utaus, fnmatches) (C plusVE VE, exp)
 	in
 	    if TyNameSet.isSubset(StaticEnv.tynamesVE VE, Context.Tof C) then
-		Type.fromFunType(tau,tau')
+		Type.fromFunType(tau,tau',ref Level.Unknown,ref Level.Unknown)
 	    else
 		(* Side condition is always ensured by stamping. *)
 		error(I, "inconsistent type names")
@@ -518,7 +518,7 @@ struct
 			    let
 				val tau' = elabTy(C, ty)
 			    in
-			        Type.fromFunType(tau',tau)
+			        Type.fromFunType(tau',tau,ref Level.Unknown,ref Level.Stable)
 			    end
 	    val VE   = case conbind_opt
 			 of NONE         => VIdMap.empty
@@ -539,7 +539,7 @@ struct
 			    let
 				val tau = elabTy(C, ty)
 			    in
-			        Type.fromFunType(tau, InitialStaticEnv.tauExn)
+			        Type.fromFunType(tau, InitialStaticEnv.tauExn,ref Level.Stable,ref Level.Stable)
 			    end
 	    val VE   = case exbind_opt
 			 of NONE        => VIdMap.empty
@@ -674,7 +674,7 @@ struct
 	    val _          = if is <> IdStatus.v then () else
 				errorLongVId(I, "non-constructor ", longvid)
 	    val (tau',tau) = case !(instance (I,utaus) sigma)
-			       of FunType(tau',tau) => (tau', tau)
+			       of FunType(tau',tau,mode,lv) => (tau', tau)
 			        | _ =>
 				errorLongVId(I,"misplaced nullary constructor ",
 						longvid)
@@ -731,17 +731,17 @@ struct
 	    Type.fromTyVar alpha
 	end
 
-      | elabTy(C, RECORDTy(I, tyrow_opt)) =
+      | elabTy(C, RECORDTy(I, tyrow_opt, lv)) =
 	(* [Rule 45] *)
 	let
 	    val rho = case tyrow_opt
 			of NONE       => Type.emptyRow
-			 | SOME tyrow => elabTyRow(C, tyrow)
+			 | SOME tyrow => elabTyRow(C, tyrow, lv)
 	in
 	    Type.fromRowType rho
 	end
 
-      | elabTy(C, CONTy(I, tyseq, longtycon)) =
+      | elabTy(C, CONTy(I, tyseq, longtycon, lv)) =
 	(* [Rule 46] *)
 	let
 	    val Tyseq(I',tys) = tyseq
@@ -753,19 +753,19 @@ struct
 		   | NONE =>
 		     errorLongTyCon(I, "unknown type constructor ", longtycon)
 	in
-	    TypeFcn.apply(taus, theta)
+	    TypeFcn.apply(taus, theta)  (* lv will be cloned during type application *)
 	    handle TypeFcn.Apply =>
 		errorLongTyCon(I, "arity mismatch at type application ",
 				  longtycon)
 	end
 
-      | elabTy(C, ARROWTy(I, ty, ty')) =
+      | elabTy(C, ARROWTy(I, ty, ty', mode, lv)) =
 	(* [Rule 47] *)
 	let
 	    val tau  = elabTy(C, ty)
 	    val tau' = elabTy(C, ty')
 	in
-	    Type.fromFunType(tau,tau')
+	    Type.fromFunType(tau,tau',ref mode,ref lv)
 	end
 
       | elabTy(C, PARTy(I, ty)) =
@@ -779,13 +779,13 @@ struct
 
     (* Type-expression Rows *)
 
-    and elabTyRow(C, TyRow(I, lab, ty, tyrow_opt)) =
+    and elabTyRow(C, TyRow(I, lab, ty, tyrow_opt), lv) =
 	(* [Rule 49] *)
 	let
 	    val tau = elabTy(C, ty)
 	    val rho = case tyrow_opt
 			of NONE       => Type.emptyRow
-			 | SOME tyrow => elabTyRow(C, tyrow)
+			 | SOME tyrow => elabTyRow(C, tyrow, lv)
 	in
 	    Type.insertRow(rho, lab, tau)
 	end
@@ -872,7 +872,7 @@ struct
 	    val (U,alphas) = tyvars tyvarseq
 	    val k          = List.length alphas
 	    val span       = lhsConBind conbind
-	    val t          = TyName.tyname(TyCon.toString tycon, k, true, span)
+	    val t          = TyName.tyname(TyCon.toString tycon, k, true, span, Level.Unknown)
 	    val tau        = Type.fromConsType(List.map Type.fromTyVar alphas,t)
 	    val TE'        = case datbind_opt
 			       of NONE         => TyConMap.empty

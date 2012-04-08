@@ -58,8 +58,8 @@ struct
 	| Determined	of Type
 
     withtype Type	= Type' ref
-    and      RowType	= Type' ref LabMap * RowVar option	(* [rho] *)
-    and      FunType	= Type' ref * Type' ref
+    and      RowType	= Type' ref LabMap * RowVar option * Level.t ref	(* [rho] *)
+    and      FunType	= Type' ref * Type' ref * Level.t ref * Level.t ref
     and      ConsType	= Type' ref list * TyName
 
     type     TypeFcn	= TyVar list * Type			(* [theta] *)
