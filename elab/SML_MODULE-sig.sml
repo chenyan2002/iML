@@ -8,5 +8,5 @@ signature SML_MODULE =
 sig
     type TopDec = GrammarModule.TopDec
 
-    val ppTopDec : TextIO.outstream * int * TopDec -> unit
+    val ppTopDec : TopDec -> PrettyPrint.doc
 end;

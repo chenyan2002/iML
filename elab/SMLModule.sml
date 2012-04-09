@@ -9,10 +9,11 @@ struct
     (* Import *)
 
     open GrammarModule
-    open PPGrammar
+    open PrettyPrint
+    open PPMisc
 
-    structure PPCore = SMLCore
-
+    infixr ^^ ^/^
+(*
     (* Identifiers *)
 
     fun ppSigId(out, i, sigid) = ppAtom(out, i, "SigId", SigId.toString sigid)
@@ -173,4 +174,6 @@ struct
       | ppTopDec(out, i, FUNDECTopDec(I, fundec, topdec_opt)) =
 	    ppElem(out, i, "FUNDECTopDec", I,
 		   [sub ppFunDec fundec, subo ppTopDec topdec_opt])
+*)
+    fun ppTopDec topdec = text "topdec"
 end;

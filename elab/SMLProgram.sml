@@ -10,12 +10,19 @@ struct
     (* Import *)
 
     open GrammarProgram
-    open PPGrammar
+    open PrettyPrint
+    open PPMisc
+
+    infixr ^^ ^/^
 
 
     (* Programs *)
 
-    fun ppProgram(out, i, Program(I, topdec, program_opt)) =
-	    ppElem(out, i, "Program", I,
-		   [sub SMLModule.ppTopDec topdec, subo ppProgram program_opt])
+    fun ppProgram (Program(I, topdec, program_opt)) =
+      vbox(
+        SMLModule.ppTopDec topdec ^/^
+        text "program_opt" ^/^
+        text ""
+      )
+
 end;

@@ -8,5 +8,5 @@ signature SML_PROGRAM =
 sig
     type Program = GrammarProgram.Program
 
-    val ppProgram : TextIO.outstream * int * Program -> unit
+    val ppProgram : Program -> PrettyPrint.doc
 end;
