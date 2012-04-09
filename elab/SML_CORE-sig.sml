@@ -15,7 +15,7 @@ sig
     type TyVarseq   = GrammarCore.TyVarseq
     type Ty         = GrammarCore.Ty
     type Dec        = GrammarCore.Dec
-
+(*
     val ppVId :       TextIO.outstream * int * VId -> unit
     val ppTyCon :     TextIO.outstream * int * TyCon -> unit
     val ppStrId :     TextIO.outstream * int * StrId -> unit
@@ -25,5 +25,6 @@ sig
     val ppTyVarseq :  TextIO.outstream * int * TyVarseq -> unit
 
     val ppTy :        TextIO.outstream * int * Ty -> unit
-    val ppDec :       TextIO.outstream * int * Dec -> unit
+*)
+    val ppDec :       Dec -> PrettyPrint.doc
 end;

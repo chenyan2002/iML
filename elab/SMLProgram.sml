@@ -21,7 +21,7 @@ struct
     fun ppProgram (Program(I, topdec, program_opt)) =
       vbox(
         SMLModule.ppTopDec topdec ^/^
-        text "program_opt" ^/^
+        ppOpt ppProgram program_opt ^/^
         text ""
       )
 

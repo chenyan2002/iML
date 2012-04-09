@@ -37,4 +37,8 @@ struct
       | ppSeqPrec ppXPrec n  xs = paren(ppCommaList (ppXPrec 0) xs)
 
     fun ppSeq ppX		= ppSeqPrec (fn _ => ppX) 0
+
+    fun ppOpt ppX (NONE)    = empty
+      | ppOpt ppX (SOME x)  = ppX(x)
+
 end;

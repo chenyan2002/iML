@@ -21,4 +21,6 @@ sig
     val ppStarList :	('a -> doc) -> 'a list -> doc
     val ppSeq :		('a -> doc) -> 'a list -> doc
     val ppSeqPrec :	(int -> 'a -> doc) -> int -> 'a list -> doc
+
+    val ppOpt :         ('a -> doc) -> 'a option -> doc
 end;
