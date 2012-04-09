@@ -78,6 +78,7 @@ struct
 	    val (J',program) = Parse.parse(J, source, filenameOpt)
 	    val  B_BIND'     = checkProgram(B_BIND, program)
 	    val  B_STAT'     = elabProgram true (B_STAT, program)
+            (*val  _           = PPProgram.ppProgram(TextIO.stdOut, 0, program)*)
             val  _           = printSML program
 	in
 	    (J', B_BIND', B_STAT')

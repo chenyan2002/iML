@@ -15,16 +15,16 @@ sig
     type TyVarseq   = GrammarCore.TyVarseq
     type Ty         = GrammarCore.Ty
     type Dec        = GrammarCore.Dec
-(*
-    val ppVId :       TextIO.outstream * int * VId -> unit
-    val ppTyCon :     TextIO.outstream * int * TyCon -> unit
-    val ppStrId :     TextIO.outstream * int * StrId -> unit
-    val ppLongVId :   TextIO.outstream * int * longVId -> unit
-    val ppLongTyCon : TextIO.outstream * int * longTyCon -> unit
-    val ppLongStrId : TextIO.outstream * int * longStrId -> unit
-    val ppTyVarseq :  TextIO.outstream * int * TyVarseq -> unit
 
-    val ppTy :        TextIO.outstream * int * Ty -> unit
-*)
+    val ppVId :       VId -> PrettyPrint.doc
+    val ppTyCon :     TyCon -> PrettyPrint.doc
+    val ppStrId :     StrId -> PrettyPrint.doc
+    val ppLongVId :   longVId -> PrettyPrint.doc
+    val ppLongTyCon : longTyCon -> PrettyPrint.doc
+    val ppLongStrId : longStrId -> PrettyPrint.doc
+    val ppTyVarseq : TyVarseq -> PrettyPrint.doc
+
+    val ppTy :        Ty -> PrettyPrint.doc
+
     val ppDec :       Dec -> PrettyPrint.doc
 end;
