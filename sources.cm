@@ -251,6 +251,7 @@ Group is
     elab/PPStaticEnv.sml
     elab/PP_STATIC_BASIS-sig.sml
     elab/PPStaticBasis.sml
+
 (*
     eval/PP_VAL-sig.sml
     eval/PPVal.sml
@@ -275,6 +276,13 @@ Group is
     syntax/PPModule.sml
     syntax/PP_PROGRAM-sig.sml
     syntax/PPProgram.sml
+
+    elab/SML_CORE-sig.sml
+    elab/SMLCore.sml
+    elab/SML_MODULE-sig.sml
+    elab/SMLModule.sml
+    elab/SML_PROGRAM-sig.sml
+    elab/SMLProgram.sml
 
     (* Program execution *)
 (*

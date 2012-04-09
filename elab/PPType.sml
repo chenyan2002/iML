@@ -67,7 +67,7 @@ struct
 	    else if not(Option.isSome r) andalso isTuple(labs, 1) then
 		let
 		    val doc = fbox(below(nest(
-				  ppStarList (ppTypePrec(starPrec+1)) taus ^/^
+				  paren(ppStarList (ppTypePrec(starPrec+1)) taus) ^/^
                                   ppLv lv
 			      )))
 		in
