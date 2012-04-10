@@ -132,7 +132,7 @@ struct
           ppOpt (fn x => hbox(text "and" ^/^ ppExBind x)) exbind_opt)
       | ppExBind (EQUALExBind(I, _, vid, _, longvid, exbind_opt)) =
           vbox(hbox(ppVId vid ^/^ text "=" ^/^ ppLongVId longvid) ^/^ 
-               ppOpt (fn x => hbox(text "and" ^/^ ppExBind)) exbind_opt)
+               ppOpt (fn x => hbox(text "and" ^/^ ppExBind x)) exbind_opt)
 
     (* Patterns *)
 

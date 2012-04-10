@@ -3,7 +3,7 @@ val tuple = (1,2,3)
 and bar = {x=1,y=2}
 and l = [1,2,3]
 
-fun id x = (x;x)
+fun id x = x
 
 fun map f l =
   case l of

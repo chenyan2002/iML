@@ -51,10 +51,7 @@ struct
 	; TextIO.flushOut TextIO.stdOut
 	)
 
-    fun printSML program =
-        ( PrettyPrint.output(TextIO.stdOut, SMLProgram.ppProgram program, 79);
-          TextIO.flushOut TextIO.stdOut
-        )
+
 
     fun elabProgram echo (B_STAT, GrammarProgram.Program(I, topdec, program_opt)) =
 	let
@@ -79,7 +76,7 @@ struct
 	    val  B_BIND'     = checkProgram(B_BIND, program)
 	    val  B_STAT'     = elabProgram true (B_STAT, program)
             (*val  _           = PPProgram.ppProgram(TextIO.stdOut, 0, program)*)
-            val  _           = printSML program
+            val  _           = SMLProgram.printSML (B_STAT', program)
 	in
 	    (J', B_BIND', B_STAT')
 	end
