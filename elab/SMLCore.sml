@@ -43,6 +43,8 @@ struct
     fun isPatTuple (SOME (FIELDPatRow(_, lab, _, patrow_opt))) = isTupleLab lab
       | isPatTuple (SOME _) = false
       | isPatTuple NONE = true
+    fun isTyTuple (SOME (TyRow(_,lab,_,_))) = isTupleLab lab
+      | isTyTuple NONE = true
 
    (* Expressions *)
 
@@ -106,7 +108,7 @@ struct
           hbox(text "open" ^/^ ppCommaList ppLongStrId longstrids)
       | ppDec (EMPTYDec(I)) = empty
       | ppDec (SEQDec(I, dec1, dec2)) =
-          vbox(ppDec dec1 ^/^ ppDec dec2)
+          vbox(hbox(ppDec dec1 ^^ text ";") ^/^ ppDec dec2)
 
     and ppValBind (PLAINValBind(I, pat, exp, valbind_opt)) =
           vbox(hbox(ppPat pat ^/^ text "=" ^/^ ppExp exp) ^/^ 
@@ -115,7 +117,7 @@ struct
 
     and ppTypBind (TypBind(I, tyvarseq, tycon, ty, typbind_opt)) =
           vbox(hbox(ppTyVarseq tyvarseq ^/^ ppTyCon tycon ^/^ text "=" ^/^ ppTy ty) ^/^ 
-               ppOpt ppTypBind typbind_opt)
+               ppOpt (fn x => hbox(text "and" ^/^ ppTypBind x)) typbind_opt)
           
     and ppDatBind (DatBind(I, tyvarseq, tycon, conbind, datbind_opt)) =
           vbox(hbox(ppTyVarseq tyvarseq ^/^ ppTyCon tycon ^/^ below(text "=" ^/^ ppConBind conbind)) ^/^
@@ -126,11 +128,11 @@ struct
                ppOpt (fn x => hbox(text "|" ^/^ ppConBind x)) conbind_opt)
 
     and ppExBind (NEWExBind(I, _, vid, ty_opt, exbind_opt)) =
-          vbox(hbox(ppVId vid ^/^ ppOpt (fn doc => text ":" ^/^ ppTy doc) ty_opt) ^/^
-          ppOpt ppExBind exbind_opt)
+          vbox(hbox(ppVId vid ^/^ ppOpt (fn doc => text "of" ^/^ ppTy doc) ty_opt) ^/^
+          ppOpt (fn x => hbox(text "and" ^/^ ppExBind x)) exbind_opt)
       | ppExBind (EQUALExBind(I, _, vid, _, longvid, exbind_opt)) =
           vbox(hbox(ppVId vid ^/^ text "=" ^/^ ppLongVId longvid) ^/^ 
-               ppOpt ppExBind exbind_opt)
+               ppOpt (fn x => hbox(text "and" ^/^ ppExBind)) exbind_opt)
 
     (* Patterns *)
 
@@ -146,7 +148,7 @@ struct
     and ppPatRow (DOTSPatRow(I)) = text "..."
       | ppPatRow (FIELDPatRow(I, lab, pat, patrow_opt)) =
           (if isTupleLab lab then empty
-          else ppLab lab ^/^ text "as") ^/^
+          else ppLab lab ^/^ text "=") ^/^
           ppPat pat ^/^ 
           ppOpt (fn x => text "," ^/^ ppPatRow x) patrow_opt
 
@@ -161,7 +163,9 @@ struct
 
     and ppTy (VARTy(I, tyvar)) = ppTyVar tyvar
       | ppTy (RECORDTy(I, tyrow_opt, level)) = 
-          paren(ppOpt ppTyRow tyrow_opt) ^/^ ppLv level
+          if (isTyTuple tyrow_opt) then
+            paren(ppOpt ppTyRow tyrow_opt) ^/^ ppLv level
+          else brace(ppOpt ppTyRow tyrow_opt) ^/^ ppLv level
       | ppTy (CONTy(I, tyseq, longtycon, level)) =
           ppTyseq tyseq ^/^ ppLongTyCon longtycon ^/^ ppLv level
       | ppTy (ARROWTy(I, ty1, ty2, mode, level)) =
@@ -169,8 +173,10 @@ struct
       | ppTy (PARTy(I, ty)) = paren(ppTy ty)
 
     and ppTyRow (TyRow(I, lab, ty, tyrow_opt)) =
-          (*ppLab lab ^/^ text ":" ^/^*) ppTy ty ^/^
-          ppOpt (fn x => text "*" ^/^ ppTyRow x) tyrow_opt
+          if (isTupleLab lab) then
+            ppTy ty ^/^ ppOpt (fn x => text "*" ^/^ ppTyRow x) tyrow_opt
+          else ppLab lab ^/^ text ":" ^/^ ppTy ty ^/^
+               ppOpt (fn x => text "," ^/^ ppTyRow x) tyrow_opt
 
     and ppTyseq (Tyseq(I, tys)) = ppCommaList ppTy tys
 
