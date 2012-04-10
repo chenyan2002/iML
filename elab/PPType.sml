@@ -21,6 +21,8 @@ struct
     fun ppTyVar alpha = text(TyVar.toString alpha)
     fun ppTyName t    = text(TyName.toString t)
     fun ppLvVar var   = text(LvVar.toString var)
+    val red = str(chr(27))^"[31m"
+    val black = str(chr(27))^"[0m"
     fun ppLv lv       = text(Level.toString (!lv))
 
     fun ppOverloadingClass O =

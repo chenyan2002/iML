@@ -11,12 +11,26 @@ struct
 
     infixr ^^ ^/^
 
+    (* Type Environment *)
+
     val B = ref InitialStaticBasis.B0
-
-    (* Identifiers *)
-
-    val ppSigID = text o SigId.toString
-    val ppFunId = text o FunId.toString
+    val Env = fn () =>
+      let
+        val (TyName, FunEnv, SigEnv, Env) = !B
+      in
+        Env
+      end
+    fun tyVid vid = 
+      case StaticEnv.findVId (Env(), vid) of
+        NONE => empty
+      | SOME (sigma, _) => text "***" ^/^ PPType.ppTypeScheme sigma
+(*      | SOME (sigma, IdStatus.v) => PPType.ppTypeScheme sigma*)
+    val red = str(chr(27))^"[31m"
+    val black = str(chr(27))^"[0m"
+    fun tyLongVid vid =
+      case StaticEnv.findLongVId (Env(), vid) of
+        NONE => empty
+      | SOME (sigma,_) => hbox(text red ^/^ PPType.ppTypeScheme sigma ^/^ text black)
 
     (* Special constants *)
 
@@ -24,19 +38,19 @@ struct
 
     (* Identifiers *)
 
+    val ppSigID = text o SigId.toString
+    val ppFunId = text o FunId.toString
     fun ppLab lab     = text(Lab.toString lab)
-    fun ppVId vid     = text(VId.toString vid)
+    fun ppVId vid     = text(VId.toString vid) ^/^ tyVid vid
     fun ppTyVar tyvar = text(TyVar.toString tyvar)
     fun ppTyCon tycon = text(TyCon.toString tycon)
     fun ppStrId strid = text(StrId.toString strid)
     fun ppLvVar lvvar = text(LvVar.toString lvvar)
     fun ppLv lv       = text(Level.toString lv)
 
-    fun ppLongVId longvid = text(LongVId.toString longvid)
+    fun ppLongVId longvid = text(LongVId.toString longvid) ^/^ tyLongVid longvid
     fun ppLongTyCon longtycon = text(LongTyCon.toString longtycon)
     fun ppLongStrId longstrid = text(LongStrId.toString longstrid)
-
-    (* Core *)
 
     (* isTuple for label *)
 
@@ -51,6 +65,8 @@ struct
       | isPatTuple NONE = true
     fun isTyTuple (SOME (TyRow(_,lab,_,_))) = isTupleLab lab
       | isTyTuple NONE = true
+
+    (* Core *)
 
    (* Expressions *)
 
