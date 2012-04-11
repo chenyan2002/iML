@@ -20,26 +20,25 @@ struct
       in
         Env
       end
+    val red = str(chr(27))^"[31m"
+    val blue = str(chr(27))^"[34m"
+    val black = str(chr(27))^"[0m"
+
     fun tyVid vid = 
       case StaticEnv.findVId (Env(), vid) of
         NONE => empty
-      | SOME (sigma, _) => text "***" ^/^ PPType.ppTypeScheme sigma
+      | SOME (sigma, _) => hbox(text blue ^/^ PPType.ppTypeScheme sigma ^/^ text black)
 (*      | SOME (sigma, IdStatus.v) => PPType.ppTypeScheme sigma*)
-    val red = str(chr(27))^"[31m"
-    val black = str(chr(27))^"[0m"
     fun tyLongVid vid =
       case StaticEnv.findLongVId (Env(), vid) of
         NONE => empty
       | SOME (sigma,_) => hbox(text red ^/^ PPType.ppTypeScheme sigma ^/^ text black)
 
-    (* Special constants *)
-
-    fun ppSCon scon = text(SCon.toString scon)
-
     (* Identifiers *)
 
     val ppSigID = text o SigId.toString
     val ppFunId = text o FunId.toString
+    fun ppSCon scon   = text(SCon.toString scon)
     fun ppLab lab     = text(Lab.toString lab)
     fun ppVId vid     = text(VId.toString vid) ^/^ tyVid vid
     fun ppTyVar tyvar = text(TyVar.toString tyvar)

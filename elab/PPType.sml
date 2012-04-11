@@ -69,8 +69,8 @@ struct
 	    else if not(Option.isSome r) andalso isTuple(labs, 1) then
 		let
 		    val doc = fbox(below(nest(
-				  paren(ppStarList (ppTypePrec(starPrec+1)) taus) ^/^
-                                  ppLv lv
+				  hbox(paren(ppStarList (ppTypePrec(starPrec+1)) taus) ^/^
+                                  ppLv lv)
 			      )))
 		in
 		    parenAt starPrec (p, doc)
@@ -82,10 +82,10 @@ struct
       | ppType'Prec p (FunType(tau1,tau2,mode,lv)) =
 	let
 	    val doc = fbox(below(nest(
-			  ppTypePrec (arrowPrec+1) tau1 ^/^
+			  hbox(ppTypePrec (arrowPrec+1) tau1 ^/^
 			  text "->" ^/^ ppLv mode ^/^
 			  ppTypePrec arrowPrec tau2 ^/^
-                          ppLv lv
+                          ppLv lv)
 		      )))
 	in
 	    parenAt arrowPrec (p, doc)
@@ -93,7 +93,7 @@ struct
 
       | ppType'Prec p (ConsType(taus,t)) =
 	    fbox(below(nest(
-		ppSeqPrec ppTypePrec applyPrec taus ^/^ ppTyName t
+		hbox(ppSeqPrec ppTypePrec applyPrec taus ^/^ ppTyName t)
 	    )))
 
       | ppType'Prec p (Undetermined{stamp,eq,...}) =
