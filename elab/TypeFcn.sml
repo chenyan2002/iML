@@ -80,10 +80,10 @@ struct
 	let
 	    val alphas = List.tabulate(TyName.arity t, TyVar.fromInt false)
 	in
-	    ( alphas, Type.fromConsType(List.map Type.fromTyVar alphas, t) )
+	    ( alphas, Type.fromConsType(List.map Type.fromTyVar alphas, t, ref Level.Unknown) )
 	end
 
-    fun toTyName(alphas, ref(ConsType(taus,t))) =
+    fun toTyName(alphas, ref(ConsType(taus,t,_))) =
 	let
 	    fun isSame(alpha, ref(TyVar alpha')) = alpha = alpha'
 	      | isSame(alpha,          _       ) = false

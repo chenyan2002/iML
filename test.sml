@@ -12,6 +12,6 @@ fun map f l =
 
 val a:int $C = 1
 val b:int $S = 2
-(*val c = a + b *)
+val c = a + b 
 (*val c = 1 + 2*)
 

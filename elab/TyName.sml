@@ -24,45 +24,42 @@ struct
 	 , arity :	int
 	 , equality :	bool
 	 , span :	int
-         , level :      Level.t
 	 }
 
 
     (* Creation *)
 
-    fun tyname(tycon, arity, equality, span, level) =
+    fun tyname(tycon, arity, equality, span) =
 	{ tycon    = tycon
 	, stamp    = Stamp.stamp()
 	, arity    = arity
 	, equality = equality
 	, span     = span
-        , level    = level
 	}
 
     fun invent(arity, equality) =
-	tyname("_id" ^ Stamp.toString(Stamp.stamp()), arity, equality, 0, Level.Unknown)
+	tyname("_id" ^ Stamp.toString(Stamp.stamp()), arity, equality, 0)
 
 
     (* Creation from existing *)
 
-    fun rename {tycon, stamp, arity, equality, span, level} =
-	    tyname(tycon, arity, equality, span, level)
+    fun rename {tycon, stamp, arity, equality, span} =
+	    tyname(tycon, arity, equality, span)
 
-    fun removeEquality {tycon, stamp, arity, equality, span, level} =
-	    tyname(tycon, arity, false, span,level)
+    fun removeEquality {tycon, stamp, arity, equality, span} =
+	    tyname(tycon, arity, false, span)
 
-    fun Abs {tycon, stamp, arity, equality, span, level} =
-	    tyname(tycon, arity, false, 0, level)
+    fun Abs {tycon, stamp, arity, equality, span} =
+	    tyname(tycon, arity, false, 0)
 
 
     (* Attributes [Section 4.1] *)
 
-    fun arity{tycon, stamp, arity, equality, span, level} = arity
-    fun time {tycon, stamp, arity, equality, span, level} = stamp
-    fun span {tycon, stamp, arity, equality, span, level} = span
-    fun toString{tycon, stamp, arity, equality, span, level} = tycon ^ (Level.toString level)
-    fun admitsEquality{tycon, stamp, arity, equality, span, level} = equality
-    fun level {tycon, stamp, arity, equality, span, level} = level
+    fun arity{tycon, stamp, arity, equality, span} = arity
+    fun time {tycon, stamp, arity, equality, span} = stamp
+    fun span {tycon, stamp, arity, equality, span} = span
+    fun toString{tycon, stamp, arity, equality, span} = tycon
+    fun admitsEquality{tycon, stamp, arity, equality, span} = equality
 
 
     (* Ordering *)

@@ -45,15 +45,15 @@ struct
 
     (* TyNames [Appendix C] *)
 
-    val tBool   = TyName.tyname(TyCon.toString tyconBool,   0, true,  2, Level.Stable)
-    val tInt    = TyName.tyname(TyCon.toString tyconInt,    0, true,  0, Level.Stable)
-    val tWord   = TyName.tyname(TyCon.toString tyconWord,   0, true,  0, Level.Stable)
-    val tReal   = TyName.tyname(TyCon.toString tyconReal,   0, false, 0, Level.Stable)
-    val tString = TyName.tyname(TyCon.toString tyconString, 0, true,  0, Level.Stable)
-    val tChar   = TyName.tyname(TyCon.toString tyconChar,   0, true,  0, Level.Stable)
-    val tList   = TyName.tyname(TyCon.toString tyconList,   1, true,  2, Level.Stable)
-    val tRef    = TyName.tyname(TyCon.toString tyconRef,    1, true,  1, Level.Stable)
-    val tExn    = TyName.tyname(TyCon.toString tyconExn,    0, false, 0, Level.Stable)
+    val tBool   = TyName.tyname(TyCon.toString tyconBool,   0, true,  2)
+    val tInt    = TyName.tyname(TyCon.toString tyconInt,    0, true,  0)
+    val tWord   = TyName.tyname(TyCon.toString tyconWord,   0, true,  0)
+    val tReal   = TyName.tyname(TyCon.toString tyconReal,   0, false, 0)
+    val tString = TyName.tyname(TyCon.toString tyconString, 0, true,  0)
+    val tChar   = TyName.tyname(TyCon.toString tyconChar,   0, true,  0)
+    val tList   = TyName.tyname(TyCon.toString tyconList,   1, true,  2)
+    val tRef    = TyName.tyname(TyCon.toString tyconRef,    1, true,  1)
+    val tExn    = TyName.tyname(TyCon.toString tyconExn,    0, false, 0)
 
     val T0      = TyNameSet.fromList[tBool, tInt, tWord, tReal, tString, tChar,
 				     tList, tRef, tExn]
@@ -67,15 +67,15 @@ struct
     val tauAlphaEq = Type.fromTyVar alphaEq
 
     val tauUnit      = Type.fromRowType Type.emptyRow
-    val tauBool      = Type.fromConsType([], tBool)
-    val tauInt       = Type.fromConsType([], tInt)
-    val tauWord      = Type.fromConsType([], tWord)
-    val tauReal      = Type.fromConsType([], tReal)
-    val tauString    = Type.fromConsType([], tString)
-    val tauChar      = Type.fromConsType([], tChar)
-    val tauExn       = Type.fromConsType([], tExn)
-    val tauAlphaList = Type.fromConsType([tauAlpha], tList)
-    val tauAlphaRef  = Type.fromConsType([tauAlpha], tRef)
+    val tauBool      = Type.fromConsType([], tBool, ref Level.Unknown)
+    val tauInt       = Type.fromConsType([], tInt, ref Level.Unknown)
+    val tauWord      = Type.fromConsType([], tWord, ref Level.Unknown)
+    val tauReal      = Type.fromConsType([], tReal, ref Level.Unknown)
+    val tauString    = Type.fromConsType([], tString, ref Level.Unknown)
+    val tauChar      = Type.fromConsType([], tChar, ref Level.Unknown)
+    val tauExn       = Type.fromConsType([], tExn, ref Level.Unknown)
+    val tauAlphaList = Type.fromConsType([tauAlpha], tList, ref Level.Unknown)
+    val tauAlphaRef  = Type.fromConsType([tauAlpha], tRef, ref Level.Unknown)
 
 
     (* TypeSchemes [Figure 25] *)

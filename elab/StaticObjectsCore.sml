@@ -60,7 +60,7 @@ struct
     withtype Type	= Type' ref
     and      RowType	= Type' ref LabMap * RowVar option * Level.t ref	(* [rho] *)
     and      FunType	= Type' ref * Type' ref * Level.t ref * Level.t ref
-    and      ConsType	= Type' ref list * TyName
+    and      ConsType	= Type' ref list * TyName * Level.t ref
 
     type     TypeFcn	= TyVar list * Type			(* [theta] *)
     type     TypeScheme	= TyVar list * Type			(* [sigma] *)

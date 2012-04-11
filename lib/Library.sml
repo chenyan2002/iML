@@ -104,8 +104,8 @@ struct
 
     (* Types *)
 
-    val tWord8		= TyName.tyname(TyCon.toString tyconWord8, 0, true, 0, Level.Stable)
-    val tVector		= TyName.tyname(TyCon.toString tyconVector, 1, true, 0, Level.Stable)
+    val tWord8		= TyName.tyname(TyCon.toString tyconWord8, 0, true, 0)
+    val tVector		= TyName.tyname(TyCon.toString tyconVector, 1, true, 0)
 
     val thetaWord8	= TypeFcn.fromTyName tWord8
     val thetaVector	= TypeFcn.fromTyName tVector

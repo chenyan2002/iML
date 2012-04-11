@@ -91,9 +91,9 @@ struct
 	    parenAt arrowPrec (p, doc)
 	end
 
-      | ppType'Prec p (ConsType(taus,t)) =
+      | ppType'Prec p (ConsType(taus,t,lv)) =
 	    fbox(below(nest(
-		hbox(ppSeqPrec ppTypePrec applyPrec taus ^/^ ppTyName t)
+		hbox(ppSeqPrec ppTypePrec applyPrec taus ^/^ ppTyName t ^/^ ppLv lv)
 	    )))
 
       | ppType'Prec p (Undetermined{stamp,eq,...}) =

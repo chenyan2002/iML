@@ -395,9 +395,8 @@ struct
 	    val span  = List.foldl
 				(fn(t, span) => Int.max(TyName.span t, span))
 				0 ts
-            val lv = TyName.level (List.hd ts)
 	    val t     = TyName.tyname(TyName.toString(List.hd ts),
-				      arity, equality, span, lv)
+				      arity, equality, span)
 	    val  _    = if List.all (fn ti => TyName.arity ti = arity) ts
 			then () else
 			  error(I, "type sharing does not respect arity")
@@ -424,8 +423,7 @@ struct
 					  TyName.admitsEquality t1 orelse
 					      TyName.admitsEquality t2,
 					  Int.max(TyName.span t1,
-						  TyName.span t2),
-                                          TyName.level t1)
+						  TyName.span t2))
 		    val theta = TypeFcn.fromTyName t
 		in
 		    TyNameMap.insert(TyNameMap.insert(phi,
@@ -530,7 +528,7 @@ struct
 	let
 	    val alphas = #2(ElabCore.tyvars tyvarseq)
 	    val k      = List.length alphas
-	    val t      = TyName.tyname(TyCon.toString tycon, k, eq, 0, Level.Unknown)
+	    val t      = TyName.tyname(TyCon.toString tycon, k, eq, 0)
 	    val TE     = case typdesc_opt
 			   of NONE         => TyConMap.empty
 			    | SOME typdesc => 
@@ -545,7 +543,7 @@ struct
 				    else
 					TE
 				end
-	    val tau    = Type.fromConsType (List.map Type.fromTyVar alphas, t)
+	    val tau    = Type.fromConsType (List.map Type.fromTyVar alphas, t, ref Level.Unknown)
 	in
 	    TyConMap.insert(TE, tycon, ((alphas,tau), VIdMap.empty))
 	end
@@ -744,8 +742,8 @@ struct
 	    val (U,alphas) = ElabCore.tyvars tyvarseq
 	    val k          = List.length alphas
 	    val span       = lhsConDesc condesc
-	    val t          = TyName.tyname(TyCon.toString tycon, k, true, span, Level.Unknown)
-	    val tau        = Type.fromConsType(List.map Type.fromTyVar alphas,t)
+	    val t          = TyName.tyname(TyCon.toString tycon, k, true, span)
+	    val tau        = Type.fromConsType(List.map Type.fromTyVar alphas,t,ref Level.Unknown)
 	    val TE'        = case datdesc_opt
 			       of NONE         => TyConMap.empty
 				| SOME datdesc => lhsDatDesc datdesc

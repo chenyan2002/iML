@@ -53,7 +53,7 @@ struct
     fun guess eq               = let val stamp = Stamp.stamp()
 				 in ref(Undetermined{stamp = stamp, eq = eq,
 						     time = stamp}) end
-    fun invent eq              = ref(ConsType([], TyName.invent(0, eq)))
+    fun invent eq              = ref(ConsType([], TyName.invent(0, eq), ref Level.Unknown))
 
     fun isOverloaded(ref(Determined(tau))) = isOverloaded tau
       | isOverloaded(ref(Overloaded _))    = true
@@ -66,7 +66,7 @@ struct
       | range(ref(Determined(tau)))    = range tau
       | range tau                      = tau
 
-    fun tyname(ref(ConsType(taus,t)))  = t
+    fun tyname(ref(ConsType(taus,t,_)))  = t
       | tyname(ref(Determined(tau)))   = tyname tau
       | tyname  _                      =
 	    raise Fail "Type.tyname: non-constructed type"
@@ -117,12 +117,12 @@ struct
 		   | FunType(tau1,tau2,mode,lv) =>
 			ref(FunType(clone tau1, clone tau2,mode,lv))
 
-		   | ConsType(taus,t) =>
+		   | ConsType(taus,t,lv) =>
 		     let
 			val taus2 = List.map clone taus
 		     in
 			case TyNameMap.find(phi, t)
-			  of NONE       => ref(ConsType(taus2,t))
+			  of NONE       => ref(ConsType(taus2,t,lv))
 			   | SOME theta =>
 			     let
 				val (alphas,tau1) = renameTypeFcn theta
@@ -181,7 +181,7 @@ struct
       | tyvars'(FunType(tau1,tau2,_,_)) =
 	    TyVarSet.union(tyvars tau1, tyvars tau2)
  
-      | tyvars'(ConsType(taus,t)) =
+      | tyvars'(ConsType(taus,t,_)) =
 	    List.foldl (fn(tau,U) => TyVarSet.union(U, tyvars tau))
 		       TyVarSet.empty taus
 
@@ -207,7 +207,7 @@ struct
       | tynames'(FunType(tau1,tau2,_,_)) =
 	    TyNameSet.union(tynames tau1, tynames tau2)
  
-      | tynames'(ConsType(taus,t)) =
+      | tynames'(ConsType(taus,t,_)) =
 	let
 	    val T = List.foldl (fn(tau,T) => TyNameSet.union(T, tynames tau))
 			       TyNameSet.empty taus
@@ -239,7 +239,7 @@ struct
       | undetermined'(FunType(tau1,tau2,_,_)) =
 	    StampMap.unionWith #2 (undetermined tau1, undetermined tau2)
 
-      | undetermined'(ConsType(taus,t)) =
+      | undetermined'(ConsType(taus,t,_)) =
 	    List.foldl (fn(tau,Z) =>
 		StampMap.unionWith #2 (Z, undetermined tau)) StampMap.empty taus
 
@@ -269,7 +269,7 @@ struct
 
       | admitsEquality'(FunType _) = false
 
-      | admitsEquality'(ConsType(taus,t)) =
+      | admitsEquality'(ConsType(taus,t,_)) =
 	TyName.admitsEquality t andalso List.all admitsEquality taus
 	orelse TyName.toString t = "ref"
 
@@ -294,10 +294,10 @@ struct
     and equals'(TyVar(alpha1), TyVar(alpha2)) =
 	   alpha1 = alpha2
 
-      | equals'(FunType(tau11,tau12,ref mode1,ref lv1), FunType(tau21,tau22,ref mode2,ref lv2)) =
-	   equals(tau11,tau21) andalso equals(tau12,tau22) andalso mode1 = mode2 andalso lv1 = lv2
+      | equals'(FunType(tau11,tau12,_,_), FunType(tau21,tau22,_,_)) =
+	   equals(tau11,tau21) andalso equals(tau12,tau22)
 
-      | equals'(RowType(rho1,r1,ref lv1), RowType(rho2,r2,ref lv2)) =
+      | equals'(RowType(rho1,r1,_), RowType(rho2,r2,_)) =
 	let
 	    fun equalsField(lab, tau1) =
 		case LabMap.find(rho2, lab)
@@ -305,11 +305,10 @@ struct
 		   | NONE      => false
 	in
 	    r1 = r2 andalso LabMap.numItems rho1 = LabMap.numItems rho2 andalso
-	    LabMap.alli equalsField rho1 andalso
-            lv1 = lv2
+	    LabMap.alli equalsField rho1
 	end
 
-      | equals'(tau' as ConsType(taus1,t1), ConsType(taus2,t2)) =
+      | equals'(tau' as ConsType(taus1,t1,_), ConsType(taus2,t2,_)) =
 	    t1 = t2 andalso ListPair.allEq equals (taus1,taus2)
 
       | equals'(Undetermined{stamp=z1,...}, Undetermined{stamp=z2,...}) =
@@ -334,7 +333,7 @@ struct
 	    LabMap.exists (fn tau => occurs(z, tau)) rho
       | occurs'(z, FunType(tau1,tau2,_,_)) =
 	    occurs(z, tau1) orelse occurs(z, tau2)
-      | occurs'(z, ConsType(taus,t)) =
+      | occurs'(z, ConsType(taus,t,_)) =
 	    List.exists (fn tau => occurs(z, tau)) taus
       | occurs'(z, Undetermined{stamp,...}) =
 	    stamp = z
@@ -342,13 +341,6 @@ struct
 	    false
       | occurs'(z, Determined(tau)) =
 	    occurs(z, tau)
-
-    fun unifyLv (lv1, lv2) =
-      if lv1 = lv2 then () else
-      case (!lv1, !lv2) of
-        (Level.Unknown,_) => lv1 := !lv2
-      | (_, Level.Unknown) => lv2 := !lv1
-      | _ => ()  (* TODO *)
 
     fun unify(ref(Determined(tau1)), tau2) = unify(tau1, tau2)
       | unify(tau1, ref(Determined(tau2))) = unify(tau1, tau2)
@@ -371,16 +363,14 @@ struct
 	    tau'
 	else
 	    raise Unify
-
-      | unify'(tau' as FunType(tau11,tau12,mode1,lv1), FunType(tau21,tau22,mode2,lv2)) =
+      (* TODO unify without unifying lv *)
+      | unify'(tau' as FunType(tau11,tau12,_,_), FunType(tau21,tau22,_,_)) =
 	   ( unify(tau11,tau21)
 	   ; unify(tau12,tau22)
-           ; unifyLv(mode1,mode2)
-           ; unifyLv(lv1,lv2)
 	   ; tau'
 	   )
 
-      | unify'(RowType(rho1,r1,lv1), RowType(rho2,r2,lv2)) =
+      | unify'(RowType(rho1,r1,lv1), RowType(rho2,r2,_)) =
 	let
 	    fun unifyField r (lab, tau1, rho) =
 		case LabMap.find(rho, lab)
@@ -401,12 +391,11 @@ struct
 			       SOME{eq=eq2, time=time2}) =>
 				  SOME{eq = eq1 orelse eq2,
 				       time = Stamp.min(time1, time2)}
-            val _ = unifyLv(lv1,lv2)
 	in
 	    RowType(LabMap.unionWith #2 (rho2,rho1'), r, lv1)
 	end
 
-      | unify'(tau' as ConsType(taus1,t1), ConsType(taus2,t2)) =
+      | unify'(tau' as ConsType(taus1,t1,_), ConsType(taus2,t2,_)) =
 	if t1 = t2 then
 	    ( ListPair.appEq unify (taus1,taus2)
 	    ; tau'
@@ -425,7 +414,7 @@ struct
     and unifyOverloaded(O, Undetermined{stamp,eq,time}) =
 	    unifyUndetermined(stamp, eq, time, Overloaded(O))
 
-      | unifyOverloaded(O, tau' as ConsType([],t)) =
+      | unifyOverloaded(O, tau' as ConsType([],t,_)) =
 	if OverloadingClass.member(O, t) then
 	    tau'
 	else
@@ -461,7 +450,7 @@ struct
 	    ; propagate (time, eq) tau2
 	    ; tau'
 	    )
-      | propagate'(time, eq) (tau' as ConsType(taus,t)) =
+      | propagate'(time, eq) (tau' as ConsType(taus,t,_)) =
 	(case Stamp.compare(TyName.time t, time)
 	   of GREATER => raise Unify
 	    | _ =>
@@ -498,7 +487,7 @@ struct
 	    resolve tau
 
       | resolve(tau as ref(Overloaded(O))) =
-	    tau := ConsType([], OverloadingClass.default O)
+	    tau := ConsType([], OverloadingClass.default O, ref Level.Unknown)
 
       | resolve(ref(RowType(rho, SOME _, _))) =
 	    raise Flexible
@@ -506,17 +495,13 @@ struct
       | resolve _ = ()
 
 
-    fun getLv (ref(RowType(_,_,lv))) = lv
-      | getLv _ = ref Level.Unknown
-
-
     (* Operations on rows *)
 
     val emptyRow : RowType           = ( LabMap.empty, NONE, ref Level.Unknown )
-    fun singletonRow(lab,tau)        = ( LabMap.singleton(lab,tau), NONE, getLv tau )
+    fun singletonRow(lab,tau)        = ( LabMap.singleton(lab,tau), NONE, ref Level.Unknown )
     fun guessRow()                   = ( LabMap.empty,
 					 SOME{eq=false, time=Stamp.stamp()}, ref Level.Unknown )
     (* TODO ? *)
-    fun insertRow((rho,r,lv), lab, tau) = ( LabMap.insert(rho, lab, tau), r, lv )
+    fun insertRow((rho,r,lv), lab, tau) = ( LabMap.insert(rho, lab, tau), r, ref Level.Unknown )
     fun findLab((rho,r,lv), lab)        = LabMap.find(rho, lab)
 end;

@@ -23,7 +23,7 @@ sig
 
     (* Operations *)
 
-    val tyname :		string * int * bool * int * Level.t -> TyName
+    val tyname :		string * int * bool * int -> TyName
     val invent :		int * bool -> TyName
     val rename :		TyName -> TyName
     val removeEquality :	TyName -> TyName
@@ -34,7 +34,6 @@ sig
     val span :			TyName -> int
     val toString :		TyName -> string
     val time :			TyName -> Stamp.stamp
-    val level :                 TyName -> Level.t
 
     val compare :		TyName * TyName -> order
 end;

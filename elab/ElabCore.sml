@@ -872,8 +872,8 @@ struct
 	    val (U,alphas) = tyvars tyvarseq
 	    val k          = List.length alphas
 	    val span       = lhsConBind conbind
-	    val t          = TyName.tyname(TyCon.toString tycon, k, true, span, Level.Unknown)
-	    val tau        = Type.fromConsType(List.map Type.fromTyVar alphas,t)
+	    val t          = TyName.tyname(TyCon.toString tycon, k, true, span)
+	    val tau        = Type.fromConsType(List.map Type.fromTyVar alphas,t,ref Level.Unknown)
 	    val TE'        = case datbind_opt
 			       of NONE         => TyConMap.empty
 				| SOME datbind => lhsDatBind datbind
