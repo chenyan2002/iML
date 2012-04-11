@@ -9,7 +9,7 @@ struct
     (* Initial arguments *)
 
     (*type arg = (Infix.InfEnv * BindingBasis.Basis) * Basis.Basis * Program.State*)
-    type arg = (Infix.InfEnv * BindingBasis.Basis) * Basis.Basis
+    type arg = (Infix.InfEnv * BindingBasis.Basis) * Basis.Basis * EvalModule.State
     
     val J0          = InitialInfixEnv.J0
 
@@ -25,14 +25,14 @@ struct
     val initialArg  = ((J0,B0_BIND), B0, s0)
     val initialArg' = ((J0,B0_BIND'), B0', s0')
 *)
-    val initialArg  = ((J0,B0_BIND), B0)
-    val initialArg' = ((J0,B0_BIND'), B0')
+    val initialArg  = ((J0,B0_BIND), B0, s0)
+    val initialArg' = ((J0,B0_BIND'), B0', s0')
 
     (* Parsing only *)
 
     val checkProgram = SyntacticRestrictionsProgram.checkProgram
 
-    fun parseArg (JB,B) = JB
+    fun parseArg (JB,B,s) = JB
 
     fun parse (J, B_BIND) (filenameOpt, source) =
 	let
@@ -51,6 +51,42 @@ struct
 	; TextIO.flushOut TextIO.stdOut
 	)
 
+    fun execProgram echo (s,B, GrammarProgram.Program(I, topdec, program_opt)) =
+	(* [Rules 187 to 189] *)
+	let
+            val oplus = Basis.oplus
+            infix oplus
+	    val B_STAT1 = ElabModule.elabTopDec(Basis.B_STATof B, topdec)
+	    val B_DYN1  = EvalModule.evalTopDec(s,Basis.B_DYNof B, topdec)
+	    (* [Rule 189] *)
+	    (*val _       = if echo then printBasis(!s, (B_STAT1,B_DYN1)) else ()*)
+	    val B'      = B oplus (B_STAT1,B_DYN1)
+	    val B''     = case program_opt
+			    of NONE         => B'
+			     | SOME program => execProgram echo (s,B', program)
+	in
+	    B''
+	end
+	handle Error.Error =>
+	       (* [Rule 187] *)
+	       let
+		   val B' = case program_opt
+			      of NONE         => B
+			       | SOME program => execProgram echo (s,B, program)
+	       in
+		   B'
+	       end
+
+	     | DynamicObjectsCore.Pack e =>
+	       (* [Rule 188] *)
+	       let
+		   (*val _  = printException(!s, e)*)
+		   val B' = case program_opt
+			      of NONE         => B
+			       | SOME program => execProgram echo (s,B, program)
+	       in
+		   B'
+	       end
 
 
     fun elabProgram echo (B_STAT, GrammarProgram.Program(I, topdec, program_opt)) =
@@ -68,7 +104,7 @@ struct
 	handle Error.Error =>
 	       B_STAT
 
-    fun elabArg ((J,B_BIND), (B_STAT,B_DYN)) = (J, B_BIND, B_STAT)
+    fun elabArg ((J,B_BIND), (B_STAT,B_DYN),s) = (J, B_BIND, B_STAT)
 
     fun elab (J, B_BIND, B_STAT) (filenameOpt, source) =
 	let
@@ -80,14 +116,6 @@ struct
 	in
 	    (J', B_BIND', B_STAT')
 	end
-
-    fun exec' arg src =
-        let
-          val (_,(_,B_DYN)) = arg
-          val (J', B_BIND', B_STAT') = elab (elabArg arg) src
-        in
-          ((J',B_BIND'), (B_STAT',B_DYN))
-        end
 
 (*
     (* Parsing and evaluation *)
@@ -103,24 +131,24 @@ struct
 	in
 	    (J', B_BIND', B_DYN', !s')
 	end
-
+*)
 
     (* Parsing, elaboration, and evaluation *)
 
     fun execArg arg = arg
 
-    fun exec' echo ((J,B_BIND), B, s) (filenameOpt, source) =
+    fun exec' echo ((J,B_BIND), B,s) (filenameOpt, source) =
 	let
 	    val (J',program) = Parse.parse(J, source, filenameOpt)
 	    val  B_BIND'     = checkProgram(B_BIND, program)
-	    val  s'          = ref s
-	    val  B'          = Program.execProgram echo (s', B, program)
+            val  s' = ref s
+	    val  B'          = execProgram echo (s', B, program)
 	in
-	    ((J',B_BIND'), B', !s' )
+	    ((J',B_BIND'), B', !s')
 	end
 
     val exec = exec' true
-*)
+
 
     (* Process the `use' queue *)
 
@@ -222,7 +250,7 @@ struct
     fun loadLib() =
 	( TextIO.output(TextIO.stdOut, "[loading standard basis library]\n")
 	; TextIO.flushOut TextIO.stdOut
-	; fromFileQuiet (exec', initialArg')
+	; fromFileQuiet (exec' false, initialArg')
 			(OS.Path.joinDirFile{dir  = !basisPath,
 					     file = Library.file})
 	)

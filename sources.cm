@@ -230,13 +230,13 @@ Group is
     elab/ElabModule.sml
 
     (* Evaluation *)
-(*
+
     eval/EVAL_CORE-sig.sml
     eval/EvalCore.sml
 
     eval/EVAL_MODULE-sig.sml
     eval/EvalModule.sml
-*)
+
     (* Pretty printing *)
 
     infrastructure/PRETTY_PRINT-sig.sml
@@ -252,14 +252,14 @@ Group is
     elab/PP_STATIC_BASIS-sig.sml
     elab/PPStaticBasis.sml
 
-(*
+
     eval/PP_VAL-sig.sml
     eval/PPVal.sml
     eval/PP_DYNAMIC_ENV-sig.sml
     eval/PPDynamicEnv.sml
     eval/PP_DYNAMIC_BASIS-sig.sml
     eval/PPDynamicBasis.sml
-
+(*
     exec/PP_ENV-sig.sml
     exec/PPEnv.sml
     exec/PP_BASIS-sig.sml

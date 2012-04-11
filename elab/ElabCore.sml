@@ -199,8 +199,9 @@ struct
 	    val tau1 = elabExp (utaus, fnmatches) (C, exp)
 	    val tau' = elabAtExp (utaus, fnmatches) (C, atexp)
 	    val tau  = Type.guess false
+            val tau2 = Type.fromFunType(tau',tau,ref Level.Unknown, ref Level.Unknown)
 	in
-	    Type.unify(tau1, Type.fromFunType(tau',tau,ref Level.Unknown, ref Level.Unknown))
+	    Type.unify(tau1, tau2)
 	    handle Type.Unify => error(I, "type mismatch on application");
 	    tau
 	end
@@ -736,7 +737,7 @@ struct
 	let
 	    val rho = case tyrow_opt
 			of NONE       => Type.emptyRow
-			 | SOME tyrow => elabTyRow(C, tyrow, lv)
+			 | SOME tyrow => elabTyRow(C, tyrow)
 	in
 	    Type.fromRowType rho
 	end
@@ -779,13 +780,13 @@ struct
 
     (* Type-expression Rows *)
 
-    and elabTyRow(C, TyRow(I, lab, ty, tyrow_opt), lv) =
+    and elabTyRow(C, TyRow(I, lab, ty, tyrow_opt)) =
 	(* [Rule 49] *)
 	let
 	    val tau = elabTy(C, ty)
 	    val rho = case tyrow_opt
 			of NONE       => Type.emptyRow
-			 | SOME tyrow => elabTyRow(C, tyrow, lv)
+			 | SOME tyrow => elabTyRow(C, tyrow)
 	in
 	    Type.insertRow(rho, lab, tau)
 	end
