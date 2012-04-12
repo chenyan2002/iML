@@ -110,7 +110,7 @@ struct
      * together with its companion value environment
      *)
 
-    fun respectsEqualityValStr ((alphas, ref(FunType(tau, _, _, _))), is) =
+    fun respectsEqualityValStr ((alphas, ref(FunType(tau, _))), is) =
 	    TypeFcn.admitsEquality (alphas, tau)
       | respectsEqualityValStr _ = true
 

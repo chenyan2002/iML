@@ -543,7 +543,7 @@ struct
 				    else
 					TE
 				end
-	    val tau    = Type.fromConsType (List.map Type.fromTyVar alphas, t, ref Level.Unknown)
+	    val tau    = Type.fromConsType (List.map Type.fromTyVar alphas, t)
 	in
 	    TyConMap.insert(TE, tycon, ((alphas,tau), VIdMap.empty))
 	end
@@ -596,7 +596,7 @@ struct
 			    let
 				val tau' = ElabCore.elabTy(C, ty)
 			    in
-			        Type.fromFunType(tau',tau,ref Level.Unknown,ref Level.Stable)
+			        Type.fromFunType(tau',tau)
 			    end
 	    val VE   = case condesc_opt
 			 of NONE         => VIdMap.empty
@@ -621,7 +621,7 @@ struct
 					  error(I, "free type variables \
 						   \in exception description")
 			    in
-			        Type.fromFunType(tau, InitialStaticEnv.tauExn,ref Level.Stable,ref Level.Stable)
+			        Type.fromFunType(tau, InitialStaticEnv.tauExn)
 			    end
 	    val VE   = case exdesc_opt
 			 of NONE        => VIdMap.empty
@@ -743,7 +743,7 @@ struct
 	    val k          = List.length alphas
 	    val span       = lhsConDesc condesc
 	    val t          = TyName.tyname(TyCon.toString tycon, k, true, span)
-	    val tau        = Type.fromConsType(List.map Type.fromTyVar alphas,t,ref Level.Unknown)
+	    val tau        = Type.fromConsType(List.map Type.fromTyVar alphas,t)
 	    val TE'        = case datdesc_opt
 			       of NONE         => TyConMap.empty
 				| SOME datdesc => lhsDatDesc datdesc

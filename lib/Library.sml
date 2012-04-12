@@ -138,7 +138,7 @@ struct
 				Lab.fromString "name", tauString),
 				Lab.fromString "function", tauString),
 				Lab.fromString "cause", tauExn)
-    val tauIo		= Type.fromFunType(Type.fromRowType rhoIo, tauExn, ref Level.Stable, ref Level.Stable)
+    val tauIo		= Type.fromFunType(Type.fromRowType rhoIo, tauExn)
     val sigmaIo		= ([], tauIo)
 
     val alphaReal	= TyVar.fromOverloadingClass("Real",    Real)
@@ -153,13 +153,13 @@ struct
     val tauNum		= Type.fromTyVar alphaNum
     val tauNumTxt	= Type.fromTyVar alphaNumTxt
 
-    val tauRealInt1	= Type.fromFunType(tauRealInt, tauRealInt, ref Level.Stable, ref Level.Stable)
-    val tauNum1		= Type.fromFunType(tauNum, tauNum, ref Level.Stable, ref Level.Stable)
-    val tauReal2	= Type.fromFunType(pairType tauReal, tauReal, ref Level.Stable, ref Level.Stable)
-    val tauWordInt2	= Type.fromFunType(pairType tauWordInt, tauWordInt, ref Level.Stable, ref Level.Stable)
-    val tauNum2		= Type.fromFunType(pairType tauNum, tauNum, ref Level.Stable, ref Level.Stable)
+    val tauRealInt1	= Type.fromFunType(tauRealInt, tauRealInt)
+    val tauNum1		= Type.fromFunType(tauNum, tauNum)
+    val tauReal2	= Type.fromFunType(pairType tauReal, tauReal)
+    val tauWordInt2	= Type.fromFunType(pairType tauWordInt, tauWordInt)
+    val tauNum2		= Type.fromFunType(pairType tauNum, tauNum)
     val tauNumTxt2	= Type.fromFunType(pairType tauNumTxt,
-					   InitialStaticEnv.tauBool, ref Level.Stable, ref Level.Stable)
+					   InitialStaticEnv.tauBool)
     val sigmaRealInt1	= ([alphaRealInt], tauRealInt1)
     val sigmaNum1	= ([alphaNum], tauNum1)
     val sigmaReal2	= ([alphaReal], tauReal2)
@@ -171,8 +171,7 @@ struct
     val alpha2		= TyVar.fromInt false 2
     val sigmaUse	= ([alpha1, alpha2],
 			   Type.fromFunType(Type.fromTyVar alpha1,
-					    Type.fromTyVar alpha2, 
-                                            ref Level.Stable, ref Level.Stable)
+					    Type.fromTyVar alpha2)
 			  )
 
     (* Static objects for Modules *)

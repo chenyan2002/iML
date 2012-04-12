@@ -27,12 +27,12 @@ struct
     fun tyVid vid = 
       case StaticEnv.findVId (Env(), vid) of
         NONE => empty
-      | SOME (sigma, _) => hbox(text blue ^^ PPType.ppTypeScheme sigma ^^ text black)
+      | SOME (sigma, _) => hbox(text blue ^/^ PPType.ppTypeScheme sigma ^/^ text black)
 (*      | SOME (sigma, IdStatus.v) => PPType.ppTypeScheme sigma*)
     fun tyLongVid vid =
       case StaticEnv.findLongVId (Env(), vid) of
         NONE => empty
-      | SOME (sigma,_) => hbox(text red ^^ PPType.ppTypeScheme sigma ^^ text black)
+      | SOME (sigma,_) => hbox(text red ^/^ PPType.ppTypeScheme sigma ^/^ text black)
 
     (* Identifiers *)
 
@@ -84,11 +84,10 @@ struct
       | ppAtExp (PARAtExp(I, exp)) = paren(ppExp exp)
 
     and ppExpRow (ExpRow(I, lab, exp, exprow_opt)) =
-          hbox(below(
           (if (isTupleLab lab) then empty
           else ppLab lab ^/^ text "=") ^/^
           ppExp exp ^/^ 
-          ppOpt (fn x => text "," ^/^ ppExpRow x) exprow_opt))
+          ppOpt (fn x => text "," ^/^ ppExpRow x) exprow_opt
 
     and ppExp (ATExp(I, atexp)) = hbox(ppAtExp atexp)
       | ppExp (APPExp(I, exp, atexp)) = hbox(ppExp exp ^/^ ppAtExp atexp)
@@ -162,9 +161,9 @@ struct
       | ppAtPat (SCONAtPat(I, scon)) = ppSCon scon
       | ppAtPat (IDAtPat(I, _, longvid)) = ppLongVId longvid
       | ppAtPat (RECORDAtPat(I, patrow_opt)) = 
-          hbox(if isPatTuple patrow_opt then
+          if isPatTuple patrow_opt then
             paren(ppOpt ppPatRow patrow_opt)
-          else brace(ppOpt ppPatRow patrow_opt))
+          else brace(ppOpt ppPatRow patrow_opt)
       | ppAtPat (PARAtPat(I, pat)) = paren(ppPat pat)
 
     and ppPatRow (DOTSPatRow(I)) = text "..."
@@ -195,10 +194,10 @@ struct
       | ppTy (PARTy(I, ty)) = paren(ppTy ty)
 
     and ppTyRow (TyRow(I, lab, ty, tyrow_opt)) =
-          hbox(if (isTupleLab lab) then
+          if (isTupleLab lab) then
             ppTy ty ^/^ ppOpt (fn x => text "*" ^/^ ppTyRow x) tyrow_opt
           else ppLab lab ^/^ text ":" ^/^ ppTy ty ^/^
-               ppOpt (fn x => text "," ^/^ ppTyRow x) tyrow_opt)
+               ppOpt (fn x => text "," ^/^ ppTyRow x) tyrow_opt
 
     and ppTyseq (Tyseq(I, tys)) = ppCommaList ppTy tys
 

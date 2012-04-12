@@ -67,15 +67,15 @@ struct
     val tauAlphaEq = Type.fromTyVar alphaEq
 
     val tauUnit      = Type.fromRowType Type.emptyRow
-    val tauBool      = Type.fromConsType([], tBool, ref Level.Unknown)
-    val tauInt       = Type.fromConsType([], tInt, ref Level.Unknown)
-    val tauWord      = Type.fromConsType([], tWord, ref Level.Unknown)
-    val tauReal      = Type.fromConsType([], tReal, ref Level.Unknown)
-    val tauString    = Type.fromConsType([], tString, ref Level.Unknown)
-    val tauChar      = Type.fromConsType([], tChar, ref Level.Unknown)
-    val tauExn       = Type.fromConsType([], tExn, ref Level.Unknown)
-    val tauAlphaList = Type.fromConsType([tauAlpha], tList, ref Level.Unknown)
-    val tauAlphaRef  = Type.fromConsType([tauAlpha], tRef, ref Level.Unknown)
+    val tauBool      = Type.fromConsType([], tBool)
+    val tauInt       = Type.fromConsType([], tInt)
+    val tauWord      = Type.fromConsType([], tWord)
+    val tauReal      = Type.fromConsType([], tReal)
+    val tauString    = Type.fromConsType([], tString)
+    val tauChar      = Type.fromConsType([], tChar)
+    val tauExn       = Type.fromConsType([], tExn)
+    val tauAlphaList = Type.fromConsType([tauAlpha], tList)
+    val tauAlphaRef  = Type.fromConsType([tauAlpha], tRef)
 
 
     (* TypeSchemes [Figure 25] *)
@@ -87,15 +87,15 @@ struct
     val funType = Type.fromFunType
 
     val sigmaEq     = ([alphaEq],
-		       funType(pairType(tauAlphaEq,tauAlphaEq), tauBool, ref Level.Stable, ref Level.Stable))
+		       funType(pairType(tauAlphaEq,tauAlphaEq), tauBool))
     val sigmaAssign = ([alpha],
-		       funType(pairType(tauAlphaRef,tauAlpha), tauUnit, ref Level.Stable, ref Level.Stable))
+		       funType(pairType(tauAlphaRef,tauAlpha), tauUnit))
     val sigmaFalse  = ([], tauBool)
     val sigmaTrue   = ([], tauBool)
     val sigmaNil    = ([alpha], tauAlphaList)
     val sigmaCons   = ([alpha],
-		       funType(pairType(tauAlpha, tauAlphaList), tauAlphaList, ref Level.Stable, ref Level.Stable))
-    val sigmaRef    = ([alpha], funType(tauAlpha, tauAlphaRef, ref Level.Stable, ref Level.Stable))
+		       funType(pairType(tauAlpha, tauAlphaList), tauAlphaList))
+    val sigmaRef    = ([alpha], funType(tauAlpha, tauAlphaRef))
 
     val sigmaMatch  = ([], tauExn)
     val sigmaBind   = ([], tauExn)

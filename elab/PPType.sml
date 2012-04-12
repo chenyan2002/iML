@@ -20,10 +20,6 @@ struct
     fun ppLab lab     = text(Lab.toString lab)
     fun ppTyVar alpha = text(TyVar.toString alpha)
     fun ppTyName t    = text(TyName.toString t)
-    fun ppLvVar var   = text(LvVar.toString var)
-    val red = str(chr(27))^"[31m"
-    val green = str(chr(27))^"[32m"
-    fun ppLv lv       = text green ^^ text(Level.toString (!lv)) ^^ text red
 
     fun ppOverloadingClass O =
 	let
@@ -55,7 +51,7 @@ struct
 
     and ppType'Prec p (TyVar(alpha))   = ppTyVar alpha
 
-      | ppType'Prec p (RowType(rho,r,lv)) =
+      | ppType'Prec p (RowType(rho,r)) =
 	let
 	    fun isTuple(   [],     n) = n > 2
 	      | isTuple(lab::labs, n) =
@@ -65,34 +61,33 @@ struct
 	    val (labs,taus) = ListPair.unzip labtaus
 	in
 	    if not(Option.isSome r) andalso List.null labs then
-		text "unit " ^/^ ppLv lv
+		text "unit"
 	    else if not(Option.isSome r) andalso isTuple(labs, 1) then
 		let
 		    val doc = fbox(below(nest(
-				  paren(hbox(ppStarList (ppTypePrec(starPrec+1)) taus))
+				  ppStarList (ppTypePrec(starPrec+1)) taus
 			      )))
 		in
-		    hbox(parenAt starPrec (p, doc) ^/^ ppLv lv)
+		    parenAt starPrec (p, doc)
 		end
 	    else
-		hbox(brace(ppCommaList ppLabType labtaus ^^ ppRowVar r) ^^ ppLv lv)
+		brace(ppCommaList ppLabType labtaus ^^ ppRowVar r)
 	end
 
-      | ppType'Prec p (FunType(tau1,tau2,mode,lv)) =
+      | ppType'Prec p (FunType(tau1,tau2)) =
 	let
 	    val doc = fbox(below(nest(
-			  hbox(ppTypePrec (arrowPrec+1) tau1 ^/^
-			  text "->" ^/^ ppLv mode ^/^
-			  ppTypePrec arrowPrec tau2 ^/^
-                          ppLv lv)
+			  ppTypePrec (arrowPrec+1) tau1 ^/^
+			  text "->" ^/^
+			  ppTypePrec arrowPrec tau2
 		      )))
 	in
-	    hbox(parenAt arrowPrec (p, doc))
+	    parenAt arrowPrec (p, doc)
 	end
 
-      | ppType'Prec p (ConsType(taus,t,lv)) =
+      | ppType'Prec p (ConsType(taus,t)) =
 	    fbox(below(nest(
-		hbox(ppSeqPrec ppTypePrec applyPrec taus ^/^ ppTyName t ^/^ ppLv lv)
+		ppSeqPrec ppTypePrec applyPrec taus ^/^ ppTyName t
 	    )))
 
       | ppType'Prec p (Undetermined{stamp,eq,...}) =

@@ -8,11 +8,9 @@ structure Sml : SML =
 struct
     (* Initial arguments *)
 
-    (*type arg = (Infix.InfEnv * BindingBasis.Basis) * Basis.Basis * Program.State*)
-    type arg = (Infix.InfEnv * BindingBasis.Basis) * Basis.Basis * EvalModule.State
-    
-    val J0          = InitialInfixEnv.J0
+    type arg = (Infix.InfEnv * BindingBasis.Basis) * Basis.Basis * Program.State
 
+    val J0          = InitialInfixEnv.J0
     val B0_BIND     = StaticBasis.toBindingBasis InitialStaticBasis.B0
     val B0_BIND'    = StaticBasis.toBindingBasis Library.B0_STAT
     val B0_STAT     = InitialStaticBasis.B0
@@ -21,12 +19,10 @@ struct
     val B0'         = (Library.B0_STAT, Library.B0_DYN)
     val s0          = InitialDynamicBasis.s0
     val s0'         = Library.s0
-(*
+
     val initialArg  = ((J0,B0_BIND), B0, s0)
     val initialArg' = ((J0,B0_BIND'), B0', s0')
-*)
-    val initialArg  = ((J0,B0_BIND), B0, s0)
-    val initialArg' = ((J0,B0_BIND'), B0', s0')
+
 
     (* Parsing only *)
 
@@ -43,81 +39,21 @@ struct
 	    (J', B_BIND')
 	end
 
+
     (* Parsing and elaboration *)
 
-    fun printStaticBasis B_STAT =
-	( PrettyPrint.output(TextIO.stdOut, PPStaticBasis.ppBasis B_STAT,
-			     79)
-	; TextIO.flushOut TextIO.stdOut
-	)
-
-    fun execProgram echo (s,B, GrammarProgram.Program(I, topdec, program_opt)) =
-	(* [Rules 187 to 189] *)
-	let
-            val oplus = Basis.oplus
-            infix oplus
-	    val B_STAT1 = ElabModule.elabTopDec(Basis.B_STATof B, topdec)
-	    val B_DYN1  = EvalModule.evalTopDec(s,Basis.B_DYNof B, topdec)
-	    (* [Rule 189] *)
-	    (*val _       = if echo then printBasis(!s, (B_STAT1,B_DYN1)) else ()*)
-	    val B'      = B oplus (B_STAT1,B_DYN1)
-	    val B''     = case program_opt
-			    of NONE         => B'
-			     | SOME program => execProgram echo (s,B', program)
-	in
-	    B''
-	end
-	handle Error.Error =>
-	       (* [Rule 187] *)
-	       let
-		   val B' = case program_opt
-			      of NONE         => B
-			       | SOME program => execProgram echo (s,B, program)
-	       in
-		   B'
-	       end
-
-	     | DynamicObjectsCore.Pack e =>
-	       (* [Rule 188] *)
-	       let
-		   (*val _  = printException(!s, e)*)
-		   val B' = case program_opt
-			      of NONE         => B
-			       | SOME program => execProgram echo (s,B, program)
-	       in
-		   B'
-	       end
-
-
-    fun elabProgram echo (B_STAT, GrammarProgram.Program(I, topdec, program_opt)) =
-	let
-	    val B_STAT1  = ElabModule.elabTopDec(B_STAT, topdec)
-	    val  _       = if echo then printStaticBasis B_STAT1 else ()
-	    val B_STAT'  = StaticBasis.plus(B_STAT, B_STAT1)
-	    val B_STAT'' = case program_opt
-			     of NONE         => B_STAT'
-			      | SOME program =>
-				   elabProgram echo (B_STAT', program)
-	in
-	    B_STAT''
-	end
-	handle Error.Error =>
-	       B_STAT
-
-    fun elabArg ((J,B_BIND), (B_STAT,B_DYN),s) = (J, B_BIND, B_STAT)
+    fun elabArg ((J,B_BIND), (B_STAT,B_DYN), s) = (J, B_BIND, B_STAT)
 
     fun elab (J, B_BIND, B_STAT) (filenameOpt, source) =
 	let
 	    val (J',program) = Parse.parse(J, source, filenameOpt)
 	    val  B_BIND'     = checkProgram(B_BIND, program)
-	    val  B_STAT'     = elabProgram true (B_STAT, program)
-            (*val  _           = PPProgram.ppProgram(TextIO.stdOut, 0, program)*)
-            val  _           = SMLProgram.printSML (B_STAT', program)
+	    val  B_STAT'     = Program.elabProgram true (B_STAT, program)
 	in
 	    (J', B_BIND', B_STAT')
 	end
 
-(*
+
     (* Parsing and evaluation *)
 
     fun evalArg ((J,B_BIND), (B_STAT,B_DYN), s) = (J, B_BIND, B_DYN, s)
@@ -131,20 +67,20 @@ struct
 	in
 	    (J', B_BIND', B_DYN', !s')
 	end
-*)
+
 
     (* Parsing, elaboration, and evaluation *)
 
     fun execArg arg = arg
 
-    fun exec' echo ((J,B_BIND), B,s) (filenameOpt, source) =
+    fun exec' echo ((J,B_BIND), B, s) (filenameOpt, source) =
 	let
 	    val (J',program) = Parse.parse(J, source, filenameOpt)
 	    val  B_BIND'     = checkProgram(B_BIND, program)
-            val  s' = ref s
-	    val  B'          = execProgram echo (s', B, program)
+	    val  s'          = ref s
+	    val  B'          = Program.execProgram echo (s', B, program)
 	in
-	    ((J',B_BIND'), B', !s')
+	    ((J',B_BIND'), B', !s' )
 	end
 
     val exec = exec' true
@@ -274,26 +210,21 @@ struct
 
     val parseString  = processString(parse, parseArg)
     val elabString   = processString(elab, elabArg)
-(*
     val evalString   = processString(eval, evalArg)
     val execString   = processString(exec, execArg)
-*)
+
     val parseFile    = processFile(parse, parseArg)
     val elabFile     = processFile(elab, elabArg)
-(*
     val evalFile     = processFile(eval, evalArg)
     val execFile     = processFile(exec, execArg)
-*)
+
     val parseFiles   = processFiles(parse, parseArg)
     val elabFiles    = processFiles(elab,  elabArg)
-(*
     val evalFiles    = processFiles(eval,  evalArg)
     val execFiles    = processFiles(exec,  execArg)
-*)
+
     val parseSession = processSession(parse, parseArg)
     val elabSession  = processSession(elab,  elabArg)
-(*
     val evalSession  = processSession(eval,  evalArg)
     val execSession  = processSession(exec,  execArg)
-*)
 end;

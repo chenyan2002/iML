@@ -259,12 +259,12 @@ Group is
     eval/PPDynamicEnv.sml
     eval/PP_DYNAMIC_BASIS-sig.sml
     eval/PPDynamicBasis.sml
-(*
+
     exec/PP_ENV-sig.sml
     exec/PPEnv.sml
     exec/PP_BASIS-sig.sml
     exec/PPBasis.sml
-*)
+
     (* Pretty printing grammar *)
 
     syntax/PP_GRAMMAR-sig.sml
@@ -276,27 +276,16 @@ Group is
     syntax/PPModule.sml
     syntax/PP_PROGRAM-sig.sml
     syntax/PPProgram.sml
-(*
-    elab/SML_CORE-sig.sml
-    elab/SMLCore.sml
-    elab/SML_MODULE-sig.sml
-    elab/SMLModule.sml
-*)
+
     elab/SML_PROGRAM-sig.sml
     elab/SMLProgram.sml
 
     (* Program execution *)
-(*
+
     exec/PROGRAM-sig.sml
     exec/Program.sml
-*)
 
-    (* Information flow inference *)
-
-    iflow/FLOW_MODULE-sig.sml
-    iflow/FlowModule.sml
-    iflow/FLOW_CORE-sig.sml
-    iflow/FlowCore.sml    
+    (* Information flow inference *)  
 
     (* Solver *)
     iflow/LEXP-sig.sml
