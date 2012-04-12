@@ -22,8 +22,8 @@ struct
     fun ppTyName t    = text(TyName.toString t)
     fun ppLvVar var   = text(LvVar.toString var)
     val red = str(chr(27))^"[31m"
-    val black = str(chr(27))^"[0m"
-    fun ppLv lv       = text(Level.toString (!lv))
+    val green = str(chr(27))^"[32m"
+    fun ppLv lv       = text green ^^ text(Level.toString (!lv)) ^^ text red
 
     fun ppOverloadingClass O =
 	let
@@ -69,14 +69,13 @@ struct
 	    else if not(Option.isSome r) andalso isTuple(labs, 1) then
 		let
 		    val doc = fbox(below(nest(
-				  hbox(paren(ppStarList (ppTypePrec(starPrec+1)) taus) ^/^
-                                  ppLv lv)
+				  paren(hbox(ppStarList (ppTypePrec(starPrec+1)) taus))
 			      )))
 		in
-		    parenAt starPrec (p, doc)
+		    hbox(parenAt starPrec (p, doc) ^/^ ppLv lv)
 		end
 	    else
-		brace(ppCommaList ppLabType labtaus ^^ ppRowVar r ^^ ppLv lv)
+		hbox(brace(ppCommaList ppLabType labtaus ^^ ppRowVar r) ^^ ppLv lv)
 	end
 
       | ppType'Prec p (FunType(tau1,tau2,mode,lv)) =
@@ -88,7 +87,7 @@ struct
                           ppLv lv)
 		      )))
 	in
-	    parenAt arrowPrec (p, doc)
+	    hbox(parenAt arrowPrec (p, doc))
 	end
 
       | ppType'Prec p (ConsType(taus,t,lv)) =
