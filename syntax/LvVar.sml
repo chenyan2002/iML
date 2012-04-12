@@ -21,45 +21,33 @@ struct
 
     (* Type [Sections 2.4 and 4.1]*)
 
-    type LvVar = { name :        string		(* [alpha] or [tyvar] *)
-		 , equality :    bool
-		 (*, overloading : OverloadingClass ref option*)
-		 }
+    type LvVar = string
 
 
     (* Creation *)
 
-    fun invent equality =
-	{ name = "_" ^ (if equality then "$$" else "$") ^
-		 Stamp.toString(Stamp.stamp())
-	, equality = equality
-	}
+    fun invent () = "_$" ^ Stamp.toString(Stamp.stamp())
 
-    fun fromInt equality n =
+
+    fun fromInt n =
 	let
 	    val c    = String.str(Char.chr(Char.ord #"a" + n mod 26))
 	    val i    = n div 26
-	    val name = (if equality then "$$" else "$") ^
-		       (if i = 0 then c else c ^ Int.toString i)
+	    val name = "$" ^ (if i = 0 then c else c ^ Int.toString i)
 	in
-	    {name = name, equality = equality}
+	    name
 	end
 
-    fun fromString s =
-    	{ name        = s
-    	, equality    = String.size(s) > 1 andalso String.sub(s,1) = #"$"
-	}
+    fun fromString s = s
 
     (* Attributes [Section 4.1] *)
 
-    fun toString {name, equality} = name
-
-    fun admitsEquality {name, equality} = equality
+    fun toString name = name
 
     (* Ordering *)
 
     fun compare(alpha1 : LvVar, alpha2 : LvVar) =
-	String.compare(#name alpha1, #name alpha2)
+	String.compare(alpha1, alpha2)
 end
 
 structure LvVarSet = FinSetFn(type ord_key = LvVar.LvVar

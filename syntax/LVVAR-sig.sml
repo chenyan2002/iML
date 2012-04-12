@@ -14,14 +14,11 @@ sig
 
     (* Operations *)
 
-    val invent :		bool -> LvVar
-    val fromInt :		bool -> int -> LvVar
+    val invent :		unit -> LvVar
+    val fromInt :		int -> LvVar
     val fromString :		string -> LvVar
     (*val fromOverloadingClass :	string * OverloadingClass -> LvVar*)
     val toString :		LvVar -> string
-
-    val admitsEquality :	LvVar -> bool
-    (*val overloadingClass :	LvVar -> OverloadingClass option*)
 
     val compare :		LvVar * LvVar -> order
 end;
