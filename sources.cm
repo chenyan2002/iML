@@ -285,7 +285,13 @@ Group is
     exec/PROGRAM-sig.sml
     exec/Program.sml
 
-    (* Information flow inference *)  
+    (* Level IL *)
+    iflow/LvType.sml
+    iflow/LV_CORE-sig.sml
+    iflow/LvCoreFn.sml
+    iflow/LV_MODULE-sig.sml
+    iflow/LvModuleFn.sml
+    iflow/LvGrammars.sml  
 
     (* Solver *)
     iflow/LEXP-sig.sml
