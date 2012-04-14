@@ -276,12 +276,7 @@ Group is
     syntax/PPModule.sml
     syntax/PP_PROGRAM-sig.sml
     syntax/PPProgram.sml
-(*
-    elab/SML_CORE-sig.sml
-    elab/SMLCore.sml
-    elab/SML_MODULE-sig.sml
-    elab/SMLModule.sml
-*)
+
     elab/SML_PROGRAM-sig.sml
     elab/SMLProgram.sml
 
