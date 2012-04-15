@@ -34,9 +34,9 @@ struct
 
     fun checkStrExp(B, STRUCTStrExp(I, strdec)) =
 	let
-	    val E = checkStrDec(B, strdec)
+	    val (E, strdec) = checkStrDec(B, strdec)
 	in
-	    E
+	    (E, STRUCTStrExp(I, strdec))
 	end
 
       | checkStrExp(B, IDStrExp(I, longstrid)) =
@@ -45,41 +45,41 @@ struct
 		      of SOME E => E
 		       | NONE   => BindingEnv.empty (* actually an error *)
 	in
-	    E
+	    (E, IDStrExp(I, longstrid))
 	end
 
       | checkStrExp(B, COLONStrExp(I, strexp, sigexp)) =
 	let
-	    val E1 = checkStrExp(B, strexp)
-	    val E2 = checkSigExp(B, sigexp)
+	    val (E1, strexp) = checkStrExp(B, strexp)
+	    val (E2, sigexp) = checkSigExp(B, sigexp)
 	in
-	    E2
+	    (E2, COLONStrExp(I, strexp, sigexp))
 	end
 
       | checkStrExp(B, SEALStrExp(I, strexp, sigexp)) =
 	let
-	    val E1 = checkStrExp(B, strexp)
-	    val E2 = checkSigExp(B, sigexp)
+	    val (E1, strexp) = checkStrExp(B, strexp)
+	    val (E2, sigexp) = checkSigExp(B, sigexp)
 	in
-	    E2
+	    (E2, SEALStrExp(I, strexp, sigexp))
 	end
 
       | checkStrExp(B, APPStrExp(I, funid, strexp)) =
 	let
-	    val E1 = checkStrExp(B, strexp)
+	    val (E1, strexp) = checkStrExp(B, strexp)
 	    val E2 = case BindingBasis.findFunId(B, funid)
-		       of SOME E => E
-		        | NONE   => BindingEnv.empty (* actually an error *)
+		               of SOME E => E
+		                | NONE   => BindingEnv.empty (* actually an error *)
 	in
-	    E2
+	    (E2, APPStrExp(I, funid, strexp))
 	end
 
       | checkStrExp(B, LETStrExp(I, strdec, strexp)) =
 	let
-	    val E1 = checkStrDec(B, strdec)
-	    val E2 = checkStrExp(B plusE E1, strexp)
+	    val (E1, strdec) = checkStrDec(B, strdec)
+	    val (E2, strexp) = checkStrExp(B plusE E1, strexp)
 	in
-	    E2
+	    (E2, LETStrExp(I, strdec, strexp))
 	end
 
 
@@ -87,35 +87,35 @@ struct
 
     and checkStrDec(B, DECStrDec(I, dec)) =
 	let
-	    val E = SyntacticRestrictionsCore.checkDec(BindingBasis.Cof B, dec)
+	    val (E, dec) = SyntacticRestrictionsCore.checkDec(BindingBasis.Cof B, dec)
 	in
-	    E
+	    (E, DECStrDec(I,dec))
 	end
 
       | checkStrDec(B, STRUCTUREStrDec(I, strbind)) =
 	let
-	    val SE = checkStrBind(B, strbind)
+	    val (SE, strbind) = checkStrBind(B, strbind)
 	in
-	    BindingEnv.fromSE SE
+	    (BindingEnv.fromSE SE, STRUCTUREStrDec(I,strbind))
 	end
 
       | checkStrDec(B, LOCALStrDec(I, strdec1, strdec2)) =
 	let
-	    val E1 = checkStrDec(B, strdec1)
-	    val E2 = checkStrDec(B plusE E1, strdec2)
+	    val (E1, strdec1) = checkStrDec(B, strdec1)
+	    val (E2, strdec2) = checkStrDec(B plusE E1, strdec2)
 	in
-	    E2
+	    (E2, LOCALStrDec(I, strdec1, strdec2))
 	end
 
       | checkStrDec(B, EMPTYStrDec(I)) =
-	    BindingEnv.empty
+	    (BindingEnv.empty, EMPTYStrDec(I))
 
       | checkStrDec(B, SEQStrDec(I, strdec1, strdec2)) =
 	let
-	    val E1 = checkStrDec(B, strdec1)
-	    val E2 = checkStrDec(B plusE E1, strdec2)
+	    val (E1, strdec1) = checkStrDec(B, strdec1)
+	    val (E2, strdec2) = checkStrDec(B plusE E1, strdec2)
 	in
-	    BindingEnv.plus(E1, E2)
+	    (BindingEnv.plus(E1, E2), SEQStrDec(I, strdec1, strdec2))
 	end
 
 
@@ -123,16 +123,18 @@ struct
 
     and checkStrBind(B, StrBind(I, strid, strexp, strbind_opt)) =
 	let
-	    val E  = checkStrExp(B, strexp)
-	    val SE = case strbind_opt
-		       of NONE         => StrIdMap.empty
-		        | SOME strbind => checkStrBind(B, strbind)
+	    val (E, strexp)  = checkStrExp(B, strexp)
+	    val (SE, strbind_opt) = case strbind_opt
+		                     of NONE         => (StrIdMap.empty, NONE)
+		                      | SOME strbind => let val (s,p) = checkStrBind(B, strbind)
+                                                       in (s, SOME p) end
 	in
 	    if StrIdMap.inDomain(SE, strid) then
 		(* [Section 3.5, 1st bullet] *)
 		errorStrId(I, "duplicate structure identifier ", strid)
 	    else
-		StrIdMap.insert(SE, strid, E)
+
+		(StrIdMap.insert(SE, strid, E), StrBind(I, strid, strexp, strbind_opt))
 	end
 
 
@@ -140,9 +142,9 @@ struct
 
     and checkSigExp(B, SIGSigExp(I, spec)) =
 	let
-	    val E = checkSpec(B, spec)
+	    val (E, spec) = checkSpec(B, spec)
 	in
-	    E
+	    (E, SIGSigExp(I, spec))
 	end
 
       | checkSigExp(B, IDSigExp(I, sigid)) =
@@ -151,12 +153,12 @@ struct
 		      of SOME E => E
 		       | NONE   => BindingEnv.empty (* actually an error *)
 	in
-	    E
+	    (E, IDSigExp(I, sigid))
 	end
 
       | checkSigExp(B, WHERETYPESigExp(I, sigexp, tyvarseq, longtycon, ty)) =
 	let
-	    val E  = checkSigExp(B, sigexp)
+	    val (E, sigexp)  = checkSigExp(B, sigexp)
 	    val U1 = SyntacticRestrictionsCore.checkTyVarseq tyvarseq
 	    val U2 = SyntacticRestrictionsCore.checkTy ty
 	in
@@ -164,7 +166,7 @@ struct
 		(* [Section 3.5, 4th bullet] *)
 		error(I, "free type variables in type realisation")
 	    else
-		E
+		(E, WHERETYPESigExp(I, sigexp, tyvarseq, longtycon, ty))
 	end
 
 
@@ -172,9 +174,9 @@ struct
 
     and checkSigDec(B, SigDec(I, sigbind)) =
 	let
-	    val G = checkSigBind(B, sigbind)
+	    val (G, sigbind) = checkSigBind(B, sigbind)
 	in
-	    G
+	    (G, SigDec(I, sigbind))
 	end
 
 
@@ -182,16 +184,17 @@ struct
 
     and checkSigBind(B, SigBind(I, sigid, sigexp, sigbind_opt)) =
 	let
-	    val E = checkSigExp(B, sigexp)
-	    val G = case sigbind_opt
-		      of NONE         => SigIdMap.empty
-		       | SOME sigbind => checkSigBind(B, sigbind)
+	    val (E, sigexp) = checkSigExp(B, sigexp)
+	    val (G, sigbind) = case sigbind_opt
+		                of NONE         => (SigIdMap.empty, NONE)
+		                 | SOME sigbind => let val (g,p) = checkSigBind(B, sigbind)
+                                                  in (g, SOME p) end
 	in
 	    if SigIdMap.inDomain(G, sigid) then
 		(* [Section 3.5, 1st bullet] *)
 		errorSigId(I, "duplicate signature identifier ", sigid)
 	    else
-		SigIdMap.insert(G, sigid, E)
+		(SigIdMap.insert(G, sigid, E), SigBind(I, sigid, sigexp, sigbind))
 	end
 
 
@@ -199,30 +202,30 @@ struct
 
     and checkSpec(B, VALSpec(I, valdesc)) =
 	let
-	    val VE = checkValDesc valdesc
+	    val (VE, valdesc) = checkValDesc valdesc
 	in
-	    BindingEnv.fromVE VE
+	    (BindingEnv.fromVE VE, VALSpec(I, valdesc))
 	end
 
       | checkSpec(B, TYPESpec(I, typdesc)) =
 	let
-	    val TE = checkTypDesc typdesc
+	    val (TE, typdesc) = checkTypDesc typdesc
 	in
-	    BindingEnv.fromTE TE
+	    (BindingEnv.fromTE TE, TYPESpec(I, typdesc))
 	end
 
       | checkSpec(B, EQTYPESpec(I, typdesc)) =
 	let
-	    val TE = checkTypDesc typdesc
+	    val (TE, typdes) = checkTypDesc typdesc
 	in
-	    BindingEnv.fromTE TE
+	    (BindingEnv.fromTE TE, EQTYPESpec(I, typdesc))
 	end
 
       | checkSpec(B, DATATYPESpec(I, datdesc)) =
 	let
-	    val (VE,TE) = checkDatDesc datdesc
+	    val ((VE,TE), datdesc) = checkDatDesc datdesc
 	in
-	    BindingEnv.fromVEandTE(VE,TE)
+	    (BindingEnv.fromVEandTE(VE,TE), DATATYPESpec(I, datdesc))
 	end
 
       | checkSpec(B, DATATYPE2Spec(I, tycon, longtycon)) =
@@ -232,54 +235,54 @@ struct
 			| NONE    => VIdMap.empty (* actually an error *)
 	    val TE = TyConMap.singleton(tycon, VE)
 	in
-	    BindingEnv.fromVEandTE(VE,TE)
+	    (BindingEnv.fromVEandTE(VE,TE), DATATYPE2Spec(I, tycon, longtycon))
 	end
 
       | checkSpec(B, EXCEPTIONSpec(I, exdesc)) =
 	let
-	    val VE = checkExDesc exdesc
+	    val (VE, exdesc) = checkExDesc exdesc
 	in
-	    BindingEnv.fromVE VE
+	    (BindingEnv.fromVE VE, EXCEPTIONSpec(I, exdesc))
 	end
 
       | checkSpec(B, STRUCTURESpec(I, strdesc)) =
 	let
-	    val SE = checkStrDesc(B, strdesc)
+	    val (SE, strdesc) = checkStrDesc(B, strdesc)
 	in
-	    BindingEnv.fromSE SE
+	    (BindingEnv.fromSE SE, STRUCTURESpec(I, strdesc))
 	end
 
       | checkSpec(B, INCLUDESpec(I, sigexp)) =
 	let
-	    val E = checkSigExp(B, sigexp)
+	    val (E, sigexp) = checkSigExp(B, sigexp)
 	in
-	    E
+	    (E, INCLUDESpec(I, sigexp))
 	end
 
       | checkSpec(B, EMPTYSpec(I)) =
-	    BindingEnv.empty
+	    (BindingEnv.empty, EMPTYSpec(I))
 
       | checkSpec(B, SEQSpec(I, spec1, spec2)) =
 	let
-	    val E1 = checkSpec(B, spec1)
-	    val E2 = checkSpec(B plusE E1, spec2)
+	    val (E1, spec1) = checkSpec(B, spec1)
+	    val (E2, spec2) = checkSpec(B plusE E1, spec2)
 	in
-	    BindingEnv.plus(E1, E2)
+	    (BindingEnv.plus(E1, E2), SEQSpec(I, spec1, spec2))
 	end
 
       | checkSpec(B, SHARINGTYPESpec(I, spec, longtycons)) =
 	let
-	    val E = checkSpec(B, spec)
+	    val (E, spec) = checkSpec(B, spec)
 	in
-	    E
+	    (E, SHARINGTYPESpec(I, spec, longtycons))
 	end
 
       | checkSpec(B, SHARINGSpec(I, spec, longstrids)) =
 	(* [Appendix A] *)
 	let
-	    val E = checkSpec(B, spec)
+	    val (E, spec) = checkSpec(B, spec)
 	in
-	    E
+	    (E, SHARINGSpec(I, spec, longstrids))
 	end
 
 
@@ -288,9 +291,10 @@ struct
     and checkValDesc(ValDesc(I, vid, ty, valdesc_opt)) =
 	let
 	    val U  = SyntacticRestrictionsCore.checkTy ty
-	    val VE = case valdesc_opt
-		       of NONE         => VIdMap.empty
-			| SOME valdesc => checkValDesc valdesc
+	    val (VE, valdesc) = case valdesc_opt
+		                 of NONE         => (VIdMap.empty, NONE)
+			          | SOME valdesc => let val (v,p) = checkValDesc valdesc
+                                                   in (v, SOME p) end
 	in
 	    if VIdMap.inDomain(VE, vid) then
 		(* [Section 3.5, 2nd bullet] *)
@@ -299,7 +303,7 @@ struct
 		(* [Section 3.5, 5th bullet] *)
 		errorVId(I, "illegal specification of identifier ", vid)
 	    else
-		VIdMap.insert(VE, vid, IdStatus.v)
+		(VIdMap.insert(VE, vid, IdStatus.v), ValDesc(I, vid, ty, valdesc))
 	end
 
 
@@ -308,15 +312,16 @@ struct
     and checkTypDesc(TypDesc(I, tyvarseq, tycon, typdesc_opt)) =
 	let
 	    val U  = SyntacticRestrictionsCore.checkTyVarseq tyvarseq
-	    val TE = case typdesc_opt
-		       of NONE         => TyConMap.empty
-			| SOME typdesc => checkTypDesc typdesc
+	    val (TE, typdesc) = case typdesc_opt
+		                 of NONE         => (TyConMap.empty, NONE)
+			          | SOME typdesc => let val (t,p) = checkTypDesc typdesc
+                                                   in (t, SOME p) end
 	in
 	    if TyConMap.inDomain(TE, tycon) then
 		(* [Section 3.5, 2nd bullet] *)
 		errorTyCon(I, "duplicate type constructor ", tycon)
 	    else
-		TyConMap.insert(TE, tycon, VIdMap.empty)
+		(TyConMap.insert(TE, tycon, VIdMap.empty), TypDesc(I, tyvarseq, tycon, typdesc))
 	end
 
 
@@ -325,10 +330,11 @@ struct
     and checkDatDesc(DatDesc(I, tyvarseq, tycon, condesc, datdesc_opt)) =
 	let
 	    val  U1      = SyntacticRestrictionsCore.checkTyVarseq tyvarseq
-	    val (U2,VE)  = checkConDesc condesc
-	    val(VE',TE') = case datdesc_opt
-			     of NONE         => ( VIdMap.empty, TyConMap.empty )
-			      | SOME datdesc => checkDatDesc datdesc
+	    val ((U2,VE), condesc)  = checkConDesc condesc
+	    val ((VE',TE'), datdesc) = case datdesc_opt
+			     of NONE         => (( VIdMap.empty, TyConMap.empty ), NONE)
+			      | SOME datdesc => let val (v,p) = checkDatDesc datdesc
+                                               in (v, SOME p) end 
 	in
 	    if TyConMap.inDomain(TE', tycon) then
 		(* [Section 3.5, 2nd bullet] *)
@@ -337,11 +343,11 @@ struct
 		(* [Section 3.5,4th bullet]*)
 		error(I, "free type variables in datatype description")
 	    else
-	    ( VIdMap.unionWithi (fn(vid,_,_) =>
+	    (( VIdMap.unionWithi (fn(vid,_,_) =>
 		(* [Section 3.5, 2nd bullet] *)
 		errorVId(I, "duplicate data cnstructor ", vid)) (VE,VE')
 	    , TyConMap.insert(TE', tycon, VE)
-	    )
+	    ), DatDesc(I, tyvarseq, tycon, condesc, datdesc))
 	end
 
 
@@ -352,9 +358,10 @@ struct
 	    val  U      = case ty_opt
 			    of NONE    => TyVarSet.empty
 			     | SOME ty => SyntacticRestrictionsCore.checkTy ty
-	    val (U',VE) = case condesc_opt
-			    of NONE         => ( TyVarSet.empty, VIdMap.empty )
-			     | SOME condesc => checkConDesc condesc
+	    val ((U',VE), condesc) = case condesc_opt
+			    of NONE         => (( TyVarSet.empty, VIdMap.empty ), NONE)
+			     | SOME condesc => let val (u,p) = checkConDesc condesc
+                                              in (u, SOME p) end
 	in
 	    if VIdMap.inDomain(VE, vid) then
 		(* [Section 3.5, 2nd bullet] *)
@@ -363,7 +370,8 @@ struct
 		(* [Section 3.5, 5th bullet] *)
 		errorVId(I, "illegal specifiation of identifier ", vid)
 	    else
-		( TyVarSet.union(U, U'), VIdMap.insert(VE, vid, IdStatus.c) )
+		(( TyVarSet.union(U, U'), VIdMap.insert(VE, vid, IdStatus.c) ),
+                 ConDesc(I, vid, ty_opt, condesc))
 	end
 
 
@@ -374,9 +382,10 @@ struct
 	    val U  = case ty_opt
 		       of NONE    => TyVarSet.empty
 			| SOME ty => SyntacticRestrictionsCore.checkTy ty
-	    val VE = case exdesc_opt
-		       of NONE        => VIdMap.empty
-			| SOME exdesc => checkExDesc exdesc
+	    val (VE,exdesc) = case exdesc_opt
+		       of NONE        => (VIdMap.empty, NONE)
+			| SOME exdesc => let val (v, p) = checkExDesc exdesc
+                                        in (v, SOME p) end
 	in
 	    if VIdMap.inDomain(VE, vid) then
 		(* [Section 3.5, 2nd bullet] *)
@@ -385,7 +394,8 @@ struct
 		(* [Section 3.5, 5th bullet] *)
 		errorVId(I, "illegal specification of identifier ", vid)
 	    else
-		VIdMap.insert(VE, vid, IdStatus.e)
+		(VIdMap.insert(VE, vid, IdStatus.e),
+                 ExDesc(I, vid, ty_opt, exdesc))
 	end
 
 
@@ -393,16 +403,18 @@ struct
 
     and checkStrDesc(B, StrDesc(I, strid, sigexp, strdesc_opt)) =
 	let
-	    val E  = checkSigExp(B, sigexp)
-	    val SE = case strdesc_opt
-		       of NONE         => StrIdMap.empty
-		        | SOME strdesc => checkStrDesc(B, strdesc)
+	    val (E,sigexp)  = checkSigExp(B, sigexp)
+	    val (SE,strdesc) = case strdesc_opt
+		       of NONE         => (StrIdMap.empty, NONE)
+		        | SOME strdesc => let val (s,p) = checkStrDesc(B, strdesc)
+                                         in (s, SOME p) end
 	in
 	    if StrIdMap.inDomain(SE, strid) then
 		(* [Section 3.5, 2nd bullet] *)
 		errorStrId(I, "duplicate structure identifier ", strid)
 	    else
-		StrIdMap.insert(SE, strid, E)
+		(StrIdMap.insert(SE, strid, E),
+                 StrDesc(I, strid, sigexp, strdesc))
 	end
 
 
@@ -410,9 +422,9 @@ struct
 
     and checkFunDec(B, FunDec(I, funbind)) =
 	let
-	    val F = checkFunBind(B, funbind)
+	    val (F,funbind) = checkFunBind(B, funbind)
 	in
-	    F
+	    (F, FunDec(I, funbind))
 	end
 
 
@@ -420,17 +432,19 @@ struct
 
     and checkFunBind(B, FunBind(I, funid, strid, sigexp, strexp, funbind_opt)) =
 	let
-	    val E1 = checkSigExp(B, sigexp)
-	    val E2 = checkStrExp(B plusSE StrIdMap.singleton(strid, E1), strexp)
-	    val F  = case funbind_opt
-		       of NONE         => FunIdMap.empty
-			| SOME funbind => checkFunBind(B, funbind)
+	    val (E1,sigexp) = checkSigExp(B, sigexp)
+	    val (E2,strexp) = checkStrExp(B plusSE StrIdMap.singleton(strid, E1), strexp)
+	    val (F,funbind)  = case funbind_opt
+		       of NONE         => (FunIdMap.empty, NONE)
+			| SOME funbind => let val (f,p) = checkFunBind(B, funbind)
+                                         in (f,SOME p) end
 	in
 	    if FunIdMap.inDomain(F, funid) then
 		(* [Section 3.5, 1st bullet] *)
 		errorFunId(I, "duplicate functor identifier ", funid)
 	    else
-		FunIdMap.insert(F, funid, E2)
+	       (FunIdMap.insert(F, funid, E2),
+                FunBind(I, funid, strid, sigexp, strexp, funbind))
 	end
 
 
@@ -438,31 +452,34 @@ struct
 
     and checkTopDec(B, STRDECTopDec(I, strdec, topdec_opt)) =
 	let
-	    val E   = checkStrDec(B, strdec)
-	    val B'  = case topdec_opt
-			of NONE        => BindingBasis.empty
-			 | SOME topdec => checkTopDec(B plusE E, topdec)
+	    val (E, strdec)   = checkStrDec(B, strdec)
+	    val (B', topdec)  = case topdec_opt
+			of NONE        => (BindingBasis.empty, NONE)
+			 | SOME topdec => let val (b,p) = checkTopDec(B plusE E, topdec)
+                                         in (b, SOME p) end
 	in
-	    BindingBasis.fromE E plus B'
+	    (BindingBasis.fromE E plus B', STRDECTopDec(I, strdec, topdec))
 	end
 
       | checkTopDec(B, SIGDECTopDec(I, sigdec, topdec_opt)) =
 	let
-	    val G   = checkSigDec(B, sigdec)
-	    val B'  = case topdec_opt
-			of NONE        => BindingBasis.empty
-			 | SOME topdec => checkTopDec(B plusG G, topdec)
+	    val (G,sigdec)   = checkSigDec(B, sigdec)
+	    val (B',topdec)  = case topdec_opt
+			of NONE        => (BindingBasis.empty, NONE)
+			 | SOME topdec => let val (b,p) = checkTopDec(B plusG G, topdec)
+                                         in (b, SOME p) end
 	in
-	    BindingBasis.fromG G plus B'
+	    (BindingBasis.fromG G plus B', SIGDECTopDec(I, sigdec, topdec))
 	end
 
       | checkTopDec(B, FUNDECTopDec(I, fundec, topdec_opt)) =
 	let
-	    val F   = checkFunDec(B, fundec)
-	    val B'  = case topdec_opt
-			of NONE        => BindingBasis.empty
-			 | SOME topdec => checkTopDec(B plusF F, topdec)
+	    val (F,fundec)   = checkFunDec(B, fundec)
+	    val (B',topdec)  = case topdec_opt
+			of NONE        => (BindingBasis.empty, NONE)
+			 | SOME topdec => let val (b,p) = checkTopDec(B plusF F, topdec)
+                                         in (b, SOME p) end
 	in
-	    BindingBasis.fromF F plus B'
+	    (BindingBasis.fromF F plus B', FUNDECTopDec(I, fundec, topdec))
 	end
 end;

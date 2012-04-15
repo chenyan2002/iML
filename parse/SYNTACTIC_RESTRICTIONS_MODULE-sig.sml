@@ -15,5 +15,5 @@ sig
 
     (* Export *)
 
-    val checkTopDec :	Basis * TopDec -> Basis
+    val checkTopDec :	Basis * TopDec -> Basis * TopDec
 end;

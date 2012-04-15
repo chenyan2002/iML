@@ -64,37 +64,39 @@ struct
 	in
 	    check(TyVarSet.empty, tyvars)
 	end
-
+        
 
     (* Atomic Expressions *)
 
     fun checkAtExp(C, SCONAtExp(I, scon)) =
-	    ()
+	    SCONAtExp(I, scon)
 
-      | checkAtExp(C, IDAtExp(I, _, longvid)) =
-	    ()
+      | checkAtExp(C, IDAtExp(I, ops, longvid)) =
+	    IDAtExp(I, ops, longvid)
 
       | checkAtExp(C, RECORDAtExp(I, exprow_opt)) =
 	let
-	    val labs = case exprow_opt
-			 of NONE        => LabSet.empty
-			  | SOME exprow => checkExpRow(C, exprow)
+	    val (labs,exprow) = case exprow_opt
+			 of NONE        => (LabSet.empty, NONE)
+			  | SOME exprow => let val (l,p) = checkExpRow(C, exprow)
+                                          in (l, SOME p) end
 	in
-	    ()
+	    RECORDAtExp(I, exprow)
 	end
 
       | checkAtExp(C, LETAtExp(I, dec, exp)) =
 	let
-	    val E = checkDec(C, dec)
+	    val (E,dec) = checkDec(C, dec)
+            val exp = checkExp(C plusE E, exp)
 	in
-	    checkExp(C plusE E, exp)
+	    LETAtExp(I, dec, exp)
 	end
 
       | checkAtExp(C, PARAtExp(I, exp)) =
 	let
-	    val () = checkExp(C, exp)
+	    val exp = checkExp(C, exp)
 	in
-	    ()
+	    PARAtExp(I, exp)
 	end
 
 
@@ -102,16 +104,18 @@ struct
 
     and checkExpRow(C, ExpRow(I, lab, exp, exprow_opt)) =
 	let
-	    val ()   = checkExp(C, exp)
-	    val labs = case exprow_opt
-			 of NONE        => LabSet.empty
-			  | SOME exprow => checkExpRow(C, exprow)
+	    val exp   = checkExp(C, exp)
+	    val (labs,exprow) = case exprow_opt
+			 of NONE        => (LabSet.empty, NONE)
+			  | SOME exprow => let val (l,e) = checkExpRow(C, exprow)
+                                          in (l, SOME e) end
 	in
 	    (* [Section 2.9, 1st bullet] *)
-	    if LabSet.member(labs, lab) then
+	    ((if LabSet.member(labs, lab) then
 		errorLab(I, "duplicate label ", lab)
 	    else
-		LabSet.add(labs, lab)
+	        LabSet.add(labs, lab)),
+             ExpRow(I, lab, exp, exprow))
 	end
 
 
@@ -119,47 +123,47 @@ struct
 
     and checkExp(C, ATExp(I, atexp)) =
 	let
-	    val () = checkAtExp(C, atexp)
+	    val atexp = checkAtExp(C, atexp)
 	in
-	    ()
+	    ATExp(I, atexp)
 	end
 
       | checkExp(C, APPExp(I, exp, atexp)) =
 	let
-	    val () = checkExp(C, exp)
-	    val () = checkAtExp(C, atexp)
+	    val exp = checkExp(C, exp)
+	    val atexp = checkAtExp(C, atexp)
 	in
-	    ()
+	    APPExp(I, exp, atexp)
 	end
 
       | checkExp(C, COLONExp(I, exp, ty)) =
 	let
-	    val () = checkExp(C, exp)
+	    val exp = checkExp(C, exp)
 	    val U  = checkTy ty
 	in
-	    ()
+	    COLONExp(I, exp, ty)
 	end
 
       | checkExp(C, HANDLEExp(I, exp, match)) =
 	let
-	    val () = checkExp(C, exp)
-	    val () = checkMatch(C, match)
+	    val exp = checkExp(C, exp)
+	    val match = checkMatch(C, match)
 	in
-	    ()
+	    HANDLEExp(I, exp, match)
 	end
 
       | checkExp(C, RAISEExp(I, exp)) =
 	let
-	    val () = checkExp(C, exp)
+	    val exp = checkExp(C, exp)
 	in
-	    ()
+	    RAISEExp(I, exp)
 	end
 
       | checkExp(C, FNExp(I, match)) =
 	let
-	    val () = checkMatch(C, match)
+	    val match = checkMatch(C, match)
 	in
-	    ()
+	    FNExp(I, match)
 	end
 
 
@@ -167,12 +171,12 @@ struct
 
     and checkMatch(C, Match(I, mrule, match_opt)) =
 	let
-	    val () = checkMrule(C, mrule)
-	    val () = case match_opt
-		       of NONE       => ()
-			| SOME match => checkMatch(C, match)
+	    val mrule = checkMrule(C, mrule)
+	    val match_opt = case match_opt
+		       of NONE       => NONE
+			| SOME match => SOME (checkMatch(C, match))
 	in
-	    ()
+	    Match(I, mrule, match_opt)
 	end
 
 
@@ -180,10 +184,10 @@ struct
 
     and checkMrule(C, Mrule(I, pat, exp)) =
 	let
-	    val VE = checkPat(C, pat)
-	    val () = checkExp(C plusVE VE, exp)
+	    val (VE,pat) = checkPat(C, pat)
+	    val exp = checkExp(C plusVE VE, exp)
 	in
-	    ()
+	    Mrule(I, pat, exp)
 	end
 
 
@@ -196,60 +200,61 @@ struct
 	    val U  = TyVarSet.union(U',
 			TyVarSet.difference(ScopeTyVars.unguardedTyVars valbind,
 					    Uof C))
-	    val VE = checkValBind(C plusU U, valbind)
+	    val (VE,valbind) = checkValBind(C plusU U, valbind)
 	in
 	    if not(TyVarSet.isEmpty(TyVarSet.intersection(Uof C, U))) then
 		(* [Section 2.9, last bullet] *)
 		error(I, "some type variables shadow previous ones")
 	    else
-		BindingEnv.fromVE VE
+		(BindingEnv.fromVE VE,
+                 VALDec(I, tyvarseq, valbind))
 	end
 
       | checkDec(C, TYPEDec(I, typbind)) =
 	let
-	    val TE = checkTypBind typbind
+	    val (TE,typbind) = checkTypBind typbind
 	in
-	    BindingEnv.fromTE TE
+	    (BindingEnv.fromTE TE, TYPEDec(I,typbind))
 	end
 
       | checkDec(C, DATATYPEDec(I, datbind)) =
 	let
-	    val (VE,TE) = checkDatBind datbind
+	    val ((VE,TE),datbind) = checkDatBind datbind
 	in
-	    BindingEnv.fromVEandTE(VE,TE)
+	    (BindingEnv.fromVEandTE(VE,TE), DATATYPEDec(I, datbind))
 	end
 
       | checkDec(C, DATATYPE2Dec(I, tycon, longtycon)) =
 	let
-	    val VE = case findLongTyCon(C, longtycon)
-		       of SOME VE => VE
-			| NONE    => VIdMap.empty (* actually an error *)
+	    val (VE,longtycon) = case findLongTyCon(C, longtycon)
+		       of SOME VE => (VE, longtycon)
+			| NONE    => (VIdMap.empty, longtycon) (* actually an error *)
 	    val TE = TyConMap.singleton(tycon, VE)
 	in
-	    BindingEnv.fromVEandTE(VE,TE)
+	    (BindingEnv.fromVEandTE(VE,TE), DATATYPE2Dec(I, tycon,longtycon))
 	end
 
       | checkDec(C, ABSTYPEDec(I, datbind, dec)) =
 	let
-	    val (VE,TE) = checkDatBind datbind
-	    val    E    = checkDec(C plusVEandTE (VE,TE), dec)
+	    val ((VE,TE),datbind) = checkDatBind datbind
+	    val    (E,dec)   = checkDec(C plusVEandTE (VE,TE), dec)
 	in
-	    E
+	    (E, ABSTYPEDec(I, datbind, dec))
 	end
 
       | checkDec(C, EXCEPTIONDec(I, exbind)) =
 	let
-	    val VE = checkExBind exbind
+	    val (VE,exbind) = checkExBind exbind
 	in
-	    BindingEnv.fromVE VE
+	    (BindingEnv.fromVE VE, EXCEPTIONDec(I, exbind))
 	end
 
       | checkDec(C, LOCALDec(I, dec1, dec2)) =
 	let
-	    val E1 = checkDec(C, dec1)
-	    val E2 = checkDec(C plusE E1, dec2)
+	    val (E1,dec1) = checkDec(C, dec1)
+	    val (E2,dec2) = checkDec(C plusE E1, dec2)
 	in
-	    E2
+	    (E2, LOCALDec(I, dec1, dec2))
 	end
 
       | checkDec(C, OPENDec(I, longstrids)) =
@@ -262,49 +267,52 @@ struct
 			   | NONE => BindingEnv.empty) (* actually an error *)
 		    longstrids
 	in
-	    List.foldl (op plus) BindingEnv.empty Es
+	    (List.foldl (op plus) BindingEnv.empty Es,
+             OPENDec(I, longstrids))
 	end
 
       | checkDec(C, EMPTYDec(I)) =
-	    BindingEnv.empty
+	    (BindingEnv.empty, EMPTYDec(I))
 
       | checkDec(C, SEQDec(I, dec1, dec2)) =
 	let
-	    val E1 = checkDec(C, dec1)
-	    val E2 = checkDec(C plusE E1, dec2)
+	    val (E1,dec1) = checkDec(C, dec1)
+	    val (E2,dec2) = checkDec(C plusE E1, dec2)
 	in
-	    E1 plus E2
+	    (E1 plus E2, SEQDec(I, dec1, dec2))
 	end
-
 
     (* Value Bindings *)
 
     and checkValBind(C, PLAINValBind(I, pat, exp, valbind_opt)) =
 	let
-	    val VE  = checkPat(C, pat)
-	    val ()  = checkExp(C, exp)
-	    val VE' = case valbind_opt
-			of NONE         => VIdMap.empty
-			 | SOME valbind => checkValBind(C, valbind)
+	    val (VE,pat) = checkPat(C, pat)
+	    val exp  = checkExp(C, exp)
+	    val (VE',valbind_opt) = case valbind_opt
+			of NONE         => (VIdMap.empty, NONE)
+			 | SOME valbind => let val (v,p) = checkValBind(C, valbind)
+                                          in (v, SOME p) end
 	in
 	    VIdMap.appi (fn(vid,_) =>
 		if validBindVId vid then () else
 		(* [Section 2.9, 5th bullet] *)
 		errorVId(I, "illegal rebinding of identifier ", vid)
 	    ) VE;
-	    VIdMap.unionWithi
+	    (VIdMap.unionWithi
 		(fn(vid,_,_) =>
 		    (* [Section 2.9, 2nd bullet] *)
 		    errorVId(I, "duplicate variable ", vid))
-		(VE,VE')
+		(VE,VE'), 
+             PLAINValBind(I, pat, exp, valbind_opt))
 	end
 
       | checkValBind(C, RECValBind(I, valbind)) =
 	let
+            (* TODO? *)
 	    val VE1 = lhsRecValBind valbind
-	    val VE  = checkValBind(C plusVE VE1, valbind)
+	    val (VE, valbind)  = checkValBind(C plusVE VE1, valbind)
 	in
-	    VE
+	    (VE, RECValBind(I, valbind))
 	end
 
 
@@ -314,9 +322,10 @@ struct
 	let
 	    val U1 = checkTyVarseq tyvarseq
 	    val U2 = checkTy ty
-	    val TE = case typbind_opt
-		       of NONE         => TyConMap.empty
-			| SOME typbind => checkTypBind typbind
+	    val (TE,typbind_opt) = case typbind_opt
+		       of NONE         => (TyConMap.empty, NONE)
+			| SOME typbind => let val (t,p) = checkTypBind typbind
+                                         in (t, SOME p) end
 	in
 	    if not(TyVarSet.isSubset(U2, U1)) then
 		(* Restriction missing in the Definition! *)
@@ -325,7 +334,8 @@ struct
 		(* Syntactic restriction [Section 2.9, 2nd bullet] *)
 		errorTyCon(I, "duplicate type constructor ", tycon)
 	    else
-		TyConMap.insert(TE, tycon, VIdMap.empty)
+		(TyConMap.insert(TE, tycon, VIdMap.empty),
+                 TypBind(I, tyvarseq, tycon, ty, typbind_opt))
 	end
 
 
@@ -334,10 +344,11 @@ struct
     and checkDatBind(DatBind(I, tyvarseq, tycon, conbind, datbind_opt)) =
 	let
 	    val  U1     = checkTyVarseq tyvarseq
-	    val (U2,VE) = checkConBind conbind
-	    val(VE',TE') = case datbind_opt
-			     of NONE         => ( VIdMap.empty, TyConMap.empty )
-			      | SOME datbind => checkDatBind datbind
+	    val ((U2,VE),conbind) = checkConBind conbind
+	    val ((VE',TE'),datbind_opt) = case datbind_opt
+			     of NONE         => (( VIdMap.empty, TyConMap.empty ), NONE)
+			      | SOME datbind => let val (v,p) = checkDatBind datbind
+                                               in (v, SOME p) end
 	in
 	    if not(TyVarSet.isSubset(U2, U1)) then
 		(* Restriction missing in Definition! *)
@@ -346,24 +357,25 @@ struct
 		(* [Section 2.9, 2nd bullet] *)
 		errorTyCon(I, "duplicate type constructor ", tycon)
 	    else
-	    ( VIdMap.unionWithi (fn(vid,_,_) =>
+	    (( VIdMap.unionWithi (fn(vid,_,_) =>
 		(* [Section 2.9, 2nd bullet] *)
 		errorVId(I, "duplicate data constructor ", vid)) (VE,VE')
 	    , TyConMap.insert(TE', tycon, VE)
-	    )
+	    ), DatBind(I, tyvarseq, tycon, conbind, datbind_opt))
 	end
 
 
     (* Constructor Bindings *)
 
-    and checkConBind(ConBind(I, _, vid, ty_opt, conbind_opt)) =
+    and checkConBind(ConBind(I, ops, vid, ty_opt, conbind_opt)) =
 	let
 	    val  U      = case ty_opt
 			    of NONE    => TyVarSet.empty
 			     | SOME ty => checkTy ty
-	    val (U',VE) = case conbind_opt
-			    of NONE         => ( TyVarSet.empty, VIdMap.empty )
-			     | SOME conbind => checkConBind conbind
+	    val ((U',VE),conbind_opt) = case conbind_opt
+			    of NONE         => (( TyVarSet.empty, VIdMap.empty ), NONE)
+			     | SOME conbind => let val (v,p) = checkConBind conbind
+                                              in (v, SOME p) end
 	in
 	    if VIdMap.inDomain(VE, vid) then
 		(* [Section 2.9, 2nd bullet] *)
@@ -372,20 +384,22 @@ struct
 		(* [Section 2.9, 5th bullet] *)
 		errorVId(I, "illegal rebinding of identifier ", vid)
 	    else
-		( TyVarSet.union(U, U'), VIdMap.insert(VE, vid, IdStatus.c) )
+		(( TyVarSet.union(U, U'), VIdMap.insert(VE, vid, IdStatus.c) ),
+                 ConBind(I,ops,vid,ty_opt,conbind_opt))
 	end
 
 
     (* Exception Bindings *)
 
-    and checkExBind(NEWExBind(I, _, vid, ty_opt, exbind_opt)) =
+    and checkExBind(NEWExBind(I, ops, vid, ty_opt, exbind_opt)) =
 	let
 	    val U  = case ty_opt
 			 of NONE    => TyVarSet.empty
 			  | SOME ty => checkTy ty
-	    val VE = case exbind_opt
-		       of NONE        => VIdMap.empty
-		        | SOME exbind => checkExBind exbind
+	    val (VE,exbind_opt) = case exbind_opt
+		       of NONE        => (VIdMap.empty, NONE)
+		        | SOME exbind => let val (v,p) = checkExBind exbind
+                                        in (v, SOME p) end
 	in
 	    if VIdMap.inDomain(VE, vid) then
 		(* [Section 2.9, 2nd bullet] *)
@@ -394,89 +408,95 @@ struct
 		(* [Section 2.9, 5th bullet] *)
 		errorVId(I, "illegal rebinding of identifier ", vid)
 	    else
-		VIdMap.insert(VE, vid, IdStatus.e)
+  	        (VIdMap.insert(VE, vid, IdStatus.e),
+                 NEWExBind(I,ops,vid,ty_opt,exbind_opt))
 	end
 
-      | checkExBind(EQUALExBind(I, _, vid, _, longvid, exbind_opt)) =
+      | checkExBind(EQUALExBind(I, op1, vid, op2, longvid, exbind_opt)) =
 	let
-	    val VE = case exbind_opt
-		       of NONE        => VIdMap.empty
-		        | SOME exbind => checkExBind exbind
+	    val (VE,exbind_opt) = case exbind_opt
+		       of NONE        => (VIdMap.empty, NONE)
+		        | SOME exbind => let val (v,p) = checkExBind exbind
+                                        in (v, SOME p) end
 	in
 	    if VIdMap.inDomain(VE, vid) then
 		(* [Section 2.9, 2nd bullet] *)
 		errorVId(I, "duplicate exception constructor ", vid)
 	    else
-		VIdMap.insert(VE, vid, IdStatus.e)
+		(VIdMap.insert(VE, vid, IdStatus.e),
+                 EQUALExBind(I,op1,vid,op2,longvid,exbind_opt))
 	end
 
 
     (* Atomic Patterns *)
 
     and checkAtPat(C, WILDCARDAtPat(I)) =
-	    VIdMap.empty
+	    (VIdMap.empty, WILDCARDAtPat(I))
 
       | checkAtPat(C, SCONAtPat(I, scon)) =
-	(case scon
+	((case scon
 	   of SCon.REAL _ =>
 	      (* [Section 2.9, 6th bullet] *)
 	      error(I, "real constant in pattern")
 	    | _ =>
 	      VIdMap.empty
-	)
+	), SCONAtPat(I,scon))
 
-      | checkAtPat(C, IDAtPat(I, _, longvid)) =
+      | checkAtPat(C, IDAtPat(I, ops, longvid)) =
 	let
 	    val (strids,vid) = LongVId.explode longvid
 	in
-	    if List.null strids andalso
+	    ((if List.null strids andalso
 	       ( case findLongVId(C, longvid)
 		   of NONE    => true
 		    | SOME is => is = IdStatus.v )
 	    then
 		VIdMap.singleton(vid, IdStatus.v)
 	    else
-		VIdMap.empty
+		VIdMap.empty),
+            IDAtPat(I, ops, longvid))
 	end
 
       | checkAtPat(C, RECORDAtPat(I, patrow_opt)) =
 	let
-	    val (VE,labs) = case patrow_opt
-			      of NONE        => ( VIdMap.empty, LabSet.empty )
-			       | SOME patrow => checkPatRow(C, patrow)
+	    val ((VE,labs), patrow_opt) = case patrow_opt
+			      of NONE        => (( VIdMap.empty, LabSet.empty ), NONE)
+			       | SOME patrow => let val (v,p) = checkPatRow(C, patrow)
+                                               in (v, SOME p) end
 	in
-	    VE
+	    (VE, RECORDAtPat(I, patrow_opt))
 	end
 
       | checkAtPat(C, PARAtPat(I, pat)) =
 	let
-	    val VE = checkPat(C, pat)
+	    val (VE,pat) = checkPat(C, pat)
 	in
-	    VE
+	    (VE, PARAtPat(I, pat))
 	end
 
 
     (* Pattern Rows *)
 
     and checkPatRow(C, DOTSPatRow(I)) =
-	    ( VIdMap.empty, LabSet.empty )
+	    (( VIdMap.empty, LabSet.empty ), DOTSPatRow(I))
 
       | checkPatRow(C, FIELDPatRow(I, lab, pat, patrow_opt)) =
 	let
-	    val  VE        = checkPat(C, pat)
-	    val (VE',labs) = case patrow_opt
-			       of NONE        => ( VIdMap.empty, LabSet.empty )
-				| SOME patrow => checkPatRow(C, patrow)
+	    val  (VE,pat)        = checkPat(C, pat)
+	    val ((VE',labs),patrow_opt) = case patrow_opt
+			       of NONE        => (( VIdMap.empty, LabSet.empty ), NONE)
+				| SOME patrow => let val (v,p) = checkPatRow(C, patrow)
+                                                in (v, SOME p) end
 	in
 	    if LabSet.member(labs, lab) then
 		(* [Section 2.9, 1st bullet] *)
 		errorLab(I, "duplicate label ", lab)
 	    else
-		( VIdMap.unionWithi (fn(vid,_,_) =>
+		(( VIdMap.unionWithi (fn(vid,_,_) =>
 		    (* [Section 2.9, 2nd bullet] *)
 		    errorVId(I, "duplicate variable ", vid)) (VE,VE')
 		, LabSet.add(labs, lab)
-		)
+		), FIELDPatRow(I,lab,pat,patrow_opt))
 	end
 
 
@@ -484,29 +504,29 @@ struct
 
     and checkPat(C, ATPat(I, atpat)) =
 	let
-	    val VE = checkAtPat(C, atpat)
+	    val (VE,atpat) = checkAtPat(C, atpat)
 	in
-	    VE
+	    (VE, ATPat(I, atpat))
 	end
 
-      | checkPat(C, CONPat(I, _, longvid, atpat)) =
+      | checkPat(C, CONPat(I, ops, longvid, atpat)) =
 	let
-	    val VE = checkAtPat(C, atpat)
+	    val (VE,atpat) = checkAtPat(C, atpat)
 	in
-	    VE
+	    (VE, CONPat(I,ops,longvid,atpat))
 	end
 
       | checkPat(C, COLONPat(I, pat, ty)) =
 	let
-	    val VE = checkPat(C, pat)
+	    val (VE,pat) = checkPat(C, pat)
 	    val U  = checkTy ty
 	in
-	    VE
+	    (VE, COLONPat(I,pat,ty))
 	end
 
-      | checkPat(C, ASPat(I, _, vid, ty_opt, pat)) =
+      | checkPat(C, ASPat(I, ops, vid, ty_opt, pat)) =
 	let
-	    val VE = checkPat(C, pat)
+	    val (VE,pat) = checkPat(C, pat)
 	    val U  = case ty_opt
 		       of NONE    => TyVarSet.empty
 			| SOME ty => checkTy ty
@@ -515,7 +535,7 @@ struct
 		(* [Section 2.9, 2nd bullet] *)
 		errorVId(I, "duplicate variable ", vid)
 	    else
-		VIdMap.insert(VE, vid, IdStatus.v)
+		(VIdMap.insert(VE, vid, IdStatus.v), ASPat(I,ops,vid,ty_opt,pat))
 	end
 
 

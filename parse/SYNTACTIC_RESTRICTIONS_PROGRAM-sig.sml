@@ -13,5 +13,5 @@ sig
 
     (* Export *)
 
-    val checkProgram :	Basis * Program -> Basis
+    val checkProgram :	Basis * Program -> Basis * Program
 end;

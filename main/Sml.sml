@@ -37,7 +37,7 @@ struct
     fun parse (J, B_BIND) (filenameOpt, source) =
 	let
 	    val (J',program) = Parse.parse(J, source, filenameOpt)
-	    val  B_BIND'     = checkProgram(B_BIND, program)
+	    val (B_BIND',program)     = checkProgram(B_BIND, program)
 	    val  _           = PPProgram.ppProgram(TextIO.stdOut, 0, program)
 	in
 	    (J', B_BIND')
@@ -109,7 +109,7 @@ struct
     fun elab (J, B_BIND, B_STAT) (filenameOpt, source) =
 	let
 	    val (J',program) = Parse.parse(J, source, filenameOpt)
-	    val  B_BIND'     = checkProgram(B_BIND, program)
+	    val  (B_BIND',program)     = checkProgram(B_BIND, program)
 	    val  B_STAT'     = elabProgram true (B_STAT, program)
             (*val  _           = PPProgram.ppProgram(TextIO.stdOut, 0, program)*)
             val  _           = SMLProgram.printSML (B_STAT', program)
@@ -140,7 +140,7 @@ struct
     fun exec' echo ((J,B_BIND), B,s) (filenameOpt, source) =
 	let
 	    val (J',program) = Parse.parse(J, source, filenameOpt)
-	    val  B_BIND'     = checkProgram(B_BIND, program)
+	    val  (B_BIND',program)     = checkProgram(B_BIND, program)
             val  s' = ref s
 	    val  B'          = execProgram echo (s', B, program)
 	in

@@ -24,7 +24,7 @@ struct
 
     fun fromString s = s
     fun toString s   = s
-
+    fun new s = s ^ "_" ^ Stamp.toString(Stamp.stamp())
 
     (* Ordering *)
 

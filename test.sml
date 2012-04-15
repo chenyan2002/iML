@@ -17,4 +17,5 @@ val a:int $C = 1
 val b:int $S = 2
 val c = a+b
 val a = "3 + 4"
+val c = a^"test"
 

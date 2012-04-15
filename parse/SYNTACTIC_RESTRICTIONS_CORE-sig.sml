@@ -39,7 +39,7 @@ sig
 
     (* Export *)
 
-    val checkDec :		Context * Dec -> Env
+    val checkDec :		Context * Dec -> Env * Dec
     val checkTy :		Ty -> TyVarSet
     val checkTyVarseq :		TyVarseq -> TyVarSet
 

@@ -22,6 +22,7 @@ sig
 
     val fromString :	string -> Id
     val toString :	Id -> string
+    val new : string -> Id
 
     val compare :	Id * Id -> order
 end;
