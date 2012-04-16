@@ -15,18 +15,23 @@ functor IdFn() :> ID =
 struct
     (* Type [Section 2.4] *)
 
-    type Id = string				(* [id] *)
-
+    (*type Id = string*)				(* [id] *)
+    datatype Id = V of {
+             name : string,
+             suffix : string
+           }
 
     (* Creation *)
 
-    fun invent()     = "_id" ^ Stamp.toString(Stamp.stamp())
+    (*fun invent()     = "_id" ^ Stamp.toString(Stamp.stamp())*)
+    fun invent() = V{name = "_id",
+                     suffix = Stamp.toString(Stamp.stamp())}
 
-    fun fromString s = s
-    fun toString s   = s
-    fun new s = s ^ "_" ^ Stamp.toString(Stamp.stamp())
+    fun fromString s = V{name = s, suffix = ""}
+    fun toString (V{name,suffix}) = name ^ (if suffix="" then "" else "_" ^ suffix)
+    fun new s = V{name = s, suffix = Stamp.toString(Stamp.stamp())}
 
     (* Ordering *)
 
-    val compare = String.compare
+    fun compare (a,b) = String.compare (toString a, toString b)
 end;
