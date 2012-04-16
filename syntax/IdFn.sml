@@ -29,7 +29,8 @@ struct
 
     fun fromString s = V{name = s, suffix = ""}
     fun toString (V{name,suffix}) = name ^ (if suffix="" then "" else "_" ^ suffix)
-    fun new s = V{name = s, suffix = Stamp.toString(Stamp.stamp())}
+    fun new (V{name,suffix}) = V{name = name,
+			       suffix = if suffix="" then Stamp.toString(Stamp.stamp()) else suffix}
 
     (* Ordering *)
 

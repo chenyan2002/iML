@@ -4,6 +4,7 @@ Makefile-dummy.depend
 Makefile-mosml.depend
 hamlet
 hamlet-image.x86-darwin
+hamlet-image.x86-linux
 hamlet-smlnj
 .cm/
 

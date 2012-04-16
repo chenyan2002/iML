@@ -31,7 +31,7 @@ struct
 (*      | SOME (sigma, IdStatus.v) => PPType.ppTypeScheme sigma*)
     fun tyLongVid vid =
       case StaticEnv.findLongVId (Env(), vid) of
-        NONE => empty
+        NONE => hbox(text blue ^^ text "??" ^^ text black)
       | SOME (sigma,_) => hbox(text red ^^ PPType.ppTypeScheme sigma ^^ text black)
 
     (* Identifiers *)

@@ -445,6 +445,8 @@ struct
       | checkAtPat(C, IDAtPat(I, ops, longvid)) =
 	let
 	    val (strids,vid) = LongVId.explode longvid
+            val new_vid = VId.new vid
+            val new_longvid = LongVId.implode (strids,new_vid)
 	in
 	    ((if List.null strids andalso
 	       ( case findLongVId(C, longvid)
@@ -454,7 +456,7 @@ struct
 		VIdMap.singleton(vid, IdStatus.v)
 	    else
 		VIdMap.empty),
-            IDAtPat(I, ops, longvid))
+             IDAtPat(I, ops, longvid))
 	end
 
       | checkAtPat(C, RECORDAtPat(I, patrow_opt)) =
