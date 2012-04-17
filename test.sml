@@ -1,4 +1,3 @@
-
 datatype 'a list = Nil | Cons of 'a * 'a list $C
 val tuple = (1,2,3)
 and bar = {x=1,y=2}
@@ -18,4 +17,3 @@ val b:int $S = 2
 val c = a+b
 val a = "3 + 4"
 val c = a^"test"
-

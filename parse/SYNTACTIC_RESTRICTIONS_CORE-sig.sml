@@ -45,4 +45,6 @@ sig
 
     val validBindVId :		VId -> bool
     val validConBindVId :	VId -> bool
+
+    val E : VId.Id VIdMap.map ref
 end;

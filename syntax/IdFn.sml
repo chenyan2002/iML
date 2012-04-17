@@ -34,5 +34,6 @@ struct
 
     (* Ordering *)
 
-    fun compare (a,b) = String.compare (toString a, toString b)
+    fun name (V{name,...}) = name
+    fun compare (a, b) = String.compare (toString a, toString b)
 end;

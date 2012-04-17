@@ -27,6 +27,35 @@ struct
     open BindingObjectsCore
     open Error
 
+    (* Rename longvid *)
+
+    val E : VId.Id VIdMap.map ref = ref VIdMap.empty
+    fun getVId vid = 
+      case VIdMap.find(!E, vid) of
+        NONE => vid
+      | SOME vid => vid
+    fun putVId vid = 
+      let
+        val new_vid = VId.new vid
+        val _ = E := VIdMap.insert(!E, vid, new_vid)
+      in
+        new_vid
+      end
+
+    fun getLongVId longvid =
+      let
+        val (strids,vid) = LongVId.explode longvid
+        val new_vid = getVId vid
+      in
+        LongVId.implode(strids,new_vid)
+      end
+    fun putLongVId longvid =
+      let
+        val (strids,vid) = LongVId.explode longvid
+        val new_vid = putVId vid
+      in
+        LongVId.implode(strids,new_vid)
+      end
 
     (* Helpers for context modification *)
 
@@ -72,7 +101,7 @@ struct
 	    SCONAtExp(I, scon)
 
       | checkAtExp(C, IDAtExp(I, ops, longvid)) =
-	    IDAtExp(I, ops, longvid)
+	    IDAtExp(I, ops, getLongVId longvid)
 
       | checkAtExp(C, RECORDAtExp(I, exprow_opt)) =
 	let
@@ -226,9 +255,9 @@ struct
 
       | checkDec(C, DATATYPE2Dec(I, tycon, longtycon)) =
 	let
-	    val (VE,longtycon) = case findLongTyCon(C, longtycon)
-		       of SOME VE => (VE, longtycon)
-			| NONE    => (VIdMap.empty, longtycon) (* actually an error *)
+	    val VE = case findLongTyCon(C, longtycon)
+		       of SOME VE => VE
+			| NONE    => VIdMap.empty (* actually an error *)
 	    val TE = TyConMap.singleton(tycon, VE)
 	in
 	    (BindingEnv.fromVEandTE(VE,TE), DATATYPE2Dec(I, tycon,longtycon))
@@ -286,8 +315,9 @@ struct
 
     and checkValBind(C, PLAINValBind(I, pat, exp, valbind_opt)) =
 	let
-	    val (VE,pat) = checkPat(C, pat)
+            (* Okay to reverse order? *)
 	    val exp  = checkExp(C, exp)
+	    val (VE,pat) = checkPat(C, pat)
 	    val (VE',valbind_opt) = case valbind_opt
 			of NONE         => (VIdMap.empty, NONE)
 			 | SOME valbind => let val (v,p) = checkValBind(C, valbind)
@@ -385,7 +415,7 @@ struct
 		errorVId(I, "illegal rebinding of identifier ", vid)
 	    else
 		(( TyVarSet.union(U, U'), VIdMap.insert(VE, vid, IdStatus.c) ),
-                 ConBind(I,ops,vid,ty_opt,conbind_opt))
+                 ConBind(I,ops,putVId vid,ty_opt,conbind_opt))
 	end
 
 
@@ -409,7 +439,7 @@ struct
 		errorVId(I, "illegal rebinding of identifier ", vid)
 	    else
   	        (VIdMap.insert(VE, vid, IdStatus.e),
-                 NEWExBind(I,ops,vid,ty_opt,exbind_opt))
+                 NEWExBind(I,ops,putVId vid,ty_opt,exbind_opt))
 	end
 
       | checkExBind(EQUALExBind(I, op1, vid, op2, longvid, exbind_opt)) =
@@ -424,7 +454,7 @@ struct
 		errorVId(I, "duplicate exception constructor ", vid)
 	    else
 		(VIdMap.insert(VE, vid, IdStatus.e),
-                 EQUALExBind(I,op1,vid,op2,longvid,exbind_opt))
+                 EQUALExBind(I,op1,putVId vid,op2,getLongVId longvid,exbind_opt))
 	end
 
 
@@ -445,8 +475,6 @@ struct
       | checkAtPat(C, IDAtPat(I, ops, longvid)) =
 	let
 	    val (strids,vid) = LongVId.explode longvid
-            val new_vid = VId.new vid
-            val new_longvid = LongVId.implode (strids,new_vid)
 	in
 	    ((if List.null strids andalso
 	       ( case findLongVId(C, longvid)
@@ -456,7 +484,7 @@ struct
 		VIdMap.singleton(vid, IdStatus.v)
 	    else
 		VIdMap.empty),
-             IDAtPat(I, ops, longvid))
+             IDAtPat(I, ops, putLongVId longvid))
 	end
 
       | checkAtPat(C, RECORDAtPat(I, patrow_opt)) =
@@ -515,7 +543,7 @@ struct
 	let
 	    val (VE,atpat) = checkAtPat(C, atpat)
 	in
-	    (VE, CONPat(I,ops,longvid,atpat))
+	    (VE, CONPat(I,ops,getLongVId longvid,atpat))
 	end
 
       | checkPat(C, COLONPat(I, pat, ty)) =
@@ -537,7 +565,7 @@ struct
 		(* [Section 2.9, 2nd bullet] *)
 		errorVId(I, "duplicate variable ", vid)
 	    else
-		(VIdMap.insert(VE, vid, IdStatus.v), ASPat(I,ops,vid,ty_opt,pat))
+		(VIdMap.insert(VE, vid, IdStatus.v), ASPat(I,ops,putVId vid,ty_opt,pat))
 	end
 
 

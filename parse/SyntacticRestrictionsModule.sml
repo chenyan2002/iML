@@ -14,6 +14,9 @@ struct
     open BindingObjectsModule
     open Error
 
+    (* Rename longvid *)
+    val E : VId.Id VIdMap.map ref = ref VIdMap.empty
+
 
     (* Helpers for basis modification *)
 
