@@ -31,9 +31,10 @@ struct
     fun toString (V{name,suffix}) = name ^ (if suffix="" then "" else "_" ^ suffix)
     fun new (V{name,suffix}) = V{name = name,
 			       suffix = if suffix="" then Stamp.toString(Stamp.stamp()) else suffix}
+    fun name (V{name,...}) = name
+    fun suffix (V{suffix,...}) = suffix
 
     (* Ordering *)
 
-    fun name (V{name,...}) = name
     fun compare (a, b) = String.compare (toString a, toString b)
 end;

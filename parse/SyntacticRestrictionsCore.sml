@@ -35,21 +35,25 @@ struct
         NONE => vid
       | SOME vid => vid
     fun putVId vid = 
-      let
-        val new_vid = VId.new vid
-        val _ = E := VIdMap.insert(!E, vid, new_vid)
-      in
-        new_vid
-      end
+      if VId.suffix vid = "" orelse VId.name vid = "_id" then
+        let
+          val new_vid = VId.new vid
+          val _ = E := VIdMap.insert(!E, vid, new_vid)
+        in
+          new_vid
+        end
+      else (* already bind by rec *)
+        getVId (VId.fromString (VId.name vid))
 
-    fun getLongVId longvid =
+    fun getLongVId longvid = 
       let
         val (strids,vid) = LongVId.explode longvid
         val new_vid = getVId vid
       in
         LongVId.implode(strids,new_vid)
       end
-    fun putLongVId longvid =
+
+    fun putLongVId longvid = 
       let
         val (strids,vid) = LongVId.explode longvid
         val new_vid = putVId vid
@@ -338,8 +342,7 @@ struct
 
       | checkValBind(C, RECValBind(I, valbind)) =
 	let
-            (* TODO? *)
-	    val VE1 = lhsRecValBind valbind
+	    val (VE1, valbind) = lhsRecValBind valbind
 	    val (VE, valbind)  = checkValBind(C plusVE VE1, valbind)
 	in
 	    (VE, RECValBind(I, valbind))
@@ -629,64 +632,85 @@ struct
 
     and lhsRecValBind(PLAINValBind(I, pat, exp, valbind_opt)) =
 	let
-	    val VE  = lhsRecValBindPat pat
-	    val VE' = case valbind_opt
-			of NONE         => VIdMap.empty
-			 | SOME valbind => lhsRecValBind valbind
+	    val (VE,pat)  = lhsRecValBindPat pat
+	    val (VE',valbind_opt) = case valbind_opt
+			of NONE         => (VIdMap.empty, NONE)
+			 | SOME valbind => let val (v,p) = lhsRecValBind valbind
+                                          in (v, SOME p) end
 	in
-	    case exp
+	    (case exp
 	      of FNExp _ => VIdMap.unionWith #2 (VE,VE')
 	       | _ =>
 		(* [Section 2.9, 4th bullet] *)
-		error(I, "illegal expression within recursive value binding")
+		error(I, "illegal expression within recursive value binding"),
+             PLAINValBind(I, pat, exp, valbind_opt))
 	end
 
       | lhsRecValBind(RECValBind(I, valbind)) =
-	    lhsRecValBind valbind
+	    let val (V,valbind) = lhsRecValBind valbind
+            in (V, RECValBind(I, valbind)) end
 
     and lhsRecValBindPat(ATPat(I, atpat)) =
-	    lhsRecValBindAtPat atpat
+	    let val (V,atpat) = lhsRecValBindAtPat atpat
+            in (V, ATPat(I, atpat)) end
 
-      | lhsRecValBindPat(CONPat(I, _, longvid, atpat)) =
-	    lhsRecValBindAtPat atpat
+      | lhsRecValBindPat(CONPat(I, ops, longvid, atpat)) =
+	    let val (V,atpat) = lhsRecValBindAtPat atpat
+            in (V, CONPat(I, ops, longvid, atpat)) end
 
       | lhsRecValBindPat(COLONPat(I, pat, ty)) =
-	    lhsRecValBindPat pat
+	    let val (V,pat) = lhsRecValBindPat pat
+            in (V, COLONPat(I, pat, ty)) end
 
-      | lhsRecValBindPat(ASPat(I, _, vid, ty_opt, pat)) =
-	    VIdMap.insert(lhsRecValBindPat pat, vid, IdStatus.v)
+      | lhsRecValBindPat(ASPat(I, ops, vid, ty_opt, pat)) =
+        let
+          val (V,pat) = lhsRecValBindPat pat
+        in
+	    (VIdMap.insert(V, vid, IdStatus.v),
+             ASPat(I, ops, putVId vid, ty_opt, pat))
+        end
 
     and lhsRecValBindAtPat(WILDCARDAtPat(I)) =
-	    VIdMap.empty
+	    (VIdMap.empty, WILDCARDAtPat(I))
 
       | lhsRecValBindAtPat(SCONAtPat(I, scon)) =
-	    VIdMap.empty
+	    (VIdMap.empty, SCONAtPat(I, scon))
 
-      | lhsRecValBindAtPat(IDAtPat(I, _, longvid)) =
-	   (case LongVId.explode longvid
+      | lhsRecValBindAtPat(IDAtPat(I, ops, longvid)) =
+	   ((case LongVId.explode longvid
 	      of ([], vid) => VIdMap.singleton(vid, IdStatus.v)
 	       | _         => VIdMap.empty
-	   )
+	   ), IDAtPat(I, ops, putLongVId longvid))
 
       | lhsRecValBindAtPat(RECORDAtPat(I, patrow_opt)) =
-	   (case patrow_opt
-	      of NONE        => VIdMap.empty
-	       | SOME patrow => lhsRecValBindPatRow patrow
-	   )
+        let 
+          val (V, patrow_opt) =	case patrow_opt
+	                         of NONE        => (VIdMap.empty, NONE)
+	                          | SOME patrow => let val (v,p) = lhsRecValBindPatRow patrow
+                                                  in (v, SOME p) end
+        in
+          (V, RECORDAtPat(I, patrow_opt))
+	end
 
       | lhsRecValBindAtPat(PARAtPat(I, pat)) =
-	    lhsRecValBindPat pat
+	    let val (V,pat) = lhsRecValBindPat pat
+            in (V, PARAtPat(I, pat)) end
 
     and lhsRecValBindPatRow(DOTSPatRow(I)) =
-	    VIdMap.empty
+	    (VIdMap.empty, DOTSPatRow(I))
 
       | lhsRecValBindPatRow(FIELDPatRow(I, lab, pat, patrow_opt)) =
 	let
-	    val VE  = lhsRecValBindPat pat
-	in
-	    case patrow_opt
-	      of NONE        => VE
-	       | SOME patrow =>
-		 VIdMap.unionWith #2 (VE, lhsRecValBindPatRow patrow)
+	    val (VE,pat)  = lhsRecValBindPat pat
+            val (V, patrow_opt) = case patrow_opt
+	                           of NONE        => (VE, NONE)
+	                            | SOME patrow =>
+                                      let
+                                        val (v,p) = lhsRecValBindPatRow patrow
+                                      in
+		                        (VIdMap.unionWith #2 (VE, v), SOME p)
+                                      end
+        in
+          (V, FIELDPatRow(I,lab,pat,patrow_opt))
 	end
 end;

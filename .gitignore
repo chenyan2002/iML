@@ -6,5 +6,6 @@ hamlet
 hamlet-image.x86-darwin
 hamlet-image.x86-linux
 hamlet-smlnj
+hamlet.def-use
 .cm/
 

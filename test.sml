@@ -3,7 +3,7 @@ val tuple = (1,2,3)
 and bar = {x=1,y=2}
 and l = Cons(1, Cons (2, Cons (3, Nil)))
 
-fun inc x = x+1
+fun inc x = x
 
 fun map f l =
   case l of
@@ -14,6 +14,7 @@ val _ = map inc l
 
 val a:int $C = 1
 val b:int $S = 2
-val c = a+b
+val c = a
 val a = "3 + 4"
 val c = a^"test"
+

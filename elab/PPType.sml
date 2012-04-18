@@ -23,6 +23,7 @@ struct
     fun ppLvVar var   = text(LvVar.toString var)
     val red = str(chr(27))^"[31m"
     val green = str(chr(27))^"[32m"
+    val black = str(chr(27))^"[0m"
     fun ppLv lv       = text green ^^ text(Level.toString (!lv)) ^^ text red
 
     fun ppOverloadingClass O =
@@ -49,7 +50,7 @@ struct
 
     (* Types *)
 
-    fun ppType tau = fbox(below(nest(ppTypePrec topPrec tau)))
+    fun ppType tau = fbox(below(nest(ppTypePrec topPrec tau))) ^^ text black
 
     and ppTypePrec p (ref tau')        = ppType'Prec p tau'
 
