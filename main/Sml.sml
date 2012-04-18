@@ -140,7 +140,7 @@ struct
     fun exec' echo ((J,B_BIND), B,s) (filenameOpt, source) =
 	let
 	    val (J',program) = Parse.parse(J, source, filenameOpt)
-	    val  (B_BIND',program)     = checkProgram(B_BIND, program)
+	    val  (B_BIND',program')     = checkProgram(B_BIND, program)
             val  s' = ref s
 	    val  B'          = execProgram echo (s', B, program)
 	in

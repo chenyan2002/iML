@@ -33,4 +33,7 @@ sig
     val elabDec :	bool -> Context * Dec -> Env
     val elabTy :	Context * Ty -> Type
     val tyvars :	TyVarseq -> TyVarSet * TyVar list
+
+    val T : Type VIdMap.map ref
+
 end;

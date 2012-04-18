@@ -46,20 +46,26 @@ struct
         getVId (VId.fromString (VId.name vid))
 
     fun getLongVId longvid = 
-      let
-        val (strids,vid) = LongVId.explode longvid
-        val new_vid = getVId vid
-      in
-        LongVId.implode(strids,new_vid)
-      end
+      if LongVId.isUnqualified longvid then
+        let
+          val (strids,vid) = LongVId.explode longvid
+          val new_vid = getVId vid
+        in
+          LongVId.implode(strids,new_vid)
+        end
+      else
+        longvid
 
     fun putLongVId longvid = 
-      let
-        val (strids,vid) = LongVId.explode longvid
-        val new_vid = putVId vid
-      in
-        LongVId.implode(strids,new_vid)
-      end
+      if LongVId.isUnqualified longvid then
+        let
+          val (strids,vid) = LongVId.explode longvid
+          val new_vid = putVId vid
+        in
+          LongVId.implode(strids,new_vid)
+        end
+      else
+        longvid
 
     (* Helpers for context modification *)
 

@@ -29,6 +29,8 @@ struct
     open StaticObjectsCore
     open Error
 
+    (* Global type map *)
+    val T : StaticObjectsCore.Type VIdMap.map ref = ref VIdMap.empty
 
     (* Helpers for context modification *)
 
