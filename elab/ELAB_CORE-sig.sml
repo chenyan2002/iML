@@ -34,6 +34,6 @@ sig
     val elabTy :	Context * Ty -> Type
     val tyvars :	TyVarseq -> TyVarSet * TyVar list
 
-    val T : Type VIdMap.map ref
-
+    val getType : string -> Type
+    val setType : string * Type -> unit
 end;

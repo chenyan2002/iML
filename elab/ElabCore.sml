@@ -30,7 +30,15 @@ struct
     open Error
 
     (* Global type map *)
-    val T : StaticObjectsCore.Type VIdMap.map ref = ref VIdMap.empty
+    structure TMap = FinMapFn(type ord_key = string
+                              val compare = String.compare)
+    val T : StaticObjectsCore.Type TMap.map ref = ref TMap.empty
+    fun getType str = 
+      case TMap.find(!T, str) of
+        SOME t => t
+      | NONE => Type.guess false
+    fun setType (str, ty) =
+      T := TMap.insert(!T, str, ty)
 
     (* Helpers for context modification *)
 
