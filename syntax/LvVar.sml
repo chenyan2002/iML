@@ -21,12 +21,18 @@ struct
 
     (* Type [Sections 2.4 and 4.1]*)
 
-    type LvVar = string
+    (*type LvVar = string*)
+    datatype LvVar = V of {
+             name : string,
+             suffix : string
+           }
 
 
     (* Creation *)
 
-    fun invent () = "_$" ^ Stamp.toString(Stamp.stamp())
+    (*fun invent () = "_$" ^ Stamp.toString(Stamp.stamp())*)
+    fun invent () = V{name = "_$",
+                      suffix = Stamp.toString(Stamp.stamp())}
 
 
     fun fromInt n =
@@ -35,19 +41,23 @@ struct
 	    val i    = n div 26
 	    val name = "$" ^ (if i = 0 then c else c ^ Int.toString i)
 	in
-	    name
+	    V{name=name, suffix=""}
 	end
 
-    fun fromString s = s
+    fun fromString s = V{name=s, suffix=""}
+    fun new (V{name,suffix}) = V{name=name,
+                                 suffix = if suffix="" then Stamp.toString(Stamp.stamp()) else suffix}
 
     (* Attributes [Section 4.1] *)
 
-    fun toString name = name
+    fun toString (V{name,suffix}) = name^(if suffix="" then "" else "_" ^ suffix)
+    fun name (V{name,...}) = name
+    fun suffix (V{suffix,...}) = suffix
 
     (* Ordering *)
 
     fun compare(alpha1 : LvVar, alpha2 : LvVar) =
-	String.compare(alpha1, alpha2)
+	String.compare(toString alpha1, toString alpha2)
 end
 
 structure LvVarSet = FinSetFn(type ord_key = LvVar.LvVar

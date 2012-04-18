@@ -19,6 +19,9 @@ sig
     val fromString :		string -> LvVar
     (*val fromOverloadingClass :	string * OverloadingClass -> LvVar*)
     val toString :		LvVar -> string
+    val new : LvVar -> LvVar
+    val name : LvVar -> string
+    val suffix : LvVar -> string
 
     val compare :		LvVar * LvVar -> order
 end;
