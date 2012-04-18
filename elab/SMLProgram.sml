@@ -36,7 +36,7 @@ struct
 
     (* Identifiers *)
 
-    val ppSigID = text o SigId.toString
+    val ppSigId = text o SigId.toString
     val ppFunId = text o FunId.toString
     fun ppSCon scon   = text(SCon.toString scon)
     fun ppLab lab     = text(Lab.toString lab)
@@ -221,17 +221,52 @@ struct
                text "end"))
       | ppStrDec (EMPTYStrDec(I)) = empty
       | ppStrDec (SEQStrDec(I, strdec1, strdec2)) =
-          vbox(ppStrDec strdec1 ^/^ ppStrDec strdec2)
+          vbox(hbox(ppStrDec strdec1 ^^ text";") ^/^ ppStrDec strdec2)
 
     and ppStrBind (StrBind(I, strid, strexp, strbind_opt)) =
-          vbox(hbox(ppStrId strid) ^/^ 
-                  (*nest(break ^^ ppStrExp strexp) ^/^*)
-               ppOpt ppStrBind strbind_opt)
+          vbox(hbox(ppStrId strid ^/^ text "=") ^/^ 
+                  nest(break ^^ ppStrExp strexp) ^/^
+               ppOpt (fn x => text "and" ^/^ ppStrBind x) strbind_opt)
+
+    and ppStrExp (STRUCTStrExp(I, strdec)) = 
+          vbox(nest(text "struct" ^/^ below(ppStrDec strdec)) ^/^ text "end")
+      | ppStrExp (IDStrExp(I, longstrid)) = ppLongStrId longstrid
+      | ppStrExp (COLONStrExp(I, strexp, sigexp)) = hbox(ppStrExp strexp ^/^ text ":" ^/^ ppSigExp sigexp)
+      | ppStrExp (SEALStrExp(I, strexp, sigexp)) = hbox(ppStrExp strexp ^/^ text ":>" ^/^ ppSigExp sigexp)
+      | ppStrExp (APPStrExp(I, funid, strexp)) = ppFunId funid ^/^ paren(ppStrExp strexp)
+      | ppStrExp (LETStrExp(I, strdec, strexp)) = 
+          vbox(nest(break ^^ text "let" ^^
+                 nest(break ^^ below(ppStrDec strdec)) ^/^
+               text "in" ^/^
+                 nest(break ^^ below(ppStrExp strexp)) ^/^
+               text "end"))
+
+    (* Signatures *)
+
+    and ppSigExp (SIGSigExp(I, spec)) = vbox(nest(text "sig" ^/^ below(ppSpec spec)) ^/^ text "end")
+      | ppSigExp (IDSigExp(I, sigid)) = ppSigId sigid
+      | ppSigExp (WHERETYPESigExp(I, sigexp, tyvarseq, longtycon, ty)) = 
+          vbox(ppSigExp sigexp ^/^
+               hbox(text "where type" ^/^ ppTyVarseq tyvarseq ^/^ ppLongTyCon longtycon ^/^ text "=" ^/^ ppTy ty))
+
+    and ppSigDec (SigDec(I, sigbind)) = hbox(text "signature" ^/^ ppSigBind sigbind)
+
+    and ppSigBind (SigBind(I, sigid, sigexp, sigbind_opt)) = 
+          vbox(hbox(ppSigId sigid ^/^ text "=" ^/^ ppSigExp sigexp) ^/^
+               ppOpt (fn x => hbox (text "and" ^/^ ppSigBind x)) sigbind_opt)
+
+    (* Specification *)
+
+    and ppSpec x = empty
+
 
     (* Top-level declarations *)
 
     and ppTopDec (STRDECTopDec(I, strdec, topdec_opt)) =
           vbox(ppStrDec strdec ^/^
+               ppOpt (fn x => ppTopDec x) topdec_opt)
+      | ppTopDec (SIGDECTopDec(I, sigdec, topdec_opt)) =
+          vbox(ppSigDec sigdec ^/^
                ppOpt (fn x => ppTopDec x) topdec_opt)
       | ppTopDec _ = empty
 

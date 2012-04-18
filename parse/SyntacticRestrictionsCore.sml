@@ -217,10 +217,12 @@ struct
 
     and checkMrule(C, Mrule(I, pat, exp)) =
 	let
-	    val (VE,pat) = checkPat(C, pat)
-	    val exp = checkExp(C plusVE VE, exp)
+          val old = !E
+	  val (VE,pat) = checkPat(C, pat)
+	  val exp = checkExp(C plusVE VE, exp)
+          val _ = E := old
 	in
-	    Mrule(I, pat, exp)
+	  Mrule(I, pat, exp)
 	end
 
 
@@ -451,13 +453,15 @@ struct
 		       of NONE        => (VIdMap.empty, NONE)
 		        | SOME exbind => let val (v,p) = checkExBind exbind
                                         in (v, SOME p) end
+            val new_longvid = getLongVId longvid
+            val new_vid = putVId vid
 	in
 	    if VIdMap.inDomain(VE, vid) then
 		(* [Section 2.9, 2nd bullet] *)
 		errorVId(I, "duplicate exception constructor ", vid)
 	    else
 		(VIdMap.insert(VE, vid, IdStatus.e),
-                 EQUALExBind(I,op1,putVId vid,op2,getLongVId longvid,exbind_opt))
+                 EQUALExBind(I,op1,new_vid,op2,new_longvid,exbind_opt))
 	end
 
 
@@ -479,15 +483,18 @@ struct
 	let
 	    val (strids,vid) = LongVId.explode longvid
 	in
-	    ((if List.null strids andalso
+	    if List.null strids andalso
 	       ( case findLongVId(C, longvid)
 		   of NONE    => true
 		    | SOME is => is = IdStatus.v )
 	    then
-		VIdMap.singleton(vid, IdStatus.v)
-	    else
-		VIdMap.empty),
-             IDAtPat(I, ops, putLongVId longvid))
+		(VIdMap.singleton(vid, IdStatus.v),
+                 IDAtPat(I, ops, putLongVId longvid))
+	    else (* constructor *) 
+		(VIdMap.empty,
+                 IDAtPat(I, ops, getLongVId longvid))
+
+
 	end
 
       | checkAtPat(C, RECORDAtPat(I, patrow_opt)) =

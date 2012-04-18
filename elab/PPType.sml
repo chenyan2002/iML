@@ -50,7 +50,7 @@ struct
 
     (* Types *)
 
-    fun ppType tau = fbox(below(nest(ppTypePrec topPrec tau))) ^^ text black
+    fun ppType tau = fbox(below(nest(ppTypePrec topPrec tau)))
 
     and ppTypePrec p (ref tau')        = ppType'Prec p tau'
 
