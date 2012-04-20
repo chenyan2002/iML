@@ -92,7 +92,7 @@ struct
     fun elabProgram echo (B_STAT, GrammarProgram.Program(I, topdec, program_opt)) =
 	let
 	    val B_STAT1  = ElabModule.elabTopDec(B_STAT, topdec)
-            val B_STAT1 = FlowModule.elabTopDec(StaticBasis.plus(B_STAT, B_STAT1), topdec)
+            (*val _ = FlowModule.elabTopDec(B_STAT, topdec)*)
 	    val  _       = if echo then printStaticBasis B_STAT1 else ()
 	    val B_STAT'  = StaticBasis.plus(B_STAT, B_STAT1)
 	    val B_STAT'' = case program_opt

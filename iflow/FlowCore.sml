@@ -241,7 +241,6 @@ struct
             val _ = Type.unify(tau1,tau)
 	            handle Type.Unify =>
 		       error(I, "expression does not match annotation")
-            val _ = (getLv tau) := getASTLv ty
 	in
 
 	    tau
@@ -723,7 +722,6 @@ struct
 	    val     tau   = elabTy(C, ty)
             val _ = Type.unify(tau1,tau)
   	            handle Type.Unify => error(I, "pattern does not match annotation");
-            val _ = (getLv tau) := getASTLv ty
 	in
 
 	    (VE,tau)
