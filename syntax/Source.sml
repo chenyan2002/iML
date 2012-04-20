@@ -9,11 +9,11 @@ struct
     type source = string
     type pos    = int * int
     type region = pos * pos
-    type info   = {file : string option, region : region, ty : StaticObjectsCore.TypeScheme option}
+    type info   = {file : string option, region : region, ty : StaticObjectsCore.TypeScheme option ref}
 
     exception Error of (int * int) * string
 
-    val nowhere = {file = NONE, region = ((0,0), (0,0)), ty = NONE}
+    val nowhere : info = {file = NONE, region = ((0,0), (0,0)), ty = ref NONE}
 
     fun over'(r1 : region, r2 : region)    = (#1 r1, #2 r2)
     fun between'(r1 : region, r2 : region) = (#2 r1, #1 r2)
