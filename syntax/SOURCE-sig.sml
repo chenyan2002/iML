@@ -9,7 +9,7 @@ sig
     type source = string
     type pos    = int * int
     type region = pos * pos
-    type info   = {file : string option, region : region}
+    type info   = {file : string option, region : region, ty : StaticObjectsCore.TypeScheme option}
 
     exception Error of (int * int) * string
 
