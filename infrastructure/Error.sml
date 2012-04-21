@@ -17,7 +17,7 @@ struct
 
     val dir = OS.FileSys.getDir()
 
-    fun print({file, region = ((line1,col1), (line2,col2)), ty}, message) =
+    fun print({file, region = ((line1,col1), (line2,col2)), prop}, message) =
 	( case file
 	    of NONE      => ()
 	     | SOME name => 

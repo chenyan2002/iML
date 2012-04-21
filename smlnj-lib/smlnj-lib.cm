@@ -44,8 +44,8 @@ signature ORD_SET
 (*
 signature PARSER_COMB
 signature PATH_UTIL
-signature PROP_LIST
 *)
+signature PROP_LIST
 signature QUEUE
 (*
 signature RAND
@@ -92,8 +92,8 @@ structure ListMergeSort
 structure ListXProd
 structure ParserComb
 structure PathUtil
-structure PropList
 *)
+structure PropList
 structure Queue
 (*
 structure Rand
@@ -203,8 +203,6 @@ parser-comb-sig.sml
 parser-comb.sml
 path-util-sig.sml
 path-util.sml
-plist-sig.sml
-plist.sml
 queue-sig.sml
 queue.sml
 rand-sig.sml
@@ -238,3 +236,5 @@ uref.sml
  ord-set-sig.sml
  binary-map-fn.sml
  binary-set-fn.sml
+ plist-sig.sml
+ plist.sml

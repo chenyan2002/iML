@@ -29,13 +29,10 @@ struct
     open StaticObjectsCore
     open Error
 
-    (* Global type map *)
-    structure TMap = FinMapFn(type ord_key = string
-                              val compare = String.compare)
-    val T : StaticObjectsCore.Type TMap.map ref = ref TMap.empty
-    fun getType str = TMap.find(!T, str)
-    fun setType (str, ty) =
-      T := TMap.insert(!T, str, ty)
+    (* Annotate Type *)
+    val {getFn = getType, setFn = setType, ...} = 
+          PropList.newProp (fn{file,region,prop} => prop, 
+                            fn _ => NONE)
 
     (* Helpers for context modification *)
 
@@ -139,7 +136,6 @@ struct
 			        | NONE =>
 				  errorLongVId(I, "unknown identifier ",longvid)
 	    val tau = instance (I,utaus) sigma
-            val _ = setType (LongVId.toString longvid, tau)
 	in
 	    tau
 	end
@@ -597,7 +593,6 @@ struct
 		(* [Rule 34] *)
 		let
 		    val tau = Type.guess false
-                    val _ = setType (LongVId.toString longvid, tau)
 		in
 		    ( VIdMap.singleton(vid, (([],tau),IdStatus.v))
 		    , tau )
@@ -611,7 +606,6 @@ struct
 					  errorLongVId(I,"unknown constructor ",
 							 longvid)
 		    val  tau       = instance (I,utaus) sigma
-                    val _ = setType (LongVId.toString longvid, tau)
 		in
 		    if is = IdStatus.v then
 			error(I, "non-constructor long identifier in pattern")

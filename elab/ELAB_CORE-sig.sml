@@ -34,6 +34,4 @@ sig
     val elabTy :	Context * Ty -> Type
     val tyvars :	TyVarseq -> TyVarSet * TyVar list
 
-    val getType : string -> Type option
-    val setType : string * Type -> unit
 end;

@@ -9,17 +9,17 @@ struct
     type source = string
     type pos    = int * int
     type region = pos * pos
-    type info   = {file : string option, region : region, ty : StaticObjectsCore.TypeScheme option ref}
+    type info   = {file : string option, region : region, prop : PropList.holder}
 
     exception Error of (int * int) * string
 
-    val nowhere : info = {file = NONE, region = ((0,0), (0,0)), ty = ref NONE}
+    val nowhere : info = {file = NONE, region = ((0,0), (0,0)), prop = PropList.newHolder ()}
 
     fun over'(r1 : region, r2 : region)    = (#1 r1, #2 r2)
     fun between'(r1 : region, r2 : region) = (#2 r1, #1 r2)
 
     fun transform f (i1 : info, i2 : info) = 
-	{file = #file i1, region = f(#region i1, #region i2), ty = #ty i1}
+	{file = #file i1, region = f(#region i1, #region i2), prop = #prop i1}
 
     val over    = transform over'
     val between = transform between'
@@ -31,4 +31,5 @@ struct
 
     fun compare(i1 : info, i2 : info) =
 	comparePair (comparePair Int.compare) (#region i1, #region i2)
+
 end;

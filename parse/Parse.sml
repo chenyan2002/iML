@@ -38,17 +38,17 @@ struct
 	    val lexer = Parser.makeLexer yyinput
 
 	    fun onError(s, pos1, pos2) =
-		Error.error({file = filename, region = (pos1,pos2), ty = ref NONE}, s)
+		Error.error({file = filename, region = (pos1,pos2), prop = PropList.newHolder()}, s)
 
 	    fun I(left, right) : Source.info =
 		{ file = filename,
 		  region = (left, if right = (0,0) then left else right),
-                  ty = ref NONE }
+                  prop = PropList.newHolder() }
 
 	    val ((program,J'),_) =
 		Parser.parse(0, lexer, onError, (I, J))
 		handle Lexer'.Error(region, e) =>
-		    Error.error({file = filename, region = region, ty = ref NONE}, e)
+		    Error.error({file = filename, region = region, prop = PropList.newHolder()}, e)
 	in
 	    (J',program)
 	end

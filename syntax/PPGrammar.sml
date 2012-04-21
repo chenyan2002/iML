@@ -11,7 +11,7 @@ struct
     fun ppBegin out      = output(out, "(")
     fun ppEnd out        = output(out, ")")
 
-    fun ppInfo(out, {file, region = ((l1,c1), (l2,c2)), ty}) =
+    fun ppInfo(out, {file, region = ((l1,c1), (l2,c2)), prop}) =
 	( case file of NONE   => ()
 		     | SOME f => (output(out, f); output(out, ":")) 
 	; output(out, Int.toString l1)
