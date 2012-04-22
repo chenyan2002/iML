@@ -30,10 +30,12 @@ struct
     open Error
 
     (* Annotate Type *)
-    val {getFn = getType, setFn = setType : Info * Type -> unit, ...} = 
+    val {getFn = getType, 
+         setFn = setType : Info * Type -> unit,
+         peekFn = peekType, ...} = 
           PropList.newProp (fn I : Info => #prop I, 
                             fn I => error(I, "type info not collected"))
-
+(*
     val setType = fn (I, ty) => (* deep copy level info *)
       let 
         val copy_ty =
@@ -41,12 +43,13 @@ struct
               RowType (lab,ty,lv) => RowType (lab,ty,ref (!lv))
             | FunType (a,b,mode,lv) => FunType (a,b,ref (!mode),ref(!lv))
             | ConsType (ty,name,lv) => ConsType (ty,name,ref(!lv))
+            | Determined ty => ty
             | t => t
         val ty = ref copy_ty
       in
         setType (I, ty)
       end
-
+*)
     val {getFn = getTyvars, setFn = setTyvars : Info * TyVar list -> unit, ...} =
           PropList.newProp (fn I : Info => #prop I,
                             fn _ => [])
@@ -796,8 +799,10 @@ struct
 	(* [Rule 44] *)
 	let
 	    val alpha = tyvar
+            val tau = Type.fromTyVar alpha
+            val _ = setType(I,tau)
 	in
-	    Type.fromTyVar alpha
+	    tau
 	end
 
       | elabTy(C, RECORDTy(I, tyrow_opt, lv)) =
@@ -806,8 +811,10 @@ struct
 	    val rho = case tyrow_opt
 			of NONE       => Type.emptyRow
 			 | SOME tyrow => elabTyRow(C, tyrow)
+            val tau = Type.fromRowType rho
+            val _ = setType(I,tau)
 	in
-	    Type.fromRowType rho
+	    tau
 	end
 
       | elabTy(C, CONTy(I, tyseq, longtycon, lv)) =
@@ -821,11 +828,13 @@ struct
 		  of SOME tystr => tystr
 		   | NONE =>
 		     errorLongTyCon(I, "unknown type constructor ", longtycon)
+            val tau = TypeFcn.apply(taus, theta) 
+	        handle TypeFcn.Apply =>
+		       errorLongTyCon(I, "arity mismatch at type application ",
+				      longtycon)
+            val _ = setType(I, tau)
 	in
-	    TypeFcn.apply(taus, theta)  (* lv will be cloned during type application *)
-	    handle TypeFcn.Apply =>
-		errorLongTyCon(I, "arity mismatch at type application ",
-				  longtycon)
+	    tau
 	end
 
       | elabTy(C, ARROWTy(I, ty, ty', mode, lv)) =
@@ -833,14 +842,17 @@ struct
 	let
 	    val tau  = elabTy(C, ty)
 	    val tau' = elabTy(C, ty')
+            val funtau = Type.fromFunType(tau,tau',ref mode,ref lv)
+            val _ = setType(I,funtau)
 	in
-	    Type.fromFunType(tau,tau',ref mode,ref lv)
+	    funtau
 	end
 
       | elabTy(C, PARTy(I, ty)) =
 	(* [Rule 48] *)
 	let
 	    val tau = elabTy(C, ty)
+            val _ = setType(I,tau)
 	in
 	    tau
 	end

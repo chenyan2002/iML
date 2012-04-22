@@ -10,11 +10,11 @@ fun map f l =
     Nil => Nil
   | Cons (h,t) => Cons (f h, map f t)
 
-val _ = map inc l
+val l:int $S list $C = map inc l
 
 val a:int $S = 1
 val b:int $C = 2
-val c:int $S = a+1
+val c = a+1
 val a = "3 + 4"
 val c:string $S = a
 

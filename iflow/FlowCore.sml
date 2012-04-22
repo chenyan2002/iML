@@ -44,17 +44,64 @@ struct
       | Determined tau => getLv tau
       | _ => ref Level.Unknown
 
-    fun getASTLv ty = case ty of
-        RECORDTy (_,_,lv) => lv
-      | CONTy (_,_,_,lv) => lv
-      | ARROWTy (_,_,_,_,lv) => lv
-      | PARTy (_,ty) => getASTLv ty
-      | VARTy _ => Level.Unknown
+    fun copyTy ty =
+      let
+        val copy_ty =
+            case !ty of
+              RowType (lab,ty,lv) => RowType (lab,ty,ref (!lv)) (* TODO *)
+            | FunType (a,b,mode,lv) => FunType (copyTy a,copyTy b,ref (!mode),ref(!lv))
+            | ConsType (tys,name,lv) => ConsType (map copyTy tys,name,ref(!lv))
+            | Determined ty => Determined (copyTy ty)
+            | t => t
+        val ty = ref copy_ty
+      in
+        ty
+      end
+
+    fun getASTTy ty =
+      case ty of
+        VARTy(I,tyvar) => Type.fromTyVar tyvar
+      | RECORDTy(I,tyrow_opt,lv) => 
+        let
+          val rho = case tyrow_opt of
+                      NONE => Type.emptyRow
+                    | SOME tyrow => getTyRow tyrow
+          val (_,_,level) = rho
+          val _ = level := lv
+          val tau = Type.fromRowType rho
+        in tau end
+      | CONTy(I, tyseq, longtycon, lv) => 
+        let
+          val tyname = Type.tyname (getType I)
+          val Tyseq(I',tys) = tyseq
+          val taus = List.map getASTTy tys
+        in Type.fromConsType (taus, tyname, ref lv) end
+      | ARROWTy(I,ty,ty',mode,lv) => 
+        let
+          val tau1 = getASTTy ty
+          val tau2 = getASTTy ty'
+        in Type.fromFunType(tau1,tau2,ref mode,ref lv) end
+      | PARTy(I,ty) => getASTTy ty
+    and getTyRow (TyRow(I,lab,ty,tyrow_opt)) =
+        let
+          val tau = getASTTy ty
+          val rho = case tyrow_opt of
+                      NONE => Type.emptyRow
+                    | SOME tyrow => getTyRow tyrow
+        in Type.insertRow(rho,lab,tau) end
 
     fun loopTopDec topdec =
-      foreach {prog = topdec, 
-               handleI = fn I => (),
-               handlePat = fn _ => ()}
+      (AST.foreach {prog = topdec, 
+                handleI = fn I => case ElabCore.peekType I of
+                                NONE => ()
+                              | SOME ty => setType(I, copyTy ty),
+                handlePat = fn _ => ()};
+       AST.foreach {prog = topdec,
+                handleI = fn _ => (),
+                handlePat = fn pat => case pat of
+                                       COLONPat(I,pat,ty) => setType(I, getASTTy ty)
+                                     | _ => ()}
+      )
 
 
 

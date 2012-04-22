@@ -12,6 +12,8 @@ structure GrammarModule  = GrammarModuleFn(type Info = Source.info
 structure GrammarProgram = GrammarProgramFn(type Info = Source.info
 					    structure Module = GrammarModule);
 
+structure AST =
+struct
  fun foreach {prog: GrammarModule.TopDec,
               handleI: Source.info -> unit,
               handlePat: GrammarCore.Pat -> unit
@@ -165,3 +167,4 @@ structure GrammarProgram = GrammarProgramFn(type Info = Source.info
    in
      loopTopDec(prog)
    end
+end
