@@ -30,6 +30,6 @@ sig
 
     (* Export *)
 
-    val loopTopDec : GrammarModule.TopDec -> unit
+    val processTopDec : GrammarModule.TopDec -> unit
 
 end;

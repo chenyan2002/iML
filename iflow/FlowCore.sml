@@ -90,7 +90,140 @@ struct
                     | SOME tyrow => getTyRow tyrow
         in Type.insertRow(rho,lab,tau) end
 
-    fun loopTopDec topdec =
+    fun loopOpt f opt = case opt of
+                          NONE => ()
+                        | SOME opt => f opt
+
+    (* Core *)
+
+   (* Expressions *)
+
+    fun loopAtExp atexp =
+      case atexp of
+        SCONAtExp(I, scon) => ()
+      | IDAtExp(I, _, longvid) => ()
+      | RECORDAtExp(I, exprow_opt) => loopOpt loopExpRow exprow_opt 
+      | LETAtExp(I, dec, exp) => (
+          loopDec dec; 
+          loopExp exp)
+      | PARAtExp(I, exp) => loopExp exp
+
+    and loopExpRow (ExpRow(I, lab, exp, exprow_opt)) =
+           loopOpt loopExpRow exprow_opt
+
+    and loopExp exp =
+         case exp of
+           (ATExp(I, atexp)) => loopAtExp atexp
+         | (APPExp(I, exp, atexp)) => (loopExp exp; loopAtExp atexp)
+         | (COLONExp(I, exp, ty)) => loopExp exp
+         | (HANDLEExp(I, exp, match)) => (loopExp exp; loopMatch match)
+         | (RAISEExp(I, exp)) => loopExp exp
+         | (FNExp(I, match)) => loopMatch match
+
+    (* Matches *)
+
+    and loopMatch (Match(I, mrule, match_opt)) = 
+         (loopMrule mrule; 
+          loopOpt loopMatch match_opt)
+    and loopMrule (Mrule(I, pat, exp)) = 
+         (loopPat pat;
+          loopExp exp)
+
+    (* Declarations *)
+
+    and loopDec dec =
+         case dec of
+           (VALDec(I, tyvarseq, valbind)) => loopValBind valbind
+         | (TYPEDec(I, typbind)) => loopTypBind typbind
+         | (DATATYPEDec(I, datbind)) => loopDatBind datbind
+         | (DATATYPE2Dec(I, tycon, longtycon)) => ()
+         | (ABSTYPEDec(I, datbind, dec)) => (loopDatBind datbind; loopDec dec)
+         | (EXCEPTIONDec(I, exbind)) => loopExBind exbind
+         | (LOCALDec(I, dec1, dec2)) => (loopDec dec1; loopDec dec2)
+         | (OPENDec(I, longstrids)) => ()
+         | (EMPTYDec(I)) => ()
+         | (SEQDec(I, dec1, dec2)) => (loopDec dec1; loopDec dec2)
+
+    and loopValBind (PLAINValBind(I, pat, exp, valbind_opt)) =
+          (loopPat pat; loopExp exp; loopOpt loopValBind valbind_opt)
+      | loopValBind (RECValBind(I, valbind)) = (loopValBind valbind)
+
+    and loopTypBind (TypBind(I, tyvarseq, tycon, ty, typbind_opt)) =
+          (loopOpt loopTypBind typbind_opt)
+          
+    and loopDatBind (DatBind(I, tyvarseq, tycon, conbind, datbind_opt)) =
+          (loopOpt loopDatBind datbind_opt)
+
+    and loopConBind (ConBind(I, _, vid, ty_opt, conbind_opt)) =
+          (loopOpt loopConBind conbind_opt)
+
+    and loopExBind (NEWExBind(I, _, vid, ty_opt, exbind_opt)) =
+          (loopOpt loopExBind exbind_opt)
+      | loopExBind (EQUALExBind(I, _, vid, _, longvid, exbind_opt)) =
+          (loopOpt loopExBind exbind_opt)
+
+    (* Patterns *)
+
+    and loopAtPat atpat =
+         case atpat of
+           (WILDCARDAtPat(I)) => ()
+         | (SCONAtPat(I, scon)) => ()
+         | (IDAtPat(I, _, longvid)) => ()
+         | (RECORDAtPat(I, patrow_opt)) => 
+             loopOpt loopPatRow patrow_opt
+         | (PARAtPat(I, pat)) => loopPat pat
+                                
+    and loopPatRow (DOTSPatRow(I)) = ()
+      | loopPatRow (FIELDPatRow(I, lab, pat, patrow_opt)) =
+           (loopPat pat;
+            loopOpt loopPatRow patrow_opt)
+
+    and loopPat pat =
+         case pat of 
+           (ATPat(I, atpat)) => loopAtPat atpat
+         | (CONPat(I, _, longvid, atpat)) => loopAtPat atpat
+         | (COLONPat(I, pat, ty)) => loopPat pat
+         | (ASPat(I, _, vid, ty_opt, pat)) => loopPat pat
+
+    (* Module *)
+
+    (* Structures *)
+
+    fun loopStrDec (DECStrDec(I, dec)) = loopDec dec
+      | loopStrDec (STRUCTUREStrDec(I, strbind)) = loopStrBind strbind
+      | loopStrDec (LOCALStrDec(I, strdec1, strdec2)) = 
+          (loopStrDec strdec1; loopStrDec strdec2)
+      | loopStrDec (EMPTYStrDec(I)) = ()
+      | loopStrDec (SEQStrDec(I, strdec1, strdec2)) = 
+          (loopStrDec strdec1; loopStrDec strdec2)
+
+    and loopStrBind (StrBind(I, strid, strexp, strbind_opt)) =
+          (loopStrExp strexp; 
+           loopOpt loopStrBind strbind_opt)
+
+    and loopStrExp (STRUCTStrExp(I, strdec)) = loopStrDec strdec
+      | loopStrExp (IDStrExp(I, longstrid)) = ()
+      | loopStrExp (COLONStrExp(I, strexp, sigexp)) = loopStrExp strexp
+      | loopStrExp (SEALStrExp(I, strexp, sigexp)) = loopStrExp strexp
+      | loopStrExp (APPStrExp(I, funid, strexp)) = loopStrExp strexp
+      | loopStrExp (LETStrExp(I, strdec, strexp)) = (loopStrDec strdec; loopStrExp strexp)
+
+    (* Top-level declarations *)
+
+    and loopTopDec (STRDECTopDec(I, strdec, topdec_opt)) = 
+          (loopStrDec strdec;
+           loopOpt loopTopDec topdec_opt)
+      | loopTopDec (SIGDECTopDec(I, sigdec, topdec_opt)) = loopOpt loopTopDec topdec_opt
+      | loopTopDec _ = ()
+
+    (* Programs *)
+
+    fun loopProgram (Program(I, topdec, program_opt)) =
+        (loopTopDec topdec;
+         loopOpt loopProgram program_opt)
+
+
+    fun processTopDec topdec =
       (AST.foreach {prog = topdec, 
                 handleI = fn I => case ElabCore.peekType I of
                                 NONE => ()
