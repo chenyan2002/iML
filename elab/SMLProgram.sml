@@ -33,6 +33,8 @@ struct
       case StaticEnv.findLongVId (Env(), vid) of
         NONE => hbox(text blue ^^ text "??" ^^ text black)
       | SOME (sigma,_) => hbox(text red ^^ PPType.ppTypeScheme sigma ^^ text black)
+    val getType = ElabCore.getType
+    fun showType I = hbox(text red ^^ PPType.ppType (getType I) ^^ text black)
 
     (* Identifiers *)
 
@@ -40,14 +42,14 @@ struct
     val ppFunId = text o FunId.toString
     fun ppSCon scon   = text(SCon.toString scon)
     fun ppLab lab     = text(Lab.toString lab)
-    fun ppVId vid     = text(VId.toString vid) ^/^ tyVid vid
+    fun ppVId vid     = text(VId.toString vid) (*^/^ tyVid vid*)
     fun ppTyVar tyvar = text(TyVar.toString tyvar)
     fun ppTyCon tycon = text(TyCon.toString tycon)
     fun ppStrId strid = text(StrId.toString strid)
     fun ppLvVar lvvar = text(LvVar.toString lvvar)
     fun ppLv lv       = text(Level.toString lv)
 
-    fun ppLongVId longvid = text(LongVId.toString longvid) ^/^ tyLongVid longvid
+    fun ppLongVId longvid = text(LongVId.toString longvid) (*^/^ tyLongVid longvid*)
     fun ppLongTyCon longtycon = text(LongTyCon.toString longtycon)
     fun ppLongStrId longstrid = text(LongStrId.toString longstrid)
 
@@ -133,7 +135,7 @@ struct
           vbox(hbox(ppDec dec1 ^^ text ";") ^/^ ppDec dec2)
 
     and ppValBind (PLAINValBind(I, pat, exp, valbind_opt)) =
-          vbox(hbox(ppPat pat ^/^ text "=" ^/^ ppExp exp) ^/^ 
+          vbox(hbox(ppPat pat ^/^ showType I ^/^ text "=" ^/^ ppExp exp) ^/^ 
                ppOpt (fn x => hbox(text "and" ^/^ ppValBind x)) valbind_opt)
       | ppValBind (RECValBind(I, valbind)) = text "rec" ^/^ ppValBind valbind
 
@@ -176,7 +178,7 @@ struct
 
     and ppPat (ATPat(I, atpat)) = ppAtPat atpat
       | ppPat (CONPat(I, _, longvid, atpat)) = ppLongVId longvid ^/^ ppAtPat atpat
-      | ppPat (COLONPat(I, pat, ty)) = ppPat pat ^/^ text ":" ^/^ ppTy ty
+      | ppPat (COLONPat(I, pat, ty)) = ppPat pat ^/^ showType I ^/^ text ":" ^/^ ppTy ty
       | ppPat (ASPat(I, _, vid, ty_opt, pat)) = 
           ppVId vid ^/^ ppOpt (fn x => text ":" ^/^ ppTy x) ty_opt ^/^
           text "as" ^/^ ppPat pat

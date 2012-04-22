@@ -30,9 +30,27 @@ struct
     open Error
 
     (* Annotate Type *)
-    val {getFn = getType, setFn = setType, ...} = 
-          PropList.newProp (fn{file,region,prop} => prop, 
-                            fn _ => NONE)
+    val {getFn = getType, setFn = setType : Info * Type -> unit, ...} = 
+          PropList.newProp (fn I : Info => #prop I, 
+                            fn I => error(I, "type info not collected"))
+    val setType = fn (I, ty) => (* deep copy level info *)
+      let 
+        val copy_ty =
+            case !ty of 
+              RowType (lab,ty,lv) => RowType (lab,ty,ref (!lv))
+            | FunType (a,b,mode,lv) => FunType (a,b,ref (!mode),ref(!lv))
+            | ConsType (ty,name,lv) => ConsType (ty,name,ref(!lv))
+            | t => t
+        val _ = ty := copy_ty
+      in
+        setType (I, ty)
+      end
+
+    val {getFn = getTyvars, setFn = setTyvars : Info * TyVar list -> unit, ...} =
+          PropList.newProp (fn I : Info => #prop I,
+                            fn _ => [])
+    fun setScheme (I, (tyvars,ty)) = (setTyvars (I, tyvars); setType (I,ty))
+    fun getScheme I = (getTyvars(I), getType(I))
 
     (* Helpers for context modification *)
 
@@ -126,7 +144,10 @@ struct
 
     fun elabAtExp (utaus, fnmatches) (C, SCONAtExp(I, scon)) =
 	(* [Rule 1] *)
-	typeSCon (utaus, I) scon
+	let 
+          val tau = typeSCon (utaus, I) scon
+          val _ = setType (I, tau)
+        in tau end
 
       | elabAtExp (utaus, fnmatches) (C, IDAtExp(I, _, longvid)) =
 	(* [Rule 2] *)
@@ -136,6 +157,7 @@ struct
 			        | NONE =>
 				  errorLongVId(I, "unknown identifier ",longvid)
 	    val tau = instance (I,utaus) sigma
+            val _ = setType (I, tau)
 	in
 	    tau
 	end
@@ -147,8 +169,10 @@ struct
 			of NONE        => Type.emptyRow
 			 | SOME exprow => elabExpRow (utaus, fnmatches)
 						     (C, exprow)
+            val tau = Type.fromRowType rho
+            val _ = setType (I, tau)
 	in
-	    Type.fromRowType rho
+            tau
 	end
 
       | elabAtExp (utaus, fnmatches) (C, LETAtExp(I, dec, exp)) =
@@ -156,6 +180,7 @@ struct
 	let
 	    val E   = elabDec false (C, dec)
 	    val tau = elabExp (utaus, fnmatches) (C oplusE E, exp)
+            val _ = setType (I, tau)
 	in
 	    if TyNameSet.isSubset(Type.tynames tau, Context.Tof C) then
 		tau
@@ -167,6 +192,7 @@ struct
 	(* [Rule 5] *)
 	let
 	    val tau = elabExp (utaus, fnmatches) (C, exp)
+            val _ = setType (I, tau)
 	in
 	    tau
 	end
@@ -182,8 +208,10 @@ struct
 			of NONE        => Type.emptyRow
 			 | SOME exprow => elabExpRow (utaus, fnmatches)
 						     (C, exprow)
+            val rowtype = Type.insertRow(rho, lab, tau)
+            val _ = setType (I, Type.fromRowType rowtype)
 	in
-	    Type.insertRow(rho, lab, tau)
+            rowtype
 	end
 
 
@@ -193,6 +221,7 @@ struct
 	(* [Rule 7] *)
 	let
 	    val tau = elabAtExp (utaus, fnmatches) (C, atexp)
+            val _ = setType (I, tau)
 	in
 	    tau
 	end
@@ -207,6 +236,7 @@ struct
 	in
 	    Type.unify(tau1, tau2)
 	    handle Type.Unify => error(I, "type mismatch on application");
+            setType (I, tau);
 	    tau
 	end
 
@@ -219,6 +249,7 @@ struct
 	    Type.unify(tau1,tau)
 	    handle Type.Unify =>
 		   error(I, "expression does not match annotation");
+            setType (I, tau);
 	    tau
 	end
 
@@ -231,6 +262,7 @@ struct
 	    Type.unify(Type.fromFunType(InitialStaticEnv.tauExn, tau1, ref Level.Stable, ref Level.Stable), tau2)
 	    handle Type.Unify =>
 		   error(I, "type mismatch in handler");
+            setType (I, tau1);
 	    tau1
 	end
 
@@ -238,11 +270,13 @@ struct
 	(* [Rule 11] *)
 	let
 	    val tau1 = elabExp (utaus, fnmatches) (C, exp)
+            val tau = Type.guess false
 	in
 	    Type.unify(tau1, InitialStaticEnv.tauExn)
 	    handle Type.Unify =>
 		   error(I, "raised expression is not an exception");
-	    Type.guess false
+            setType(I, tau);
+	    tau
 	end
 
       | elabExp (utaus, fnmatches) (C, FNExp(I, match)) =
@@ -252,6 +286,7 @@ struct
 	in
 	    (* Further restriction [Section 4.11, item 2] *)
 	    fnmatches := (Context.Eof C, match) :: !fnmatches;
+            setType (I, tau);
 	    tau
 	end
 
@@ -263,6 +298,7 @@ struct
 	let
 	    val tau = elabMrule (utaus, fnmatches) (C, mrule)
 	in
+            setType (I, tau);
 	    case match_opt
 	      of NONE       => tau
 	       | SOME match =>
@@ -286,7 +322,10 @@ struct
 	    val  tau'    = elabExp (utaus, fnmatches) (C plusVE VE, exp)
 	in
 	    if TyNameSet.isSubset(StaticEnv.tynamesVE VE, Context.Tof C) then
-		Type.fromFunType(tau,tau',ref Level.Unknown,ref Level.Unknown)
+              let 
+                val ty = Type.fromFunType(tau,tau',ref Level.Unknown,ref Level.Unknown)
+                val _ = setType(I, ty)
+              in ty end
 	    else
 		(* Side condition is always ensured by stamping. *)
 		error(I, "inconsistent type names")
@@ -440,6 +479,7 @@ struct
 	    if toplevel then () else
 		(* Further restriction [Section 4.11, item 3] *)
 		CheckPattern.checkPat(Context.Eof C, pat);
+            setType(I, tau1);
 	    VIdMap.unionWith #2 (VE,VE')
 	end
 
@@ -471,6 +511,7 @@ struct
 	    val TE         = case typbind_opt
 			       of NONE         => TyConMap.empty
 				| SOME typbind => elabTypBind(C, typbind)
+            val _ = setScheme(I, (alphas,tau))
 	in
 	    TyConMap.insert(TE, tycon, ((alphas,tau),VIdMap.empty))
 	end
@@ -505,6 +546,7 @@ struct
 					error(I, "inconsistent type names")
 				end
 	    val ClosVE   = StaticEnv.Clos VE
+            val _ = setScheme (I,(alphas,tau))
 	in
 	    ( VIdMap.unionWith #2 (ClosVE,VE')
 	    , TyConMap.insert(TE', tycon, ((alphas,tau),ClosVE))
@@ -528,6 +570,7 @@ struct
 	    val VE   = case conbind_opt
 			 of NONE         => VIdMap.empty
 			  | SOME conbind => elabConBind(C,tau, conbind)
+            val _ = setType(I, tau1)
 	in
 	    VIdMap.insert(VE, vid, (([],tau1),IdStatus.c))
 	end
@@ -549,6 +592,7 @@ struct
 	    val VE   = case exbind_opt
 			 of NONE        => VIdMap.empty
 			  | SOME exbind => elabExBind(C, exbind)
+            val _ = setType(I, tau1)
 	in
 	    VIdMap.insert(VE, vid, (([],tau1),IdStatus.e))
 	end
@@ -565,6 +609,7 @@ struct
 	    val VE  = case exbind_opt
 			of NONE        => VIdMap.empty
 			 | SOME exbind => elabExBind(C, exbind)
+            val _ = setType(I, tau)
 	in
 	    VIdMap.insert(VE, vid, (([],tau),IdStatus.e))
 	end
@@ -574,11 +619,21 @@ struct
 
     and elabAtPat utaus (C, WILDCARDAtPat(I)) =
 	(* [Rule 32] *)
-	( VIdMap.empty, Type.guess false )
+        let
+          val tau = Type.guess false
+          val _ = setType (I, tau)
+        in
+	  ( VIdMap.empty, tau )
+        end
 
       | elabAtPat utaus (C, SCONAtPat(I, scon)) =
 	(* [Rule 33] *)
-	( VIdMap.empty, typeSCon (utaus,I) scon )
+        let
+          val tau = typeSCon (utaus,I) scon
+          val _ = setType (I, tau)
+        in
+	  ( VIdMap.empty,  tau)
+        end
 
       | elabAtPat utaus (C, IDAtPat(I, _, longvid)) =
 	(* [Rule 34 and 35] *)
@@ -593,6 +648,7 @@ struct
 		(* [Rule 34] *)
 		let
 		    val tau = Type.guess false
+                    val _ = setType (I, tau)
 		in
 		    ( VIdMap.singleton(vid, (([],tau),IdStatus.v))
 		    , tau )
@@ -606,6 +662,7 @@ struct
 					  errorLongVId(I,"unknown constructor ",
 							 longvid)
 		    val  tau       = instance (I,utaus) sigma
+                    val _ = setType(I, tau)
 		in
 		    if is = IdStatus.v then
 			error(I, "non-constructor long identifier in pattern")
@@ -624,6 +681,7 @@ struct
 			     of NONE        => (VIdMap.empty, Type.emptyRow)
 			      | SOME patrow => elabPatRow utaus (C, patrow)
 	    val tau = Type.fromRowType rho
+            val _ = setType(I, tau)
 	in
 	    utaus := (I, tau, NONE) :: !utaus;
 	    (VE, tau)
@@ -633,6 +691,7 @@ struct
 	(* [Rule 37] *)
 	let
 	    val (VE,tau) = elabPat utaus (C, pat)
+            val _ = setType(I, tau)
 	in
 	    (VE,tau)
 	end
@@ -665,6 +724,7 @@ struct
 	(* [Rule 40] *)
 	let
 	    val (VE,tau) = elabAtPat utaus (C, atpat)
+            val _ = setType(I, tau)
 	in
 	    (VE,tau)
 	end
@@ -688,6 +748,7 @@ struct
 	    Type.unify(tau',tau'2)
 	    handle Type.Unify =>
 		   error(I, "type mismatch in constructor pattern");
+            setType(I, tau);
 	    (VE,tau)
 	end
 
@@ -699,6 +760,7 @@ struct
 	in
 	    Type.unify(tau1,tau)
 	    handle Type.Unify => error(I, "pattern does not match annotation");
+            setType (I, tau);
 	    (VE,tau)
 	end
 
@@ -718,6 +780,7 @@ struct
 				error(I, "pattern does not match annotation");
 			 (VE1,tau)
 		     end
+            val _ = setType(I, tau)
 	in
 	    if VIdMap.inDomain(VE, vid) then
 		errorVId(I, "duplicate variable ", vid)

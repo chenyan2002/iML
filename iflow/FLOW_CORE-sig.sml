@@ -30,8 +30,6 @@ sig
 
     (* Export *)
 
-    val elabDec :	bool -> Context * Dec -> Env
-    val elabTy :	Context * Ty -> Type
-    val tyvars :	TyVarseq -> TyVarSet * TyVar list
+    val loopTopDec : GrammarModule.TopDec -> unit
 
 end;

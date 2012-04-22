@@ -76,8 +76,6 @@ Group is
     syntax/GRAMMAR_PROGRAM-sig.sml
     syntax/GrammarProgramFn.sml
     syntax/Grammars.sml
-    (* Type annotated Syntax *)
-    iflow/FlowGrammars.sml
 
 
     parse/DERIVED_FORMS_CORE-sig.sml
@@ -290,12 +288,11 @@ Group is
 *)
 
     (* Information flow inference *)
-(*
     iflow/FLOW_MODULE-sig.sml
     iflow/FlowModule.sml
     iflow/FLOW_CORE-sig.sml
     iflow/FlowCore.sml
-*)
+
     (* Solver *)
     iflow/LEXP-sig.sml
     iflow/LExp.sml

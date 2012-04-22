@@ -92,7 +92,7 @@ struct
     fun elabProgram echo (B_STAT, GrammarProgram.Program(I, topdec, program_opt)) =
 	let
 	    val B_STAT1  = ElabModule.elabTopDec(B_STAT, topdec)
-            (*val _ = FlowModule.elabTopDec(B_STAT, topdec)*)
+            val _ = FlowCore.loopTopDec (topdec)
 	    val  _       = if echo then printStaticBasis B_STAT1 else ()
 	    val B_STAT'  = StaticBasis.plus(B_STAT, B_STAT1)
 	    val B_STAT'' = case program_opt
@@ -110,7 +110,7 @@ struct
     fun elab (J, B_BIND, B_STAT) (filenameOpt, source) =
 	let
 	    val (J',program) = Parse.parse(J, source, filenameOpt)
-	    val  (B_BIND',program)     = checkProgram(B_BIND, program)
+	    val  (B_BIND',program')     = checkProgram(B_BIND, program)
 	    val  B_STAT'     = elabProgram true (B_STAT, program)
             (*val  _           = PPProgram.ppProgram(TextIO.stdOut, 0, program)*)
             val  _           = SMLProgram.printSML (B_STAT', program)

@@ -24,7 +24,7 @@ struct
     val red = str(chr(27))^"[31m"
     val green = str(chr(27))^"[32m"
     val black = str(chr(27))^"[0m"
-    fun ppLv lv       = text green ^^ text(Level.toString (!lv)) ^^ text red
+    fun ppLv lv       = text(Level.toString (!lv))
 
     fun ppOverloadingClass O =
 	let

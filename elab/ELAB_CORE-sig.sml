@@ -27,6 +27,8 @@ sig
     type Env		= StaticObjectsCore.Env
     type Context	= StaticObjectsCore.Context
 
+    type Info           = GrammarCore.Info
+
 
     (* Export *)
 
@@ -34,4 +36,7 @@ sig
     val elabTy :	Context * Ty -> Type
     val tyvars :	TyVarseq -> TyVarSet * TyVar list
 
+    val getType   : Info -> Type
+    val setType   : Info * Type -> unit
+    val getScheme : Info -> StaticObjectsCore.TypeScheme
 end;
