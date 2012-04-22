@@ -33,6 +33,7 @@ struct
     val {getFn = getType, setFn = setType : Info * Type -> unit, ...} = 
           PropList.newProp (fn I : Info => #prop I, 
                             fn I => error(I, "type info not collected"))
+
     val setType = fn (I, ty) => (* deep copy level info *)
       let 
         val copy_ty =
@@ -41,7 +42,7 @@ struct
             | FunType (a,b,mode,lv) => FunType (a,b,ref (!mode),ref(!lv))
             | ConsType (ty,name,lv) => ConsType (ty,name,ref(!lv))
             | t => t
-        val _ = ty := copy_ty
+        val ty = ref copy_ty
       in
         setType (I, ty)
       end

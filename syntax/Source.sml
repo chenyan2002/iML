@@ -19,7 +19,7 @@ struct
     fun between'(r1 : region, r2 : region) = (#2 r1, #1 r2)
 
     fun transform f (i1 : info, i2 : info) = 
-	{file = #file i1, region = f(#region i1, #region i2), prop = #prop i1}
+	{file = #file i1, region = f(#region i1, #region i2), prop = PropList.newHolder()}
 
     val over    = transform over'
     val between = transform between'
