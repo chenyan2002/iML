@@ -82,7 +82,7 @@ struct
 	    StrIdMap.foldli matchStr phi SE
 	end
 
-    and matchE(Env(SE',TE',VE'), Env(SE,TE,VE), phi, T) =
+    and matchE(Env(SE',TE',VE',BE'), Env(SE,TE,VE,BE), phi, T) =
 	let
 	    val phi1 = matchTE(TE', TE, phi, T)
 	    val phi2 = matchSE(SE', SE, phi1, T)

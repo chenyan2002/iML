@@ -184,6 +184,7 @@ struct
     val emptySE = StrIdMap.empty
     val emptyTE = TyConMap.empty
     val emptyVE = VIdMap.empty
+    val emptyBE = VIdMap.empty
 
     val TE_Word8 : TyEnv =
 	TyConMap.singleton(tyconWord8, (thetaWord8, emptyVE))
@@ -192,8 +193,8 @@ struct
 	VIdMap.singleton(vid_Io, (sigmaIo, e))
 
     val SE : StrEnv =
-	StrIdMap.fromList[(stridWord8, Env(emptySE, TE_Word8, emptyVE)),
-			  (stridIO,    Env(emptySE, emptyTE,  VE_IO))]
+	StrIdMap.fromList[(stridWord8, Env(emptySE, TE_Word8, emptyVE, emptyBE)),
+			  (stridIO,    Env(emptySE, emptyTE,  VE_IO, emptyBE))]
 
     val TE : TyEnv =
 	TyConMap.singleton(tyconVector, (thetaVector, VIdMap.empty))
@@ -219,8 +220,10 @@ struct
 			(vidLessEq,     (sigmaNumTxt2,  v)),
 			(vidGreaterEq,  (sigmaNumTxt2,  v)),
 			(vidUse,        (sigmaUse, v))]
+(* TODO *)
+    val BE : BinEnv = VIdMap.empty
 
-    val E = Env(SE,TE,VE)
+    val E = Env(SE,TE,VE,BE)
     val F = FunIdMap.empty
     val G = SigIdMap.empty
     val T = TyNameSet.fromList[tWord8, tVector]

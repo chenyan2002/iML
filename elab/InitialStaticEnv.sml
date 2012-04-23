@@ -175,6 +175,8 @@ struct
 				(vidTrue,   valstrTrue),
 				(vidMatch,  valstrMatch),
 				(vidBind,   valstrBind)]
+(* TODO *)
+    val BE0 = VIdMap.empty
 
-    val E0 = Env(SE0,TE0,VE0)
+    val E0 = Env(SE0,TE0,VE0,BE0)
 end;

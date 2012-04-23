@@ -13,8 +13,8 @@ structure StaticEnv :> STATIC_ENV =
 struct
     (* Inheritance *)
 
-    structure GenericEnv = GenericEnvFn(open StaticObjectsCore
-					fun unEnv(Env E) = E)
+    structure GenericEnv = NGenericEnvFn(open StaticObjectsCore
+					 fun unEnv(Env E) = E)
     open GenericEnv
 
 
@@ -29,7 +29,7 @@ struct
 
     infix TEplus
 
-    fun TE' TEplus (Env(SE,TE,VE)) = Env(SE, TyConMap.unionWith #2 (TE',TE), VE)
+    fun TE' TEplus (Env(SE,TE,VE,BE)) = Env(SE, TyConMap.unionWith #2 (TE',TE), VE,BE)
 
 
     (* Type variable and type name set [Section 4.2] *)
@@ -48,7 +48,7 @@ struct
 	    fun collectSE(SE : StrEnv) =
 		StrIdMap.foldl (fn(E, S) => union(S, collect E)) empty SE
 
-	    and collect(Env(SE,TE,VE)) =
+	    and collect(Env(SE,TE,VE,BE)) =
 		union(union(collectSE SE, collectTE TE), collectVE VE)
 	in
 	    (collect, collectSE, collectTE, collectVE)
@@ -76,7 +76,7 @@ struct
     fun isWellFormedSE SE =
 	StrIdMap.all isWellFormed SE
 
-    and isWellFormed (Env(SE,TE,VE)) =
+    and isWellFormed (Env(SE,TE,VE,BE)) =
 	isWellFormedTE TE andalso isWellFormedSE SE
 
 
@@ -99,10 +99,11 @@ struct
     and realiseSE phi SE =
 	StrIdMap.map (realise phi) SE
 
-    and realise phi (Env(SE,TE,VE)) =
+    and realise phi (Env(SE,TE,VE,BE)) =
 	Env( realiseSE phi SE
 	   , realiseTE phi TE
 	   , realiseVE phi VE
+           , BE
 	   )
 
 
@@ -170,7 +171,7 @@ struct
 
     (* Disjointness *)
 
-    fun disjoint(Env(SE1,TE1,VE1), Env(SE2,TE2,VE2)) =
+    fun disjoint(Env(SE1,TE1,VE1,BE1), Env(SE2,TE2,VE2,BE2)) =
 	    StrIdMap.disjoint(SE1,SE2) andalso
 	    TyConMap.disjoint(TE1,TE2) andalso
 	    VIdMap.disjoint(VE1,VE2)
@@ -190,7 +191,7 @@ struct
 	    VE1
 
 
-    fun enriches(Env(SE1,TE1,VE1), Env(SE2,TE2,VE2)) =
+    fun enriches(Env(SE1,TE1,VE1,BE1), Env(SE2,TE2,VE2,BE2)) =
 	    enrichesSE(SE1,SE2) andalso
 	    enrichesTE(TE1,TE2) andalso
 	    enrichesVE(VE1,VE2)
