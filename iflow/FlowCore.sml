@@ -154,7 +154,9 @@ struct
          | (SEQDec(I, dec1, dec2)) => (loopDec dec1; loopDec dec2)
 
     and loopValBind (PLAINValBind(I, pat, exp, valbind_opt)) =
-          (loopPat pat; loopExp exp; loopOpt loopValBind valbind_opt)
+          (loopPat pat; loopExp exp; loopOpt loopValBind valbind_opt;
+           setType(I, getType(infoPat pat))
+          )
       | loopValBind (RECValBind(I, valbind)) = (loopValBind valbind)
 
     and loopTypBind (TypBind(I, tyvarseq, tycon, ty, typbind_opt)) =
@@ -191,7 +193,9 @@ struct
          case pat of 
            (ATPat(I, atpat)) => loopAtPat atpat
          | (CONPat(I, _, longvid, atpat)) => loopAtPat atpat
-         | (COLONPat(I, pat, ty)) => loopPat pat
+         | (COLONPat(I, pat, ty)) => 
+             (loopPat pat;
+              setType(I, getASTTy ty))
          | (ASPat(I, _, vid, ty_opt, pat)) => loopPat pat
 
     (* Module *)
@@ -238,11 +242,6 @@ struct
                                 NONE => ()
                               | SOME ty => setType(I, copyTy ty),
                 handlePat = fn _ => ()};
-       AST.foreach {prog = topdec,
-                handleI = fn _ => (),
-                handlePat = fn pat => case pat of
-                                       COLONPat(I,pat,ty) => setType(I, getASTTy ty)
-                                     | _ => ()};
        loopTopDec topdec
       )
 
