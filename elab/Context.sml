@@ -52,8 +52,10 @@ struct
     fun findVId  ((T,U,E), vid)   = StaticEnv.findVId(E, vid)
     fun findTyCon((T,U,E), tycon) = StaticEnv.findTyCon(E, tycon)
     fun findStrId((T,U,E), strid) = StaticEnv.findStrId(E, strid)
+    fun findBVId ((T,U,E), vid)   = StaticEnv.findBVId(E, vid)
 
     fun findLongVId  ((T,U,E), longvid)   = StaticEnv.findLongVId(E,longvid)
+    fun findLongBVId ((T,U,E), longvid)   = StaticEnv.findLongBVId(E,longvid)
     fun findLongTyCon((T,U,E), longtycon) = StaticEnv.findLongTyCon(E,longtycon)
     fun findLongStrId((T,U,E), longstrid) = StaticEnv.findLongStrId(E,longstrid)
 

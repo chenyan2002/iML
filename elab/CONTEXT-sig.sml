@@ -23,6 +23,8 @@ sig
     type TyEnv		= StaticObjectsCore.TyEnv
     type ValStr		= StaticObjectsCore.ValStr
     type ValEnv		= StaticObjectsCore.ValEnv
+    type BinStr         = StaticObjectsCore.BinStr
+    type BinEnv         = StaticObjectsCore.BinEnv
     type Env		= StaticObjectsCore.Env
     type Context	= StaticObjectsCore.Context
 
@@ -40,9 +42,11 @@ sig
     val oplusVEandTE :	Context * (ValEnv * TyEnv) -> Context
 
     val findVId :	Context * VId       -> ValStr option
+    val findBVId :	Context * VId       -> BinStr option
     val findTyCon :	Context * TyCon     -> TyStr option
     val findStrId :	Context * StrId     -> Env option
     val findLongVId :	Context * longVId   -> ValStr option
+    val findLongBVId :	Context * longVId   -> BinStr option
     val findLongTyCon :	Context * longTyCon -> TyStr option
     val findLongStrId :	Context * longStrId -> Env option
 

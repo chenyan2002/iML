@@ -150,8 +150,13 @@ struct
 			       of SOME valstr => valstr
 			        | NONE =>
 				  errorLongVId(I, "unknown identifier ",longvid)
+            val refer = case Context.findLongBVId(C, longvid)
+			       of SOME I => I
+			        | NONE =>
+				  errorLongVId(I, "BinEnv: unknown identifier ",longvid)
 	    val tau = instance (I,utaus) sigma
             val _ = setType (I, tau)
+            val _ = setRefer (I, refer)
 	in
 	    tau
 	end
