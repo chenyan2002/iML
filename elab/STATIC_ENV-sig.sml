@@ -13,11 +13,10 @@ signature STATIC_ENV =
 sig
     (* Inheritance *)
 
-    include NGENERIC_ENV
+    include GENERIC_ENV
     where type Env		= StaticObjectsCore.Env
     and   type ValStr		= StaticObjectsCore.ValStr
     and   type TyStr		= StaticObjectsCore.TyStr
-    and   type BinStr           = StaticObjectsCore.BinStr
 
 
     (* Import *)

@@ -62,9 +62,6 @@ Group is
     infrastructure/GENERIC_ENV-sig.sml
     infrastructure/GenericEnvFn.sml
 
-    infrastructure/GENERIC_ENV-sig_n.sml
-    infrastructure/GenericEnvFn_n.sml
-
     (* Error handling *)
 
     infrastructure/ERROR-sig.sml
@@ -291,10 +288,8 @@ Group is
 *)
 
     (* Information flow inference *)
-(*
     iflow/FLOW_MODULE-sig.sml
     iflow/FlowModule.sml
-*)
     iflow/FLOW_CORE-sig.sml
     iflow/FlowCore.sml
 

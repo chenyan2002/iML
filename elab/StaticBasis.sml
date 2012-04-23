@@ -121,7 +121,7 @@ struct
     fun toBindingValEnv VE = VIdMap.map (fn(sigma,is) => is) VE
     fun toBindingTyEnv TE = TyConMap.map (fn(theta,VE) => toBindingValEnv VE) TE
     fun toBindingStrEnv SE = StrIdMap.map toBindingEnv SE
-    and toBindingEnv(Env(SE,TE,VE,BE)) =
+    and toBindingEnv(Env(SE,TE,VE)) =
 	BindingObjectsCore.Env
 	    (toBindingStrEnv SE, toBindingTyEnv TE, toBindingValEnv VE)
 

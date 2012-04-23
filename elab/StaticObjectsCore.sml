@@ -65,13 +65,11 @@ struct
     type     TypeFcn	= TyVar list * Type			(* [theta] *)
     type     TypeScheme	= TyVar list * Type			(* [sigma] *)
 
-    datatype Env	= Env of StrEnv * TyEnv * ValEnv * BinEnv	(* [E] *)
+    datatype Env	= Env of StrEnv * TyEnv * ValEnv	(* [E] *)
     withtype StrEnv	= Env StrIdMap				(* [SE] *)
     and      TyEnv	= (TypeFcn * (TypeScheme * IdStatus) VIdMap) TyConMap
 								(* [TE] *)
     and      ValEnv	= (TypeScheme * IdStatus) VIdMap	(* [VE] *)
-    and      BinEnv     = Source.info VIdMap
-    type     BinStr     = Source.info
     type     ValStr	= TypeScheme * IdStatus
     type     TyStr	= TypeFcn * ValEnv
 

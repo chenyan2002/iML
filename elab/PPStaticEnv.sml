@@ -173,7 +173,7 @@ struct
 	    )
 	    empty SE
 
-    and ppEnv'(T, Env(SE,TE,VE,BE)) =
+    and ppEnv'(T, Env(SE,TE,VE)) =
 	    vbox(
 		ppStrEnv(T,SE) ^/^
 		ppTyEnv(T,TE) ^/^

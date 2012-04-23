@@ -461,7 +461,7 @@ struct
 		    )
 		    phi SE1
 
-	    and shareE(Env(SE1,TE1,VE1,BE1), Env(SE2,TE2,VE2,BE2), phi) =
+	    and shareE(Env(SE1,TE1,VE1), Env(SE2,TE2,VE2), phi) =
 		let
 		    val phi'  = shareTE(TE1, TE2, phi)
 		    val phi'' = shareSE(SE1, SE2, phi')
