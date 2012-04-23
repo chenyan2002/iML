@@ -36,14 +36,19 @@ struct
     val setType = ElabCore.setType
     val getScheme = ElabCore.getScheme
 
+    val error = fn (str,tau) => (PrettyPrint.output (TextIO.stdOut, PPType.ppType tau, 79);
+                                TextIO.flushOut TextIO.stdOut;
+                                error(Source.nowhere, "\n"^str))
+
     fun getLv tau =
       case !tau of
         RowType (_,_,lv) => lv
       | FunType (_,_,_,lv) => lv
       | ConsType (_,_,lv) => lv
       | Determined tau => getLv tau
-      | _ => ref Level.Unknown
-
+      | _ => error ("getLv: no level info", tau)
+              
+             
     fun copyTy ty =
       let
         val copy_ty =
@@ -99,14 +104,18 @@ struct
    (* Expressions *)
 
     fun loopAtExp atexp =
-      case atexp of
-        SCONAtExp(I, scon) => ()
-      | IDAtExp(I, _, longvid) => ()
-      | RECORDAtExp(I, exprow_opt) => loopOpt loopExpRow exprow_opt 
-      | LETAtExp(I, dec, exp) => (
+      let
+        val tau = getType(infoAtExp atexp)
+      in
+        case atexp of
+          SCONAtExp(I, scon) => (getLv tau) := Level.Stable
+        | IDAtExp(I, _, longvid) => ()
+        | RECORDAtExp(I, exprow_opt) => loopOpt loopExpRow exprow_opt 
+        | LETAtExp(I, dec, exp) => (
           loopDec dec; 
           loopExp exp)
-      | PARAtExp(I, exp) => loopExp exp
+        | PARAtExp(I, exp) => loopExp exp
+      end
 
     and loopExpRow (ExpRow(I, lab, exp, exprow_opt)) =
            loopOpt loopExpRow exprow_opt
@@ -233,7 +242,8 @@ struct
                 handleI = fn _ => (),
                 handlePat = fn pat => case pat of
                                        COLONPat(I,pat,ty) => setType(I, getASTTy ty)
-                                     | _ => ()}
+                                     | _ => ()};
+       loopTopDec topdec
       )
 
 

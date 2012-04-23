@@ -34,25 +34,15 @@ struct
          setFn = setType : Info * Type -> unit,
          peekFn = peekType, ...} = 
           PropList.newProp (fn I : Info => #prop I, 
-                            fn I => error(I, "type info not collected"))
-(*
-    val setType = fn (I, ty) => (* deep copy level info *)
-      let 
-        val copy_ty =
-            case !ty of 
-              RowType (lab,ty,lv) => RowType (lab,ty,ref (!lv))
-            | FunType (a,b,mode,lv) => FunType (a,b,ref (!mode),ref(!lv))
-            | ConsType (ty,name,lv) => ConsType (ty,name,ref(!lv))
-            | Determined ty => ty
-            | t => t
-        val ty = ref copy_ty
-      in
-        setType (I, ty)
-      end
-*)
+                            fn I => error(I, "getType: type info not collected"))
+
     val {getFn = getTyvars, setFn = setTyvars : Info * TyVar list -> unit, ...} =
           PropList.newProp (fn I : Info => #prop I,
                             fn _ => [])
+    val {getFn = getRefer, setFn = setRefer : Info * Info -> unit, ...} = 
+          PropList.newProp (fn I : Info => #prop I,
+                            fn I => error(I, "getRefer: reference info not collected"))
+
     fun setScheme (I, (tyvars,ty)) = (setTyvars (I, tyvars); setType (I,ty))
     fun getScheme I = (getTyvars(I), getType(I))
 

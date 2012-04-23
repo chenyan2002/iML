@@ -71,8 +71,8 @@ struct
 
    (* Expressions *)
 
-    fun ppAtExp (SCONAtExp(I, scon)) = ppSCon scon
-      | ppAtExp (IDAtExp(I, _, longvid)) = ppLongVId longvid
+    fun ppAtExp (SCONAtExp(I, scon)) = ppSCon scon ^/^ showType I
+      | ppAtExp (IDAtExp(I, _, longvid)) = ppLongVId longvid ^/^ showType I
       | ppAtExp (RECORDAtExp(I, exprow_opt)) = 
           if isTuple(exprow_opt) then
             paren(ppOpt ppExpRow exprow_opt)

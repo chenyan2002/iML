@@ -14,7 +14,7 @@ val l:int $S list $C = map inc l
 
 val a:int $S = 1
 val b:int $C = 2
-val c = a+1
+val c = Int.+(a,b)
 val a = "3 + 4"
 val c:string $S = a
 
