@@ -40,7 +40,7 @@ struct
     val peekRefer = ElabCore.peekRefer
     fun getReferTy I = case peekRefer I of
                          SOME I => getType(I)
-                       | NONE => getType(I)
+                       | NONE => Type.guess false (*getType(I)*)
 
     val error = fn (str,tau) => (PrettyPrint.output (TextIO.stdOut, PPType.ppType tau, 79);
                                 TextIO.flushOut TextIO.stdOut;
@@ -201,7 +201,9 @@ struct
          | (CONPat(I, _, longvid, atpat)) => loopAtPat atpat
          | (COLONPat(I, pat, ty)) => 
              (loopPat pat;
-              setType(I, getASTTy ty))
+              setType(I, getASTTy ty);
+              setType(infoPat pat, getASTTy ty)
+             )
          | (ASPat(I, _, vid, ty_opt, pat)) => loopPat pat
 
     (* Module *)

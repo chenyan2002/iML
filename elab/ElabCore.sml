@@ -34,7 +34,7 @@ struct
          setFn = setType : Info * Type -> unit,
          peekFn = peekType, ...} = 
           PropList.newProp (fn I : Info => #prop I, 
-                            fn I => error(I, "getType: type info not collected"))
+                            fn I => Type.guess false(*error(I, "getType: type info not collected")*))
 
     val {getFn = getTyvars, setFn = setTyvars : Info * TyVar list -> unit, ...} =
           PropList.newProp (fn I : Info => #prop I,
