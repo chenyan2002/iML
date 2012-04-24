@@ -38,7 +38,7 @@ struct
 	let
 	    fun collectVE(VE : ValEnv) =
 		VIdMap.foldl
-		    (fn((sigma,is), S) => union(S, collectTypeScheme sigma))
+		    (fn((sigma,is,_), S) => union(S, collectTypeScheme sigma))
 		    empty VE
 
 	    fun collectTE(TE : TyEnv) =
@@ -84,13 +84,13 @@ struct
     (* Closure [Section 4.8] *)
 
     fun Clos VE =
-	VIdMap.map (fn((_,tau), is) => (TypeScheme.Clos tau, is)) VE
+	VIdMap.map (fn((_,tau), is, info) => (TypeScheme.Clos tau, is, info)) VE
 
 
     (* Realisation [Section 5.2] *)
 
     fun realiseVE phi VE =
-	VIdMap.map (fn(sigma,is) => ( TypeScheme.realise phi sigma, is )) VE
+	VIdMap.map (fn(sigma,is,info) => ( TypeScheme.realise phi sigma, is, info )) VE
 
     and realiseTE phi TE =
 	TyConMap.map (fn(theta,VE) => ( TypeFcn.realise phi theta
@@ -110,7 +110,7 @@ struct
      * together with its companion value environment
      *)
 
-    fun respectsEqualityValStr ((alphas, ref(FunType(tau, _, _, _))), is) =
+    fun respectsEqualityValStr ((alphas, ref(FunType(tau, _, _, _))), is,_) =
 	    TypeFcn.admitsEquality (alphas, tau)
       | respectsEqualityValStr _ = true
 
@@ -181,10 +181,10 @@ struct
     fun equalsVE(VE1,VE2) =
 	VIdMap.numItems VE1 = VIdMap.numItems VE2 andalso
 	VIdMap.alli
-	    (fn(vid, (sigma1,is1)) =>
+	    (fn(vid, (sigma1,is1,_)) =>
 		case VIdMap.find(VE2, vid)
 		  of NONE             => false
-		   | SOME(sigma2,is2) =>
+		   | SOME(sigma2,is2,_) =>
 			TypeScheme.equals(sigma1,sigma2) andalso is1 = is2
 	    )
 	    VE1
@@ -226,7 +226,7 @@ struct
 	    TypeFcn.equals(theta1,theta2) andalso
 	    ( VIdMap.isEmpty VE2 orelse equalsVE(VE1,VE2) )
 
-    and enrichesValStr((sigma1,is1), (sigma2,is2)) =
+    and enrichesValStr((sigma1,is1,_), (sigma2,is2,_)) =
 	    TypeScheme.generalises(sigma1,sigma2) andalso
 	    IdStatus.generalises(is1,is2)
 end;

@@ -23,16 +23,16 @@ struct
     val red = str(chr(27))^"[31m"
     val blue = str(chr(27))^"[34m"
     val black = str(chr(27))^"[0m"
-
+(*
     fun tyVid vid = 
       case StaticEnv.findVId (Env(), vid) of
         NONE => empty
       | SOME (sigma, _) => hbox(text blue ^^ PPType.ppTypeScheme sigma ^^ text black)
-(*      | SOME (sigma, IdStatus.v) => PPType.ppTypeScheme sigma*)
     fun tyLongVid vid =
       case StaticEnv.findLongVId (Env(), vid) of
         NONE => hbox(text blue ^^ text "??" ^^ text black)
       | SOME (sigma,_) => hbox(text red ^^ PPType.ppTypeScheme sigma ^^ text black)
+*)
     val getType = ElabCore.getType
     fun showType I = hbox(text red ^^ PPType.ppType (getType I) ^^ text black)
 

@@ -68,7 +68,7 @@ struct
       | isConAtExp C (IDAtExp(_, _, longvid)) =
 	    LongVId.explode longvid <> ([],VId.fromString "ref") andalso
 	    (case Context.findLongVId(C, longvid)
-	       of SOME(_,is) => is = IdStatus.c orelse is = IdStatus.e
+	       of SOME(_,is,_) => is = IdStatus.c orelse is = IdStatus.e
 		| NONE       => false
 	    )
       | isConAtExp C  _                            = false
@@ -111,6 +111,6 @@ struct
 		else
 		    ( [], tau )
 	in
-	    VIdMap.mapi (fn(vid, ((_,tau),is)) => (ClosType vid tau, is)) VE
+	    VIdMap.mapi (fn(vid, ((_,tau),is, info)) => (ClosType vid tau, is, info)) VE
 	end
 end;

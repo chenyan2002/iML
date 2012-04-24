@@ -189,7 +189,7 @@ struct
 	TyConMap.singleton(tyconWord8, (thetaWord8, emptyVE))
 
     val VE_IO : ValEnv =
-	VIdMap.singleton(vid_Io, (sigmaIo, e))
+	VIdMap.singleton(vid_Io, (sigmaIo, e, Source.nowhere))
 
     val SE : StrEnv =
 	StrIdMap.fromList[(stridWord8, Env(emptySE, TE_Word8, emptyVE)),
@@ -200,25 +200,25 @@ struct
 								
 
     val VE : ValEnv =
-	VIdMap.fromList[(vid_Chr,       (sigmaExn, e)),
-			(vid_Div,       (sigmaExn, e)),
-			(vid_Domain,    (sigmaExn, e)),
-			(vid_Overflow,  (sigmaExn, e)),
-			(vid_Size,      (sigmaExn, e)),
-			(vid_Subscript, (sigmaExn, e)),
-			(vidAbs,        (sigmaRealInt1, v)),
-			(vidNeg,        (sigmaNum1,     v)),
-			(vidPlus,       (sigmaNum2,     v)),
-			(vidMinus,      (sigmaNum2,     v)),
-			(vidTimes,      (sigmaNum2,     v)),
-			(vidDiv,        (sigmaWordInt2, v)),
-			(vidMod,        (sigmaWordInt2, v)),
-			(vidBy,         (sigmaReal2,    v)),
-			(vidLess,       (sigmaNumTxt2,  v)),
-			(vidGreater,    (sigmaNumTxt2,  v)),
-			(vidLessEq,     (sigmaNumTxt2,  v)),
-			(vidGreaterEq,  (sigmaNumTxt2,  v)),
-			(vidUse,        (sigmaUse, v))]
+	VIdMap.fromList[(vid_Chr,       (sigmaExn, e, Source.nowhere)),
+			(vid_Div,       (sigmaExn, e, Source.nowhere)),
+			(vid_Domain,    (sigmaExn, e, Source.nowhere)),
+			(vid_Overflow,  (sigmaExn, e, Source.nowhere)),
+			(vid_Size,      (sigmaExn, e, Source.nowhere)),
+			(vid_Subscript, (sigmaExn, e, Source.nowhere)),
+			(vidAbs,        (sigmaRealInt1, v, Source.nowhere)),
+			(vidNeg,        (sigmaNum1,     v, Source.nowhere)),
+			(vidPlus,       (sigmaNum2,     v, Source.nowhere)),
+			(vidMinus,      (sigmaNum2,     v, Source.nowhere)),
+			(vidTimes,      (sigmaNum2,     v, Source.nowhere)),
+			(vidDiv,        (sigmaWordInt2, v, Source.nowhere)),
+			(vidMod,        (sigmaWordInt2, v, Source.nowhere)),
+			(vidBy,         (sigmaReal2,    v, Source.nowhere)),
+			(vidLess,       (sigmaNumTxt2,  v, Source.nowhere)),
+			(vidGreater,    (sigmaNumTxt2,  v, Source.nowhere)),
+			(vidLessEq,     (sigmaNumTxt2,  v, Source.nowhere)),
+			(vidGreaterEq,  (sigmaNumTxt2,  v, Source.nowhere)),
+			(vidUse,        (sigmaUse, v, Source.nowhere))]
 
     val E = Env(SE,TE,VE)
     val F = FunIdMap.empty

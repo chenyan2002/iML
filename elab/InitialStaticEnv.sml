@@ -103,17 +103,17 @@ struct
 
     (* Value entries [Figure 25] *)
 
-    val valstrEq     = (sigmaEq,     v)
-    val valstrAssign = (sigmaAssign, v)
+    val valstrEq     = (sigmaEq,     v, Source.nowhere)
+    val valstrAssign = (sigmaAssign, v, Source.nowhere)
 
-    val valstrFalse  = (sigmaFalse,  c)
-    val valstrTrue   = (sigmaTrue,   c)
-    val valstrNil    = (sigmaNil,    c)
-    val valstrCons   = (sigmaCons,   c)
-    val valstrRef    = (sigmaRef,    c)
+    val valstrFalse  = (sigmaFalse,  c, Source.nowhere)
+    val valstrTrue   = (sigmaTrue,   c, Source.nowhere)
+    val valstrNil    = (sigmaNil,    c, Source.nowhere)
+    val valstrCons   = (sigmaCons,   c, Source.nowhere)
+    val valstrRef    = (sigmaRef,    c, Source.nowhere)
 
-    val valstrMatch  = (sigmaMatch,  e)
-    val valstrBind   = (sigmaBind,   e)
+    val valstrMatch  = (sigmaMatch,  e, Source.nowhere)
+    val valstrBind   = (sigmaBind,   e, Source.nowhere)
 
 
     (* TypeFcns [Figure 24] *)

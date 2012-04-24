@@ -67,10 +67,10 @@ struct
 
     datatype Env	= Env of StrEnv * TyEnv * ValEnv	(* [E] *)
     withtype StrEnv	= Env StrIdMap				(* [SE] *)
-    and      TyEnv	= (TypeFcn * (TypeScheme * IdStatus) VIdMap) TyConMap
+    and      TyEnv	= (TypeFcn * (TypeScheme * IdStatus * Source.info) VIdMap) TyConMap
 								(* [TE] *)
-    and      ValEnv	= (TypeScheme * IdStatus) VIdMap	(* [VE] *)
-    type     ValStr	= TypeScheme * IdStatus
+    and      ValEnv	= (TypeScheme * IdStatus * Source.info) VIdMap	(* [VE] *)
+    type     ValStr	= TypeScheme * IdStatus * Source.info
     type     TyStr	= TypeFcn * ValEnv
 
     type     TyNameSet	= TyNameSet.set				(* [T] *)

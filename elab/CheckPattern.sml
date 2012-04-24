@@ -154,13 +154,13 @@ struct
 		  of NONE =>
 			succeed(E, desc, context, sets)
 
-		   | SOME(sigma, IdStatus.v) =>
+		   | SOME(sigma, IdStatus.v,_) =>
 			succeed(E, desc, context, sets)
 
-		   | SOME(sigma, IdStatus.e) =>
+		   | SOME(sigma, IdStatus.e,_) =>
 			matchExCon(E, desc, longvid, NONE, context, sets)
 
-		   | SOME((_,tau), IdStatus.c) =>
+		   | SOME((_,tau), IdStatus.c,_) =>
 		     let
 			val vid  = LongVId.toId longvid
 			val span = TyName.span(Type.tyname(Type.range tau))
@@ -183,10 +183,10 @@ struct
 
 	   | CONPat(_, _, longvid, atpat) =>
 	       (case StaticEnv.findLongVId(E, longvid)
-		  of SOME(sigma, IdStatus.e) =>
+		  of SOME(sigma, IdStatus.e,_) =>
 			matchExCon(E, desc, longvid, SOME atpat, context, sets)
 
-		   | SOME((_,tau), IdStatus.c) =>
+		   | SOME((_,tau), IdStatus.c,_) =>
 		     let
 			val vid  = LongVId.toId longvid
 			val span = TyName.span(Type.tyname(Type.range tau))

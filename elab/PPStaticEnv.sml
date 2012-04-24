@@ -35,7 +35,7 @@ struct
 
     fun ppValEnv VE =
 	VIdMap.foldri
-	    (fn(vid, (sigma,IdStatus.v), doc) =>
+	    (fn(vid, (sigma,IdStatus.v,_), doc) =>
 		fbox(nest(
 		    hbox(
 			text "val" ^/^
@@ -46,13 +46,13 @@ struct
 		)) ^/^
 		doc
 
-	     | (vid, (sigma,_), doc) => doc
+	     | (vid, (sigma,_,_), doc) => doc
 	    )
 	    empty VE
 
     fun ppExEnv VE =
 	VIdMap.foldri
-	    (fn(vid, (sigma,IdStatus.e), doc) =>
+	    (fn(vid, (sigma,IdStatus.e,_), doc) =>
 		fbox(nest(
 		    hbox(
 			text "exception" ^/^
@@ -62,13 +62,13 @@ struct
 		)) ^/^
 		doc
 
-	     | (vid, (sigma,_), doc) => doc
+	     | (vid, (sigma,_,_), doc) => doc
 	    )
 	    empty VE
 
     fun ppConEnv VE =
 	VIdMap.foldri
-	    (fn(vid, (sigma,_), doc) =>
+	    (fn(vid, (sigma,_,_), doc) =>
 		fbox(nest(
 		    ppVId vid ^/^
 		    hbox(

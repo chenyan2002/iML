@@ -517,7 +517,7 @@ struct
 			of NONE         => VIdMap.empty
 			 | SOME valdesc => elabValDesc(C, valdesc)
 	in
-	    VIdMap.insert(VE, vid, (([],tau),IdStatus.v))
+	    VIdMap.insert(VE, vid, (([],tau),IdStatus.v,I))
 	end
 
 
@@ -602,7 +602,7 @@ struct
 			 of NONE         => VIdMap.empty
 			  | SOME condesc => elabConDesc(C,tau, condesc)
 	in
-	    VIdMap.insert(VE, vid, (([],tau1),IdStatus.c))
+	    VIdMap.insert(VE, vid, (([],tau1),IdStatus.c,I))
 	end
 
 
@@ -627,7 +627,7 @@ struct
 			 of NONE        => VIdMap.empty
 			  | SOME exdesc => elabExDesc(C, exdesc)
 	in
-	    VIdMap.insert(VE, vid, (([],tau1),IdStatus.e))
+	    VIdMap.insert(VE, vid, (([],tau1),IdStatus.e,I))
 	end
 
 

@@ -39,5 +39,7 @@ sig
     val getType   : Info -> Type
     val setType   : Info * Type -> unit
     val peekType  : Info -> Type option
+    val getRefer  : Info -> Info
+    val peekRefer : Info -> Info option
     val getScheme : Info -> StaticObjectsCore.TypeScheme
 end;

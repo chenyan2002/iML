@@ -34,7 +34,13 @@ struct
 
     val getType = ElabCore.getType
     val setType = ElabCore.setType
+    val peekType = ElabCore.peekType
     val getScheme = ElabCore.getScheme
+    val getRefer = ElabCore.getRefer
+    val peekRefer = ElabCore.peekRefer
+    fun getReferTy I = case peekRefer I of
+                         SOME I => getType(I)
+                       | NONE => getType(I)
 
     val error = fn (str,tau) => (PrettyPrint.output (TextIO.stdOut, PPType.ppType tau, 79);
                                 TextIO.flushOut TextIO.stdOut;
@@ -109,7 +115,7 @@ struct
       in
         case atexp of
           SCONAtExp(I, scon) => (getLv tau) := Level.Stable
-        | IDAtExp(I, _, longvid) => ()
+        | IDAtExp(I, _, longvid) => (setType(I,getReferTy I))
         | RECORDAtExp(I, exprow_opt) => loopOpt loopExpRow exprow_opt 
         | LETAtExp(I, dec, exp) => (
           loopDec dec; 

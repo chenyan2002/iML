@@ -39,7 +39,9 @@ struct
     val {getFn = getTyvars, setFn = setTyvars : Info * TyVar list -> unit, ...} =
           PropList.newProp (fn I : Info => #prop I,
                             fn _ => [])
-    val {getFn = getRefer, setFn = setRefer : Info * Info -> unit, ...} = 
+    val {getFn = getRefer, 
+         setFn = setRefer : Info * Info -> unit, 
+         peekFn = peekRefer, ...} = 
           PropList.newProp (fn I : Info => #prop I,
                             fn I => error(I, "getRefer: reference info not collected"))
 
@@ -146,12 +148,13 @@ struct
       | elabAtExp (utaus, fnmatches) (C, IDAtExp(I, _, longvid)) =
 	(* [Rule 2] *)
 	let
-	    val (sigma,is) = case Context.findLongVId(C, longvid)
+	    val (sigma,is,refer) = case Context.findLongVId(C, longvid)
 			       of SOME valstr => valstr
 			        | NONE =>
 				  errorLongVId(I, "unknown identifier ",longvid)
 	    val tau = instance (I,utaus) sigma
             val _ = setType (I, tau)
+            val _ = setRefer (I, refer)
 	in
 	    tau
 	end
@@ -566,7 +569,7 @@ struct
 			  | SOME conbind => elabConBind(C,tau, conbind)
             val _ = setType(I, tau1)
 	in
-	    VIdMap.insert(VE, vid, (([],tau1),IdStatus.c))
+	    VIdMap.insert(VE, vid, (([],tau1),IdStatus.c,I))
 	end
 
 
@@ -588,14 +591,14 @@ struct
 			  | SOME exbind => elabExBind(C, exbind)
             val _ = setType(I, tau1)
 	in
-	    VIdMap.insert(VE, vid, (([],tau1),IdStatus.e))
+	    VIdMap.insert(VE, vid, (([],tau1),IdStatus.e,I))
 	end
 
       | elabExBind(C, EQUALExBind(I, _, vid, _, longvid, exbind_opt)) =
 	(* [Rule 31] *)
 	let
-	    val tau = case Context.findLongVId(C, longvid)
-		        of SOME(([],tau),IdStatus.e) => tau
+	    val (tau,refer) = case Context.findLongVId(C, longvid)
+		        of SOME(([],tau),IdStatus.e,refer) => (tau, refer)
 			 | SOME _ =>
 			   errorLongVId(I, "non-exception identifier ", longvid)
 			 | NONE =>
@@ -604,8 +607,9 @@ struct
 			of NONE        => VIdMap.empty
 			 | SOME exbind => elabExBind(C, exbind)
             val _ = setType(I, tau)
+            val _ = setRefer(I, refer)
 	in
-	    VIdMap.insert(VE, vid, (([],tau),IdStatus.e))
+	    VIdMap.insert(VE, vid, (([],tau),IdStatus.e,I))
 	end
 
 
@@ -637,26 +641,27 @@ struct
 	    if List.null strids andalso
 	       ( case Context.findVId(C, vid)
 		   of NONE           => true
-		    | SOME(sigma,is) => is = IdStatus.v )
+		    | SOME(sigma,is,_) => is = IdStatus.v )
 	    then
 		(* [Rule 34] *)
 		let
 		    val tau = Type.guess false
                     val _ = setType (I, tau)
 		in
-		    ( VIdMap.singleton(vid, (([],tau),IdStatus.v))
+		    ( VIdMap.singleton(vid, (([],tau),IdStatus.v,I))
 		    , tau )
 		end
 	    else
 		(* [Rule 35] *)
 		let
-		    val (sigma,is) = case Context.findLongVId(C, longvid)
+		    val (sigma,is,refer) = case Context.findLongVId(C, longvid)
 				       of SOME valstr => valstr
 				        | NONE =>
 					  errorLongVId(I,"unknown constructor ",
 							 longvid)
 		    val  tau       = instance (I,utaus) sigma
                     val _ = setType(I, tau)
+                    val _ = setRefer (I, refer)
 		in
 		    if is = IdStatus.v then
 			error(I, "non-constructor long identifier in pattern")
@@ -704,6 +709,7 @@ struct
 	    val (VE',rho) = case patrow_opt
 			      of NONE        => (VIdMap.empty, Type.emptyRow)
 			       | SOME patrow => elabPatRow utaus (C, patrow)
+            val _ = setType(I, tau)
 	in
 	    ( VIdMap.unionWithi (fn(vid,_,_) =>
 		    errorVId(I, "duplicate variable ", vid)) (VE,VE')
@@ -726,7 +732,7 @@ struct
       | elabPat utaus (C, CONPat(I, _, longvid, atpat)) =
 	(* [Rule 41] *)
 	let
-	    val (sigma,is) = case Context.findLongVId(C, longvid)
+	    val (sigma,is,refer) = case Context.findLongVId(C, longvid)
 			       of SOME valstr => valstr
 			        | NONE =>
 				errorLongVId(I, "unknown constructor ", longvid)
@@ -743,6 +749,7 @@ struct
 	    handle Type.Unify =>
 		   error(I, "type mismatch in constructor pattern");
             setType(I, tau);
+            setRefer(I, refer);
 	    (VE,tau)
 	end
 
@@ -779,7 +786,7 @@ struct
 	    if VIdMap.inDomain(VE, vid) then
 		errorVId(I, "duplicate variable ", vid)
 	    else
-		( VIdMap.insert(VE, vid, (([],tau),IdStatus.v)), tau )
+		( VIdMap.insert(VE, vid, (([],tau),IdStatus.v,I)), tau )
 	end
 
 
@@ -891,7 +898,7 @@ struct
 	let
 	    val VE = lhsRecValBindPat pat
 	in
-	    VIdMap.insert(VE, vid, (([], Type.guess false), IdStatus.v))
+	    VIdMap.insert(VE, vid, (([], Type.guess false), IdStatus.v,I))
 	end
 
     and lhsRecValBindAtPat(WILDCARDAtPat(I)) =
@@ -903,7 +910,7 @@ struct
       | lhsRecValBindAtPat(IDAtPat(I, _, longvid)) =
 	   (case LongVId.explode longvid
 	      of ([], vid) =>
-	 	 VIdMap.singleton(vid, (([], Type.guess false), IdStatus.v))
+	 	 VIdMap.singleton(vid, (([], Type.guess false), IdStatus.v,I))
 	       | _ => VIdMap.empty
 	   )
 
