@@ -115,6 +115,8 @@ struct
     val valstrMatch  = (sigmaMatch,  e, Source.nowhere)
     val valstrBind   = (sigmaBind,   e, Source.nowhere)
 
+    val _ = List.app (fn (sigma,_,info) => setScheme(info, sigma)) 
+                     [valstrEq, valstrAssign, valstrFalse, valstrTrue, valstrNil, valstrCons, valstrRef, valstrMatch, valstrBind]
 
     (* TypeFcns [Figure 24] *)
 

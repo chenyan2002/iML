@@ -33,7 +33,7 @@ struct
         NONE => hbox(text blue ^^ text "??" ^^ text black)
       | SOME (sigma,_) => hbox(text red ^^ PPType.ppTypeScheme sigma ^^ text black)
 *)
-    val getType = ElabCore.getType
+    val getType = StaticObjectsCore.getType
     fun showType I = hbox(text red ^^ PPType.ppType (getType I) ^^ text black)
 
     (* Identifiers *)

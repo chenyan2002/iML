@@ -189,7 +189,11 @@ struct
 	TyConMap.singleton(tyconWord8, (thetaWord8, emptyVE))
 
     val VE_IO : ValEnv =
-	VIdMap.singleton(vid_Io, (sigmaIo, e, Source.nowhere))
+        let 
+          val I = Source.nowhere
+          val valstr = (sigmaIo, e, I)
+          val _ = setScheme (I, sigmaIo)
+	in VIdMap.singleton(vid_Io, valstr) end
 
     val SE : StrEnv =
 	StrIdMap.fromList[(stridWord8, Env(emptySE, TE_Word8, emptyVE)),
@@ -200,7 +204,8 @@ struct
 								
 
     val VE : ValEnv =
-	VIdMap.fromList[(vid_Chr,       (sigmaExn, e, Source.nowhere)),
+	VIdMap.fromList (List.map (fn (vid,(sigma,status,info)) => (setScheme(info,sigma);(vid,(sigma,status,info))))
+                       [(vid_Chr,       (sigmaExn, e, Source.nowhere)),
 			(vid_Div,       (sigmaExn, e, Source.nowhere)),
 			(vid_Domain,    (sigmaExn, e, Source.nowhere)),
 			(vid_Overflow,  (sigmaExn, e, Source.nowhere)),
@@ -218,7 +223,7 @@ struct
 			(vidGreater,    (sigmaNumTxt2,  v, Source.nowhere)),
 			(vidLessEq,     (sigmaNumTxt2,  v, Source.nowhere)),
 			(vidGreaterEq,  (sigmaNumTxt2,  v, Source.nowhere)),
-			(vidUse,        (sigmaUse, v, Source.nowhere))]
+			(vidUse,        (sigmaUse, v, Source.nowhere))])
 
     val E = Env(SE,TE,VE)
     val F = FunIdMap.empty

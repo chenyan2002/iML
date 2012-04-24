@@ -76,4 +76,27 @@ struct
     type     TyNameSet	= TyNameSet.set				(* [T] *)
     type     TyVarSet	= TyVarSet.set				(* [U] *)
     type     Context	= TyNameSet * TyVarSet * Env		(* [C] *)
+
+
+    type Info = Source.info
+
+    val {getFn = getType, 
+         setFn = setType : Info * Type -> unit,
+         peekFn = peekType, ...} = 
+          PropList.newProp (fn I : Info => #prop I, 
+                            fn I => Error.error(I, "getType: type info not collected"))
+
+    val {getFn = getTyvars, setFn = setTyvars : Info * TyVar list -> unit, ...} =
+          PropList.newProp (fn I : Info => #prop I,
+                            fn _ => [])
+    val {getFn = getRefer, 
+         setFn = setRefer : Info * Info -> unit, 
+         peekFn = peekRefer, ...} = 
+          PropList.newProp (fn I : Info => #prop I,
+                            fn I => Error.error(I, "getRefer: reference info not collected"))
+
+    fun setScheme (I, (tyvars,ty)) = (setTyvars (I, tyvars); setType (I,ty))
+    fun getScheme I = (getTyvars(I), getType(I))
+
+
 end;

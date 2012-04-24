@@ -15,6 +15,6 @@ val l:int $S list $C = map inc l
 *)
 val a:int $S = 1
 val b:int $C = 2
-val c = a (*Int.+(a,b)*)
+val c = Int.+(a,b)
 val a:string $C = "3 + 4"
 val c:string $S = a

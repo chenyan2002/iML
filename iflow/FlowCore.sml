@@ -32,12 +32,6 @@ struct
     open StaticObjectsCore
     open Error
 
-    val getType = ElabCore.getType
-    val setType = ElabCore.setType
-    val peekType = ElabCore.peekType
-    val getScheme = ElabCore.getScheme
-    val getRefer = ElabCore.getRefer
-    val peekRefer = ElabCore.peekRefer
     fun getReferTy I = case peekRefer I of
                          SOME I => getType(I)
                        | NONE => Type.guess false (*getType(I)*)
@@ -246,7 +240,7 @@ struct
 
     fun processTopDec topdec =
       (AST.foreach {prog = topdec, 
-                handleI = fn I => case ElabCore.peekType I of
+                handleI = fn I => case peekType I of
                                 NONE => ()
                               | SOME ty => setType(I, copyTy ty),
                 handlePat = fn _ => ()};

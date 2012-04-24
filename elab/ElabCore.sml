@@ -29,12 +29,13 @@ struct
     open StaticObjectsCore
     open Error
 
+(*
     (* Annotate Type *)
     val {getFn = getType, 
          setFn = setType : Info * Type -> unit,
          peekFn = peekType, ...} = 
           PropList.newProp (fn I : Info => #prop I, 
-                            fn I => Type.guess false(*error(I, "getType: type info not collected")*))
+                            fn I => error(I, "getType: type info not collected"))
 
     val {getFn = getTyvars, setFn = setTyvars : Info * TyVar list -> unit, ...} =
           PropList.newProp (fn I : Info => #prop I,
@@ -47,7 +48,7 @@ struct
 
     fun setScheme (I, (tyvars,ty)) = (setTyvars (I, tyvars); setType (I,ty))
     fun getScheme I = (getTyvars(I), getType(I))
-
+*)
     (* Helpers for context modification *)
 
     val plus         = StaticEnv.plus
