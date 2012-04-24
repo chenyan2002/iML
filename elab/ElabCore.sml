@@ -29,26 +29,6 @@ struct
     open StaticObjectsCore
     open Error
 
-(*
-    (* Annotate Type *)
-    val {getFn = getType, 
-         setFn = setType : Info * Type -> unit,
-         peekFn = peekType, ...} = 
-          PropList.newProp (fn I : Info => #prop I, 
-                            fn I => error(I, "getType: type info not collected"))
-
-    val {getFn = getTyvars, setFn = setTyvars : Info * TyVar list -> unit, ...} =
-          PropList.newProp (fn I : Info => #prop I,
-                            fn _ => [])
-    val {getFn = getRefer, 
-         setFn = setRefer : Info * Info -> unit, 
-         peekFn = peekRefer, ...} = 
-          PropList.newProp (fn I : Info => #prop I,
-                            fn I => error(I, "getRefer: reference info not collected"))
-
-    fun setScheme (I, (tyvars,ty)) = (setTyvars (I, tyvars); setType (I,ty))
-    fun getScheme I = (getTyvars(I), getType(I))
-*)
     (* Helpers for context modification *)
 
     val plus         = StaticEnv.plus

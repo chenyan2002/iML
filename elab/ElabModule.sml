@@ -516,6 +516,7 @@ struct
 	    val VE  = case valdesc_opt
 			of NONE         => VIdMap.empty
 			 | SOME valdesc => elabValDesc(C, valdesc)
+            val _ = setScheme(I, ([],tau))
 	in
 	    VIdMap.insert(VE, vid, (([],tau),IdStatus.v,I))
 	end
@@ -544,6 +545,7 @@ struct
 					TE
 				end
 	    val tau    = Type.fromConsType (List.map Type.fromTyVar alphas, t, ref Level.Unknown)
+            val _ = setScheme(I, (alphas,tau))
 	in
 	    TyConMap.insert(TE, tycon, ((alphas,tau), VIdMap.empty))
 	end
@@ -601,6 +603,7 @@ struct
 	    val VE   = case condesc_opt
 			 of NONE         => VIdMap.empty
 			  | SOME condesc => elabConDesc(C,tau, condesc)
+            val _ = setScheme(I, ([],tau1))
 	in
 	    VIdMap.insert(VE, vid, (([],tau1),IdStatus.c,I))
 	end
@@ -626,6 +629,7 @@ struct
 	    val VE   = case exdesc_opt
 			 of NONE        => VIdMap.empty
 			  | SOME exdesc => elabExDesc(C, exdesc)
+            val _ = setScheme(I, ([],tau1))
 	in
 	    VIdMap.insert(VE, vid, (([],tau1),IdStatus.e,I))
 	end

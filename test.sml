@@ -1,4 +1,3 @@
-(*
 datatype 'a list = Nil | Cons of 'a * 'a list $C
 val tuple : int $C * int $S = (1,2)
 and bar = {x=1,y=2}
@@ -12,7 +11,7 @@ fun map f l =
   | Cons (h,t) => Cons (f h, map f t)
 
 val l:int $S list $C = map inc l
-*)
+
 val a:int $S = 1
 val b:int $C = 2
 val c = Int.+(a,b)
